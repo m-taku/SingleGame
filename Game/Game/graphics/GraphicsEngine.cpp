@@ -150,5 +150,24 @@ void GraphicsEngine::Init(HWND hWnd)
 	viewport.MinDepth = 0.0f;
 	viewport.MaxDepth = 1.0f;
 	m_pd3dDeviceContext->RSSetViewports(1, &viewport);
+	{
+		//ƒuƒŒƒ“ƒhÝ’è
+		D3D11_BLEND_DESC BLEND_DETE;
+		BLEND_DETE.AlphaToCoverageEnable = false;
+		BLEND_DETE.IndependentBlendEnable = false;
+		BLEND_DETE.RenderTarget[0].BlendEnable = 1;
+		BLEND_DETE.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+		BLEND_DETE.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+		BLEND_DETE.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+		BLEND_DETE.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_SRC_ALPHA;
+		BLEND_DETE.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_INV_SRC_ALPHA;
+		BLEND_DETE.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+		BLEND_DETE.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+		ID3D11BlendState* BlendState;
+		m_pd3dDevice->CreateBlendState(&BLEND_DETE, &BlendState);
+		m_pd3dDeviceContext->OMSetBlendState(BlendState, nullptr, 0xFFFFFFFF);
+
+		MemoryBarrier();
+	}
 	m_pd3dDeviceContext->RSSetState(m_rasterizerState);
 }

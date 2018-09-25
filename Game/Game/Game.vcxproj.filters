@@ -4,9 +4,6 @@
     <Filter Include="Assets">
       <UniqueIdentifier>{aa2dff80-cc46-4aaa-9c9e-7784c2a0cdf0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Assets\modelData">
-      <UniqueIdentifier>{a27dfd5d-af93-4623-b084-aad00b7739c4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="character">
       <UniqueIdentifier>{c57b7107-f9f3-4b72-8f3e-8644593ed533}</UniqueIdentifier>
     </Filter>
@@ -33,6 +30,21 @@
     </Filter>
     <Filter Include="Gameobject">
       <UniqueIdentifier>{46d64de7-15a4-4852-aa0e-5f417fc14d6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\level">
+      <UniqueIdentifier>{2ae0512e-021d-4395-aa08-5744cdade87c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\texture">
+      <UniqueIdentifier>{248e74d7-66fe-48cc-b872-c872fb4844ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\modelData">
+      <UniqueIdentifier>{a27dfd5d-af93-4623-b084-aad00b7739c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Enemy">
+      <UniqueIdentifier>{ad316940-8486-495d-aa3e-69412e4fcc84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Noncopyable">
+      <UniqueIdentifier>{44cb97ec-00d9-4ad2-8696-fe7f644dc407}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -119,6 +131,51 @@
     </ClCompile>
     <ClCompile Include="physics\PhysicsStaticObject.cpp">
       <Filter>physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Gamecamera.cpp" />
+    <ClCompile Include="Stage.cpp" />
+    <ClCompile Include="VectorDraw.cpp" />
+    <ClCompile Include="Enemy\Enemy.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy\Enemyleader.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy\EnemyState.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy\EnemyStateMove.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy\EnemyStateTracking.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="graphics\Buffer\constantBuffer.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="graphics\Buffer\GPUBuffer.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="graphics\Buffer\indexBuffer.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="graphics\ShaderResourceView.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="graphics\sprite.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="graphics\SpriteData.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="graphics\Buffer\StucturedBuffer.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="graphics\UnorderedAccessView.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="graphics\Buffer\vertexBuffer.cpp">
+      <Filter>graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -214,10 +271,98 @@
     <ClInclude Include="Gameobject\GameobjectList.h">
       <Filter>Gameobject</Filter>
     </ClInclude>
+    <ClInclude Include="Gamecamera.h" />
+    <ClInclude Include="Stage.h" />
+    <ClInclude Include="VectorDraw.h" />
+    <ClInclude Include="Enemy\Enemy.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy\Enemyleader.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy\EnemyState.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy\EnemyStateMove.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy\EnemyStateTracking.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics\Buffer\constantBuffer.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics\Buffer\GPUBuffer.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics\Buffer\indexBuffer.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics\ShaderResourceView.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics\sprite.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics\SpriteData.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics\Buffer\StucturedBuffer.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics\UnorderedAccessView.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics\Buffer\vertexBuffer.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Noncopyable\Noncopyable.h">
+      <Filter>Noncopyable</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
       <Filter>Assets\modelData</Filter>
     </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\bill.fbx">
+      <Filter>Assets\modelData</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\kaka.fbx">
+      <Filter>Assets\modelData</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\vectormodel.fbx">
+      <Filter>Assets\modelData</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\stageGround.fbx">
+      <Filter>Assets\modelData</Filter>
+    </MeshContentTask>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\level\stage_01.tkl">
+      <Filter>Assets\level</Filter>
+    </None>
+    <None Include="Assets\level\Enemy_lever.tkl">
+      <Filter>Assets\level</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\texture\autumn003.jpg">
+      <Filter>Assets\texture</Filter>
+    </Image>
+    <Image Include="Assets\texture\BRICKBMP.GIF">
+      <Filter>Assets\texture</Filter>
+    </Image>
+    <Image Include="Assets\texture\Building_texture7.jpg">
+      <Filter>Assets\texture</Filter>
+    </Image>
+    <Image Include="Assets\texture\damage.png">
+      <Filter>Assets\texture</Filter>
+    </Image>
+    <Image Include="Assets\texture\HP.png">
+      <Filter>Assets\texture</Filter>
+    </Image>
+    <Image Include="Assets\texture\HP_waku.png">
+      <Filter>Assets\texture</Filter>
+    </Image>
   </ItemGroup>
 </Project>

@@ -24,7 +24,6 @@ void MeshCollider::CreateFromSkinModel( const SkinModel& model, const CMatrix* o
 	m_stridingMeshInterface = std::make_unique<btTriangleIndexVertexArray>();
 
 	model.FindMesh([&](const auto& mesh){
-
 			ID3D11DeviceContext* deviceContext = g_graphicsEngine->GetD3DDeviceContext();
 			//頂点バッファを作成。
 			{

@@ -12,6 +12,7 @@ protected:
 	Shader* m_pPSShader = nullptr;
 	Shader m_vsShader;
 	Shader m_psShader;
+	Shader m_vsShaderInstancing;		//!<頂点シェーダー。インスタンシング用。
 	bool isSkining;
 	ID3D11ShaderResourceView* m_albedoTex = nullptr;
 
@@ -19,7 +20,6 @@ public:
 	ModelEffect()
 	{
 		m_psShader.Load("Assets/shader/model.fx", "PSMain", Shader::EnType::PS);
-		
 		m_pPSShader = &m_psShader;
 	}
 	virtual ~ModelEffect()
@@ -28,7 +28,7 @@ public:
 			m_albedoTex->Release();
 		}
 	}
-	void __cdecl Apply(ID3D11DeviceContext* deviceContext) override;
+	void __cdecl Apply(ID3D11DeviceContext* deviceContext)override;
 
 	void __cdecl GetVertexShaderBytecode(void const** pShaderByteCode, size_t* pByteCodeLength) override
 	{
@@ -42,8 +42,14 @@ public:
 	void SetMatrialName(const wchar_t* matName)
 	{
 		m_materialName = matName;
+	} 
+	void SetInstancing(int maxInstance)
+	{
+		if (maxInstance > 1)
+		{	
+			m_pVSShader = &m_vsShaderInstancing;
+		}
 	}
-	
 	bool EqualMaterialName(const wchar_t* name) const
 	{
 		return wcscmp(name, m_materialName.c_str()) == 0;
@@ -59,7 +65,9 @@ public:
 	NonSkinModelEffect()
 	{
 		m_vsShader.Load("Assets/shader/model.fx", "VSMain", Shader::EnType::VS);
+		m_vsShaderInstancing.Load("Assets/shader/model.fx", "VSMainInstancing", Shader::EnType::VS);		//
 		m_pVSShader = &m_vsShader;
+		//m_pVSShader = &m_vsShaderInstancing;
 		isSkining = false;
 	}
 };

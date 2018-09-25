@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Skeleton.h"
+#include"Buffer/StucturedBuffer.h"
 
 /*!
 *@brief	FBXの上方向。
@@ -27,8 +28,23 @@ public:
 	*@param[in]	filePath		ロードするcmoファイルのファイルパス。
 	*@param[in] enFbxUpAxis		fbxの上軸。デフォルトはenFbxUpAxisZ。
 	*/
-	void Init(const wchar_t* filePath, EnFbxUpAxis enFbxUpAxis = enFbxUpAxisZ);
+	void Init(const wchar_t* filePath,int maxInstance=1, EnFbxUpAxis enFbxUpAxis = enFbxUpAxisZ);
 	/*!
+	*@brief	インスタンスデータの更新開始時に呼び出してください。
+	*/																					
+	void BeginUpdateInstancingData()
+	{
+		m_numInstance = 0;
+	}
+	void UpdateInstancingData(
+		const CVector3& trans,
+		const CQuaternion& rot,
+		const CVector3& scale
+		/*EnFbxUpAxis enUpdateAxis*/);
+
+	//void EndUpdateInstancingData()　　//まだああああああああああああああああ！！！！！！！！！！！！！！！！！
+	/*!
+
 	*@brief	モデルをワールド座標系に変換するためのワールド行列を更新する。
 	*@param[in]	position	モデルの座標。
 	*@param[in]	rotation	モデルの回転。
@@ -83,7 +99,7 @@ private:
 	/*!
 	*@brief	サンプラステートの初期化。
 	*/
-	void InitSamplerState();
+	void InitSamplerState(int maxInstance);
 	/*!
 	*@brief	定数バッファの作成。
 	*/
@@ -106,6 +122,11 @@ private:
 	Skeleton			m_skeleton;						//!<スケルトン。
 	CMatrix				m_worldMatrix;					//!<ワールド行列。
 	DirectX::Model*		m_modelDx;						//!<DirectXTKが提供するモデルクラス。
-	ID3D11SamplerState* m_samplerState = nullptr;		//!<サンプラステート。
+	ID3D11SamplerState* m_samplerState = nullptr;		//!<サンプラステート。	
+	std::unique_ptr<CMatrix[]>	m_instancingData;		//!<インスタンシング描画用のデータ。
+	int m_numInstance = 0;								//!<インスタンシング用の個数
+	int m_maxInstance = 1;								//!<インスタンシングデータの最大数
+	StucturedBuffer	m_instancingDataSB;				    //!<インスタンシング描画用のストラクチャーバッファ。
+	//CBox ka;
 };
 

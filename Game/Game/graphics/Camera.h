@@ -20,9 +20,16 @@ public:
 	/*!
 	 * @brief	プロジェクション行列を取得。
 	 */
-	CMatrix GetProjectionMatrix() 
+	CMatrix GetProjectionMatrix()
 	{
 		return m_projMatrix;
+	}
+	/*!
+	* @brief	ビュープロジェクション行列を取得。
+	*/
+	CMatrix GetViewProjectionMatrix()
+	{
+		return m_viewProjectionMatrix;
 	}
 	/*!
 	 * @brief	視点を取得。
@@ -48,54 +55,61 @@ public:
 	/*!
 	 * @brief	視点を設定。
 	 */
-	void SetPosition( CVector3 pos )
+	void SetPosition(CVector3 pos)
 	{
 		m_position = pos;
 	}
 	/*!
 	 * @brief	注視点を設定。
 	 */
-	void SetTarget( CVector3 target )
+	void SetTarget(CVector3 target)
 	{
 		m_target = target;
 	}
 	/*!
 	 * @brief	カメラの上方向を設定。
 	 */
-	void SetUp( CVector3 up )
+	void SetUp(CVector3 up)
 	{
 		m_up = up;
 	}
 	/*!
 	 * @brief	遠平面を設定。
 	 */
-	void SetFar( float f )
+	void Setcamera2D(bool furag)
+	{
+		camera2D = furag;
+	}
+	void SetFar(float f)
 	{
 		m_far = f;
 	}
 	/*!
 	 * @brief	近平面を設定。
 	 */
-	void SetNear( float n )
+	void SetNear(float n)
 	{
 		m_near = n;
 	}
 	/*!
 	 * @brief	画角を設定。
 	 */
-	void SetViewAngle( float angle )
+	void SetViewAngle(float angle)
 	{
 		m_viewAngle = angle;
 	}
 private:
 	CMatrix	m_viewMatrix = CMatrix::Identity();		//ビュー行列。
 	CMatrix m_projMatrix = CMatrix::Identity();		//プロジェクション行列。
+	CMatrix m_viewProjectionMatrix = CMatrix::Identity();
 	CVector3 m_target = CVector3::Zero();			//注視点。
 	CVector3 m_position = CVector3::Zero();			//視点。
 	CVector3 m_up = CVector3::Up();					//上方向。
 	float m_viewAngle = CMath::DegToRad(60.0f);		//画角。
 	float m_far = 10000.0f;							//遠い平面までの距離。
 	float m_near = 1.0f;							//近平面までの距離。
+	bool camera2D = false;
 };
 
 extern Camera g_camera3D;		//!<3Dカメラ。
+extern Camera g_camera2D;		//!<2Dカメラ。

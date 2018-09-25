@@ -100,20 +100,35 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="character\CharacterController.cpp" />
+    <ClCompile Include="Enemy\Enemy.cpp" />
+    <ClCompile Include="Enemy\Enemyleader.cpp" />
+    <ClCompile Include="Enemy\EnemyState.cpp" />
+    <ClCompile Include="Enemy\EnemyStateMove.cpp" />
+    <ClCompile Include="Enemy\EnemyStateTracking.cpp" />
+    <ClCompile Include="Gamecamera.cpp" />
     <ClCompile Include="Gameobject\Gameobject.cpp" />
     <ClCompile Include="Gameobject\GameobjectList.cpp" />
     <ClCompile Include="Gameobject\GameobjectManager.cpp" />
     <ClCompile Include="graphics\animation\Animation.cpp" />
     <ClCompile Include="graphics\animation\AnimationClip.cpp" />
     <ClCompile Include="graphics\animation\AnimationPlayController.cpp" />
+    <ClCompile Include="graphics\Buffer\constantBuffer.cpp" />
+    <ClCompile Include="graphics\Buffer\GPUBuffer.cpp" />
+    <ClCompile Include="graphics\Buffer\indexBuffer.cpp" />
+    <ClCompile Include="graphics\Buffer\StucturedBuffer.cpp" />
+    <ClCompile Include="graphics\Buffer\vertexBuffer.cpp" />
     <ClCompile Include="graphics\Camera.cpp" />
     <ClCompile Include="graphics\GraphicsEngine.cpp" />
     <ClCompile Include="graphics\Shader.cpp" />
     <ClCompile Include="graphics\ShaderResources.cpp" />
+    <ClCompile Include="graphics\ShaderResourceView.cpp" />
     <ClCompile Include="graphics\Skeleton.cpp" />
     <ClCompile Include="graphics\SkinModel.cpp" />
     <ClCompile Include="graphics\SkinModelDataManager.cpp" />
     <ClCompile Include="graphics\SkinModelEffect.cpp" />
+    <ClCompile Include="graphics\sprite.cpp" />
+    <ClCompile Include="graphics\SpriteData.cpp" />
+    <ClCompile Include="graphics\UnorderedAccessView.cpp" />
     <ClCompile Include="HID\Pad.cpp" />
     <ClCompile Include="level\Level.cpp" />
     <ClCompile Include="level\MapChip.cpp" />
@@ -127,35 +142,53 @@
     <ClCompile Include="physics\PhysicsStaticObject.cpp" />
     <ClCompile Include="physics\RigidBody.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Stage.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="system\system.cpp" />
+    <ClCompile Include="VectorDraw.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="character\CharacterController.h" />
+    <ClInclude Include="Enemy\Enemy.h" />
+    <ClInclude Include="Enemy\Enemyleader.h" />
+    <ClInclude Include="Enemy\EnemyState.h" />
+    <ClInclude Include="Enemy\EnemyStateMove.h" />
+    <ClInclude Include="Enemy\EnemyStateTracking.h" />
+    <ClInclude Include="Gamecamera.h" />
     <ClInclude Include="Gameobject\Gameobject.h" />
     <ClInclude Include="Gameobject\GameobjectList.h" />
     <ClInclude Include="Gameobject\GameobjectManager.h" />
     <ClInclude Include="graphics\animation\Animation.h" />
     <ClInclude Include="graphics\animation\AnimationClip.h" />
     <ClInclude Include="graphics\animation\AnimationPlayController.h" />
+    <ClInclude Include="graphics\Buffer\constantBuffer.h" />
+    <ClInclude Include="graphics\Buffer\GPUBuffer.h" />
+    <ClInclude Include="graphics\Buffer\indexBuffer.h" />
+    <ClInclude Include="graphics\Buffer\StucturedBuffer.h" />
+    <ClInclude Include="graphics\Buffer\vertexBuffer.h" />
     <ClInclude Include="graphics\Camera.h" />
     <ClInclude Include="graphics\GraphicsEngine.h" />
     <ClInclude Include="graphics\Shader.h" />
     <ClInclude Include="graphics\ShaderResources.h" />
+    <ClInclude Include="graphics\ShaderResourceView.h" />
     <ClInclude Include="graphics\Skeleton.h" />
     <ClInclude Include="graphics\SkinModel.h" />
     <ClInclude Include="graphics\SkinModelDataManager.h" />
     <ClInclude Include="graphics\SkinModelEffect.h" />
     <ClInclude Include="graphics\SkinModelShaderConst.h" />
+    <ClInclude Include="graphics\sprite.h" />
+    <ClInclude Include="graphics\SpriteData.h" />
+    <ClInclude Include="graphics\UnorderedAccessView.h" />
     <ClInclude Include="HID\Pad.h" />
     <ClInclude Include="level\Level.h" />
     <ClInclude Include="level\MapChip.h" />
     <ClInclude Include="math\kMath.h" />
     <ClInclude Include="math\Matrix.h" />
     <ClInclude Include="math\Vector.h" />
+    <ClInclude Include="Noncopyable\Noncopyable.h" />
     <ClInclude Include="physics\CapsuleCollider.h" />
     <ClInclude Include="physics\CollisionAttr.h" />
     <ClInclude Include="physics\ICollider.h" />
@@ -164,14 +197,32 @@
     <ClInclude Include="physics\PhysicsStaticObject.h" />
     <ClInclude Include="physics\RigidBody.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Stage.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h" />
+    <ClInclude Include="VectorDraw.h" />
   </ItemGroup>
   <ItemGroup>
+    <MeshContentTask Include="Assets\modelData\bill.fbx" />
+    <MeshContentTask Include="Assets\modelData\kaka.fbx" />
+    <MeshContentTask Include="Assets\modelData\stageGround.fbx" />
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\Assets\modelData\%(Filename).cmo</ContentOutput>
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)\Assets\modelData\%(Filename).cmo</ContentOutput>
     </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\vectormodel.fbx" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\level\Enemy_lever.tkl" />
+    <None Include="Assets\level\stage_01.tkl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\texture\autumn003.jpg" />
+    <Image Include="Assets\texture\BRICKBMP.GIF" />
+    <Image Include="Assets\texture\Building_texture7.jpg" />
+    <Image Include="Assets\texture\damage.png" />
+    <Image Include="Assets\texture\HP.png" />
+    <Image Include="Assets\texture\HP_waku.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
