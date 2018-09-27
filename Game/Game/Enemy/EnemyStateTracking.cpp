@@ -7,7 +7,7 @@
 EnemyStateTracking::EnemyStateTracking(Enemy* enemy,Player* player):EnemyState(enemy, player)
 {
 
-	kasa = new VectorDraw(enemy->Get2Dposition());
+	vector = new VectorDraw(enemy->Get2Dposition());
 }
 
 
@@ -23,9 +23,8 @@ void EnemyStateTracking::Update()
 	speed *= 300.0f;
 	enemy->Setspeed(speed);
 	CVector3 position = enemy->Get3Dposition();
-//*	position.y = 10.0f;
-	kasa->Update(position, speed, 1.0);
-	kasa->Draw();
+	vector->Update(position, speed, 1.0);
+	vector->Draw();
 	if (distance.Length()>=500.0f)
 	{
 		speed.y = 800.0f;

@@ -67,12 +67,32 @@ void Enemy::postDraw()
 void Enemy::Draw()
 {
 	m_position.y += 120.0f;
+	Vectordraw();
+	//kasa->Draw();	
+	//m_position.x -= Sprite_fram.Gethalf_sizeX();
+	Sprite_fram.Updete(m_position, m_Sprite_angle, { 1.0f,1.0f,1.0f }, { 0.0f,1.0f });
+	Sprite_fram.Draw(
+		g_camera3D.GetViewMatrix(),
+		g_camera3D.GetProjectionMatrix());
+	Sprite_hp.Updete(m_position, m_Sprite_angle, { HP,1.0f ,1.0f }, { 0.0f,1.0f });
+	Sprite_hp.Draw(
+		g_camera3D.GetViewMatrix(),
+		g_camera3D.GetProjectionMatrix());
+	/*if (DrewFragu) {
+		m_model.Draw(
+			g_camera3D.GetViewMatrix(),
+			g_camera3D.GetProjectionMatrix()
+		);
+	}*/
+}
+void Enemy::Vectordraw()
+{
 	CVector3 kakudo;
-	kakudo =g_camera3D.GetPosition()-m_position;
+	kakudo = g_camera3D.GetPosition() - m_position;
 	kakudo.y = 0;
 	kakudo.Normalize();
 	float kaku = acos(kakudo.Dot(m_Sprite_Front));
-	kaku =CMath::RadToDeg(kaku);
+	kaku = CMath::RadToDeg(kaku);
 	CVector3 jiku;
 	jiku.Cross(m_Sprite_Front, kakudo);
 	if (jiku.y > 0) {
@@ -86,19 +106,5 @@ void Enemy::Draw()
 	m_Sprite_angle.Multiply(kakaa);
 
 	kasa->Update(m_position, kakaa, 1.0);
-	//kasa->Draw();
-	Sprite_fram.Updete(m_position, m_Sprite_angle, { 1.0f,1.0f,1.0f });
-	Sprite_fram.Draw(
-		g_camera3D.GetViewMatrix(),
-		g_camera3D.GetProjectionMatrix());
-	Sprite_hp.Updete(m_position, m_Sprite_angle, { HP,1.0f ,1.0f });
-	Sprite_hp.Draw(
-		g_camera3D.GetViewMatrix(),
-		g_camera3D.GetProjectionMatrix());
-	/*if (DrewFragu) {
-		m_model.Draw(
-			g_camera3D.GetViewMatrix(),
-			g_camera3D.GetProjectionMatrix()
-		);
-	}*/
+//	kasa->Draw();
 }

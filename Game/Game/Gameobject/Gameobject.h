@@ -4,8 +4,8 @@ class Gameobject : Noncopyable
 public:
 	Gameobject();
 	~Gameobject();
-	virtual bool Load() { return true; };
-	virtual void Update() = 0;
+	virtual bool Load() { return true; };		//データのロード
+	virtual void Update() = 0;					
 	virtual void Draw() = 0;
 	virtual void postDraw() {};
 	int Getpriority()
@@ -20,10 +20,18 @@ public:
 	{
 		return Loadfrag;
 	}
+	/*
+	*@brief	ロードが完了したか
+	*@return bool
+	*/
 	void SetLoadfrag(bool frag)
 	{
 		Loadfrag = frag;
 	}
+	/*
+	*@brief	表示するかしないか
+	*@return bool
+	*/
 	bool GetDrewfragu()
 	{
 		return Drewfragu;
@@ -31,7 +39,7 @@ public:
 private:
 	int priority = 0;
 protected:
-	bool Loadfrag = false;
-	bool Drewfragu = true;
+	bool Loadfrag = false;			//ロード完了したか
+	bool Drewfragu = true;			//表示したいか（）
 };
 

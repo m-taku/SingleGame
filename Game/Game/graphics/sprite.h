@@ -30,7 +30,14 @@ public:
 										「{1.0f,1.0f}(右上)」		
 										「{0.0f,1.0f}(左上)」
 	*/
-
+	float Gethalf_sizeX()
+	{
+		return half_size.x;
+	}
+	float Gethalf_sizeY()
+	{
+		return half_size.y;
+	}
 	void Updete(const CVector3& position, const CQuaternion& rot, const CVector3& scale, const CVector2& pivot = {0.5f,0.5f});
 	/*!
 	*@brief	描画

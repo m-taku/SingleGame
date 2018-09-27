@@ -9,6 +9,6 @@ public:
 	
 private:
 	int hanten = 1;
-	VectorDraw* kasa = nullptr;
+	VectorDraw* vector = nullptr;
 };
 

@@ -177,6 +177,7 @@
     <ClCompile Include="graphics\Buffer\vertexBuffer.cpp">
       <Filter>graphics</Filter>
     </ClCompile>
+    <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -319,6 +320,7 @@
     <ClInclude Include="Noncopyable\Noncopyable.h">
       <Filter>Noncopyable</Filter>
     </ClInclude>
+    <ClInclude Include="UI.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
@@ -364,5 +366,13 @@
     <Image Include="Assets\texture\HP_waku.png">
       <Filter>Assets\texture</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageContentTask Include="Assets\texture\HP_Player.png">
+      <Filter>Assets\texture</Filter>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\texture\HP_Player_waku.png">
+      <Filter>Assets\texture</Filter>
+    </ImageContentTask>
   </ItemGroup>
 </Project>

@@ -9,7 +9,7 @@ void VectorDraw::Update(CVector3 posotion, CVector3 Vector,float power)
 {
 	vector = Vector;
 	Power = power;
-	CQuaternion kakakakkakaaasjwsjkndfvjkinreaigbs;
+	CQuaternion Rot;
 	vector.y = 0.0f;
 	vector.Normalize();
 	float kakuo = acos(vector.Dot(CVector3::AxisZ()));
@@ -18,15 +18,15 @@ void VectorDraw::Update(CVector3 posotion, CVector3 Vector,float power)
 	jiku.Cross(CVector3::AxisZ(), vector);
 	if (jiku.y > 0.0f)
 	{
-		kakakakkakaaasjwsjkndfvjkinreaigbs.SetRotationDeg(CVector3::AxisY(), kakuo);
+		Rot.SetRotationDeg(CVector3::AxisY(), kakuo);
 	}
 	else
 	{
-		kakakakkakaaasjwsjkndfvjkinreaigbs.SetRotationDeg(CVector3::AxisY()*-1, kakuo);
+		Rot.SetRotationDeg(CVector3::AxisY()*-1, kakuo);
 	}
 	m_position = posotion;
 	m_position.y += 10.0f;
-	m_vector.UpdateWorldMatrix(m_position, kakakakkakaaasjwsjkndfvjkinreaigbs, { Power*5.0f,Power*5.0f,1.0f });
+	m_vector.UpdateWorldMatrix(m_position, Rot, { Power*5.0f,Power*5.0f,1.0f });
 }
 void VectorDraw::Draw()
 {

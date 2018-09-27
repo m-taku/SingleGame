@@ -1,6 +1,7 @@
 #include"stdafx.h"
 #include"system/system.h"
 #include"level/Level.h"
+#include"UI.h"
 #include"Stage.h"
 #include"Enemy/Enemy.h"
 #include"Enemy/Enemyleader.h"
@@ -38,6 +39,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	GameobjectManager objectManage;
 	objectManager = &objectManage;
 	//ゲームループ。
+	UI* Ui = objectManager->NewGO<UI>(0);
 	Player* player = objectManager->NewGO<Player>(0);
 	objectManager->NewGO<Stage>(0);
 	Gamecamera* Camera = objectManager->NewGO<Gamecamera>(10);

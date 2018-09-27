@@ -89,6 +89,7 @@ public:
 		player = pla;
 	}
 private:
+	void Vectordraw();
 	EnemyState* m_enemystate=nullptr;						//エネミーのステート
 	State state = State_Tracking;							//ステートの状態
 	Enemyleader* Leader = nullptr;							//Leaderのポインタ
@@ -100,11 +101,11 @@ private:
 	CQuaternion m_Sprite_angle = CQuaternion::Identity();	//テクスチャの回転角度
 	CVector3 m_Sprite_Front = CVector3::AxisZ()*-1;	        //テクスチャの前方向
 	bool DrewFragu = true;									//描画するかどうか
-	sprite Sprite_hp;											//体力用の2Ｄ
-	sprite Sprite_fram;											//体力用の2Ｄ
-	float HP = 1.0f;											//
-	ShaderResourceView texture_hp;								//
-	ShaderResourceView texture_fram;							//
-	VectorDraw* kasa = nullptr;
+	sprite Sprite_hp;										//体力用の2Ｄ(中身)
+	sprite Sprite_fram;										//体力用の2Ｄ(枠)
+	float HP = 1.0f;										//ＨＰの割合
+	ShaderResourceView texture_hp;							//体力用の2Ｄデータ(中身)
+	ShaderResourceView texture_fram;						//体力用の2Ｄデータ(枠)
+	VectorDraw* kasa = nullptr;								//デバック用のベクトル表示
 }; 
 

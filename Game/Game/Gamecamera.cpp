@@ -28,8 +28,6 @@ void Gamecamera::Update()
 	m_angle.x = g_pad->GetRStickYF()*3.0f;
 	m_reg = CQuaternion::Identity();
 	m_reg.SetRotationDeg(m_Up, m_angle.y);
-	//angle.y = max(angle.y, -30.0f);
-	//angle.y = min(angle.y, 20.0f);
 	m_Front.Normalize();
 	m_reg.Multiply(camerfront);
 	float kakudo = acos(camerfront.Dot(m_Front));

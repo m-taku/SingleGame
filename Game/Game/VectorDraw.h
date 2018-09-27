@@ -12,7 +12,7 @@ public:
 	void Draw();
 private:
 	CVector3 vector = CVector3::Zero();			//表示したいベクトルの向き（ノーマライズ）
-	CVector3 m_position;		//表示したいベクトルの原点（ノーマライズ）
+	CVector3 m_position;		                //表示したいベクトルの原点（ノーマライズ）
 	SkinModel m_vector;
 	float Power = 0.0f;							//表示したいベクトルの大きさ（float）
 
