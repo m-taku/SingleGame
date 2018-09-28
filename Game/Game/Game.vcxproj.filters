@@ -178,6 +178,7 @@
       <Filter>graphics</Filter>
     </ClCompile>
     <ClCompile Include="UI.cpp" />
+    <ClCompile Include="Navimake.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -321,6 +322,7 @@
       <Filter>Noncopyable</Filter>
     </ClInclude>
     <ClInclude Include="UI.h" />
+    <ClInclude Include="Navimake.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
@@ -336,6 +338,9 @@
       <Filter>Assets\modelData</Filter>
     </MeshContentTask>
     <MeshContentTask Include="Assets\modelData\stageGround.fbx">
+      <Filter>Assets\modelData</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\jimennabi.fbx">
       <Filter>Assets\modelData</Filter>
     </MeshContentTask>
   </ItemGroup>

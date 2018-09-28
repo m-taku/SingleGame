@@ -4,6 +4,7 @@
 #include"UI.h"
 #include"Stage.h"
 #include"Enemy/Enemy.h"
+#include"Navimake.h"
 #include"Enemy/Enemyleader.h"
 #include"Player.h"
 #include"Gamecamera.h"
@@ -36,6 +37,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 	//プレイヤー
 	//Player player;
+
+	Navimake Navimake;
 	GameobjectManager objectManage;
 	objectManager = &objectManage;
 	//ゲームループ。
