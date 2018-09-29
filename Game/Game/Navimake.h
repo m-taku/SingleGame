@@ -3,16 +3,20 @@
 class Navimake
 {
 public:
-
-	enum {
-		CVector3 ka;		//頂点バッファ。
-	}serr;
 	Navimake();
 	~Navimake();
+	struct SData {
+		SData(){
+		}
+		CVector3				position[3];		//!<三角形1個の座標
+		//CVector3				normal;				//!<法線
+		CVector3                Halfposition;		//!<辺の半分の長さ
+		CVector3				center;				//!<中心座標
+		int	                    linkNoList[3];		//!<リンクのリスト
+		int                     No;					//!<自分の番号
+	};
 	MeshCollider m_meshCollider;
 	SkinModel m_model;									//モデルデータ
-	CVector3 vertexpos[3];
-
-	std::vector<CVector3[3]> seru;
+	std::vector<SData> seru;							//三角形１つのデータ
 };
 

@@ -49,6 +49,10 @@ void Gamecamera::Update()
 	m_right.y = mRot.m[0][1];
 	m_right.z = mRot.m[0][2];
 	m_right.Normalize();
+	m_Front.x = mRot.m[2][0];
+	m_Front.y = mRot.m[2][1];
+	m_Front.z = mRot.m[2][2];
+	m_Front.Normalize();
 	m_Front.y = 0;
 	m_reg = CQuaternion::Identity();
 	m_reg.SetRotationDeg(m_right, m_angle.x);
