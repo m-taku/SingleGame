@@ -30,11 +30,23 @@ public:
 	/*!
 	*@brief	明示的にリリース。
 	*/
-	void Release();
+	void Release();	
+	/*!
+	*@brief	頂点バッファを取得。
+	*/
+	vertexBuffer& GetVertexBuffer()
+	{
+		return m_vertexBuffer;
+	}
 	/*!
 	*@brief	描画。
 	*/
 	void Draw(ID3D11DeviceContext& rc);
+	/*!
+	*@brief	描画。
+	*/
+	void Draw(ID3D11DeviceContext& rc, int numVertex);
+
 private:
 	vertexBuffer			m_vertexBuffer;		//!<頂点バッファ。
 	indexBuffer		     	m_indexBuffer;		//!<インデックスバッファ。

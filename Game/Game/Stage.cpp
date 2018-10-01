@@ -4,6 +4,8 @@
 
 Stage::Stage()
 {
+	int ka = 0;
+	ka++;
 }
 
 

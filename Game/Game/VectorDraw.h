@@ -9,6 +9,7 @@ public:
 	}
 	~VectorDraw();
 	void Update(CVector3 posotion, CVector3 Vector,float power);
+	void Update();
 	void Draw();
 private:
 	CVector3 vector = CVector3::Zero();			//表示したいベクトルの向き（ノーマライズ）

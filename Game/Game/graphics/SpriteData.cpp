@@ -25,17 +25,19 @@ bool SpriteData::Create(
 	void* pSrcIndexBuffer)
 {
 	Release();
+	m_topology = topology;
 	bool result = m_vertexBuffer.Create(numVertex, vertexStride, pSrcVertexBuffer);
 	if (!result) {
 		throw;
 		return false;
 	}
-	result = m_indexBuffer.Create(numIndex, indexType, pSrcIndexBuffer);
-	if (!result) {
-		throw;
-		return false;
+	if (pSrcIndexBuffer) {
+		result = m_indexBuffer.Create(numIndex, indexType, pSrcIndexBuffer);
+		if (!result) {
+			throw;
+			return false;
+		}
 	}
-
 	return true;
 }
 void SpriteData::Draw(ID3D11DeviceContext& rc)
@@ -52,7 +54,19 @@ void SpriteData::Draw(ID3D11DeviceContext& rc)
 		0
 		);
 	//プリミティブのトポロジーを設定。
-	rc.IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	rc.IASetPrimitiveTopology(m_topology);
 	//描画。
 	rc.DrawIndexed(m_indexBuffer.GetNumIndex(), 0, 0);
+}
+
+void SpriteData::Draw(ID3D11DeviceContext& rc, int numVertex)
+{
+	//頂点バッファを設定。
+	UINT ofset = 0;
+	UINT stride = m_vertexBuffer.GetStride();
+	rc.IASetVertexBuffers(0, 1, &(m_vertexBuffer.GetBody()), &stride, &ofset);
+	//プリミティブのトポロジーを設定。
+	rc.IASetPrimitiveTopology(m_topology);
+	//描画。
+	rc.Draw(numVertex, 0);
 }

@@ -11,7 +11,7 @@ bool Player::Load()
 {
 	//cmoファイルの読み込み。
 	m_model.Init(L"Assets/modelData/unityChan.cmo");
-	m_collider.Init(10.0f, 10.0f, m_position);
+	m_collider.Init(10.0f, 20.0f, m_position);
 	vector = new VectorDraw(m_position);
 	m_rotation.SetRotationDeg(CVector3::AxisY(), 0.0f);
 	mRot.MakeRotationFromQuaternion(m_rotation);

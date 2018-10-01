@@ -80,6 +80,7 @@ void GameobjectManager::DeleteExecution()
 		if (!List[no].DereteGo(Deleteobject.first, Deleteobject.second))
 		{
 			//ƒNƒ‰ƒbƒVƒ…‚³‚¹‚½‚¢
+			throw;
 		}
 	}
 	DeleteList[DeleteNo].clear();

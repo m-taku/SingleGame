@@ -4,9 +4,18 @@
 
 Navimake::Navimake()
 {
-	m_model.Init(L"Assets/modelData/jimennabi.cmo");
+	m_model.Init(L"Assets/modelData/jimennabi2.cmo");
 	//メッシュコライダーを作成。
 	m_meshCollider.CreateFromSkinModel(m_model, nullptr);
+	//剛体を作成、
+	RigidBodyInfo rbInfo;
+	rbInfo.collider = &m_meshCollider; //剛体に形状(コライダー)を設定する。
+	rbInfo.mass = 0.0f;
+	rbInfo.pos = {0.0f,0.0f,0.0f};
+	rbInfo.rot = CQuaternion::Identity();
+	m_rigidBody.Create(rbInfo);
+	//剛体を物理ワールドに追加する。
+	g_physics.AddRigidBody(m_rigidBody);
 	//メッシュコライダーから頂点バッファとインデックスバッファの情報をGetする
 	auto vertex= m_meshCollider.Getvertex(0);
 	auto index = m_meshCollider.GetIndex(0);
@@ -16,6 +25,8 @@ Navimake::Navimake()
 		data->position[0] = vertex[index[i++]];
 		data->position[1] = vertex[index[i++]];
 		data->position[2] = vertex[index[i++]];
+		//出来たセルから中心を求める。
+		data->centerposition = Searchcenter(data->position);
 		data->linkNoList[0] = -1;
 		data->linkNoList[1] = -1;
 		data->linkNoList[2] = -1;
@@ -83,12 +94,39 @@ Navimake::Navimake()
 		}
 	}
 
-	int kalalakidjmocvnwsjijvdniosc = 0;
-	kalalakidjmocvnwsjijvdniosc++;
-
+	for (int i = 0; i < seru.size(); i++)
+	{
+		vector.push_back(new VectorDraw(seru[i].position[0]));
+		vector.push_back(new VectorDraw(seru[i].position[1]));
+		vector.push_back(new VectorDraw(seru[i].position[2]));
+		vector.push_back(new VectorDraw(seru[i].centerposition));
+	}
+	for (int i = 0; i < vector.size(); i++)
+	{
+		vector[i]->Update();
+	}
 }
 
 
 Navimake::~Navimake()
 {
+	g_physics.RemoveRigidBody(m_rigidBody);
+}
+void Navimake::Up()
+{
+	for (int i = 0; i < vector.size(); i++)
+	{
+		vector[i]->Draw();
+	}
+
+}
+CVector3 Navimake::Searchcenter(const CVector3 (&pos)[3])
+{
+	CVector3 centerpos=CVector3::Zero();
+	centerpos.x = (pos[0].x + pos[1].x + pos[2].x) / 3;
+
+	centerpos.y = (pos[0].y + pos[1].y + pos[2].y) / 3;
+
+	centerpos.z = (pos[0].z + pos[1].z + pos[2].z) / 3;
+	return centerpos;
 }

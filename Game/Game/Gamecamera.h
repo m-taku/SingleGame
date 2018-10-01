@@ -31,6 +31,8 @@ private:
 	CQuaternion	m_reg = CQuaternion::Identity();	//回転角度
 	CMatrix mRot;									//回転行列
 	CVector3 m_angle = CVector3::Zero();			//回転入力量
+	CVector3 ka;
+	float kakudo = 0.0f;
 	CVector3 m_targetpos = CVector3::Zero();		//カメラの目標地点
 	CVector3 m_position = CVector3::Zero();			//カメラの現在地
 	Player* player = nullptr;						//プレイヤーのポインタ

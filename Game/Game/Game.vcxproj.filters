@@ -132,7 +132,6 @@
     <ClCompile Include="physics\PhysicsStaticObject.cpp">
       <Filter>physics</Filter>
     </ClCompile>
-    <ClCompile Include="Gamecamera.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="VectorDraw.cpp" />
     <ClCompile Include="Enemy\Enemy.cpp">
@@ -179,6 +178,8 @@
     </ClCompile>
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="Navimake.cpp" />
+    <ClCompile Include="Gamecamera.cpp" />
+    <ClCompile Include="physics\PhysicsDebugDraw.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -323,6 +324,7 @@
     </ClInclude>
     <ClInclude Include="UI.h" />
     <ClInclude Include="Navimake.h" />
+    <ClInclude Include="physics\PhysicsDebugDraw.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
@@ -343,6 +345,7 @@
     <MeshContentTask Include="Assets\modelData\jimennabi.fbx">
       <Filter>Assets\modelData</Filter>
     </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\jimennabi2.fbx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\level\stage_01.tkl">
@@ -365,18 +368,18 @@
     <Image Include="Assets\texture\damage.png">
       <Filter>Assets\texture</Filter>
     </Image>
-    <Image Include="Assets\texture\HP.png">
-      <Filter>Assets\texture</Filter>
-    </Image>
-    <Image Include="Assets\texture\HP_waku.png">
-      <Filter>Assets\texture</Filter>
-    </Image>
   </ItemGroup>
   <ItemGroup>
     <ImageContentTask Include="Assets\texture\HP_Player.png">
       <Filter>Assets\texture</Filter>
     </ImageContentTask>
     <ImageContentTask Include="Assets\texture\HP_Player_waku.png">
+      <Filter>Assets\texture</Filter>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\texture\HP.png">
+      <Filter>Assets\texture</Filter>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\texture\HP_waku.png">
       <Filter>Assets\texture</Filter>
     </ImageContentTask>
   </ItemGroup>

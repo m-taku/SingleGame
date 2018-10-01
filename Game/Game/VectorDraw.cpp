@@ -25,8 +25,11 @@ void VectorDraw::Update(CVector3 posotion, CVector3 Vector,float power)
 		Rot.SetRotationDeg(CVector3::AxisY()*-1, kakuo);
 	}
 	m_position = posotion;
-	m_position.y += 10.0f;
-	m_vector.UpdateWorldMatrix(m_position, Rot, { Power*5.0f,Power*5.0f,1.0f });
+	m_vector.UpdateWorldMatrix(m_position, Rot, { Power*5.0f,Power*5.0f,2.0f });
+}
+void VectorDraw::Update()
+{
+	m_vector.UpdateWorldMatrix(m_position, CQuaternion::Identity(),CVector3::One());
 }
 void VectorDraw::Draw()
 {

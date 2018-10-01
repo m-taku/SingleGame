@@ -66,7 +66,7 @@ private:
 	CQuaternion m_rotation = CQuaternion::Identity();	//回転クオータニオン
 	CMatrix mRot;										//回転行列
 	Gamecamera* m_camer = nullptr;						//カメラのポインタ
-	CVector3 m_Up = CVector3::Zero();					//上方向
+	CVector3 m_Up = CVector3::AxisY();					//上方向
 	CVector3 m_Front = CVector3::Zero();				//前方向
 	CVector3 m_position = { 0.0f,150.0f,-30.0f };		//現在位置
 	CVector3 m_amount = { 0.0f,0.0f,0.0f };				//スティックの移動量

@@ -25,7 +25,6 @@
 #include "DirectXTK/Inc/SpriteFont.h"
 #include "DirectXTK/Inc/DDSTextureLoader.h"
 
-#include "physics/Physics.h"
 #include "HID/Pad.h"
 
 #include "math/Vector.h"
@@ -40,7 +39,8 @@
 #include "graphics/Camera.h"
 #include "graphics/sprite.h"
 #include "Gameobject/Gameobject.h"
-#include"VectorDraw.h"
+#include "VectorDraw.h"
+#include "physics/Physics.h"
 extern GameobjectManager* objectManager;
 extern bool frame(CVector3 position);
 const float GRAVITY = 9.8f * 30;
