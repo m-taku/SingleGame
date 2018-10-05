@@ -4,9 +4,9 @@
 #include"UI.h"
 #include"Stage.h"
 #include"Enemy/Enemy.h"
-#include"Navimake.h"
 #include"Enemy/Enemyleader.h"
 #include"Player.h"
+#include"Navimake.h"
 #include"Gamecamera.h"
 
 ///////////////////////////////////////////////////////////////////
@@ -37,33 +37,33 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 	//プレイヤー
 	//Player player;
-
-	Navimake Navimake;
 	GameobjectManager objectManage;
 	objectManager = &objectManage;
+	objectManager->NewGO<Stage>(0);
+	//Navimake* navimake = nullptr;
 	//ゲームループ。
 	UI* Ui = objectManager->NewGO<UI>(0);
 	Player* player = objectManager->NewGO<Player>(0);
-	//objectManager->NewGO<Stage>(0);
 	Gamecamera* Camera = objectManager->NewGO<Gamecamera>(10);
 	Camera->SetPlayer(player);
 	player->SetCamera(Camera);
-	//Level level;
+	Level level;
 
 	g_physics.SetDebugDrawMode(btIDebugDraw::DBG_DrawWireframe);
+
 	static int kuku = 0;
 	//Player* ks = objectManager->NewGO<Player>(1);
-	//level.Init(L"Assets/level/Enemy_lever.tkl", [&](LevelObjectData objData)
-	//{
-	//	//if (kuku >= 1) {
-	//	//	return true;
-	//	//}
-	//	Enemyleader* enemy = objectManager->NewGO<Enemyleader>(1, "Enemyleader");
-	//	enemy->Setposition(objData.position);
-	//	enemy->Setplayer(player);
-	//	//kuku++;
-	//	return true;
-	//});
+	level.Init(L"Assets/level/Enemy_lever.tkl", [&](LevelObjectData objData)
+	{
+		//if (kuku >= 1) {
+		//	return true;
+		//}
+		Enemyleader* enemy = objectManager->NewGO<Enemyleader>(1, "Enemyleader");
+		enemy->Setposition(objData.position);
+		enemy->Setplayer(player);
+		//kuku++;
+		return true;
+	});
 	while (DispatchWindowMessage() == true)
 	{
 		//描画開始。
@@ -85,12 +85,13 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//player.Update();
 		//プレイヤーの描画。
 		//player.Draw();
+		static  Navimake* navimake = new Navimake;
+		navimake->Up();
 
         //auto ks = objectManager->NewGO<Player>(0);
 	    //objectManager->DereteGO(ks);*/
 		//カメラの更新。
 		//描画終了。
-		//Navimake.Up();
 		g_graphicsEngine->EndRender();
 	}
 }

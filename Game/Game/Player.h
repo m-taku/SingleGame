@@ -1,6 +1,7 @@
 #pragma once
 #include "character/CharacterController.h"
 class Gamecamera;
+class Navimake;
 class Player: public Gameobject
 {
 public:
@@ -9,7 +10,6 @@ public:
 	bool Load();
 	void Update();
 	void Draw();
-	void postDraw();
 	/*
 	*@brief	2Çcç¿ïWånÇ≈ÇÃà íu
 	*@return CVector3 

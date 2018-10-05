@@ -52,6 +52,10 @@ public :
 	* @brief	レベルを描画。
 	*/
 	void Draw();
+	MapChip* GetMapChip() const
+	{
+		return m_mapChipArray[0].get();
+	}
 private:
 	std::vector<MapChipPtr> m_mapChipArray;		//!<マップチップの可変長配列。
 };

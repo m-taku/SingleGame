@@ -3,7 +3,7 @@ class Gameobject : Noncopyable
 {
 public:
 	Gameobject();
-	~Gameobject();
+	virtual ~Gameobject();
 	virtual bool Load() { return true; };		//データのロード
 	virtual void Update() = 0;					
 	virtual void Draw() = 0;

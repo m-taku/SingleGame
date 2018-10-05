@@ -88,6 +88,10 @@ public:
 	{
 		player = pla;
 	}
+	/*
+	*@brief Playerのセット
+	*/
+	void DDraw();
 private:
 	void Vectordraw();
 	EnemyState* m_enemystate=nullptr;						//エネミーのステート

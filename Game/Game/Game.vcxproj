@@ -137,6 +137,7 @@
     <ClCompile Include="math\Matrix.cpp" />
     <ClCompile Include="math\Vector.cpp" />
     <ClCompile Include="Navimake.cpp" />
+    <ClCompile Include="Path.cpp" />
     <ClCompile Include="physics\PhysicsDebugDraw.cpp" />
     <ClCompile Include="physics\CapsuleCollider.cpp" />
     <ClCompile Include="physics\MeshCollider.cpp" />
@@ -193,6 +194,7 @@
     <ClInclude Include="math\Vector.h" />
     <ClInclude Include="Navimake.h" />
     <ClInclude Include="Noncopyable\Noncopyable.h" />
+    <ClInclude Include="Path.h" />
     <ClInclude Include="physics\PhysicsDebugDraw.h" />
     <ClInclude Include="physics\CapsuleCollider.h" />
     <ClInclude Include="physics\CollisionAttr.h" />

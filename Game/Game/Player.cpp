@@ -11,7 +11,7 @@ bool Player::Load()
 {
 	//cmoファイルの読み込み。
 	m_model.Init(L"Assets/modelData/unityChan.cmo");
-	m_collider.Init(10.0f, 20.0f, m_position);
+	m_collider.Init(15.0f, 80.0f, m_position);
 	vector = new VectorDraw(m_position);
 	m_rotation.SetRotationDeg(CVector3::AxisY(), 0.0f);
 	mRot.MakeRotationFromQuaternion(m_rotation);
@@ -50,6 +50,17 @@ void Player::Update()
 		kaiten += camer_angle;
 		m_rotation.SetRotation(CVector3::AxisY(), kaiten);
 	}
+	//for (int i = 0; i<10; i++)
+	//{
+	//	vss();
+
+	//}
+	//for (int i = 0; i<i; i++)
+	//{
+	//	pss(vss.kh);
+
+	//}
+
 	mRot.MakeRotationFromQuaternion(m_rotation);
 	m_Front.x = mRot.m[2][0];
 	m_Front.y = mRot.m[2][1];
@@ -64,10 +75,8 @@ void Player::Update()
 	}
 	m_position = m_collider.Execute(1.0f / 30.0f, m_movespeed);
 	m_model.UpdateWorldMatrix(m_position, m_rotation, CVector3::One());
-	vector->Update(m_position, m_Front, m_amount.Length());
-}
-void Player::postDraw()
-{	
+	vector->Update(m_position, m_Front, m_amount.Length()*50.0f); 
+	int ahs = 0;
 }
 void Player::Draw()
 {

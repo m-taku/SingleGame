@@ -27,8 +27,14 @@ public:
 		*@param[in]	pos			座標。
 		*@param[in]	rot			回転。
 		*/
-	void CreateMeshObject(SkinModel& skinModel, CVector3 pos, CQuaternion rot);
-	
+	void CreateMeshObject(SkinModel& skinModel, CVector3 pos, CQuaternion rot);	
+	/*!
+	* @brief	剛体を取得。
+	*/
+	RigidBody* GetRigidBody()
+	{
+		return &m_rigidBody;
+	}
 private:
 	MeshCollider m_meshCollider;		//!<メッシュコライダー。
 	RigidBody m_rigidBody;				//!<剛体。

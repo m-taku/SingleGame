@@ -180,6 +180,7 @@
     <ClCompile Include="Navimake.cpp" />
     <ClCompile Include="Gamecamera.cpp" />
     <ClCompile Include="physics\PhysicsDebugDraw.cpp" />
+    <ClCompile Include="Path.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -325,6 +326,7 @@
     <ClInclude Include="UI.h" />
     <ClInclude Include="Navimake.h" />
     <ClInclude Include="physics\PhysicsDebugDraw.h" />
+    <ClInclude Include="Path.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">

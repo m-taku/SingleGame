@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Stage.h"
+#include"level/MapChip.h"
 
 
 Stage::Stage()
@@ -15,10 +16,12 @@ Stage::~Stage()
 bool Stage::Load()
 {
 	//cmoファイルの読み込み。
-	m_model.Init(L"Assets/modelData/stageGround.cmo",1);
-	level.Init(L"Assets/level/stage_01.tkl",nullptr);
+	//m_model.Init(L"Assets/modelData/stageGround.cmo",1);
+	level.Init(L"Assets/level/stage_02.tkl",nullptr);
 	Loadfrag = true;
-	Stege.CreateMeshObject(m_model, CVector3::Zero(), CQuaternion::Identity());
+	//Stege.CreateMeshObject(m_model, CVector3::Zero(), CQuaternion::Identity());
+	
+
 	return true;
 }
 void Stage::Update()
@@ -28,9 +31,9 @@ void Stage::Update()
 }
 void Stage::Draw()
 {
-	m_model.Draw(
-		g_camera3D.GetViewMatrix(),
-		g_camera3D.GetProjectionMatrix()
-	);
-	level.Draw();
+	//m_model.Draw(
+	//	g_camera3D.GetViewMatrix(),
+	//	g_camera3D.GetProjectionMatrix()
+	//);
+	//level.Draw();
 }

@@ -19,8 +19,11 @@ public:
 	* @brief	描画。
 	*/
 	void Draw();
+	PhysicsStaticObject* GetPhysicsStaticObject() 
+	{
+		return &m_physicsStaticObject;
+	}
 private:
 	SkinModel m_model;		//!<モデル。
 	PhysicsStaticObject m_physicsStaticObject;	//!<静的物理オブジェクト。
-	
 };

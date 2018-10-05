@@ -68,16 +68,10 @@ void Enemy::Draw()
 {
 	m_position.y += 120.0f;
 	Vectordraw();
+	DDraw();
 	//kasa->Draw();	
 	//m_position.x -= Sprite_fram.Gethalf_sizeX();
-	Sprite_fram.Updete(m_position, m_Sprite_angle, { 1.0f,1.0f,1.0f }, { 0.0f,1.0f });
-	Sprite_fram.Draw(
-		g_camera3D.GetViewMatrix(),
-		g_camera3D.GetProjectionMatrix());
-	Sprite_hp.Updete(m_position, m_Sprite_angle, { HP,1.0f ,1.0f }, { 0.0f,1.0f });
-	Sprite_hp.Draw(
-		g_camera3D.GetViewMatrix(),
-		g_camera3D.GetProjectionMatrix());
+
 	/*if (DrewFragu) {
 		m_model.Draw(
 			g_camera3D.GetViewMatrix(),
@@ -107,4 +101,16 @@ void Enemy::Vectordraw()
 
 	kasa->Update(m_position, kakaa, 1.0);
 //	kasa->Draw();
+}
+void Enemy::DDraw()
+{
+	Sprite_fram.Updete(m_position, m_Sprite_angle, { 1.0f,1.0f,1.0f }, { 0.0f,1.0f });
+	Sprite_fram.Draw(
+		g_camera3D.GetViewMatrix(),
+		g_camera3D.GetProjectionMatrix());
+	Sprite_hp.Updete(m_position, m_Sprite_angle, { HP,1.0f ,1.0f }, { 0.0f,1.0f });
+	Sprite_hp.Draw(
+		g_camera3D.GetViewMatrix(),
+		g_camera3D.GetProjectionMatrix());
+
 }

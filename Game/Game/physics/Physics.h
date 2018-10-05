@@ -2,7 +2,8 @@
 
 #include"PhysicsDebugDraw.h"
 class RigidBody;
-
+class CharacterController;
+class PhysicsStaticObject;
 class PhysicsWorld
 {
 	btDefaultCollisionConfiguration*		collisionConfig = nullptr;
@@ -46,14 +47,24 @@ public:
 	)
 	{
 		dynamicWorld->convexSweepTest(castShape, convexFromWorld, convexToWorld, resultCallback, allowedCcdPenetration);
-	}
-	void ContactText(
-		btCollisionObject* colObj, 
-		btCollisionWorld::ContactResultCallback& resultCallback
-	)
-	{
-		dynamicWorld->contactTest(colObj, resultCallback);
-	}
+	}	
+
+	void ContactTest(
+		btCollisionObject* colObj,
+		std::function<void(const btCollisionObject& contactCollisionObject)> cb
+	);
+	void ContactTest(
+		RigidBody& rb,
+		std::function<void(const btCollisionObject& contactCollisionObject)> cb
+	);
+	void ContactTest(
+		CharacterController& charaCon,
+		std::function<void(const btCollisionObject& contactCollisionObject)> cb
+	);
+	void ContactTest(
+		PhysicsStaticObject& physicsstaticobject,
+		std::function<void(const btCollisionObject& contactCollisionObject)> cb
+	);
 };
 
 extern PhysicsWorld g_physics;
