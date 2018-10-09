@@ -1,5 +1,6 @@
 #pragma once
 #include"level/Level.h"
+#include"Navimake.h"
 #include"physics/PhysicsStaticObject.h"
 class Stage: public Gameobject
 {
@@ -12,6 +13,7 @@ public:
 private:
 	PhysicsStaticObject Stege;
 	SkinModel m_model;
-	Level level;
+	Level level; 
+	Navimake* navimake;
 };
 

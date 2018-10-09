@@ -6,12 +6,13 @@ Player::Player()
 }
 Player::~Player()
 {
+	delete vector;
 }
 bool Player::Load()
 {
 	//cmoファイルの読み込み。
-	m_model.Init(L"Assets/modelData/unityChan.cmo");
 	m_collider.Init(15.0f, 80.0f, m_position);
+	m_model.Init(L"Assets/modelData/unityChan.cmo");
 	vector = new VectorDraw(m_position);
 	m_rotation.SetRotationDeg(CVector3::AxisY(), 0.0f);
 	mRot.MakeRotationFromQuaternion(m_rotation);
@@ -35,10 +36,10 @@ void Player::Update()
 		CVector3 camer_front = m_camer->Getcamerafront();
 		camer_front.y = 0.0f;
 		camer_front.Normalize();
-		kaiten = acos(amount.Dot(CVector3::AxisZ()));
+		m_kaiten = acos(amount.Dot(CVector3::AxisZ()));
 		if (amount.x < 0)
 		{
-			kaiten *= -1;
+			m_kaiten *= -1;
 		}
 		float camer_angle = acos(camer_front.Dot(CVector3::AxisZ()));
 		CVector3 camer_jiku;
@@ -47,8 +48,8 @@ void Player::Update()
 		{
 			camer_angle *= -1;
 		}
-		kaiten += camer_angle;
-		m_rotation.SetRotation(CVector3::AxisY(), kaiten);
+		m_kaiten += camer_angle;
+		m_rotation.SetRotation(CVector3::AxisY(), m_kaiten);
 	}
 	//for (int i = 0; i<10; i++)
 	//{
@@ -80,9 +81,9 @@ void Player::Update()
 }
 void Player::Draw()
 {
-	vector->Draw();
-	m_model.Draw(
-		g_camera3D.GetViewMatrix(), 
-		g_camera3D.GetProjectionMatrix()
-	);
+	//vector->Draw();
+	//m_model.Draw(
+	//	g_camera3D.GetViewMatrix(), 
+	//	g_camera3D.GetProjectionMatrix()
+	//);
 }

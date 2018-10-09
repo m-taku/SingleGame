@@ -21,6 +21,7 @@ bool Enemy::Load()
 	texture_fram.CreateFromDDSTextureFromFile(L"Resource/sprite/HP_waku.dds");
 	Sprite_hp.Init(&texture_hp, 100.0f, 25.0f);
 	Sprite_fram.Init(&texture_fram, 101.0f, 26.0f);
+	path.course(m_position, player->Get2Dposition());
 	kasa = new VectorDraw(m_position);
 	transitionState(State_Move);
 	Leader->GetSkinmdel().UpdateInstancingData(m_position, CQuaternion::Identity(), CVector3::One());

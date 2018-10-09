@@ -3,6 +3,7 @@
 #include"EnemyState.h"
 #include"../Player.h"
 #include"Enemyleader.h"
+#include"../Path.h"
 class Enemy
 {
 public:
@@ -94,6 +95,7 @@ public:
 	void DDraw();
 private:
 	void Vectordraw();
+	Path path;                                             
 	EnemyState* m_enemystate=nullptr;						//エネミーのステート
 	State state = State_Tracking;							//ステートの状態
 	Enemyleader* Leader = nullptr;							//Leaderのポインタ

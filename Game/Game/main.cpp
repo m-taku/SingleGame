@@ -6,7 +6,6 @@
 #include"Enemy/Enemy.h"
 #include"Enemy/Enemyleader.h"
 #include"Player.h"
-#include"Navimake.h"
 #include"Gamecamera.h"
 
 ///////////////////////////////////////////////////////////////////
@@ -55,13 +54,13 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//Player* ks = objectManager->NewGO<Player>(1);
 	level.Init(L"Assets/level/Enemy_lever.tkl", [&](LevelObjectData objData)
 	{
-		//if (kuku >= 1) {
-		//	return true;
-		//}
+		kuku++;
+		if (kuku != 2) {
+			return true;
+		}
 		Enemyleader* enemy = objectManager->NewGO<Enemyleader>(1, "Enemyleader");
 		enemy->Setposition(objData.position);
 		enemy->Setplayer(player);
-		//kuku++;
 		return true;
 	});
 	while (DispatchWindowMessage() == true)
@@ -74,6 +73,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 			pad.Update();
 		}
 
+     //   auto ks = objectManager->NewGO<Player>(0);
 		//物理エンジンの更新。
 		objectManager->Execute();
 		g_physics.Update();
@@ -85,11 +85,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//player.Update();
 		//プレイヤーの描画。
 		//player.Draw();
-		static  Navimake* navimake = new Navimake;
-		navimake->Up();
 
-        //auto ks = objectManager->NewGO<Player>(0);
-	    //objectManager->DereteGO(ks);*/
+	//    objectManager->DereteGO(ks);
 		//カメラの更新。
 		//描画終了。
 		g_graphicsEngine->EndRender();

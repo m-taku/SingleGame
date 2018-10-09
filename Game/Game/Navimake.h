@@ -3,7 +3,7 @@
 #include "physics/RigidBody.h"
 #include"character/CharacterController.h"
 #include"Path.h"
-class Navimake
+class Navimake:public Gameobject
 {
 public:
 	Navimake();
@@ -29,6 +29,7 @@ public:
 		return No;
 	}
 	void FindnearestNo_No(Path::PasDate& no,int end,float costtttttttt);
+	const std::vector<Path::PasDate*> FindLinc(int No, int endNo,float cost) const;
 private:	
 	struct SData {
 		//CVector3				normal;				//!<–@ü

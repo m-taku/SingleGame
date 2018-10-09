@@ -34,20 +34,21 @@ public:
 	//	return false;
 	//}
 	bool DereteGO(char* Name);
-	//{
-	//	for (auto ka : List) {
-	//		No = 0;
-	//		for (auto kaa : ka.GetName()) {
-	//			if (Name == kaa) {
-	//				auto map=ka.GetList();
-	//				DeleteList[DeleteNo].insert(std::make_pair(map[No],No));
-	//				return true;
-	//			}
-	//			No++;
-	//		}
-	//	}
-	//	return false;
-	//}
+	template<class T>
+	T* FindGO(char* Name)
+	{
+		for (auto ka : List) {
+			No = 0;
+			for (auto kaa : ka.GetName()) {
+				if (Name == kaa) {
+					auto map = ka.GetList();
+					return (T*)map[No];
+				}
+				No++;
+			}
+		}
+		return false;
+	}
 private:
 	int No = 0;
 	int DeleteNo = 0;
@@ -58,4 +59,3 @@ private:
 	std::vector<GameobjectList> List;
 	std::map<Gameobject*, int> DeleteList[2];
 };
-

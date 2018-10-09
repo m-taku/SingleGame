@@ -5,8 +5,8 @@ public:
 	Gameobject();
 	virtual ~Gameobject();
 	virtual bool Load() { return true; };		//データのロード
-	virtual void Update() = 0;					
-	virtual void Draw() = 0;
+	virtual void Update() {};
+	virtual void Draw() {};
 	virtual void postDraw() {};
 	int Getpriority()
 	{

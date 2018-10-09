@@ -26,15 +26,19 @@ void GameobjectManager::Execute()
 
 	for (auto list : List) {
 		for (auto objedct : list.GetList()) {
-			if (objedct->GetDrewfragu()) {
-				objedct->Draw();
+			if (objedct->GetLodefrag()) {
+				if (objedct->GetDrewfragu()) {
+					objedct->Draw();
+				}
 			}
 		}
 	}
 	for (auto list : List) {
 		for (auto objedct : list.GetList()) {
-			if (objedct->GetDrewfragu()) {
-				objedct->postDraw();
+			if (objedct->GetLodefrag()) {
+				if (objedct->GetDrewfragu()) {
+					objedct->postDraw();
+				}
 			}
 		}
 	}

@@ -174,17 +174,40 @@ CVector3 Navimake::Searchcenter(const CVector3 (&pos)[3])
 }
 void Navimake::FindnearestNo_No(Path::PasDate& no, int end,float costtttttttt)
 {
-	float endcost = (seru[end]->centerposition - seru[no.No]->centerposition).Length();
-	float Estimatecost = FLT_MAX;
-	int l=0;
-	for (int i = 0; i < 3; i++) {
-		if (seru[no.No]->linkNoList[i] != -1) {
-			float costn = seru[no.No]->cost[no.No] + costtttttttt + endcost;
-			if (costn <= Estimatecost)
-			{
-				Estimatecost = costn;
+	//float endcost = (seru[end]->centerposition - seru[no.No]->centerposition).Length();
+	//float Estimatecost = FLT_MAX;
+	//int l=0;
+	//for (int i = 0; i < 3; i++) {
+	//	if (seru[no.No]->linkNoList[i] != -1) {
+	//		float costn = seru[no.No]->cost[no.No] + costtttttttt + endcost;
+	//		if (costn <= Estimatecost)
+	//		{
+	//			Estimatecost = costn;
 
-			}
+	//		}
+	//	}
+	//}
+}
+const std::vector<Path::PasDate*> Navimake::FindLinc(int No, int endNo,float cost)const
+{
+	std::vector<Path::PasDate*> ks;
+	ks.resize(3);
+	for (int i = 0; i < 3; i++) {
+		Path::PasDate* pasDate=new Path::PasDate;
+		if (seru[No]->linkNoList[i] != -1) {
+			pasDate->ParentNo = No;
+			pasDate->No = seru[No]->linkNoList[i];
+			pasDate->LincNo[0]=  seru[pasDate->No]->linkNoList[0];
+			pasDate->LincNo[1] = seru[pasDate->No]->linkNoList[1];
+			pasDate->LincNo[2] = seru[pasDate->No]->linkNoList[2];
+			pasDate->MoveCost = seru[No]->cost[i]+ cost;
+			pasDate->to_DrstinCost= (seru[endNo]->centerposition - seru[No]->centerposition).Length();
 		}
+		else
+		{
+			pasDate->ParentNo = No;
+		}
+		ks[i] = pasDate;
 	}
+	return ks;
 }
