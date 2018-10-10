@@ -29,7 +29,7 @@ private:
 	CVector3 position = CVector3::Zero();
 	CharacterController m_collider;
 	SkinModel m_model;
-	static const int SOLDIER = 5;
+	static const int SOLDIER = 2;
 	Player* player;
 	std::vector<Enemy*> enemy;
 	int remaining = SOLDIER;

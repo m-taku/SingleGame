@@ -50,7 +50,7 @@ void Enemy::Update()
 	//m_speed.x = g_pad->GetLStickXF()*500.0f;
 	//m_speed.z = g_pad->GetLStickYF()*500.0f;
 	m_speed.y -= GRAVITY;
-	m_position = m_collider.Execute(1.0f / 30.0f, m_speed);
+	//m_position = m_collider.Execute(1.0f / 30.0f, m_speed);
 	if ((player->Get2Dposition() - m_position).Length() <= 100.0f)
 	{
 		HP -= 0.01;

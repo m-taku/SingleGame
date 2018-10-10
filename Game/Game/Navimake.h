@@ -15,12 +15,15 @@ public:
 	*/
 	int FindNo_pos(CVector3 position)
 	{
-		CVector3 closepos=CVector3::Zero();
+		CVector3 closepos;
+		closepos.x = FLT_MAX;
+		closepos.y = FLT_MAX;
+		closepos.z = FLT_MAX;
 		int No = 0;
 		for (int i = 0; i < seru.size(); i++)
 		{
 			CVector3 pos = position - seru[i]->centerposition;
-			if (closepos.Length() <= pos.Length())
+			if (closepos.Length() >= pos.Length())
 			{
 				No = seru[i]->No;
 				closepos = pos;
@@ -28,9 +31,12 @@ public:
 		}
 		return No;
 	}
-	void FindnearestNo_No(Path::PasDate& no,int end,float costtttttttt);
-	const std::vector<Path::PasDate*> FindLinc(int No, int endNo,float cost) const;
+	void DebugVector(std::vector<int>* a);
+	const std::vector<Path::PasDate*> FindLinc(Path::PasDate& date, int endNo,float cost) const;
+	bool CollisionTest(int sturtNo, int nextNo);
 private:	
+	static const int high = 100.0f;
+	static const int ballsize = 5.0f;
 	struct SData {
 		//CVector3				normal;				//!<法線
 		CVector3				position[3];		//!<三角形1個の座標
@@ -44,8 +50,8 @@ private:
 	CharacterController *m_collider = nullptr;			//キャラクターコントローラー
 	SkinModel m_model;									//モデルデータ
 	std::vector<SData*> seru;							//三角形１つのデータ
-	RigidBody m_rigidBody;			                 	//!<剛体。
-	VectorDraw* vector;									//中点描画用のデータ
-	VectorDraw* vector2;								//リンク情報表示用のデータ
+	RigidBody m_rigidBody;			                 	//剛体。
+	std::vector<VectorDraw*> vector;					//中点描画用のデータ
+	CapsuleCollider		m_collide;						//コライダー。
 };
 

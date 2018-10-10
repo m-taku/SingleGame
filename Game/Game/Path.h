@@ -17,17 +17,17 @@ public:
 			LincNo[1] = -1;
 			LincNo[2] = -1;
 			MoveCost = 0.0f;
-			ParentNo = 0;
+			ParentDate = nullptr;
 			to_DrstinCost=0.0f;
 			No = -1;
 		}
 		int No;						//自身の番号
-		int ParentNo;				//親の番号
 		int LincNo[3];				//自身からのリンク先番号
 		float MoveCost;				//自身の場所まで行くコスト
 		float to_DrstinCost;		//自身の場所から目的地までのコスト
-
+		PasDate* ParentDate;
 	};
+	void Smoothing(std::vector<int>* pasu);
 private:
 	std::vector<int> coursepasu;
 	Navimake* pathdete = nullptr;

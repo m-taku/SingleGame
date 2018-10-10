@@ -9,6 +9,8 @@ sprite::sprite()
 
 sprite::~sprite()
 {
+	//m_textureSRV->Release();
+	
 }	
 
 struct SSimpleVertex {
