@@ -6,6 +6,9 @@ cbuffer CB : register(b0) {
 	float4x4 mView;
 	float4x4 mProj;
 };
+cbuffer CB1 : register(b1) {
+	float4 Color;
+};
 
 
 /*!
@@ -20,5 +23,6 @@ float4 VSMain(float4 pos : SV_Position) : SV_POSITION
 
 float4 PSMain(float4 pos : SV_POSITION) : SV_Target0
 {
-	return float4(1.0f, 0.0f, 0.0f, 1.0f);
+
+	return float4(1.0f, 1.0f, 1.0f, 1.0f)*Color;
 }

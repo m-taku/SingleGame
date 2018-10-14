@@ -3,7 +3,6 @@
 #include"EnemyState.h"
 #include"../Player.h"
 #include"Enemyleader.h"
-#include"../Path.h"
 class Enemy
 {
 public:
@@ -94,13 +93,12 @@ public:
 	*/
 	void DDraw();
 private:
-	void Vectordraw();
-	Path path;                                             
+	void Vectordraw();                              
 	EnemyState* m_enemystate=nullptr;						//エネミーのステート
 	State state = State_Tracking;							//ステートの状態
 	Enemyleader* Leader = nullptr;							//Leaderのポインタ
 	Player* player = nullptr;								//Playerのポインタ
-	CharacterController m_collider;							//キャラクターコントローラー
+	CharacterController m_collider;					       //キャラクターコントローラー
 	CVector3 m_position = { 0.0f,150.0f,-30.0f };			//現在位置
 	CVector3 m_speed = { 0.0f,-9.8f,0.0f };					//移動速度
 	CQuaternion m_angle = CQuaternion::Identity();			//回転角度

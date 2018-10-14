@@ -31,7 +31,7 @@ void Gamecamera::Update()
 	m_Front.Normalize();
 	m_reg.Multiply(camerfront);
 	kakudo = acos(camerfront.Dot(m_Front));
-	if (kakudo > (20.0f*3.14159/180)&& player->Getangle().Length()>0.0f&&kakudo <(160.0f*3.14159 / 180))
+	if (kakudo > (20.0f*3.14159/180)&& player->Getangle().Length()>0.0f&&kakudo <(100.0f*3.14159 / 180))
 	{
 		if (m_angle.Length() <= 0) {
 			ka = CVector3::Zero();

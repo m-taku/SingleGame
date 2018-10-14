@@ -155,6 +155,8 @@ Navimake::Navimake()
 	m_rigidBody.Create(rbInfo);
 	//剛体を物理ワールドに追加する。
 	g_physics.AddRigidBody(m_rigidBody);
+
+	m_model.UpdateWorldMatrix(CVector3::Zero(), CQuaternion::Identity(), CVector3::One());
 }
 
 
@@ -164,6 +166,10 @@ Navimake::~Navimake()
 }
 void Navimake::Up()
 {
+	m_model.Draw(
+		g_camera3D.GetViewMatrix(),
+		g_camera3D.GetProjectionMatrix()
+	);
 	for (int i = 0; i < vector.size(); i++) {
 		vector[i]->Draw();
 	}
@@ -215,7 +221,13 @@ void Navimake::DebugVector(std::vector<int>* a)
 		Vectorpore.push_back(Vector.Length() / 3.0f);
 	}
 	vector.push_back(new VectorDraw(seru[0]->centerposition, centerposition.size()));
-	vector[vector.size() - 1]->Update(centerposition.begin(), Vectorlist.begin(), Vectorpore.begin());
+	if (centerposition.size() != 1) {
+		vector[vector.size() - 1]->Update(centerposition.begin(), Vectorlist.begin(), Vectorpore.begin());
+	}
+	else
+	{
+		vector[vector.size() - 1]->Update(centerposition[0], Vectorlist[0], Vectorpore[0]);
+	}
 }
 //スムージング用のコールバッククラス
 struct Collision : public btCollisionWorld::ConvexResultCallback
@@ -225,30 +237,6 @@ struct Collision : public btCollisionWorld::ConvexResultCallback
 														//衝突したときに呼ばれるコールバック関数。
 	virtual	btScalar	addSingleResult(btCollisionWorld::LocalConvexResult& convexResult, bool normalInWorldSpace)
 	{
-		//衝突点の法線を引っ張ってくる。
-		//CVector3 hitNormalTmp = *(CVector3*)&convexResult.m_hitNormalLocal;
-		//上方向と法線のなす角度を求める。
-		//float angle = hitNormalTmp.Dot(CVector3::Up());
-		//	angle = fabsf(acosf(angle));
-		//	if (angle < CMath::PI * 0.3f		//地面の傾斜が54度より小さいので地面とみなす。
-		//		|| convexResult.m_hitCollisionObject->getUserIndex() == enCollisionAttr_Ground //もしくはコリジョン属性が地面と指定されている。
-		//		) {
-		//		//衝突している。
-		//		isHit = true;
-		//		CVector3 hitPosTmp = *(CVector3*)&convexResult.m_hitPointLocal;
-		//		//衝突点の距離を求める。。
-		//		CVector3 vDist;
-		//		vDist.Subtract(hitPosTmp, startPos);
-		//		float distTmp = vDist.Length();
-		//		if (dist > distTmp) {
-		//			//この衝突点の方が近いので、最近傍の衝突点を更新する。
-		//			hitPos = hitPosTmp;
-		//			hitNormal = *(CVector3*)&convexResult.m_hitNormalLocal;
-		//			dist = distTmp;
-		//		}
-		//	}
-		//	return 0.0f;
-		//}
 		NextNo = true;
 		return 0.0f;
 	}

@@ -22,7 +22,7 @@ bool Enemyleader::Load()
 		enemy[i]->Load();
 		position += haiti[i];
 	}
-	m_collider.Init(10.0f, 10.0f, position);
+	//m_collider.Init(10.0f, 10.0f, position);
 	Loadfrag = true;
 	return true;
 }

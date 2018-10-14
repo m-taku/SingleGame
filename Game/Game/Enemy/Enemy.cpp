@@ -21,7 +21,6 @@ bool Enemy::Load()
 	texture_fram.CreateFromDDSTextureFromFile(L"Resource/sprite/HP_waku.dds");
 	Sprite_hp.Init(&texture_hp, 100.0f, 25.0f);
 	Sprite_fram.Init(&texture_fram, 101.0f, 26.0f);
-	path.course(m_position, player->Get2Dposition());
 	kasa = new VectorDraw(m_position);
 	transitionState(State_Move);
 	Leader->GetSkinmdel().UpdateInstancingData(m_position, CQuaternion::Identity(), CVector3::One());
@@ -50,7 +49,7 @@ void Enemy::Update()
 	//m_speed.x = g_pad->GetLStickXF()*500.0f;
 	//m_speed.z = g_pad->GetLStickYF()*500.0f;
 	m_speed.y -= GRAVITY;
-	//m_position = m_collider.Execute(1.0f / 30.0f, m_speed);
+	m_position = m_collider.Execute(1.0f / 30.0f, m_speed);
 	if ((player->Get2Dposition() - m_position).Length() <= 100.0f)
 	{
 		HP -= 0.01;
@@ -72,7 +71,6 @@ void Enemy::Draw()
 	DDraw();
 	//kasa->Draw();	
 	//m_position.x -= Sprite_fram.Gethalf_sizeX();
-
 	/*if (DrewFragu) {
 		m_model.Draw(
 			g_camera3D.GetViewMatrix(),
@@ -94,7 +92,6 @@ void Enemy::Vectordraw()
 		m_Sprite_angle.SetRotationDeg(CVector3::AxisY(), kaku);
 	}
 	else {
-
 		m_Sprite_angle.SetRotationDeg(CVector3::AxisY()*-1, kaku);
 	}
 	CVector3 kakaa = CVector3::AxisZ()*-1;

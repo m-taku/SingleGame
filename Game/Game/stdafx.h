@@ -40,6 +40,7 @@
 #include "graphics/sprite.h"
 #include "Gameobject/Gameobject.h"
 #include "VectorDraw.h"
+#include "color.h"
 #include "physics/Physics.h"
 extern GameobjectManager* objectManager;
 extern bool frame(CVector3 position);

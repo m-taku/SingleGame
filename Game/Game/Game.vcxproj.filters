@@ -181,6 +181,7 @@
     <ClCompile Include="Gamecamera.cpp" />
     <ClCompile Include="physics\PhysicsDebugDraw.cpp" />
     <ClCompile Include="Path.cpp" />
+    <ClCompile Include="color.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -327,6 +328,7 @@
     <ClInclude Include="Navimake.h" />
     <ClInclude Include="physics\PhysicsDebugDraw.h" />
     <ClInclude Include="Path.h" />
+    <ClInclude Include="color.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
@@ -347,13 +349,18 @@
     <MeshContentTask Include="Assets\modelData\jimennabi.fbx">
       <Filter>Assets\modelData</Filter>
     </MeshContentTask>
-    <MeshContentTask Include="Assets\modelData\jimennabi2.fbx" />
+    <MeshContentTask Include="Assets\modelData\jimennabi2.fbx">
+      <Filter>Assets\modelData</Filter>
+    </MeshContentTask>
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\level\stage_01.tkl">
       <Filter>Assets\level</Filter>
     </None>
     <None Include="Assets\level\Enemy_lever.tkl">
+      <Filter>Assets\level</Filter>
+    </None>
+    <None Include="Assets\level\Enemy_lever1.tkl">
       <Filter>Assets\level</Filter>
     </None>
   </ItemGroup>

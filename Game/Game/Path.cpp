@@ -14,11 +14,11 @@ Path::~Path()
 }
 void Path::course(CVector3 sturt, CVector3 end)
 {
-	int sturtNo = pathdete->FindNo_pos(sturt);
-	int endNo = pathdete->FindNo_pos(end);
-	if (sturtNo == endNo){
-		return;
-	}
+	m_nuwNo = 0;
+	coursepasu.clear();
+
+	int sturtNo = pathdete->Findpos_No(sturt);
+	int endNo = pathdete->Findpos_No(end);
 	PasDate ka;
 	ka.No = sturtNo;
 	std::vector<PasDate*> open;
@@ -26,6 +26,10 @@ void Path::course(CVector3 sturt, CVector3 end)
 	open.push_back(&ka);
 	auto p = open[0];
 	float CurrentCost = 0.0f;
+	if (sturtNo == endNo) {
+		coursepasu.push_back(p->No);
+		return;
+	}
 	while (p->No!= endNo)
 	{	
 		float costnV2 = FLT_MAX;
@@ -75,10 +79,11 @@ void Path::course(CVector3 sturt, CVector3 end)
 	}
 	coursepasu.push_back(p->No);
 	std::reverse(coursepasu.begin(), coursepasu.end());
-	Smoothing(&coursepasu);
+	if (coursepasu.size() > 2)
+	{
+		Smoothing(&coursepasu);
+	}
 	pathdete->DebugVector(&coursepasu);
-	int ha = 0;
-	ha++;
 }
 void Path::Smoothing(std::vector<int>* pasu)
 {
@@ -99,4 +104,14 @@ void Path::Smoothing(std::vector<int>* pasu)
 	}
 	pa.push_back(Next);
 	*pasu = pa;
+}
+CVector3 Path::Pathpos()
+{
+	if (coursepasu.size()-1 > m_nuwNo) {
+		return pathdete->FindNo_pos(coursepasu[m_nuwNo++]);
+	}
+	else
+	{
+		return pathdete->FindNo_pos(coursepasu[m_nuwNo]);
+	}
 }

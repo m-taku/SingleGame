@@ -116,9 +116,15 @@ private:
 		CMatrix mWorld;
 		CMatrix mView;
 		CMatrix mProj;
+	};	
+	//定数バッファ。
+	struct LightBuffer {
+		CVector4 angle;
+		CVector4 color;
 	};
 	EnFbxUpAxis			m_enFbxUpAxis = enFbxUpAxisZ;	//!<FBXの上方向。
 	ID3D11Buffer*		m_cb = nullptr;					//!<定数バッファ。
+	ID3D11Buffer*		m_ritocb = nullptr;	         	//!<定数ライトバッファ。
 	Skeleton			m_skeleton;						//!<スケルトン。
 	CMatrix				m_worldMatrix;					//!<ワールド行列。
 	DirectX::Model*		m_modelDx;						//!<DirectXTKが提供するモデルクラス。

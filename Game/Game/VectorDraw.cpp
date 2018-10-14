@@ -68,6 +68,7 @@ void VectorDraw::Update(std::vector<CVector3>& posotion)
 	m_vector.BeginUpdateInstancingData();
 	for (auto ka = posotion.begin(); ka < posotion.end(); ka++)
 	{
+	
 		m_vector.UpdateInstancingData(*ka, Rot, { 1.0f,20.0f,1.0f });
 	}
 }

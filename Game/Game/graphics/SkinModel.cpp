@@ -67,6 +67,19 @@ void SkinModel::InitConstantBuffer()
 																//CPUアクセスが不要な場合は0。
 	//作成。
 	g_graphicsEngine->GetD3DDevice()->CreateBuffer(&bufferDesc, NULL, &m_cb);
+	int bufferSize1 = sizeof(LightBuffer);
+	//どんなバッファを作成するのかをせてbufferDescに設定する。
+	D3D11_BUFFER_DESC bufferDesc1;
+	ZeroMemory(&bufferDesc1, sizeof(bufferDesc1));				//０でクリア。
+	bufferDesc1.Usage = D3D11_USAGE_DEFAULT;						//バッファで想定されている、読み込みおよび書き込み方法。
+	bufferDesc1.ByteWidth = (((bufferSize - 1) / 16) + 1) * 16;	//バッファは16バイトアライメントになっている必要がある。
+																//アライメントって→バッファのサイズが16の倍数ということです。
+	bufferDesc1.BindFlags = D3D11_BIND_CONSTANT_BUFFER;			//バッファをどのようなパイプラインにバインドするかを指定する。
+																//定数バッファにバインドするので、D3D11_BIND_CONSTANT_BUFFERを指定する。
+	bufferDesc1.CPUAccessFlags = 0;								//CPU アクセスのフラグです。
+																//CPUアクセスが不要な場合は0。
+																//作成。
+	g_graphicsEngine->GetD3DDevice()->CreateBuffer(&bufferDesc1, NULL, &m_ritocb);
 }
 void SkinModel::InitSamplerState(int maxInstance)
 {
@@ -157,10 +170,23 @@ void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 	vsCb.mWorld = m_worldMatrix;
 	vsCb.mProj = projMatrix;
 	vsCb.mView = viewMatrix;
+	static color Color;
+	LightBuffer LCb;
+	CVector3 ka;
+	CQuaternion la=CQuaternion::Identity();
+	la.SetRotationDeg(CVector3::AxisZ(),45.0f);
+	ka = CVector3::AxisY()*-1.0f;
+	la.Multiply(ka);
+	CVector4 ma = { ka.x,ka.y,ka.z,1.0 };
+	LCb.angle = ma;
+	LCb.color = { 1.0f,1.0f,1.0f,1.0f };//Color.HSVtoRGB();
+
 	d3dDeviceContext->UpdateSubresource(m_cb, 0, nullptr, &vsCb, 0, 0);
+	d3dDeviceContext->UpdateSubresource(m_ritocb, 0, nullptr, &LCb, 0, 0);
 	//定数バッファをGPUに転送。
 	d3dDeviceContext->VSSetConstantBuffers(0, 1, &m_cb);
 	d3dDeviceContext->PSSetConstantBuffers(0, 1, &m_cb);
+	d3dDeviceContext->PSSetConstantBuffers(1, 1, &m_ritocb);
 	//サンプラステートを設定。
 	d3dDeviceContext->PSSetSamplers(0, 1, &m_samplerState);
 	//ボーン行列をGPUに転送。

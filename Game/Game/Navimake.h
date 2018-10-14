@@ -13,7 +13,7 @@ public:
 	*@brief	ポジションを使ったバス番号検索
 	*@return int（パス番号）
 	*/
-	int FindNo_pos(CVector3 position)
+	int Findpos_No(CVector3 position)
 	{
 		CVector3 closepos;
 		closepos.x = FLT_MAX;
@@ -31,12 +31,28 @@ public:
 		}
 		return No;
 	}
+	CVector3 FindNo_pos(int No)
+	{
+		return seru[No]->centerposition;
+	}
+	/*
+	*@brief	パスの入った配列を使ったデバック表示用関数
+	*  std::vector<int>
+	*/
 	void DebugVector(std::vector<int>* a);
+	/*
+	*@brief	親のPasDateとコストと目的地を使ってリンクを検索する
+	*@return std::vector<Path::PasDate*>[3]（リンク先のPasDate*3）
+	*/
 	const std::vector<Path::PasDate*> FindLinc(Path::PasDate& date, int endNo,float cost) const;
+	/*
+	*@brief	スムーズ処理の時の地形との当たり判定
+	*@return bool（trueでヒット）
+	*/
 	bool CollisionTest(int sturtNo, int nextNo);
 private:	
-	static const int high = 100.0f;
-	static const int ballsize = 5.0f;
+	static const int high = 100;
+	static const int ballsize = 5;
 	struct SData {
 		//CVector3				normal;				//!<法線
 		CVector3				position[3];		//!<三角形1個の座標

@@ -9,7 +9,12 @@ public:
 	{
 		pathdete = navimake;
 	}
-	void course(CVector3 sturt, CVector3 end);	
+	void course(CVector3 sturt, CVector3 end);
+	/*
+	*@brief Ÿ‚É“®‚­–Ú•WˆÊ’u(ˆø”‚È‚µ)
+	*@return CVctor3
+	*/
+	CVector3 Pathpos();
 	struct PasDate
 	{
 		PasDate() {
@@ -31,7 +36,6 @@ public:
 private:
 	std::vector<int> coursepasu;
 	Navimake* pathdete = nullptr;
-	float cost = 0.0f;
-	CVector3 jki;
+	int m_nuwNo = 0;
 };
 

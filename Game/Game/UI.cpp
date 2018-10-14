@@ -22,12 +22,12 @@ bool UI::Load()
 }
 void UI::Update()
 {
-	if (HP > 0.0f) {
-		HP -= 0.01f;
-	}
-	else {
-		HP = 0.0f;
-	}
+	//if (HP > 0.0f) {
+	//	HP -= 0.01f;
+	//}
+	//else {
+	//	HP = 0.0f;
+	//}
 	HP_bar_waku.Updete(HP_waku_position, CQuaternion::Identity(), CVector3::One(), { 0.0f,1.0f });
 
 	HP_bar.Updete(HP_position, CQuaternion::Identity(),{HP,1.0f,1.0f}, { 0.0f,1.0f });

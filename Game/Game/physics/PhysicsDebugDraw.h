@@ -12,6 +12,7 @@ class PhysicsDebugDraw : public btIDebugDraw
 	Shader m_vs;	//頂点シェーダー。
 	Shader m_ps;	//ピクセルシェーダー。
 	constantBuffer m_cb;
+	constantBuffer m_cb2;
 	static const int VERTEX_MAX = 1000000;
 	std::array<CVector4, VERTEX_MAX> m_vertexBuffer;
 	int m_numLine = 0;

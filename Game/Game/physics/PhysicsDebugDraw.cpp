@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "PhysicsDebugDraw.h"
 
+
 void PhysicsDebugDraw::Init()
 {
 	m_primitive.Create(
@@ -15,6 +16,7 @@ void PhysicsDebugDraw::Init()
 	m_vs.Load("Assets/shader/linePrimitive.fx", "VSMain", Shader::EnType::VS);
 	m_ps.Load("Assets/shader/linePrimitive.fx", "PSMain", Shader::EnType::PS);
 	m_cb.Create(nullptr, sizeof(SConstantBuffer));
+	m_cb2.Create(nullptr, sizeof(CVector4));
 }
 void PhysicsDebugDraw::BeginDraw()
 {
@@ -34,8 +36,21 @@ void PhysicsDebugDraw::EndDraw()
 	SConstantBuffer cb;
 	cb.mView = g_camera3D.GetViewMatrix();
 	cb.mProj = g_camera3D.GetProjectionMatrix();
-	DeviceContext->UpdateSubresource(m_cb.GetBody(), 0, NULL, &cb, 0, 0);
+	CVector4 colr;
+	static color Color;
+	//static float ja=0.0f;
+	//ja += 1.0f/30.0f;
+	//if (ja >= 1.0f)
+	//{
+	//	ja -= 1.0f;
+	//}
+	//ka.x = ja;
+	colr = Color.HSVtoRGB();
 
+	//colr = { ka.x,ka.y,ka.z,1.0f };
+	DeviceContext->UpdateSubresource(m_cb2.GetBody(), 0, NULL, &colr, 0, 0);
+	DeviceContext->PSSetConstantBuffers(1, 1, &(m_cb2.GetBody()));
+	DeviceContext->UpdateSubresource(m_cb.GetBody(), 0, NULL, &cb, 0, 0);
 	DeviceContext->VSSetShader((ID3D11VertexShader*)m_vs.GetBody(), NULL, 0);
 	DeviceContext->PSSetShader((ID3D11PixelShader*)m_ps.GetBody(), NULL, 0);
 	DeviceContext->VSSetConstantBuffers(0, 1, &(m_cb.GetBody()));

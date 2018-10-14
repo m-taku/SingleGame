@@ -100,6 +100,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="character\CharacterController.cpp" />
+    <ClCompile Include="color.cpp" />
     <ClCompile Include="Enemy\Enemy.cpp" />
     <ClCompile Include="Enemy\Enemyleader.cpp" />
     <ClCompile Include="Enemy\EnemyState.cpp" />
@@ -156,6 +157,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="character\CharacterController.h" />
+    <ClInclude Include="color.h" />
     <ClInclude Include="Enemy\Enemy.h" />
     <ClInclude Include="Enemy\Enemyleader.h" />
     <ClInclude Include="Enemy\EnemyState.h" />
@@ -224,6 +226,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\level\Enemy_lever.tkl" />
+    <None Include="Assets\level\Enemy_lever1.tkl" />
     <None Include="Assets\level\stage_01.tkl" />
   </ItemGroup>
   <ItemGroup>

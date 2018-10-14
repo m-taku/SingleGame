@@ -52,14 +52,16 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 	static int kuku = 0;
 	//Player* ks = objectManager->NewGO<Player>(1);
-	level.Init(L"Assets/level/Enemy_lever.tkl", [&](LevelObjectData objData)
+	level.Init(L"Assets/level/Enemy_lever1.tkl", [&](LevelObjectData objData)
 	{
 		kuku++;
-		if (kuku != 2) {
+	/*	if (kuku != 2) {
 			return true;
-		}
+		}*/
 		Enemyleader* enemy = objectManager->NewGO<Enemyleader>(1, "Enemyleader");
-		enemy->Setposition(objData.position);
+		auto pos = objData.position;
+		pos.y = 100.0f;
+		enemy->Setposition(pos);
 		enemy->Setplayer(player);
 		return true;
 	});
@@ -76,11 +78,12 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
      //   auto ks = objectManager->NewGO<Player>(0);
 		//物理エンジンの更新。
 		objectManager->Execute();
-		g_physics.Update();
 		if (debak==1)
 		{
 			g_physics.DebubDrawWorld();
 		}
+		g_physics.Update();
+	
 		//プレイヤーの更新。
 		//player.Update();
 		//プレイヤーの描画。
