@@ -121,6 +121,7 @@ private:
 	struct LightBuffer {
 		CVector4 angle;
 		CVector4 color;
+		CVector4 Camerapos;
 	};
 	EnFbxUpAxis			m_enFbxUpAxis = enFbxUpAxisZ;	//!<FBXの上方向。
 	ID3D11Buffer*		m_cb = nullptr;					//!<定数バッファ。
@@ -130,6 +131,7 @@ private:
 	DirectX::Model*		m_modelDx;						//!<DirectXTKが提供するモデルクラス。
 	ID3D11SamplerState* m_samplerState = nullptr;		//!<サンプラステート。	
 	std::unique_ptr<CMatrix[]>	m_instancingData;		//!<インスタンシング描画用のデータ。
+	float m_colre = 0.0f;
 	int m_numInstance = 0;								//!<インスタンシング用の個数
 	int m_maxInstance = 1;								//!<インスタンシングデータの最大数
 	StucturedBuffer	m_instancingDataSB;				    //!<インスタンシング描画用のストラクチャーバッファ。

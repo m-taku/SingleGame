@@ -30,7 +30,7 @@ public:
 		int LincNo[3];				//自身からのリンク先番号
 		float MoveCost;				//自身の場所まで行くコスト
 		float to_DrstinCost;		//自身の場所から目的地までのコスト
-		PasDate* ParentDate;
+		PasDate* ParentDate;		//親のパステータのポインタ
 	};
 	void Smoothing(std::vector<int>* pasu);
 private:

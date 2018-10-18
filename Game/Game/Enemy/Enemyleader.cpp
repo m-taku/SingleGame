@@ -13,7 +13,7 @@ Enemyleader::~Enemyleader()
 bool Enemyleader::Load()
 {
 	enemy.resize(SOLDIER);
-	m_model.Init(L"Assets/modelData/kaka.cmo",SOLDIER);
+	m_model.Init(L"Assets/modelData/Enemy.cmo",SOLDIER);
 	for (int i = 0; i < SOLDIER; i++) {
 		enemy[i] = new Enemy;
 		enemy[i]->Setposition(position);

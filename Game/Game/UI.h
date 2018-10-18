@@ -13,9 +13,10 @@ private:
 	ShaderResourceView Texture;
 	sprite HP_bar_waku;
 	sprite HP_bar;
-	CVector3 HP_waku_position = {-640.0f,-240.0f,0.0f};
-	CVector3 HP_position = { -637.0f,-242.0f,0.0f };
-	float HP=1.0f;
+	float m_Damage = 0.0f;											//É_ÉÅÅ[ÉWó 
+	CVector3 m_HP_waku_position = {-640.0f,-240.0f,0.0f};
+	CVector3 m_HP_position = { -637.0f,-242.0f,0.0f };
+	float m_HP=1.0f;
 
 };
 

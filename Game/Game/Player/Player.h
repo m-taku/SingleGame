@@ -1,5 +1,6 @@
 #pragma once
 #include "character/CharacterController.h"
+#include"UI.h"
 class Gamecamera;
 class Navimake;
 class Player: public Gameobject
@@ -71,7 +72,8 @@ private:
 	CVector3 m_position = { 0.0f,150.0f,-30.0f };		//現在位置
 	CVector3 m_amount = { 0.0f,0.0f,0.0f };				//スティックの移動量
 	float m_kaiten = 0.0f;								//回転角度（ラジアン）
-	VectorDraw* vector =nullptr;
+	VectorDraw* vector =nullptr; 
+	UI* Ui = nullptr;
 	//CVector3 m_angle = CVector3::Zero();				
 	//wchar_t bonename[50];								//名前
 	//int bonenum = 0;									

@@ -51,17 +51,41 @@ void Path::course(CVector3 sturt, CVector3 end)
 			
 			if (-1 != ka5[j]->No)
 			{
-				//if (costng >= p->Estimatecost + ka1[j].Estimatecost)
-				//{
-				//	costng = p->Estimatecost + ka1[j].Estimatecost;
-				//	MinNo = ka1[j].No;
-				//}
 				open.push_back(ka5[j]);
-				for (int k = 0; k < cloas.size(); k++) {
-					for (int j = 0; j < 3; j++) {
-						if (cloas[k]->No == ka5[j]->No) {
+				for (int k = 0; k < open.size(); k++) {
+					if (open[k] == ka5[j])
+					{
+						break;
+					}
+					if (open[k]->No == ka5[j]->No) {
+						if (open[k]->to_DrstinCost <= ka5[j]->to_DrstinCost)
+						{
 							open.erase(
 								std::remove(open.begin(), open.end(), ka5[j]),
+								open.end());
+							break;
+						}
+						else
+						{
+							open.erase(
+								std::remove(open.begin(), open.end(), open[k]),
+								open.end());
+							break;
+
+						}
+					}
+				}
+				for (int k = 0; k < cloas.size(); k++) {
+					if (cloas[k]->No == ka5[j]->No) {
+						if (cloas[k]->to_DrstinCost <= ka5[j]->to_DrstinCost) {
+							open.erase(
+								std::remove(open.begin(), open.end(), ka5[j]),
+								open.end());
+							break;
+						}
+						else {
+							cloas.erase(
+								std::remove(cloas.begin(), cloas.end(),cloas[k]),
 								open.end());
 							break;
 						}
@@ -72,18 +96,29 @@ void Path::course(CVector3 sturt, CVector3 end)
 		open.erase(
 			std::remove(open.begin(), open.end(), p),
 			open.end());
+		if (open.size() <= 0)
+		{
+			break;
+		}
 	}
-	while (p->No!= sturtNo) {
-		coursepasu.push_back(p->No);
-		p = p->ParentDate;
-	}
-	coursepasu.push_back(p->No);
-	std::reverse(coursepasu.begin(), coursepasu.end());
-	if (coursepasu.size() > 2)
+	if (open.size() <= 0)
 	{
-		Smoothing(&coursepasu);
+		coursepasu.push_back(sturtNo);
 	}
-	pathdete->DebugVector(&coursepasu);
+	else
+	{
+		while (p->No != sturtNo) {
+			coursepasu.push_back(p->No);
+			p = p->ParentDate;
+		}
+		coursepasu.push_back(p->No);
+		std::reverse(coursepasu.begin(), coursepasu.end());
+		if (coursepasu.size() > 2)
+		{
+			Smoothing(&coursepasu);
+		}
+		pathdete->DebugVector(&coursepasu);
+	}
 }
 void Path::Smoothing(std::vector<int>* pasu)
 {

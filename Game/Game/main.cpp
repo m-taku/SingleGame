@@ -5,7 +5,7 @@
 #include"Stage.h"
 #include"Enemy/Enemy.h"
 #include"Enemy/Enemyleader.h"
-#include"Player.h"
+#include"Player/Player.h"
 #include"Gamecamera.h"
 
 ///////////////////////////////////////////////////////////////////
@@ -41,7 +41,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	objectManager->NewGO<Stage>(0);
 	//Navimake* navimake = nullptr;
 	//ゲームループ。
-	UI* Ui = objectManager->NewGO<UI>(0);
 	Player* player = objectManager->NewGO<Player>(0);
 	Gamecamera* Camera = objectManager->NewGO<Gamecamera>(10);
 	Camera->SetPlayer(player);
@@ -80,7 +79,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		objectManager->Execute();
 		if (debak==1)
 		{
-			g_physics.DebubDrawWorld();
+			//g_physics.DebubDrawWorld();
 		}
 		g_physics.Update();
 	

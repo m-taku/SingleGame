@@ -105,7 +105,6 @@
     <ClCompile Include="level\MapChip.cpp">
       <Filter>level</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="Gameobject\Gameobject.cpp">
@@ -182,6 +181,10 @@
     <ClCompile Include="physics\PhysicsDebugDraw.cpp" />
     <ClCompile Include="Path.cpp" />
     <ClCompile Include="color.cpp" />
+    <ClCompile Include="Enemy\EnemyStateAttack.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -244,7 +247,6 @@
     <ClInclude Include="level\MapChip.h">
       <Filter>level</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Gameobject\Gameobject.h">
       <Filter>Gameobject</Filter>
@@ -329,6 +331,13 @@
     <ClInclude Include="physics\PhysicsDebugDraw.h" />
     <ClInclude Include="Path.h" />
     <ClInclude Include="color.h" />
+    <ClInclude Include="Enemy\EnemyStateAttack.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy\Enenystate.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\Player.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
@@ -352,6 +361,10 @@
     <MeshContentTask Include="Assets\modelData\jimennabi2.fbx">
       <Filter>Assets\modelData</Filter>
     </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\Enemy.fbx">
+      <Filter>Assets\modelData</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\geito.fbx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\level\stage_01.tkl">

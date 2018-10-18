@@ -174,18 +174,20 @@ void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 	LightBuffer LCb;
 	CVector3 ka;
 	CQuaternion la=CQuaternion::Identity();
-	la.SetRotationDeg(CVector3::AxisZ(),45.0f);
+	la.SetRotationDeg(CVector3::AxisZ(),-45.0f);
 	ka = CVector3::AxisY()*-1.0f;
 	la.Multiply(ka);
 	CVector4 ma = { ka.x,ka.y,ka.z,1.0 };
 	LCb.angle = ma;
-	LCb.color = { 1.0f,1.0f,1.0f,1.0f };//Color.HSVtoRGB();
-
+	m_colre += 30.0f / 360.0f;
+	LCb.color = Color.HSVtoRGB({ m_colre,1.0f,0.8f });
+	LCb.Camerapos = g_camera3D.GetPosition();
 	d3dDeviceContext->UpdateSubresource(m_cb, 0, nullptr, &vsCb, 0, 0);
 	d3dDeviceContext->UpdateSubresource(m_ritocb, 0, nullptr, &LCb, 0, 0);
 	//定数バッファをGPUに転送。
 	d3dDeviceContext->VSSetConstantBuffers(0, 1, &m_cb);
 	d3dDeviceContext->PSSetConstantBuffers(0, 1, &m_cb);
+	//ライト用の定数転送
 	d3dDeviceContext->PSSetConstantBuffers(1, 1, &m_ritocb);
 	//サンプラステートを設定。
 	d3dDeviceContext->PSSetSamplers(0, 1, &m_samplerState);

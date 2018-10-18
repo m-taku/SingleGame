@@ -9,6 +9,7 @@ UI::UI()
 
 UI::~UI()
 {
+
 }
 bool UI::Load()
 {
@@ -16,8 +17,8 @@ bool UI::Load()
 	HP_bar_waku.Init(&texture,1000.0f, 250.0f);
 	Texture.CreateFromDDSTextureFromFile(L"Resource/sprite/HP_Player.dds");
 	HP_bar.Init(&Texture, 1000.0f, 250.0f);
-	HP_bar_waku.Updete(HP_waku_position, CQuaternion::Identity(), CVector3::One(), {0.0f,1.0f});
-	HP_bar.Updete(HP_position, CQuaternion::Identity(), CVector3::One(), { 0.0f,1.0f });
+	HP_bar_waku.Updete(m_HP_waku_position, CQuaternion::Identity(), CVector3::One(), {0.0f,1.0f});
+	HP_bar.Updete(m_HP_position, CQuaternion::Identity(), CVector3::One(), { 0.0f,1.0f });
 	return true;
 }
 void UI::Update()
@@ -28,9 +29,9 @@ void UI::Update()
 	//else {
 	//	HP = 0.0f;
 	//}
-	HP_bar_waku.Updete(HP_waku_position, CQuaternion::Identity(), CVector3::One(), { 0.0f,1.0f });
+	HP_bar_waku.Updete(m_HP_waku_position, CQuaternion::Identity(), CVector3::One(), { 0.0f,1.0f });
 
-	HP_bar.Updete(HP_position, CQuaternion::Identity(),{HP,1.0f,1.0f}, { 0.0f,1.0f });
+	HP_bar.Updete(m_HP_position, CQuaternion::Identity(),{m_HP,1.0f,1.0f}, { 0.0f,1.0f });
 }
 void UI::postDraw()
 {	

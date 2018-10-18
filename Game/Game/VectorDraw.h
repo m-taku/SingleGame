@@ -9,10 +9,13 @@ public:
 		m_count = counnt;
 	}
 	~VectorDraw();
-	void Update(CVector3 posotion, CVector3& Vector,float power);
-	void Update();	
-	void Update(std::vector<CVector3>::iterator posotion, std::vector<CVector3>::iterator& Vector, std::vector<float>::iterator power);
-	void Update(std::vector<CVector3>& posotion);
+	void Update(CVector3 posotion, CVector3& Vector,float power);		//1つ1つのベクトルを表示
+	void Update();														//1つ1つの点を表示
+	void Update(
+		std::vector<CVector3>::iterator posotion,
+		std::vector<CVector3>::iterator& Vector,
+		std::vector<float>::iterator power);							//インスタンシングでの大量のベクトル表示
+	void Update(std::vector<CVector3>& posotion);						//インスタンシングによる大量の点表示
 	void Draw();
 private:
 	CVector3 vector = CVector3::Zero();			//表示したいベクトルの向き（ノーマライズ）

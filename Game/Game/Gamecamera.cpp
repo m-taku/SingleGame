@@ -30,6 +30,7 @@ void Gamecamera::Update()
 	m_reg.SetRotationDeg(m_Up, m_angle.y);
 	m_Front.Normalize();
 	m_reg.Multiply(camerfront);
+	camerfront.Normalize();
 	kakudo = acos(camerfront.Dot(m_Front));
 	if (kakudo > (20.0f*3.14159/180)&& player->Getangle().Length()>0.0f&&kakudo <(100.0f*3.14159 / 180))
 	{

@@ -17,7 +17,7 @@ bool Stage::Load()
 {
 	//cmoファイルの読み込み。
 	//m_model.Init(L"Assets/modelData/stageGround.cmo",1);
-	level.Init(L"Assets/level/stage_02.tkl",nullptr);
+	level.Init(L"Assets/level/stage_01.tkl",nullptr);
 	navimake = objectManager->NewGO<Navimake>(0,"Navimake");
 	Loadfrag = true;
 	//Stege.CreateMeshObject(m_model, CVector3::Zero(), CQuaternion::Identity());

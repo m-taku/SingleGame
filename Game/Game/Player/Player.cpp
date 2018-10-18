@@ -15,6 +15,8 @@ bool Player::Load()
 	m_model.Init(L"Assets/modelData/unityChan.cmo");
 	vector = new VectorDraw(m_position);
 	m_rotation.SetRotationDeg(CVector3::AxisY(), 0.0f);
+
+	Ui = objectManager->NewGO<UI>(0);
 	mRot.MakeRotationFromQuaternion(m_rotation);
 	m_Front.x = mRot.m[2][0];
 	m_Front.y = mRot.m[2][1];

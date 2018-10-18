@@ -18,11 +18,13 @@ void EnemyStateMove::Update()
 	if (speed.Length()<=250.0f)
 	{
 		m_nextpos = path.Pathpos();
+		m_time += 15.0;
 	}
 	speed.y = 0.0;
 	speed.Normalize();
+	Findangle(speed);
 	speed *= 500.0f;
-	enemy->Setspeed(speed);
+	enemy->Setmove(speed);
 	CVector3 distance = player->Get2Dposition() - enemy->Get2Dposition();	
 	auto ka=(m_oldposition - nowpos).Length();
 	auto ma = (m_nextpos - nowpos).Length();

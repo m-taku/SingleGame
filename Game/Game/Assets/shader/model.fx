@@ -32,6 +32,7 @@ cbuffer VSPSCb : register(b0){
 cbuffer PSCb : register(b1) {
 	float3 angle;
 	float4 color;
+	float3 pos;
 };
 
 /////////////////////////////////////////////////////////////
@@ -68,6 +69,7 @@ struct PSInput{
 	float3 Normal		: NORMAL;
 	float3 Tangent		: TANGENT;
 	float2 TexCoord 	: TEXCOORD0;
+	float3 WorldPos     : TEXCOORD1;
 };
 /*!
  *@brief	スキン行列を計算。
@@ -91,7 +93,8 @@ float4x4 CalcSkinMatrix(VSInputNmTxWeights In)
 PSInput VSMaincreate(VSInputNmTxVcTangent In, float4x4 worldMat)
 {
 	PSInput psInput = (PSInput)0;
-	float4 pos = mul(worldMat, In.Position);
+	float4 pos = mul(worldMat, In.Position);	
+	psInput.WorldPos = pos;
 	pos = mul(mView, pos);
 	pos = mul(mProj, pos);
 	psInput.Position = pos;
@@ -142,7 +145,8 @@ PSInput VSMainSkin( VSInputNmTxWeights In )
 	}
 	psInput.Normal = normalize( mul(skinning, In.Normal) );
 	psInput.Tangent = normalize( mul(skinning, In.Tangent) );
-	
+
+	psInput.WorldPos = pos;
 	pos = mul(mView, pos);
 	pos = mul(mProj, pos);
 	psInput.Position = pos;
@@ -157,7 +161,21 @@ float4 PSMain( PSInput In ) : SV_Target0
 	float4 albedoColor = albedoTexture.Sample(Sampler, In.TexCoord);
     //ディレクションライトの拡散反射光を計算する。
     float3 lig = max(0.0f, dot(angle*-1.0f,In.Normal)) * color;
+
+	float3 toEyeDir = normalize(pos - In.WorldPos);
+	float3 na = -toEyeDir + 2.0f * dot(In.Normal, toEyeDir) * In.Normal;
+
+	////③ ２で求めた反射ベクトルとディレクションライトの方向との内積を取って、スペキュラの強さを計算する。
+	float n2 = max(0.0f, dot(na, -angle));
+
+	////④ pow関数を使って、スペキュラを絞る。絞りの強さは定数バッファで渡されている。
+	////	 LightCbを参照するように。
+	float3 ka = pow(n2, 10.0f)*color.xyx;
+	////⑤ スペキュラ反射が求まったら、ligに加算する。
+	////鏡面反射を反射光に加算する。
+	lig = lig + ka;
+
     float4 finalColor = float4(0.0f, 0.0f, 0.0f, 1.0f);
-    finalColor.xyz = albedoColor.xyz * lig;
+    finalColor.xyz = albedoColor.xyz * lig + albedoColor.xyz*0.5;
 	return finalColor;
 }
