@@ -31,7 +31,7 @@ void UI::Update()
 	//}
 	HP_bar_waku.Updete(m_HP_waku_position, CQuaternion::Identity(), CVector3::One(), { 0.0f,1.0f });
 
-	HP_bar.Updete(m_HP_position, CQuaternion::Identity(),{m_HP,1.0f,1.0f}, { 0.0f,1.0f });
+	HP_bar.Updete(m_HP_position, CQuaternion::Identity(),{m_HP- m_Damage,1.0f,1.0f}, { 0.0f,1.0f });
 }
 void UI::postDraw()
 {	

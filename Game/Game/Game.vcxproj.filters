@@ -133,21 +133,6 @@
     </ClCompile>
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="VectorDraw.cpp" />
-    <ClCompile Include="Enemy\Enemy.cpp">
-      <Filter>Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy\Enemyleader.cpp">
-      <Filter>Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy\EnemyState.cpp">
-      <Filter>Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy\EnemyStateMove.cpp">
-      <Filter>Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy\EnemyStateTracking.cpp">
-      <Filter>Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="graphics\Buffer\constantBuffer.cpp">
       <Filter>graphics</Filter>
     </ClCompile>
@@ -181,10 +166,26 @@
     <ClCompile Include="physics\PhysicsDebugDraw.cpp" />
     <ClCompile Include="Path.cpp" />
     <ClCompile Include="color.cpp" />
-    <ClCompile Include="Enemy\EnemyStateAttack.cpp">
+    <ClCompile Include="Player\Player.cpp" />
+    <ClCompile Include="Enemy\EnemyLeader\Enemyleader.cpp">
       <Filter>Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Player\Player.cpp" />
+    <ClCompile Include="Enemy\EnemyLeader\Enemy.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy\EnemyLeader\EnemyState.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy\EnemyLeader\EnemyStateAttack.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy\EnemyLeader\EnemyStateMove.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy\EnemyLeader\EnemyStateTracking.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy\EnemyLeader\EnemySteatGroupMove.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -281,21 +282,6 @@
     <ClInclude Include="Gamecamera.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="VectorDraw.h" />
-    <ClInclude Include="Enemy\Enemy.h">
-      <Filter>Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy\Enemyleader.h">
-      <Filter>Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy\EnemyState.h">
-      <Filter>Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy\EnemyStateMove.h">
-      <Filter>Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy\EnemyStateTracking.h">
-      <Filter>Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="graphics\Buffer\constantBuffer.h">
       <Filter>graphics</Filter>
     </ClInclude>
@@ -331,13 +317,29 @@
     <ClInclude Include="physics\PhysicsDebugDraw.h" />
     <ClInclude Include="Path.h" />
     <ClInclude Include="color.h" />
-    <ClInclude Include="Enemy\EnemyStateAttack.h">
-      <Filter>Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy\Enenystate.h">
-      <Filter>Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="Player\Player.h" />
+    <ClInclude Include="Enemy\EnemyLeader\Enemyleader.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy\EnemyLeader\Enemy.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy\EnemyLeader\EnemyState.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy\EnemyLeader\EnemyStateAttack.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy\EnemyLeader\EnemyStateMove.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy\EnemyLeader\EnemyStateTracking.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy\EnemyLeader\Enenystate.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy\EnemyLeader\EnemySteatGroupMove.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Navimake.h"
+#include "Physics/CollisionAttr.h"
 
 
 Navimake::Navimake()
@@ -237,6 +238,9 @@ struct Collision : public btCollisionWorld::ConvexResultCallback
 														//衝突したときに呼ばれるコールバック関数。
 	virtual	btScalar	addSingleResult(btCollisionWorld::LocalConvexResult& convexResult, bool normalInWorldSpace)
 	{
+		if (convexResult.m_hitCollisionObject->getUserIndex() == enCollisionAttr_Character) {
+			return 0.0f;
+		}
 		NextNo = true;
 		return 0.0f;
 	}

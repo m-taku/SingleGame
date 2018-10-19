@@ -60,6 +60,7 @@ public:
 	{
 		m_camer = camera;
 	}
+	UI* Ui = nullptr;
 private:
 	CharacterController m_collider;						//キャラクターコントローラー
 	SkinModel m_model;									//モデルデータ
@@ -73,7 +74,6 @@ private:
 	CVector3 m_amount = { 0.0f,0.0f,0.0f };				//スティックの移動量
 	float m_kaiten = 0.0f;								//回転角度（ラジアン）
 	VectorDraw* vector =nullptr; 
-	UI* Ui = nullptr;
 	//CVector3 m_angle = CVector3::Zero();				
 	//wchar_t bonename[50];								//名前
 	//int bonenum = 0;									

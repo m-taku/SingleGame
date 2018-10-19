@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Enemy.h"
 #include"Enenystate.h"
-#include"../Player/Player.h"
+#include"../../Player/Player.h"
 
 
 Enemy::Enemy()
@@ -15,7 +15,7 @@ Enemy::~Enemy()
 bool Enemy::Load()
 {
 	//cmoファイルの読み込み。
-	m_collider.Init(10.0f, 10.0f, m_position);
+	//m_collider.Init(10.0f, 10.0f, m_position);
 	texture_hp.CreateFromDDSTextureFromFile(L"Resource/sprite/HP.dds");
 	texture_fram.CreateFromDDSTextureFromFile(L"Resource/sprite/HP_waku.dds");
 	Sprite_hp.Init(&texture_hp, 100.0f, 25.0f);
@@ -27,6 +27,7 @@ bool Enemy::Load()
 	m_Front.z = mRot.m[2][2];
 	m_Front.Normalize();
 	transitionState(State_Move);
+	m_position.y = 0.0f;
 	Leader->GetSkinmdel().UpdateInstancingData(m_position, CQuaternion::Identity(), CVector3::One());
 	return true;
 }
@@ -51,6 +52,7 @@ void Enemy::transitionState(State state)
 void Enemy::Update()
 {
 	m_enemystate->Update();
+
 	//ワールド行列の更新。	
 	//m_speed.x = g_pad->GetLStickXF()*500.0f;
 	//m_speed.z = g_pad->GetLStickYF()*500.0f;
@@ -62,16 +64,17 @@ void Enemy::Update()
 	m_Front.Normalize();
 	m_moveVector = m_Front;
 	m_moveVector *= m_speed;
-	m_moveVector.y -= GRAVITY;
-	m_position = m_collider.Execute(1.0f / 30.0f, m_moveVector);
+	m_moveVector.y = 0.0f;
+	m_position += m_moveVector * 1.0 / 30.0f;
+	//m_position = m_collider.Execute(1.0f / 30.0f, m_moveVector);
 	//if ((player->Get2Dposition() - m_position).Length() <= 100.0f)
 	//{
 	//	m_HP -= 0.01;
 	//}
 	/*	DrewFragu = */
-	if (frame(m_position)) {
+	//if (frame(m_position)) {
 		Leader->GetSkinmdel().UpdateInstancingData(m_position, m_angle, CVector3::One());
-	}
+//	}
 
 }
 void Enemy::postDraw()
@@ -80,17 +83,13 @@ void Enemy::postDraw()
 }
 void Enemy::Draw()
 {
-	m_position.y += 120.0f;
+	//m_position.y += 120.0f;
 	Vectordraw();
 	DDraw();
 	//kasa->Draw();	
 	//m_position.x -= Sprite_fram.Gethalf_sizeX();
-	/*if (DrewFragu) {
-		m_model.Draw(
-			g_camera3D.GetViewMatrix(),
-			g_camera3D.GetProjectionMatrix()
-		);
-	}*/
+	//if (DrewFragu) {
+	//}
 }
 void Enemy::Vectordraw()
 {
@@ -117,6 +116,7 @@ void Enemy::Vectordraw()
 }
 void Enemy::DDraw()
 {
+
 	Sprite_fram.Updete(m_position, m_Sprite_angle, { 1.0f,1.0f,1.0f }, { 0.0f,1.0f });
 	Sprite_fram.Draw(
 		g_camera3D.GetViewMatrix(),
@@ -126,4 +126,35 @@ void Enemy::DDraw()
 		g_camera3D.GetViewMatrix(),
 		g_camera3D.GetProjectionMatrix());
 
+}
+void Enemy::Findangle(CVector3 Front)
+{
+
+	m_Front.y = 0;
+	m_Front.Normalize();
+	auto debag = m_Front;
+	auto Angle = acos(debag.Dot(Front));
+	if (Angle >= CMath::DegToRad(1.0f))
+	{
+		auto ka5 = CVector3::Zero();
+		ka5.Cross(debag, Front);
+		CQuaternion ma3;
+		if (ka5.y < 0)
+		{
+			ka5 = CVector3::AxisY()*-1;
+		}
+		else
+		{
+			ka5 = CVector3::AxisY();
+		}
+		if (Angle <= m_margin)
+		{
+			ma3.SetRotation(ka5, Angle);
+		}
+		else
+		{
+			ma3.SetRotationDeg(ka5, kaku);
+		}
+		m_angle.Multiply(ma3, m_angle);
+	}
 }

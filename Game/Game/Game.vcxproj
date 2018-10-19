@@ -101,12 +101,13 @@
   <ItemGroup>
     <ClCompile Include="character\CharacterController.cpp" />
     <ClCompile Include="color.cpp" />
-    <ClCompile Include="Enemy\EnemyStateAttack.cpp" />
-    <ClCompile Include="Enemy\Enemy.cpp" />
-    <ClCompile Include="Enemy\Enemyleader.cpp" />
-    <ClCompile Include="Enemy\EnemyState.cpp" />
-    <ClCompile Include="Enemy\EnemyStateMove.cpp" />
-    <ClCompile Include="Enemy\EnemyStateTracking.cpp" />
+    <ClCompile Include="Enemy\EnemyLeader\EnemySteatGroupMove.cpp" />
+    <ClCompile Include="Enemy\EnemyLeader\EnemyStateAttack.cpp" />
+    <ClCompile Include="Enemy\EnemyLeader\Enemy.cpp" />
+    <ClCompile Include="Enemy\EnemyLeader\Enemyleader.cpp" />
+    <ClCompile Include="Enemy\EnemyLeader\EnemyState.cpp" />
+    <ClCompile Include="Enemy\EnemyLeader\EnemyStateMove.cpp" />
+    <ClCompile Include="Enemy\EnemyLeader\EnemyStateTracking.cpp" />
     <ClCompile Include="Gamecamera.cpp" />
     <ClCompile Include="Gameobject\Gameobject.cpp" />
     <ClCompile Include="Gameobject\GameobjectList.cpp" />
@@ -159,12 +160,13 @@
   <ItemGroup>
     <ClInclude Include="character\CharacterController.h" />
     <ClInclude Include="color.h" />
-    <ClInclude Include="Enemy\EnemyStateAttack.h" />
-    <ClInclude Include="Enemy\Enemy.h" />
-    <ClInclude Include="Enemy\Enemyleader.h" />
-    <ClInclude Include="Enemy\EnemyState.h" />
-    <ClInclude Include="Enemy\EnemyStateMove.h" />
-    <ClInclude Include="Enemy\EnemyStateTracking.h" />
+    <ClInclude Include="Enemy\EnemyLeader\EnemySteatGroupMove.h" />
+    <ClInclude Include="Enemy\EnemyLeader\EnemyStateAttack.h" />
+    <ClInclude Include="Enemy\EnemyLeader\Enemy.h" />
+    <ClInclude Include="Enemy\EnemyLeader\Enemyleader.h" />
+    <ClInclude Include="Enemy\EnemyLeader\EnemyState.h" />
+    <ClInclude Include="Enemy\EnemyLeader\EnemyStateMove.h" />
+    <ClInclude Include="Enemy\EnemyLeader\EnemyStateTracking.h" />
     <ClInclude Include="Gamecamera.h" />
     <ClInclude Include="Gameobject\Gameobject.h" />
     <ClInclude Include="Gameobject\GameobjectList.h" />
@@ -190,7 +192,7 @@
     <ClInclude Include="graphics\sprite.h" />
     <ClInclude Include="graphics\SpriteData.h" />
     <ClInclude Include="graphics\UnorderedAccessView.h" />
-    <ClInclude Include="Enemy\Enenystate.h" />
+    <ClInclude Include="Enemy\EnemyLeader\Enenystate.h" />
     <ClInclude Include="HID\Pad.h" />
     <ClInclude Include="level\Level.h" />
     <ClInclude Include="level\MapChip.h" />

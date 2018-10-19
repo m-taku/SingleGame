@@ -5,7 +5,7 @@
 EnemyStateMove::EnemyStateMove(Enemy* enamy,Player* player):EnemyState(enamy,player)
 {
 	path.course(enemy->Get2Dposition(), player->Get2Dposition());
-	m_nextpos = path.Pathpos();
+	m_nextpos = {0.0f,0.0f,0.0f};
 }
 EnemyStateMove::~EnemyStateMove()
 {
@@ -17,16 +17,16 @@ void EnemyStateMove::Update()
 	speed = m_nextpos - nowpos;
 	if (speed.Length()<=250.0f)
 	{
-		m_nextpos = path.Pathpos();
-		m_time += 15.0;
+		//m_nextpos = path.Pathpos();
+		m_time += 10.0;
 	}
 	speed.y = 0.0;
 	speed.Normalize();
-	Findangle(speed);
+	enemy->Findangle(speed);
 	speed *= 500.0f;
 	enemy->Setmove(speed);
 	CVector3 distance = player->Get2Dposition() - enemy->Get2Dposition();	
-	auto ka=(m_oldposition - nowpos).Length();
+	auto ka = (m_oldposition - nowpos).Length();
 	auto ma = (m_nextpos - nowpos).Length();
 	if ((m_oldposition - nowpos).Length()<=10.0f|| (m_nextpos- nowpos).Length()<=200.0f)
 	{
@@ -38,7 +38,7 @@ void EnemyStateMove::Update()
 	}
 	if (m_time >= 30)
 	{
-		path.course(enemy->Get2Dposition(), player->Get2Dposition());
+	//	path.course(enemy->Get2Dposition(), player->Get2Dposition());
 		m_time = 0;
 	}
 	m_oldposition = enemy->Get3Dposition();

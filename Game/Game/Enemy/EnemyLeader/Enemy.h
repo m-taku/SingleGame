@@ -1,6 +1,6 @@
 #pragma once
 #include "character/CharacterController.h"
-#include"../Player/Player.h"
+#include"../../Player/Player.h"
 #include"Enemyleader.h"
 class EnemyState;
 class Enemy
@@ -117,6 +117,7 @@ public:
 	*@brief Playerのセット
 	*/
 	void DDraw();
+	void Findangle(CVector3 Front);
 private:
 	void Vectordraw();                              
 	EnemyState* m_enemystate=nullptr;						//エネミーのステート
@@ -130,7 +131,7 @@ private:
 	CQuaternion m_angle = CQuaternion::Identity();			//回転角度
 	CQuaternion m_Sprite_angle = CQuaternion::Identity();	//テクスチャの回転角度
 	CVector3 m_Front = CVector3::Zero();					//エネミーの前方向
-	static const int m_speed=500;								//移動速度
+	static const int m_speed = 500;								//移動速度
 	CVector3 m_Sprite_Front = CVector3::AxisZ()*-1;	        //テクスチャの前方向
 	sprite Sprite_hp;										//体力用の2Ｄ(中身)
 	sprite Sprite_fram;										//体力用の2Ｄ(枠)
@@ -138,5 +139,8 @@ private:
 	ShaderResourceView texture_hp;							//体力用の2Ｄデータ(中身)
 	ShaderResourceView texture_fram;						//体力用の2Ｄデータ(枠)
 	VectorDraw* kasa = nullptr;								//デバック用のベクトル表示
+
+	static const int kaku = 20;
+	float m_margin = CMath::DegToRad(kaku);
 }; 
 

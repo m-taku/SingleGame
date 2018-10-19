@@ -2,7 +2,6 @@
 #include "Path.h"
 #include"Navimake.h"
 
-
 Path::Path()
 {
 	pathdete = objectManager->FindGO<Navimake>("Navimake");

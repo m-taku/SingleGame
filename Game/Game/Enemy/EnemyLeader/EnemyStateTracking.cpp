@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "EnemyStateTracking.h"
-#include"../Player/Player.h"
+#include"../../Player/Player.h"
 #include"Enemy.h"
 
 
@@ -21,7 +21,7 @@ void EnemyStateTracking::Update()
 	speed = distance; 
 	speed.y = 0.0f;
 	speed.Normalize();
-	Findangle(speed);
+	enemy->Findangle(speed);
 	speed *= 300.0f;
 	enemy->Setmove(speed);
 	CVector3 position = enemy->Get3Dposition();
@@ -29,7 +29,7 @@ void EnemyStateTracking::Update()
 	vector->Draw();
 	if (distance.Length()>=500.0f)
 	{
-		speed.y = 800.0f;
+		//speed.y = 800.0f;
 		enemy->Setmove(speed);
 		enemy->transitionState(Enemy::State_Move);
 	}

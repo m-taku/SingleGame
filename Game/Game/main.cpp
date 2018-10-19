@@ -3,8 +3,8 @@
 #include"level/Level.h"
 #include"UI.h"
 #include"Stage.h"
-#include"Enemy/Enemy.h"
-#include"Enemy/Enemyleader.h"
+#include"Enemy/EnemyLeader/Enemyleader.h"
+#include"Enemy/EnemyLeader/Enemy.h"
 #include"Player/Player.h"
 #include"Gamecamera.h"
 
@@ -41,7 +41,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	objectManager->NewGO<Stage>(0);
 	//Navimake* navimake = nullptr;
 	//ゲームループ。
-	Player* player = objectManager->NewGO<Player>(0);
+	Player* player = objectManager->NewGO<Player>(1);
 	Gamecamera* Camera = objectManager->NewGO<Gamecamera>(10);
 	Camera->SetPlayer(player);
 	player->SetCamera(Camera);
@@ -53,10 +53,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//Player* ks = objectManager->NewGO<Player>(1);
 	level.Init(L"Assets/level/Enemy_lever1.tkl", [&](LevelObjectData objData)
 	{
-		kuku++;
-	/*	if (kuku != 2) {
-			return true;
-		}*/
+		//kuku++;
+		//if (kuku != 2) {
+		//	return true;
+		//}
 		Enemyleader* enemy = objectManager->NewGO<Enemyleader>(1, "Enemyleader");
 		auto pos = objData.position;
 		pos.y = 100.0f;

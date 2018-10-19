@@ -49,6 +49,10 @@ public:
 		{	
 			m_pVSShader = &m_vsShaderInstancing;
 		}
+		else
+		{
+			m_pVSShader = &m_vsShader;
+		}
 	}
 	bool EqualMaterialName(const wchar_t* name) const
 	{

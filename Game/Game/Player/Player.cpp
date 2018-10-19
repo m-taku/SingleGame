@@ -75,15 +75,10 @@ void Player::Update()
 	if (g_pad[0].IsTrigger(enButtonA)&& m_collider.IsOnGround())
 	{
 		m_movespeed.y = 2000.0f;
-	}	
-	g_physics.ContactTest(m_collider, [&](const btCollisionObject& contactObject)
-	{
-		m_movespeed.y += 100.0f;
-	});
+	}
 	m_position = m_collider.Execute(1.0f / 30.0f, m_movespeed);
 	m_model.UpdateWorldMatrix(m_position, m_rotation, CVector3::One());
-	vector->Update(m_position, m_Front, m_amount.Length()*50.0f); 
-	int ahs = 0;
+	vector->Update(m_position, m_Front, m_amount.Length()*3.0f); 
 }
 void Player::Draw()
 {

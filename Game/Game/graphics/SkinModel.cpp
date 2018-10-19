@@ -179,8 +179,8 @@ void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 	la.Multiply(ka);
 	CVector4 ma = { ka.x,ka.y,ka.z,1.0 };
 	LCb.angle = ma;
-	m_colre += 30.0f / 360.0f;
-	LCb.color = Color.HSVtoRGB({ m_colre,1.0f,0.8f });
+	m_colre += 1.0f / 360.0f;
+	LCb.color = Color.HSVtoRGB({ m_colre,1.0f,1.0f });
 	LCb.Camerapos = g_camera3D.GetPosition();
 	d3dDeviceContext->UpdateSubresource(m_cb, 0, nullptr, &vsCb, 0, 0);
 	d3dDeviceContext->UpdateSubresource(m_ritocb, 0, nullptr, &LCb, 0, 0);
@@ -194,19 +194,17 @@ void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 	//ボーン行列をGPUに転送。
 	m_skeleton.SendBoneMatrixArrayToGPU(); 
 	//m_skinModelData->FindMesh([&](auto& mesh) {
-	if (m_numInstance > 1) {
-		for (auto& mamam : m_modelDx->meshes) {
-			for (std::unique_ptr<DirectX::ModelMeshPart>& mesh : mamam->meshParts)
-			{
-				ModelEffect* effect = reinterpret_cast<ModelEffect*>(mesh->effect.get());
-				//頂点1つ1つにインスタンシング用のシェーダーに変換
-			//インスタンスの数を設定。
-			//	if (m_numInstance > 1) {
-					effect->SetInstancing(m_numInstance);
-			//	}
-			/*	else {
-					effect->SetInstancing(1);
-				}*/
+	for (auto& mamam : m_modelDx->meshes) {
+		for (std::unique_ptr<DirectX::ModelMeshPart>& mesh : mamam->meshParts)
+		{
+			ModelEffect* effect = reinterpret_cast<ModelEffect*>(mesh->effect.get());
+			//頂点1つ1つにインスタンシング用のシェーダーに変換
+		//インスタンスの数を設定。
+			if (m_numInstance > 1) {
+				effect->SetInstancing(m_numInstance);
+			}
+			else {
+				effect->SetInstancing(1);
 			}
 		}
 	}
