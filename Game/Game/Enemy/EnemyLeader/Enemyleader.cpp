@@ -12,7 +12,6 @@ Enemyleader::~Enemyleader()
 }
 bool Enemyleader::Load()
 {
-	enemy.resize(SOLDIER);
 	m_model.Init(L"Assets/modelData/Enemy.cmo",SOLDIER);
 	for (int i = 0; i < SOLDIER; i++) {
 		enemy[i] = new Enemy;
@@ -32,20 +31,59 @@ bool Enemyleader::Load()
 void Enemyleader::Update()
 {
 	m_model.BeginUpdateInstancingData();
-	move();
-	CVector3 distance = player->Get2Dposition() - position;
-	if (distance.Length() >= 300.0f)
+	//for (int i = 0; i < remaining; i++) {
+	//	enemy[i]->Update();
+	//}
+	CVector3 distance = CVector3::Zero();
+	switch (state)
 	{
-		for (int i = 0; i < remaining; i++) {
-			m_model.UpdateInstancingData(position, CQuaternion::Identity(), CVector3::One());
-			enemy[i]->Setposition(position);
-			position += haiti[i];
+	case group:
+		//move();
+		distance = player->Get2Dposition() - position;
+		if (distance.Length() < 500.0f)
+		{
+			for (int i = 0; i < remaining; i++) {
+				enemy[i]->transitionState(Enemy::State_Move);
+			}
+			SetSteat(person);
 		}
-	}
-	else {
+		else {
+			for (int i = 0; i < remaining; i++) {
+				m_model.UpdateInstancingData(position + haiti[i], CQuaternion::Identity(), CVector3::One());
+				enemy[i]->Setposition(position + haiti[i]);
+			}
+		}
+		break;
+	case person:
 		for (int i = 0; i < remaining; i++) {
 			enemy[i]->Update();
+			if (state == gathering)
+			{
+				for (int i = 0; i < remaining; i++) {
+					enemy[i]->transitionState(Enemy::State_Gathering);
+					enemy[i]->PathGO();
+				}
+				break;
+			}
 		}
+		break;
+	case gathering:
+	{
+		int ninzuu = 0;
+		for (int i = 0; i < remaining; i++) {
+			if (enemy[i]->syuuketu())
+			{
+				ninzuu++;
+			}
+		}
+		if (ninzuu >= remaining)
+		{
+			state = group;
+		}
+	}
+		break;
+	default:
+		break;
 	}
 }
 void Enemyleader::Draw()
@@ -66,25 +104,15 @@ void Enemyleader::move()
 	speed = m_nextpos - nowpos;
 	if (speed.Length() <= 250.0f)
 	{
-		m_nextpos = path->Pathpos();
-		m_time += 10.0;
+		m_nextpos = path->Pathpos();	
+		if (m_nextpos.x == m_oldposition.y&&m_nextpos.y == m_oldposition.x&&m_nextpos.z == m_oldposition.z)
+		{
+			path->course(nowpos, player->Get2Dposition());
+			m_nextpos = path->Pathpos();
+		}
+		m_oldposition = m_nextpos;
 	}
 	speed.y = 0.0;
 	speed.Normalize();
-	//enemy[SOLDIER-1]->Findangle(speed);
-	if ((m_oldposition - nowpos).Length() <= 10.0f || (m_nextpos - nowpos).Length() <= 200.0f)
-	{
-		m_time++;
-	}
-	else
-	{
-		m_time = 0;
-	}
-	if (m_time >= 30)
-	{
-		path->course(position, player->Get2Dposition());
-		m_time = 0;
-	}
-	m_oldposition = position;
-	position += speed * 500.0f*1.0f / 30.0f;
+	position += speed*1.0f/30.0f ;
 }

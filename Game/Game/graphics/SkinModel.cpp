@@ -13,6 +13,7 @@ SkinModel::~SkinModel()
 		//サンプラステートを解放。
 		m_samplerState->Release();
 	}
+
 }
 void SkinModel::Init(const wchar_t* filePath, int maxInstance, EnFbxUpAxis enFbxUpAxis)
 {
@@ -178,8 +179,8 @@ void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 	ka = CVector3::AxisY()*-1.0f;
 	la.Multiply(ka);
 	CVector4 ma = { ka.x,ka.y,ka.z,1.0 };
-	LCb.angle = ma;
-	m_colre += 1.0f / 360.0f;
+	LCb.angle = { 0.0f,-1.0f,0.0f,1.0f };
+	m_colre = 1/360;
 	LCb.color = Color.HSVtoRGB({ m_colre,1.0f,1.0f });
 	LCb.Camerapos = g_camera3D.GetPosition();
 	d3dDeviceContext->UpdateSubresource(m_cb, 0, nullptr, &vsCb, 0, 0);
@@ -198,8 +199,7 @@ void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 		for (std::unique_ptr<DirectX::ModelMeshPart>& mesh : mamam->meshParts)
 		{
 			ModelEffect* effect = reinterpret_cast<ModelEffect*>(mesh->effect.get());
-			//頂点1つ1つにインスタンシング用のシェーダーに変換
-		//インスタンスの数を設定。
+			//頂点1つ1つにインスタンシング用のシェーダーに変
 			if (m_numInstance > 1) {
 				effect->SetInstancing(m_numInstance);
 			}

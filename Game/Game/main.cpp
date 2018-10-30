@@ -64,25 +64,24 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		enemy->Setplayer(player);
 		return true;
 	});
+	int debak = 0;
 	while (DispatchWindowMessage() == true)
 	{
 		//描画開始。
 		g_graphicsEngine->BegineRender();
-		int debak = 1;
 		//ゲームパッドの更新。	
 		for (auto& pad : g_pad) {
 			pad.Update();
 		}
 
-     //   auto ks = objectManager->NewGO<Player>(0);
+       // auto ks = objectManager->NewGO<Player>(0);
 		//物理エンジンの更新。
 		objectManager->Execute();
 		if (debak==1)
 		{
-			//g_physics.DebubDrawWorld();
+			g_physics.DebubDrawWorld();
 		}
 		g_physics.Update();
-	
 		//プレイヤーの更新。
 		//player.Update();
 		//プレイヤーの描画。

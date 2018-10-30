@@ -186,6 +186,9 @@
       <Filter>Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Enemy\EnemyLeader\EnemySteatGroupMove.cpp" />
+    <ClCompile Include="Enemy\EnemyLeader\EnemyStategathering.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -340,6 +343,9 @@
       <Filter>Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Enemy\EnemyLeader\EnemySteatGroupMove.h" />
+    <ClInclude Include="Enemy\EnemyLeader\EnemyStategathering.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
@@ -367,6 +373,9 @@
       <Filter>Assets\modelData</Filter>
     </MeshContentTask>
     <MeshContentTask Include="Assets\modelData\geito.fbx" />
+    <MeshContentTask Include="Assets\modelData\jimennabi3.fbx">
+      <Filter>Assets\modelData</Filter>
+    </MeshContentTask>
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\level\stage_01.tkl">

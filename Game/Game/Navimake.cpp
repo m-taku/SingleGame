@@ -8,9 +8,9 @@ Navimake::Navimake()
 	m_model.Init(L"Assets/modelData/jimennabi2.cmo");
 	//メッシュコライダーを作成。
 	m_meshCollider.CreateFromSkinModel(m_model, nullptr);
-	
+
 	//メッシュコライダーから頂点バッファとインデックスバッファの情報をGetする
-	auto vertex= m_meshCollider.Getvertex(0);
+	auto vertex = m_meshCollider.Getvertex(0);
 	auto index = m_meshCollider.GetIndex(0);
 	int No = 0;
 	for (int i = 0; i < index.size();) {
@@ -42,6 +42,7 @@ Navimake::Navimake()
 					Circle = data->position[i] - data->centerposition;
 				}
 			}
+			//ポリゴン（セル）情報を使ってポリゴンを内包するコリジョン生成
 			m_collider->Init(Circle.Length() / 2, 100.0f, data->centerposition);
 			g_physics.ContactTest(*m_collider, [&](const btCollisionObject& contactObject)
 			{
@@ -58,7 +59,7 @@ Navimake::Navimake()
 		}
 	}
 	//ここからリンク情報の制作
-	
+
 	for (auto Major = seru.begin(); Major != seru.end(); Major++)
 	{
 		//まず大元になる１つのポリゴン（セル）を決定する
@@ -71,11 +72,11 @@ Navimake::Navimake()
 			{
 				int Commonvertex = 0;
 				int vertexNo[2] = { 0 };
-				for (int i=0;i<3&&Commonvertex<2;i++)
+				for (int i = 0; i < 3 && Commonvertex < 2; i++)
 				{
 					//大元のポリゴン（セル）１つの頂点に対して
 					CVector3 Majorposition = MajorData.position[i];
-					for (int j=0;j<3;j++)
+					for (int j = 0; j < 3; j++)
 					{
 						CVector3 Comparisonposition = ComparisonData.position[j];
 						CVector3 distance;
@@ -96,13 +97,13 @@ Navimake::Navimake()
 									) {
 									//頂点番号0-1に隣接している面
 									MajorData.linkNoList[0] = ComparisonData.No;
-									MajorData.cost[0] = (MajorData.centerposition- ComparisonData.centerposition).Length();
+									MajorData.cost[0] = (MajorData.centerposition - ComparisonData.centerposition).Length();
 								}
 								else if ((vertexNo[0] == 1 && vertexNo[1] == 2)
 									|| (vertexNo[1] == 1 && vertexNo[0] == 2)
 									) {
 									//頂点番号1-2に隣接している面
-									MajorData.linkNoList[1] = ComparisonData.No; 
+									MajorData.linkNoList[1] = ComparisonData.No;
 									MajorData.cost[1] = (MajorData.centerposition - ComparisonData.centerposition).Length();
 								}
 								else if ((vertexNo[0] == 0 && vertexNo[1] == 2)
@@ -120,38 +121,44 @@ Navimake::Navimake()
 			}
 		}
 	}
-	std::vector<CVector3> centerposition;				
-	vector.push_back(new VectorDraw(seru[0]->centerposition, seru.size()));
-	for (int i = 0; i < seru.size(); i++)
+	//ここからデバック用の中点表示
 	{
-		centerposition.push_back(seru[i]->centerposition);
+		std::vector<CVector3> centerposition;
+		vector.push_back(new VectorDraw(seru[0]->centerposition, seru.size()));
+		for (int i = 0; i < seru.size(); i++)
+		{
+			centerposition.push_back(seru[i]->centerposition);
+		}
+		vector[vector.size() - 1]->Update(centerposition);
 	}
-	vector[vector.size()-1]->Update(centerposition);
-	centerposition.clear();
-	std::vector<CVector3> Vectorlist;
-	std::vector<float> Vectorpore;
-	for (int i = 0; i < seru.size(); i++)
+	//ここからデバック用のリンク表示
 	{
-		CVector3 c_position;
-		c_position = seru[i]->centerposition;
-		for (int j = 0; j < 3; j++) {
-			if (seru[i]->linkNoList[j] != -1)
-			{
-				CVector3 Vector = CVector3::Zero();
-				Vector = seru[seru[i]->linkNoList[j]]->centerposition - c_position;
-			    centerposition.push_back(c_position);
-				Vectorlist.push_back(Vector);
-				Vectorpore.push_back(Vector.Length() / 3.0f);
+		std::vector<CVector3> centerposition1;
+		std::vector<CVector3> Vectorlist;
+		std::vector<float> Vectorpore;
+		for (int i = 0; i < seru.size(); i++)
+		{
+			CVector3 c_position;
+			c_position = seru[i]->centerposition;
+			for (int j = 0; j < 3; j++) {
+				if (seru[i]->linkNoList[j] != -1)
+				{
+					CVector3 Vector = CVector3::Zero();
+					Vector = seru[seru[i]->linkNoList[j]]->centerposition - c_position;
+					centerposition1.push_back(c_position);
+					Vectorlist.push_back(Vector);
+					Vectorpore.push_back(Vector.Length() / 3.0f);
+				}
 			}
 		}
+		//vector.push_back(new VectorDraw(seru[0]->centerposition, centerposition.size()));
+		//vector[vector.size()-1]->Update(centerposition.begin(), Vectorlist.begin(), Vectorpore.begin());
 	}
-	//vector.push_back(new VectorDraw(seru[0]->centerposition, centerposition.size()));
-	//vector[vector.size()-1]->Update(centerposition.begin(), Vectorlist.begin(), Vectorpore.begin());
 	//剛体を作成、
 	RigidBodyInfo rbInfo;
 	rbInfo.collider = &m_meshCollider; //剛体に形状(コライダー)を設定する。
 	rbInfo.mass = 0.0f;
-	rbInfo.pos = {0.0f,0.0f,0.0f};
+	rbInfo.pos = { 0.0f,0.0f,0.0f };
 	rbInfo.rot = CQuaternion::Identity();
 	m_rigidBody.Create(rbInfo);
 	//剛体を物理ワールドに追加する。
@@ -177,6 +184,7 @@ void Navimake::Up()
 }
 CVector3 Navimake::Searchcenter(const CVector3 (&pos)[3])
 {
+	//中点計算を行う
 	CVector3 centerpos=CVector3::Zero();
 	centerpos.x = (pos[0].x + pos[1].x + pos[2].x) / 3;
 	centerpos.y = (pos[0].y + pos[1].y + pos[2].y) / 3;

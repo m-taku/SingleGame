@@ -100,6 +100,7 @@ void Path::course(CVector3 sturt, CVector3 end)
 			break;
 		}
 	}
+
 	if (open.size() <= 0)
 	{
 		coursepasu.push_back(sturtNo);

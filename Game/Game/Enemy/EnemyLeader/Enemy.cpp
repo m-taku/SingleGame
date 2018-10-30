@@ -15,7 +15,7 @@ Enemy::~Enemy()
 bool Enemy::Load()
 {
 	//cmoファイルの読み込み。
-	//m_collider.Init(10.0f, 10.0f, m_position);
+	m_collider.Init(10.0f, 10.0f, m_position);
 	texture_hp.CreateFromDDSTextureFromFile(L"Resource/sprite/HP.dds");
 	texture_fram.CreateFromDDSTextureFromFile(L"Resource/sprite/HP_waku.dds");
 	Sprite_hp.Init(&texture_hp, 100.0f, 25.0f);
@@ -44,6 +44,10 @@ void Enemy::transitionState(State state)
 		break;
 	case State_Attack:
 		m_enemystate = new EnemyStateAttack(this, player);
+		break;
+	case State_Gathering:
+		m_enemystate = new EnemyStategathering(this, player);
+		break;
 	default:
 		break;
 	}
@@ -64,16 +68,16 @@ void Enemy::Update()
 	m_Front.Normalize();
 	m_moveVector = m_Front;
 	m_moveVector *= m_speed;
-	m_moveVector.y = 0.0f;
+	m_moveVector.y -= 9.8*10.0f;
 	m_position += m_moveVector * 1.0 / 30.0f;
-	//m_position = m_collider.Execute(1.0f / 30.0f, m_moveVector);
+	m_position = m_collider.Execute(1.0f / 30.0f, m_moveVector);
+		Leader->GetSkinmdel().UpdateInstancingData(m_position, m_angle, CVector3::One());
 	//if ((player->Get2Dposition() - m_position).Length() <= 100.0f)
 	//{
 	//	m_HP -= 0.01;
 	//}
 	/*	DrewFragu = */
 	//if (frame(m_position)) {
-		Leader->GetSkinmdel().UpdateInstancingData(m_position, m_angle, CVector3::One());
 //	}
 
 }
@@ -112,16 +116,15 @@ void Enemy::Vectordraw()
 	m_Sprite_angle.Multiply(kakaa);
 
 	kasa->Update(m_position, kakaa, 1.0);
-//	kasa->Draw();
 }
 void Enemy::DDraw()
 {
 
-	Sprite_fram.Updete(m_position, m_Sprite_angle, { 1.0f,1.0f,1.0f }, { 0.0f,1.0f });
+	Sprite_fram.Updete(m_position, m_Sprite_angle, { 1.0f,1.0f,1.0f });
 	Sprite_fram.Draw(
 		g_camera3D.GetViewMatrix(),
 		g_camera3D.GetProjectionMatrix());
-	Sprite_hp.Updete(m_position, m_Sprite_angle, { m_HP,1.0f ,1.0f }, { 0.0f,1.0f });
+	Sprite_hp.Updete(m_position, m_Sprite_angle, { m_HP,1.0f ,1.0f });
 	Sprite_hp.Draw(
 		g_camera3D.GetViewMatrix(),
 		g_camera3D.GetProjectionMatrix());
@@ -157,4 +160,50 @@ void Enemy::Findangle(CVector3 Front)
 		}
 		m_angle.Multiply(ma3, m_angle);
 	}
+}
+bool Enemy::syuuketu()
+{
+	CVector3 nowpos = m_position;
+	nowpos.y = 0.0f;
+	auto ka = GetLeaderposition();
+	ka.y = 0;
+	CVector3 distance = ka - nowpos;
+	if (distance.Length() <= 150.0f)
+	{
+		SetLeaderState(Enemyleader::gathering);
+
+		Leader->GetSkinmdel().UpdateInstancingData(m_position, m_angle, CVector3::One());
+		return true;
+	}
+	CVector3 speed = CVector3::Zero();
+	speed = m_nextpos - nowpos;
+	if (speed.Length() <= 250.0f)
+	{
+		m_nextpos = path.Pathpos();
+		if (m_nextpos.x == m_oldposition.y&&m_nextpos.y == m_oldposition.x&&m_nextpos.z == m_oldposition.z)
+		{
+
+			SetLeaderState(Enemyleader::gathering);
+			return true;
+		}
+		m_oldposition = m_nextpos;
+	}
+	speed.y = 0.0;
+	speed.Normalize();
+	Findangle(speed);
+	speed *= 500.0f;
+	Setmove(speed);
+	mRot.MakeRotationFromQuaternion(m_angle);
+	m_Front.x = mRot.m[2][0];
+	m_Front.y = mRot.m[2][1];
+	m_Front.z = mRot.m[2][2];
+	m_Front.y = 0.0f;
+	m_Front.Normalize();
+	m_moveVector = m_Front;
+	m_moveVector *= m_speed;
+	m_moveVector.y -= 9.8*10.0f;
+	m_position += m_moveVector * 1.0 / 30.0f;
+	m_position = m_collider.Execute(1.0f / 30.0f, m_moveVector);
+	Leader->GetSkinmdel().UpdateInstancingData(m_position, m_angle, CVector3::One());
+	return false;
 }

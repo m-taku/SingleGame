@@ -45,7 +45,7 @@ void PhysicsDebugDraw::EndDraw()
 	//	ja -= 1.0f;
 	//}
 	//ka.x = ja;
-	colr = Color.HSVtoRGB();
+	colr = { 1.0f,1.0f,1.0f,1.0f };// Color.HSVtoRGB();
 
 	//colr = { ka.x,ka.y,ka.z,1.0f };
 	DeviceContext->UpdateSubresource(m_cb2.GetBody(), 0, NULL, &colr, 0, 0);

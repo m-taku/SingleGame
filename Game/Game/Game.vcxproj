@@ -101,6 +101,7 @@
   <ItemGroup>
     <ClCompile Include="character\CharacterController.cpp" />
     <ClCompile Include="color.cpp" />
+    <ClCompile Include="Enemy\EnemyLeader\EnemyStategathering.cpp" />
     <ClCompile Include="Enemy\EnemyLeader\EnemySteatGroupMove.cpp" />
     <ClCompile Include="Enemy\EnemyLeader\EnemyStateAttack.cpp" />
     <ClCompile Include="Enemy\EnemyLeader\Enemy.cpp" />
@@ -160,6 +161,7 @@
   <ItemGroup>
     <ClInclude Include="character\CharacterController.h" />
     <ClInclude Include="color.h" />
+    <ClInclude Include="Enemy\EnemyLeader\EnemyStategathering.h" />
     <ClInclude Include="Enemy\EnemyLeader\EnemySteatGroupMove.h" />
     <ClInclude Include="Enemy\EnemyLeader\EnemyStateAttack.h" />
     <ClInclude Include="Enemy\EnemyLeader\Enemy.h" />
@@ -223,6 +225,7 @@
     <MeshContentTask Include="Assets\modelData\geito.fbx" />
     <MeshContentTask Include="Assets\modelData\jimennabi.fbx" />
     <MeshContentTask Include="Assets\modelData\jimennabi2.fbx" />
+    <MeshContentTask Include="Assets\modelData\jimennabi3.fbx" />
     <MeshContentTask Include="Assets\modelData\kaka.fbx" />
     <MeshContentTask Include="Assets\modelData\stageGround.fbx" />
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">

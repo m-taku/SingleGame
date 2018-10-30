@@ -8,7 +8,7 @@ public:
 	~EnemyState();
 	virtual void Update() = 0;
 protected:
-	Enemy* enemy=nullptr;
-	Player* player=nullptr;
+	Enemy* enemy=nullptr;			//エネミーのインスタンス
+	Player* player=nullptr;			//プレイヤーのインスタンス
 };
 

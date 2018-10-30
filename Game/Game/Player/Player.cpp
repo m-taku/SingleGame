@@ -53,16 +53,6 @@ void Player::Update()
 		m_kaiten += camer_angle;
 		m_rotation.SetRotation(CVector3::AxisY(), m_kaiten);
 	}
-	//for (int i = 0; i<10; i++)
-	//{
-	//	vss();
-
-	//}
-	//for (int i = 0; i<i; i++)
-	//{
-	//	pss(vss.kh);
-
-	//}
 
 	mRot.MakeRotationFromQuaternion(m_rotation);
 	m_Front.x = mRot.m[2][0];
