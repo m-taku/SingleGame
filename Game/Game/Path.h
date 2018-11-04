@@ -35,6 +35,10 @@ public:
 			to_DrstinCost=0.0f;
 			No = -1;
 		}
+		~PasDate()
+		{
+			//delete ParentDate;
+		}
 		int No;						//自身の番号
 		int LincNo[3];				//自身からのリンク先番号
 		float MoveCost;				//自身の場所まで行くコスト

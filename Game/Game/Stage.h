@@ -11,8 +11,8 @@ public:
 	void Update();
 	void Draw();
 private:
-	PhysicsStaticObject Stege;
-	SkinModel m_model;
+//	PhysicsStaticObject Stege;
+	//SkinModel m_model;
 	Level level; 
 	Navimake* navimake;
 };

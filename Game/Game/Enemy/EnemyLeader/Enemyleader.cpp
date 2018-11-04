@@ -9,9 +9,15 @@ Enemyleader::Enemyleader()
 }
 Enemyleader::~Enemyleader()
 {
+	for (int i = 0; i < remaining; i++)
+	{
+		delete enemy[i];
+	}
+	delete path;
 }
 bool Enemyleader::Load()
 {
+
 	m_model.Init(L"Assets/modelData/Enemy.cmo",SOLDIER);
 	for (int i = 0; i < SOLDIER; i++) {
 		enemy[i] = new Enemy;
@@ -38,7 +44,7 @@ void Enemyleader::Update()
 	switch (state)
 	{
 	case group:
-		//move();
+		move();
 		distance = player->Get2Dposition() - position;
 		if (distance.Length() < 500.0f)
 		{
@@ -56,12 +62,11 @@ void Enemyleader::Update()
 		break;
 	case person:
 		for (int i = 0; i < remaining; i++) {
-			enemy[i]->Update();
+			enemy[i]->Update();	
 			if (state == gathering)
 			{
 				for (int i = 0; i < remaining; i++) {
 					enemy[i]->transitionState(Enemy::State_Gathering);
-					enemy[i]->PathGO();
 				}
 				break;
 			}
@@ -69,16 +74,9 @@ void Enemyleader::Update()
 		break;
 	case gathering:
 	{
-		int ninzuu = 0;
+		ninzuu = 0;
 		for (int i = 0; i < remaining; i++) {
-			if (enemy[i]->syuuketu())
-			{
-				ninzuu++;
-			}
-		}
-		if (ninzuu >= remaining)
-		{
-			state = group;
+			enemy[i]->Update();
 		}
 	}
 		break;
@@ -114,5 +112,5 @@ void Enemyleader::move()
 	}
 	speed.y = 0.0;
 	speed.Normalize();
-	position += speed*1.0f/30.0f ;
+	position += speed*1.0f/30.0f *100.0f;
 }

@@ -13,9 +13,8 @@ bool GameobjectList::DereteGo(Gameobject* obj, int no)
 	if (ObjectList[no] == obj) {
 
 		//delete obj;
-		Gameobject* KA = obj;
 		ObjectList.erase(
-			std::remove(ObjectList.begin(), ObjectList.end(), KA),
+			std::remove(ObjectList.begin(), ObjectList.end(), obj),
 			ObjectList.end()
 		);
 		delete obj;

@@ -55,6 +55,14 @@ public:
 	{
 		return position;
 	}
+	void Incrementninzuu()
+	{
+		ninzuu++;
+		if (ninzuu >= remaining)
+		{
+			state = group;
+		}
+	}
 	bool Load();
 	void Update();
 	void Draw();
@@ -79,14 +87,15 @@ private:
 	Path* path=nullptr;										    //経路探査用のインスタンス
 	CVector3 m_nextpos = CVector3::Zero();						//パス移動用の次ポジション
 	CVector3 m_oldposition = CVector3::Zero();					//1フレーム前のポジション（壁擦りなどの判定などなど）
-	CharacterController m_collider;								//キャラクターコントローラー
+	//CharacterController m_collider;								//キャラクターコントローラー
 	SkinModel m_model;											//インスタンシング用の描画インスタンス
-	static const int SOLDIER = 5;								//リーダーを含む部隊の総数
+	static const int SOLDIER = 2;								//リーダーを含む部隊の総数
 	State state = { group };									//グループの今の状態
 	Player* player;												//プレイヤーのインスタンス
 	std::array<Enemy*, SOLDIER> enemy;							//エネミーのインスタンス（SOLDIER）
 	//std::vector<Enemy*> enemy;									
 	int No = 0;
+	int ninzuu = 0;
 	int remaining = SOLDIER;									//今現在のエネミー総数
 	int m_time = 0;		//仮？？
 };

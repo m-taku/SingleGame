@@ -68,6 +68,5 @@ private:
 	std::vector<SData*> seru;							//三角形１つのデータ
 	RigidBody m_rigidBody;			                 	//剛体。
 	std::vector<VectorDraw*> vector;					//中点描画用のデータ
-	CapsuleCollider		m_collide;						//コライダー。
 };
 

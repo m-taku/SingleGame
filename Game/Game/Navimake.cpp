@@ -5,57 +5,61 @@
 
 Navimake::Navimake()
 {
-	m_model.Init(L"Assets/modelData/jimennabi2.cmo");
+	m_model.Init(L"Assets/modelData/jimennabi1.cmo");
 	//メッシュコライダーを作成。
 	m_meshCollider.CreateFromSkinModel(m_model, nullptr);
-
 	//メッシュコライダーから頂点バッファとインデックスバッファの情報をGetする
-	auto vertex = m_meshCollider.Getvertex(0);
-	auto index = m_meshCollider.GetIndex(0);
 	int No = 0;
-	for (int i = 0; i < index.size();) {
-		//１つのポリゴン（セル）に分ける
-		SData* data = new SData;
-		data->position[0] = vertex[index[i++]];
-		data->position[1] = vertex[index[i++]];
-		data->position[2] = vertex[index[i++]];
-		//出来たセルから中心を求める。
-		data->centerposition = Searchcenter(data->position);
-		data->linkNoList[0] = -1;
-		data->linkNoList[1] = -1;
-		data->linkNoList[2] = -1;
-		data->cost[0] = -1;
-		data->cost[1] = -1;
-		data->cost[2] = -1;
-		data->No = No++;
-		//できたポリゴン（セル）情報をpush_backする
-		seru.push_back(data);
-		//ここからContactTestによるパス除外処理
-		{
-			m_collider = new CharacterController;
-			bool frag = false;
-			CVector3 Circle;
-			Circle = data->position[0] - data->centerposition;
-			for (int i = 1; i < 2; i++) {
-				if ((data->position[i] - data->centerposition).Length() >= Circle.Length())
-				{
-					Circle = data->position[i] - data->centerposition;
+	for (int i = 0; i </* m_meshCollider.Getok()*/1; i++) {
+		auto vertex = m_meshCollider.Getvertex(i);
+		auto index = m_meshCollider.GetIndex(i);
+		
+		for (int i = 0; i < index.size();) {
+			//１つのポリゴン（セル）に分ける
+			SData* data = new SData;
+			data->position[0] = vertex[index[i++]];
+			data->position[1] = vertex[index[i++]];
+			data->position[2] = vertex[index[i++]];
+			//出来たセルから中心を求める。
+			data->centerposition = Searchcenter(data->position);
+			data->linkNoList[0] = -1;
+			data->linkNoList[1] = -1;
+			data->linkNoList[2] = -1;
+			data->cost[0] = -1;
+			data->cost[1] = -1;
+			data->cost[2] = -1;
+			data->No = No++;
+			//できたポリゴン（セル）情報をpush_backする
+			seru.push_back(data);
+			//ここからContactTestによるパス除外処理
+			{
+				m_collider = new CharacterController;
+				bool frag = false;
+				CVector3 Circle;
+				Circle = data->position[0] - data->centerposition;
+				for (int i = 1; i < 2; i++) {
+					if ((data->position[i] - data->centerposition).Length() >= Circle.Length())
+					{
+						Circle = data->position[i] - data->centerposition;
+					}
 				}
+				//ポリゴン（セル）情報を使ってポリゴンを内包するコリジョン生成
+				m_collider->Init(Circle.Length() / 2, 100.0f, data->centerposition);
+				g_physics.ContactTest(*m_collider, [&](const btCollisionObject& contactObject)
+				{
+					frag = true;
+				});
+				if (frag)
+				{
+					seru.erase(
+						std::remove(seru.begin(), seru.end(), data),
+						seru.end());
+					delete data;
+					No--;
+				}
+				delete m_collider;
 			}
-			//ポリゴン（セル）情報を使ってポリゴンを内包するコリジョン生成
-			m_collider->Init(Circle.Length() / 2, 100.0f, data->centerposition);
-			g_physics.ContactTest(*m_collider, [&](const btCollisionObject& contactObject)
-			{
-				frag = true;
-			});
-			if (frag)
-			{
-				seru.erase(
-					std::remove(seru.begin(), seru.end(), data),
-					seru.end());
-				No--;
-			}
-			delete m_collider;
+			//delete data;
 		}
 	}
 	//ここからリンク情報の制作
@@ -78,9 +82,9 @@ Navimake::Navimake()
 					CVector3 Majorposition = MajorData.position[i];
 					for (int j = 0; j < 3; j++)
 					{
-						CVector3 Comparisonposition = ComparisonData.position[j];
+						//CVector3 Comparisonposition = ComparisonData.position[j];
 						CVector3 distance;
-						distance = Comparisonposition - Majorposition;
+						distance = ComparisonData.position[j] - Majorposition;
 						//検索のかかったポリゴン（セル）すべての頂点と距離を測る
 						if (distance.Length() <= 0.1f)
 						{
@@ -151,8 +155,8 @@ Navimake::Navimake()
 				}
 			}
 		}
-		//vector.push_back(new VectorDraw(seru[0]->centerposition, centerposition.size()));
-		//vector[vector.size()-1]->Update(centerposition.begin(), Vectorlist.begin(), Vectorpore.begin());
+		vector.push_back(new VectorDraw(seru[0]->centerposition, centerposition1.size()));
+		vector[vector.size()-1]->Update(centerposition1.begin(), Vectorlist.begin(), Vectorpore.begin());
 	}
 	//剛体を作成、
 	RigidBodyInfo rbInfo;
@@ -171,6 +175,16 @@ Navimake::Navimake()
 Navimake::~Navimake()
 {
 	g_physics.RemoveRigidBody(m_rigidBody);
+	for (int i = 0; i < vector.size(); i++)
+	{
+		delete vector[i];
+	}
+	for (int i = 0; i < seru.size(); i++)
+	{
+		delete seru[i];
+	}
+	seru.clear();
+
 }
 void Navimake::Up()
 {
@@ -211,6 +225,7 @@ const std::vector<Path::PasDate*> Navimake::FindLinc(Path::PasDate& date, int en
 			pasDate->ParentDate = &date;
 		}
 		ks[i] = pasDate;
+		//delete pasDate;
 	}
 	return ks;
 }
@@ -256,6 +271,8 @@ struct Collision : public btCollisionWorld::ConvexResultCallback
 bool Navimake::CollisionTest(int sturtNo, int nextNo)
 {
 	//スムーズする際の仮の当たり判定（固定値なんだよなぁ、、、、、）
+	
+	CapsuleCollider m_collide;						//コライダー。
 	m_collide.Create(high, ballsize);
 	CVector3 nextPosition = seru[nextNo]->centerposition;
 	//現在の座標から次の移動先へ向かうベクトルを求める。
@@ -278,6 +295,7 @@ bool Navimake::CollisionTest(int sturtNo, int nextNo)
 	Collision callback;
 	//衝突検出。
 	g_physics.ConvexSweepTest((const btConvexShape*)m_collide.GetBody(), start, end, callback);
+
 	//衝突したかどうか
 	return callback.NextNo;
 }

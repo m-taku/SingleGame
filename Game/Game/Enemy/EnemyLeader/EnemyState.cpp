@@ -10,5 +10,6 @@ EnemyState::EnemyState(Enemy* enemy_point,Player* pla)
 }
 EnemyState::~EnemyState()
 {
+	int ja = 0;
 }
 

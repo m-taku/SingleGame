@@ -7,6 +7,12 @@ GameobjectManager::GameobjectManager()
 }
 GameobjectManager::~GameobjectManager()
 {
+	for (auto list : List) {
+		for (auto objedct : list.GetList()) {
+			delete objedct;
+		}
+	}
+	List.clear();
 }
 void GameobjectManager::Execute()
 {

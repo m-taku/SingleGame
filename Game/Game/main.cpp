@@ -1,5 +1,6 @@
 #include"stdafx.h"
 #include"system/system.h"
+#include"title.h"
 #include"level/Level.h"
 #include"UI.h"
 #include"Stage.h"
@@ -7,6 +8,12 @@
 #include"Enemy/EnemyLeader/Enemy.h"
 #include"Player/Player.h"
 #include"Gamecamera.h"
+
+//#if _DEBUG
+//#include <crtdbg.h>
+//#define new new(_NORMAL_BLOCK, __FILE__, __LINE__)
+//#endif
+
 
 ///////////////////////////////////////////////////////////////////
 // ウィンドウプログラムのメイン関数。
@@ -17,6 +24,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//ゲームの初期化。
 	InitGame(hInstance, hPrevInstance, lpCmdLine, nCmdShow, "Game");
 
+	//::_CrtSetDbgFlag(_CRTDBG_LEAK_CHECK_DF | _CRTDBG_ALLOC_MEM_DF);
+	::_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	//カメラを初期化。
 	g_camera3D.SetPosition({ 0.0f, 150.0f, -1000.0f });
 	g_camera3D.SetTarget({ 0.0f, 100.0f, 0.0f });
@@ -33,37 +42,35 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//g_camera3D.SetUp({ 1.0f, 0.0f, 0.0f });
 	//g_camera3D.SetFar(10000.0f);
 
-
+	//int* ka = new int;
 	//プレイヤー
 	//Player player;
 	GameobjectManager objectManage;
 	objectManager = &objectManage;
-	objectManager->NewGO<Stage>(0);
-	//Navimake* navimake = nullptr;
-	//ゲームループ。
-	Player* player = objectManager->NewGO<Player>(1);
-	Gamecamera* Camera = objectManager->NewGO<Gamecamera>(10);
-	Camera->SetPlayer(player);
-	player->SetCamera(Camera);
-	Level level;
-
 	g_physics.SetDebugDrawMode(btIDebugDraw::DBG_DrawWireframe);
+	//objectManager->NewGO<Stage>(0);
+	////ゲームループ。
+	//auto player = objectManager->NewGO<Player>(1);
+ //   auto Camera = objectManager->NewGO<Gamecamera>(10);
+	//Camera->SetPlayer(player);
+	//player->SetCamera(Camera);
+	//static int kuku = 0;
+	//Level level;
+	//level.Init(L"Assets/level/Enemy_lever1.tkl", [&](LevelObjectData objData)
+	//{
+	//	kuku++;
+	//	if (kuku != 2) {
+	//		return true;
+	//	}
+	//	Enemyleader* enemy = objectManager->NewGO<Enemyleader>(1, "Enemyleader");
+	//	auto pos = objData.position;
+	//	pos.y = 100.0f;
+	//	enemy->Setposition(pos);
+	//	enemy->Setplayer(player);
+	//	return true;
+	//});
 
-	static int kuku = 0;
-	//Player* ks = objectManager->NewGO<Player>(1);
-	level.Init(L"Assets/level/Enemy_lever1.tkl", [&](LevelObjectData objData)
-	{
-		//kuku++;
-		//if (kuku != 2) {
-		//	return true;
-		//}
-		Enemyleader* enemy = objectManager->NewGO<Enemyleader>(1, "Enemyleader");
-		auto pos = objData.position;
-		pos.y = 100.0f;
-		enemy->Setposition(pos);
-		enemy->Setplayer(player);
-		return true;
-	});
+	auto tittle = objectManager->NewGO<title>(0);
 	int debak = 0;
 	while (DispatchWindowMessage() == true)
 	{
@@ -77,7 +84,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
        // auto ks = objectManager->NewGO<Player>(0);
 		//物理エンジンの更新。
 		objectManager->Execute();
-		if (debak==1)
+		if (debak==0)
 		{
 			g_physics.DebubDrawWorld();
 		}
@@ -92,4 +99,5 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//描画終了。
 		g_graphicsEngine->EndRender();
 	}
+	
 }

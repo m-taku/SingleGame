@@ -131,7 +131,7 @@ void SkinModel::UpdateInstancingData(
 //		GraphicsEngine().GetShadowMap().Entry(&m_shadowCaster);
 //	}
 //}
-void SkinModel::UpdateWorldMatrix(CVector3 position, CQuaternion rotation, CVector3 scale)
+void SkinModel::UpdateWorldMatrix(CVector3 position, CQuaternion rotation, CVector3 scale,CVector2 pivot)
 {
 	//3dsMaxと軸を合わせるためのバイアス。
 	CMatrix mBias = CMatrix::Identity();
@@ -140,6 +140,7 @@ void SkinModel::UpdateWorldMatrix(CVector3 position, CQuaternion rotation, CVect
 		mBias.MakeRotationX(CMath::PI * -0.5f);
 	}
 	CMatrix transMatrix, rotMatrix, scaleMatrix;
+
 	//平行移動行列を作成する。
 	transMatrix.MakeTranslation( position );
 	//回転行列を作成する。

@@ -13,6 +13,7 @@
 #include <functional>
 #include <algorithm>
 
+#define _CRTDBG_MAP_ALLOC #include <stdlib.h> #include <crtdbg.h>  
 #include "btBulletDynamicsCommon.h"
 #include "BulletCollision\CollisionDispatch\btGhostObject.h"
 #include"Noncopyable/Noncopyable.h"

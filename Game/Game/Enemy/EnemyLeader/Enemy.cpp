@@ -11,6 +11,9 @@ Enemy::Enemy()
 
 Enemy::~Enemy()
 {
+	delete m_enemystate;
+
+	delete kasa;
 }
 bool Enemy::Load()
 {
@@ -26,7 +29,7 @@ bool Enemy::Load()
 	m_Front.y = mRot.m[2][1];
 	m_Front.z = mRot.m[2][2];
 	m_Front.Normalize();
-	transitionState(State_Move);
+	transitionState(State_Tracking);
 	m_position.y = 0.0f;
 	Leader->GetSkinmdel().UpdateInstancingData(m_position, CQuaternion::Identity(), CVector3::One());
 	return true;
@@ -71,7 +74,7 @@ void Enemy::Update()
 	m_moveVector.y -= 9.8*10.0f;
 	m_position += m_moveVector * 1.0 / 30.0f;
 	m_position = m_collider.Execute(1.0f / 30.0f, m_moveVector);
-		Leader->GetSkinmdel().UpdateInstancingData(m_position, m_angle, CVector3::One());
+	Leader->GetSkinmdel().UpdateInstancingData(m_position, m_angle, CVector3::One());
 	//if ((player->Get2Dposition() - m_position).Length() <= 100.0f)
 	//{
 	//	m_HP -= 0.01;
@@ -124,7 +127,8 @@ void Enemy::DDraw()
 	Sprite_fram.Draw(
 		g_camera3D.GetViewMatrix(),
 		g_camera3D.GetProjectionMatrix());
-	Sprite_hp.Updete(m_position, m_Sprite_angle, { m_HP,1.0f ,1.0f });
+	Sprite_hp.Updete(m_position, m_Sprite_angle, { 1.0f,1.0f ,1.0f });
+	Sprite_hp.Updete(m_position, CQuaternion::Identity(), { m_HP,1.0f ,1.0f } ,{0.0f,1.0f});
 	Sprite_hp.Draw(
 		g_camera3D.GetViewMatrix(),
 		g_camera3D.GetProjectionMatrix());
@@ -171,7 +175,6 @@ bool Enemy::syuuketu()
 	if (distance.Length() <= 150.0f)
 	{
 		SetLeaderState(Enemyleader::gathering);
-
 		Leader->GetSkinmdel().UpdateInstancingData(m_position, m_angle, CVector3::One());
 		return true;
 	}
@@ -182,7 +185,6 @@ bool Enemy::syuuketu()
 		m_nextpos = path.Pathpos();
 		if (m_nextpos.x == m_oldposition.y&&m_nextpos.y == m_oldposition.x&&m_nextpos.z == m_oldposition.z)
 		{
-
 			SetLeaderState(Enemyleader::gathering);
 			return true;
 		}
@@ -192,18 +194,19 @@ bool Enemy::syuuketu()
 	speed.Normalize();
 	Findangle(speed);
 	speed *= 500.0f;
-	Setmove(speed);
-	mRot.MakeRotationFromQuaternion(m_angle);
-	m_Front.x = mRot.m[2][0];
-	m_Front.y = mRot.m[2][1];
-	m_Front.z = mRot.m[2][2];
-	m_Front.y = 0.0f;
-	m_Front.Normalize();
+	//Setmove(speed);
 	m_moveVector = m_Front;
 	m_moveVector *= m_speed;
 	m_moveVector.y -= 9.8*10.0f;
 	m_position += m_moveVector * 1.0 / 30.0f;
 	m_position = m_collider.Execute(1.0f / 30.0f, m_moveVector);
 	Leader->GetSkinmdel().UpdateInstancingData(m_position, m_angle, CVector3::One());
+
+	mRot.MakeRotationFromQuaternion(m_angle);
+	m_Front.x = mRot.m[2][0];
+	m_Front.y = mRot.m[2][1];
+	m_Front.z = mRot.m[2][2];
+	m_Front.y = 0.0f;
+	m_Front.Normalize();
 	return false;
 }

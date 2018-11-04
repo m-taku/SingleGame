@@ -39,6 +39,10 @@ public:
 	{
 		return *m_indexBufferArray[No].get();
 	}
+	int Getok()
+	{
+		return m_vertexBufferArray.size();
+	}
 private:
 	std::vector<VertexBufferPtr>					m_vertexBufferArray;		//頂点バッファの配列。
 	std::vector<IndexBufferPtr>						m_indexBufferArray;		//インデックスバッファの配列。

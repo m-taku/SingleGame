@@ -10,6 +10,7 @@ Path::Path()
 
 Path::~Path()
 {
+
 }
 void Path::course(CVector3 sturt, CVector3 end)
 {
@@ -18,17 +19,20 @@ void Path::course(CVector3 sturt, CVector3 end)
 
 	int sturtNo = pathdete->Findpos_No(sturt);
 	int endNo = pathdete->Findpos_No(end);
-	PasDate ka;
-	ka.No = sturtNo;
+
+	PasDate* ka = new PasDate;
+	ka->No = sturtNo;
 	std::vector<PasDate*> open;
 	std::vector<PasDate*> cloas;
-	open.push_back(&ka);
+	open.push_back(ka);
 	auto p = open[0];
-	float CurrentCost = 0.0f;
 	if (sturtNo == endNo) {
 		coursepasu.push_back(p->No);
+		delete ka;
 		return;
 	}
+	float CurrentCost = 0.0f;
+
 	while (p->No!= endNo)
 	{	
 		float costnV2 = FLT_MAX;
@@ -59,6 +63,7 @@ void Path::course(CVector3 sturt, CVector3 end)
 					if (open[k]->No == ka5[j]->No) {
 						if (open[k]->to_DrstinCost <= ka5[j]->to_DrstinCost)
 						{
+							delete ka5[j];
 							open.erase(
 								std::remove(open.begin(), open.end(), ka5[j]),
 								open.end());
@@ -66,6 +71,7 @@ void Path::course(CVector3 sturt, CVector3 end)
 						}
 						else
 						{
+							delete open[k];
 							open.erase(
 								std::remove(open.begin(), open.end(), open[k]),
 								open.end());
@@ -77,19 +83,25 @@ void Path::course(CVector3 sturt, CVector3 end)
 				for (int k = 0; k < cloas.size(); k++) {
 					if (cloas[k]->No == ka5[j]->No) {
 						if (cloas[k]->to_DrstinCost <= ka5[j]->to_DrstinCost) {
+							delete  ka5[j];
 							open.erase(
 								std::remove(open.begin(), open.end(), ka5[j]),
 								open.end());
 							break;
 						}
 						else {
+							delete cloas[k];
 							cloas.erase(
-								std::remove(cloas.begin(), cloas.end(),cloas[k]),
+								std::remove(cloas.begin(), cloas.end(), cloas[k]),
 								open.end());
 							break;
 						}
 					}
 				}
+			}
+			else
+			{
+				delete ka5[j];
 			}
 		}
 		open.erase(
@@ -118,6 +130,12 @@ void Path::course(CVector3 sturt, CVector3 end)
 			Smoothing(&coursepasu);
 		}
 		pathdete->DebugVector(&coursepasu);
+	}
+	for (auto ereas : open) {
+		delete ereas;
+	}
+	for (auto ereas : cloas) {
+		delete ereas;
 	}
 }
 void Path::Smoothing(std::vector<int>* pasu)

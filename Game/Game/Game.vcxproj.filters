@@ -189,6 +189,9 @@
     <ClCompile Include="Enemy\EnemyLeader\EnemyStategathering.cpp">
       <Filter>Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="Monn.cpp" />
+    <ClCompile Include="title.cpp" />
+    <ClCompile Include="Game.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -346,6 +349,9 @@
     <ClInclude Include="Enemy\EnemyLeader\EnemyStategathering.h">
       <Filter>Enemy</Filter>
     </ClInclude>
+    <ClInclude Include="Monn.h" />
+    <ClInclude Include="title.h" />
+    <ClInclude Include="Game.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
@@ -376,6 +382,12 @@
     <MeshContentTask Include="Assets\modelData\jimennabi3.fbx">
       <Filter>Assets\modelData</Filter>
     </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\wall.fbx" />
+    <MeshContentTask Include="Assets\modelData\wall--.fbx" />
+    <MeshContentTask Include="Assets\modelData\wallgeit.fbx" />
+    <MeshContentTask Include="Assets\modelData\jimennabi1.fbx" />
+    <MeshContentTask Include="Assets\modelData\monn1.fbx" />
+    <MeshContentTask Include="Assets\modelData\monn2.fbx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\level\stage_01.tkl">
@@ -415,5 +427,7 @@
     <ImageContentTask Include="Assets\texture\HP_waku.png">
       <Filter>Assets\texture</Filter>
     </ImageContentTask>
+    <ImageContentTask Include="Assets\texture\taitoru.png" />
+    <ImageContentTask Include="Assets\texture\yellow.png" />
   </ItemGroup>
 </Project>
