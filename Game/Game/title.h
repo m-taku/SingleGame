@@ -10,7 +10,10 @@ public:
 private:
 	ShaderResourceView texture;
 	ShaderResourceView Texture;
-	sprite HP_bar_waku;
-	sprite HP_bar;
+	ShaderResourceView texturea;
+	sprite title_haikei;
+	sprite title_moji;
+	sprite feid;
+	float toumei = 0.0f;
 };
 

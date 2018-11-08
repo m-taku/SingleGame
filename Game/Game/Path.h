@@ -7,7 +7,7 @@ public:
 	~Path();
 	/*
 	*@brief パスデータのインスタンスセット
-	*@　Navimake*
+	*@param[in]　Navimake*
 	*/
 	void Setpathdete(Navimake* navimake)
 	{
@@ -15,7 +15,8 @@ public:
 	}
 	/*
 	*@brief 経路探査+スムージング処理（やりすぎ注意！！）
-	*@　CVctor3　sturt,end
+	*@param[in]　CVector3　sturt  （初期ポジション）
+	*@param[in]　CVector3　end　　（目標ポジション）
 	*/
 	void course(CVector3 sturt, CVector3 end);
 	/*
@@ -47,12 +48,12 @@ public:
 	};
 	/*
 	*@brief パスデータによるスムージング処理（coursepasuを変更）
-	*@　std::vector<int>* pasu（いどうぱすの集合）
+	*@param[in]　std::vector<int>* pasu（移動パスの集合）
 	*/
 	void Smoothing(std::vector<int>* pasu);
 private:
-	std::vector<int> coursepasu;
-	Navimake* pathdete = nullptr;
-	int m_nuwNo = 0;
+	std::vector<int> coursepasu;							//経路探査の結果（スムージング処理済み）
+	Navimake* pathdete = nullptr;							//セル（ポリゴン）のデータ
+	int m_nuwNo = 0;										//今何番目のポイントに向かっているか
 };
 

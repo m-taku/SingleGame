@@ -17,7 +17,8 @@ Stage::~Stage()
 bool Stage::Load()
 {
 	//cmoファイルの読み込み。
-  //  m_model.Init(L"Assets/modelData/wall--.cmo");
+    // m_model.Init(L"Assets/modelData/wall--.cmo");
+	//ステージのレベル
 	level.Init(L"Assets/level/stage_05.tkl", [&](LevelObjectData objData)
 	{
 		auto No = wcscmp(objData.name, (L"monn1"));
@@ -40,8 +41,9 @@ bool Stage::Load()
 		return false;
 	});
 	//Stege.CreateMeshObject(m_model, CVector3::Zero(), CQuaternion::Identity());
+	//地面のみのセル（ポリゴン）を生成する（地面のモデルはこちらから）
 	navimake = objectManager->NewGO<Navimake>(0,"Navimake");
-	Loadfrag = true;
+	//Loadfrag = true;
 	return true;
 }
 void Stage::Update()
@@ -55,6 +57,6 @@ void Stage::Draw()
 	//	g_camera3D.GetViewMatrix(),
 	//	g_camera3D.GetProjectionMatrix()
 	//);
-	navimake->Up();
+	//navimake->Update();
 	level.Draw();
 }

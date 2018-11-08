@@ -5,7 +5,7 @@
 #include"UI.h"
 #include"Stage.h"
 #include"Enemy/EnemyLeader/Enemyleader.h"
-#include"Enemy/EnemyLeader/Enemy.h"
+#include"Enemy/Enemy.h"
 #include"Player/Player.h"
 #include"Gamecamera.h"
 

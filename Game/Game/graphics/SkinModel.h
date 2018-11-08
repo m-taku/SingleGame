@@ -131,7 +131,9 @@ private:
 	DirectX::Model*		m_modelDx;						//!<DirectXTKが提供するモデルクラス。
 	ID3D11SamplerState* m_samplerState = nullptr;		//!<サンプラステート。	
 	std::unique_ptr<CMatrix[]>	m_instancingData;		//!<インスタンシング描画用のデータ。
+	CMatrix m_Matrix[10];
 	float m_colre = 0.0f;
+	bool result = true;
 	int m_numInstance = 0;								//!<インスタンシング用の個数
 	int m_maxInstance = 0;								//!<インスタンシングデータの最大数(インスタンシング始動時に決定)
 	StucturedBuffer	m_instancingDataSB;				    //!<インスタンシング描画用のストラクチャーバッファ。

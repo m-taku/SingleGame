@@ -29,7 +29,6 @@ void GameobjectManager::Execute()
 			}
 		}
 	}
-
 	for (auto list : List) {
 		for (auto objedct : list.GetList()) {
 			if (objedct->GetLodefrag()) {

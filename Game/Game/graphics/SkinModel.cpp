@@ -40,7 +40,7 @@ void SkinModel::InitSkeleton(const wchar_t* filePath)
 	//.cmoファイルを.tksに置き換える。
 	skeletonFilePath.replace(pos, 4, L".tks");
 	//tksファイルをロードする。
-	bool result = m_skeleton.Load(skeletonFilePath.c_str());
+	result = m_skeleton.Load(skeletonFilePath.c_str());
 	if ( result == false ) {
 		//スケルトンが読み込みに失敗した。
 		//アニメーションしないモデルは、スケルトンが不要なので
@@ -72,7 +72,7 @@ void SkinModel::InitConstantBuffer()
 	//どんなバッファを作成するのかをせてbufferDescに設定する。
 	D3D11_BUFFER_DESC bufferDesc1;
 	ZeroMemory(&bufferDesc1, sizeof(bufferDesc1));				//０でクリア。
-	bufferDesc1.Usage = D3D11_USAGE_DEFAULT;						//バッファで想定されている、読み込みおよび書き込み方法。
+	bufferDesc1.Usage = D3D11_USAGE_DEFAULT;					//バッファで想定されている、読み込みおよび書き込み方法。
 	bufferDesc1.ByteWidth = (((bufferSize - 1) / 16) + 1) * 16;	//バッファは16バイトアライメントになっている必要がある。
 																//アライメントって→バッファのサイズが16の倍数ということです。
 	bufferDesc1.BindFlags = D3D11_BIND_CONSTANT_BUFFER;			//バッファをどのようなパイプラインにバインドするかを指定する。
@@ -113,15 +113,33 @@ void SkinModel::UpdateInstancingData(
 {
 	UpdateWorldMatrix(trans, rot, scale);
 	if (m_numInstance < m_maxInstance) {
-		//インスタンシングデータを更新する。
 		m_instancingData[m_numInstance] = m_worldMatrix;
+		if (result) {
+			auto na = m_worldMatrix;
+			//スキンあり用の行列を生成
+			CMatrix transMatrix, rotMatrix, scaleMatrix;
+			//平行移動行列を作成する。
+			transMatrix.MakeTranslation(trans);
+			//回転行列を作成する。
+			rotMatrix = CMatrix::Identity();
+			//拡大行列を作成する。
+			scaleMatrix.MakeScaling(scale);
+			//ワールド行列を作成する。
+			//拡大×回転×平行移動の順番で乗算するように！
+			//順番を間違えたら結果が変わるよ。
+			m_worldMatrix = CMatrix::Identity();
+			m_worldMatrix.Mul(scaleMatrix, rotMatrix);
+			m_worldMatrix.Mul(m_worldMatrix, transMatrix);
+			m_instancingData[m_numInstance] = m_worldMatrix;
+			m_worldMatrix.Inverse(m_worldMatrix);
+			for (int i = 0; i < m_numInstance; i++) {
+				m_Matrix[i] = CMatrix::Identity();
+				m_Matrix[i].Mul(m_instancingData[i], m_worldMatrix);
+			}
+		}
 		m_numInstance++;
 	}
-	else {
-		int i = 0;
-		i++; 
-		i++;
-	}
+
 }
 //void SkinModel::EndUpdateInstancingData()
 //{
@@ -153,7 +171,6 @@ void SkinModel::UpdateWorldMatrix(CVector3 position, CQuaternion rotation, CVect
 	//順番を間違えたら結果が変わるよ。
 	m_worldMatrix.Mul(scaleMatrix, rotMatrix);
 	m_worldMatrix.Mul(m_worldMatrix, transMatrix);
-
 	//スケルトンの更新。
 	m_skeleton.Update(m_worldMatrix);
 }
@@ -164,12 +181,26 @@ void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 	DirectX::CommonStates state(g_graphicsEngine->GetD3DDevice());	
 	if (m_maxInstance > 1) {
 		//インスタンシング用のデータを更新。
+		if (result)
+		{
+			m_Matrix[2] = CMatrix::Identity();
+			for (int i = 0; i < 3; i++)
+			{
+				m_instancingData[i] = m_Matrix[i];
+			}
+		}
 		d3dDeviceContext->UpdateSubresource(m_instancingDataSB.GetBody(),  0, NULL, m_instancingData.get(), 0, 0 );
 		d3dDeviceContext->VSSetShaderResources(100,1, &(m_instancingDataSB.GetSRV()).GetBody());
 	}
 	//定数バッファの内容を更新。
 	SVSConstantBuffer vsCb;
-	vsCb.mWorld = m_worldMatrix;
+	if (result) {
+		vsCb.mWorld = CMatrix::Identity();
+	}
+	else
+	{
+		vsCb.mWorld = m_worldMatrix;
+	}
 	vsCb.mProj = projMatrix;
 	vsCb.mView = viewMatrix;
 	static color Color;

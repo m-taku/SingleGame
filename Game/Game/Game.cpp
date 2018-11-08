@@ -4,7 +4,7 @@
 #include"UI.h"
 #include"Stage.h"
 #include"Enemy/EnemyLeader/Enemyleader.h"
-#include"Enemy/EnemyLeader/Enemy.h"
+#include"Enemy/Enemy.h"
 #include"Player/Player.h"
 #include"Gamecamera.h"
 
@@ -26,15 +26,16 @@ bool Game::Load()
 	player->SetCamera(Camera);
 	static int kuku = 0;
 	Level level;
-	level.Init(L"Assets/level/Enemy_lever1.tkl", [&](LevelObjectData objData)
+	level.Init(L"Assets/level/Enemy_lever00.tkl", [&](LevelObjectData objData)
 	{
-		kuku++;
-		if (kuku != 2) {
-			return true;
-		}
+		//kuku++;
+		//if (kuku != 2) {
+		//	return true;
+
+		//}
 		Enemyleader* enemy = objectManager->NewGO<Enemyleader>(1, "Enemyleader");
 		auto pos = objData.position;
-		pos.y = 100.0f;
+
 		enemy->Setposition(pos);
 		enemy->Setplayer(player);
 		return true;

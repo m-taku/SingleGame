@@ -117,15 +117,15 @@ PSInput VSMain(VSInputNmTxVcTangent In)
  * 全ての頂点に対してこのシェーダーが呼ばれる。
  * Inは1つの頂点データ。VSInputNmTxWeightsを見てみよう。
 -------------------------------------------------------------------------------------- */
-PSInput VSMainSkin( VSInputNmTxWeights In ) 
+PSInput VSMainSkincreate( VSInputNmTxWeights In ,float4x4 worldMat)
 {
 	PSInput psInput = (PSInput)0;
 	///////////////////////////////////////////////////
 	//ここからスキニングを行っている箇所。
 	//スキン行列を計算。
 	///////////////////////////////////////////////////
-	float4x4 skinning = 0;	
-	float4 pos = 0;
+	float4x4 skinning = 0;
+	float4 pos =0;
 	{
 	
 		float w = 0.0f;
@@ -141,8 +141,9 @@ PSInput VSMainSkin( VSInputNmTxWeights In )
 	    skinning += boneMatrix[In.Indices[3]] * (1.0f - w);
 	  	//頂点座標にスキン行列を乗算して、頂点をワールド空間に変換。
 		//mulは乗算命令。
-	    pos = mul(skinning, In.Position);
+	   pos = mul(skinning, In.Position);
 	}
+	pos = mul(worldMat, pos);
 	psInput.Normal = normalize( mul(skinning, In.Normal) );
 	psInput.Tangent = normalize( mul(skinning, In.Tangent) );
 
@@ -152,6 +153,14 @@ PSInput VSMainSkin( VSInputNmTxWeights In )
 	psInput.Position = pos;
 	psInput.TexCoord = In.TexCoord;
     return psInput;
+}
+PSInput VSMainSkinInstancing(VSInputNmTxWeights In, uint instanceID : SV_InstanceID)
+{
+	return VSMainSkincreate(In, instanceMatrix[instanceID]);
+}
+PSInput VSMainSkin(VSInputNmTxWeights In)
+{
+	return VSMainSkincreate(In, mWorld);
 }
 //--------------------------------------------------------------------------------------
 // ピクセルシェーダーのエントリ関数。
@@ -170,7 +179,7 @@ float4 PSMain( PSInput In ) : SV_Target0
 
 	////④ pow関数を使って、スペキュラを絞る。絞りの強さは定数バッファで渡されている。
 	////	 LightCbを参照するように。
-	float3 ka = pow(n2, 10.0f)*color.xyx;
+	float3 ka = pow(n2, 50.0f)*color.xyx;
 	////⑤ スペキュラ反射が求まったら、ligに加算する。
 	////鏡面反射を反射光に加算する。
 	lig = lig + ka;

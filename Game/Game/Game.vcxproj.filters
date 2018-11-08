@@ -170,28 +170,28 @@
     <ClCompile Include="Enemy\EnemyLeader\Enemyleader.cpp">
       <Filter>Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy\EnemyLeader\Enemy.cpp">
-      <Filter>Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy\EnemyLeader\EnemyState.cpp">
-      <Filter>Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy\EnemyLeader\EnemyStateAttack.cpp">
-      <Filter>Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy\EnemyLeader\EnemyStateMove.cpp">
-      <Filter>Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy\EnemyLeader\EnemyStateTracking.cpp">
-      <Filter>Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="Enemy\EnemyLeader\EnemySteatGroupMove.cpp" />
-    <ClCompile Include="Enemy\EnemyLeader\EnemyStategathering.cpp">
-      <Filter>Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="Monn.cpp" />
     <ClCompile Include="title.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Enemy\Enemy.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy\EnemyState.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy\EnemyStateAttack.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy\EnemyStategathering.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy\EnemyStateMove.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy\EnemyStateTracking.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -327,31 +327,31 @@
     <ClInclude Include="Enemy\EnemyLeader\Enemyleader.h">
       <Filter>Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy\EnemyLeader\Enemy.h">
-      <Filter>Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy\EnemyLeader\EnemyState.h">
-      <Filter>Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy\EnemyLeader\EnemyStateAttack.h">
-      <Filter>Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy\EnemyLeader\EnemyStateMove.h">
-      <Filter>Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy\EnemyLeader\EnemyStateTracking.h">
-      <Filter>Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy\EnemyLeader\Enenystate.h">
-      <Filter>Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="Enemy\EnemyLeader\EnemySteatGroupMove.h" />
-    <ClInclude Include="Enemy\EnemyLeader\EnemyStategathering.h">
-      <Filter>Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="Monn.h" />
     <ClInclude Include="title.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Enemy\Enemy.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy\EnemyState.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy\EnemyStateAttack.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy\EnemyStategathering.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy\EnemyStateMove.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy\EnemyStateTracking.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy\Enenystate.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
@@ -388,6 +388,7 @@
     <MeshContentTask Include="Assets\modelData\jimennabi1.fbx" />
     <MeshContentTask Include="Assets\modelData\monn1.fbx" />
     <MeshContentTask Include="Assets\modelData\monn2.fbx" />
+    <MeshContentTask Include="Assets\modelData\ToonRTS_demo_Knight.FBX" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\level\stage_01.tkl">
@@ -429,5 +430,6 @@
     </ImageContentTask>
     <ImageContentTask Include="Assets\texture\taitoru.png" />
     <ImageContentTask Include="Assets\texture\yellow.png" />
+    <ImageContentTask Include="Assets\texture\White.png" />
   </ItemGroup>
 </Project>

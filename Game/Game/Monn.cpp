@@ -41,21 +41,26 @@ bool Monn::Load()
 }
 void Monn::Update()
 {
-
+	//とりあえずボタンで開閉
+	if (g_pad[0].IsTrigger(enButtonB)&& m_rod==0.0f)
+	{
+		m_rod = 2.0f;
+		Setkaku();
+	}
 	auto rod = CQuaternion::Identity();
 	rod.SetRotationDeg(CVector3::AxisY(), m_rod);
 	m_rotation.Multiply(rod);
 	m_model.UpdateWorldMatrix(m_position, m_rotation, CVector3::One());
 	m_kaku += fabs(m_rod);
+	//開ききる（閉じきる）まで回ったら
 	if (m_kaku >= 90.0f)
 	{
-		Setkaku();
-		m_rod = 0;
-		m_kaku = 90;
+		//回転を終了する
+		m_rod = 0.0f; 
+		m_kaku = 0.0f;
 	}
 	btRigidBody* btBody = m_rigidBody.GetBody();
 	//剛体を動かす。
-	//btBody->setActivationState(DISABLE_DEACTIVATION);
 	btTransform& trans = btBody->getWorldTransform();
 	//剛体の位置を更新。
 	trans.setOrigin(btVector3(m_position.x, m_position.y, m_position.z));

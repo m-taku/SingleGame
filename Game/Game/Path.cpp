@@ -48,6 +48,9 @@ void Path::course(CVector3 sturt, CVector3 end)
 		//auto ka1= ka5.begin();
 		//float costng = FLT_MAX;
 		//int MinNo = 0;
+		open.erase(
+			std::remove(open.begin(), open.end(), p),
+			open.end());
 		cloas.push_back(p);
 		for (int j=0;j<3;j++)
 		{
@@ -104,9 +107,7 @@ void Path::course(CVector3 sturt, CVector3 end)
 				delete ka5[j];
 			}
 		}
-		open.erase(
-			std::remove(open.begin(), open.end(), p),
-			open.end());
+
 		if (open.size() <= 0)
 		{
 			break;

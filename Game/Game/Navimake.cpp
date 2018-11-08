@@ -10,7 +10,7 @@ Navimake::Navimake()
 	m_meshCollider.CreateFromSkinModel(m_model, nullptr);
 	//メッシュコライダーから頂点バッファとインデックスバッファの情報をGetする
 	int No = 0;
-	for (int i = 0; i </* m_meshCollider.Getok()*/1; i++) {
+	for (int i = 0; i < /*m_meshCollider.Getok()*/1; i++) {
 		auto vertex = m_meshCollider.Getvertex(i);
 		auto index = m_meshCollider.GetIndex(i);
 		
@@ -136,28 +136,28 @@ Navimake::Navimake()
 		vector[vector.size() - 1]->Update(centerposition);
 	}
 	//ここからデバック用のリンク表示
-	{
-		std::vector<CVector3> centerposition1;
-		std::vector<CVector3> Vectorlist;
-		std::vector<float> Vectorpore;
-		for (int i = 0; i < seru.size(); i++)
-		{
-			CVector3 c_position;
-			c_position = seru[i]->centerposition;
-			for (int j = 0; j < 3; j++) {
-				if (seru[i]->linkNoList[j] != -1)
-				{
-					CVector3 Vector = CVector3::Zero();
-					Vector = seru[seru[i]->linkNoList[j]]->centerposition - c_position;
-					centerposition1.push_back(c_position);
-					Vectorlist.push_back(Vector);
-					Vectorpore.push_back(Vector.Length() / 3.0f);
-				}
-			}
-		}
-		vector.push_back(new VectorDraw(seru[0]->centerposition, centerposition1.size()));
-		vector[vector.size()-1]->Update(centerposition1.begin(), Vectorlist.begin(), Vectorpore.begin());
-	}
+	//{
+	//	std::vector<CVector3> centerposition1;
+	//	std::vector<CVector3> Vectorlist;
+	//	std::vector<float> Vectorpore;
+	//	for (int i = 0; i < seru.size(); i++)
+	//	{
+	//		CVector3 c_position;
+	//		c_position = seru[i]->centerposition;
+	//		for (int j = 0; j < 3; j++) {
+	//			if (seru[i]->linkNoList[j] != -1)
+	//			{
+	//				CVector3 Vector = CVector3::Zero();
+	//				Vector = seru[seru[i]->linkNoList[j]]->centerposition - c_position;
+	//				centerposition1.push_back(c_position);
+	//				Vectorlist.push_back(Vector);
+	//				Vectorpore.push_back(Vector.Length() / 3.0f);
+	//			}
+	//		}
+	//	}
+	//	vector.push_back(new VectorDraw(seru[0]->centerposition, centerposition1.size()));
+	//	vector[vector.size()-1]->Update(centerposition1.begin(), Vectorlist.begin(), Vectorpore.begin());
+	//}
 	//剛体を作成、
 	RigidBodyInfo rbInfo;
 	rbInfo.collider = &m_meshCollider; //剛体に形状(コライダー)を設定する。
@@ -186,7 +186,7 @@ Navimake::~Navimake()
 	seru.clear();
 
 }
-void Navimake::Up()
+void Navimake::Draw()
 {
 	m_model.Draw(
 		g_camera3D.GetViewMatrix(),
@@ -207,8 +207,8 @@ CVector3 Navimake::Searchcenter(const CVector3 (&pos)[3])
 }
 const std::vector<Path::PasDate*> Navimake::FindLinc(Path::PasDate& date, int endNo,float cost)const
 {
-	std::vector<Path::PasDate*> ks;
-	ks.resize(3);
+	std::vector<Path::PasDate*> dete;
+	dete.resize(3);
 	for (int i = 0; i < 3; i++) {
 		Path::PasDate* pasDate = new Path::PasDate;
 		if (seru[date.No]->linkNoList[i] != -1) {
@@ -224,10 +224,10 @@ const std::vector<Path::PasDate*> Navimake::FindLinc(Path::PasDate& date, int en
 		{
 			pasDate->ParentDate = &date;
 		}
-		ks[i] = pasDate;
+		dete[i] = pasDate;
 		//delete pasDate;
 	}
-	return ks;
+	return dete;
 }
 void Navimake::DebugVector(std::vector<int>* a)
 {

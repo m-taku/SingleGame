@@ -8,9 +8,10 @@ class Navimake:public Gameobject
 public:
 	Navimake();
 	~Navimake();
-	void Up();
+	void Draw();
 	/*
 	*@brief	ポジションを使ったバス番号検索
+	*@param[in] CVector3(ポジション)
 	*@return int（パス番号）
 	*/
 	int Findpos_No(CVector3 position)
@@ -31,13 +32,18 @@ public:
 		}
 		return No;
 	}
+	/*
+	*@brief	番号がわかっているときの中心座標検索
+	*@param[in]  std::vector<int>
+	*@return CVector3
+	*/
 	CVector3 FindNo_pos(int No)
 	{
 		return seru[No]->centerposition;
 	}
 	/*
 	*@brief	パスの入った配列を使ったデバック表示用関数
-	*  std::vector<int>
+	*@param[in]  std::vector<int>
 	*/
 	void DebugVector(std::vector<int>* a);
 	/*
@@ -62,7 +68,7 @@ private:
 		float                   cost[3];			//!<リンク先に行く際のコスト
 	};
 	CVector3 Searchcenter(const CVector3 (&pos)[3]);	//中点を求める関数
-	MeshCollider m_meshCollider;						//
+	MeshCollider m_meshCollider;						//メッシュ情報
 	CharacterController *m_collider = nullptr;			//キャラクターコントローラー
 	SkinModel m_model;									//モデルデータ
 	std::vector<SData*> seru;							//三角形１つのデータ

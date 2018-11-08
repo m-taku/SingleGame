@@ -9,6 +9,10 @@ class Enemyleader:public Gameobject
 public:
 	Enemyleader();
 	~Enemyleader();
+	enum animation {
+		idle,
+		animnum
+	};
 	//グループの状態
 	enum State{
 		group,
@@ -87,9 +91,9 @@ private:
 	Path* path=nullptr;										    //経路探査用のインスタンス
 	CVector3 m_nextpos = CVector3::Zero();						//パス移動用の次ポジション
 	CVector3 m_oldposition = CVector3::Zero();					//1フレーム前のポジション（壁擦りなどの判定などなど）
-	//CharacterController m_collider;								//キャラクターコントローラー
+	//CharacterController m_collider;							//キャラクターコントローラー
 	SkinModel m_model;											//インスタンシング用の描画インスタンス
-	static const int SOLDIER = 2;								//リーダーを含む部隊の総数
+	static const int SOLDIER = 3;								//リーダーを含む部隊の総数
 	State state = { group };									//グループの今の状態
 	Player* player;												//プレイヤーのインスタンス
 	std::array<Enemy*, SOLDIER> enemy;							//エネミーのインスタンス（SOLDIER）
@@ -98,5 +102,7 @@ private:
 	int ninzuu = 0;
 	int remaining = SOLDIER;									//今現在のエネミー総数
 	int m_time = 0;		//仮？？
+	AnimationClip animationclip[animnum];
+	Animation animation;
 };
 

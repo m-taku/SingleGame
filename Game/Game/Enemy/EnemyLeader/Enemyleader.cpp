@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Enemyleader.h"
-#include"Enemy.h"
+#include"../Enemy.h"
 
 
 Enemyleader::Enemyleader()
@@ -18,7 +18,7 @@ Enemyleader::~Enemyleader()
 bool Enemyleader::Load()
 {
 
-	m_model.Init(L"Assets/modelData/Enemy.cmo",SOLDIER);
+	m_model.Init(L"Assets/modelData/ToonRTS_demo_Knight.cmo",SOLDIER);
 	for (int i = 0; i < SOLDIER; i++) {
 		enemy[i] = new Enemy;
 		enemy[i]->Setposition(position);
@@ -32,6 +32,11 @@ bool Enemyleader::Load()
 	path->course(position, player->Get2Dposition());
 	m_nextpos = path->Pathpos();
 	Loadfrag = true;
+	animationclip[idle].Load(L"Assets/animData/enemy_idel.tka");
+	animationclip[idle].SetLoopFlag(true);
+	animation.Init(m_model, animationclip, animnum);
+
+	animation.Play(idle, 0.2f);
 	return true;
 }
 void Enemyleader::Update()
@@ -57,12 +62,13 @@ void Enemyleader::Update()
 			for (int i = 0; i < remaining; i++) {
 				m_model.UpdateInstancingData(position + haiti[i], CQuaternion::Identity(), CVector3::One());
 				enemy[i]->Setposition(position + haiti[i]);
+				enemy[i]->SetCollider(position + haiti[i]);
 			}
 		}
 		break;
 	case person:
 		for (int i = 0; i < remaining; i++) {
-			enemy[i]->Update();	
+			enemy[i]->Update();
 			if (state == gathering)
 			{
 				for (int i = 0; i < remaining; i++) {
@@ -79,20 +85,29 @@ void Enemyleader::Update()
 			enemy[i]->Update();
 		}
 	}
-		break;
+	break;
 	default:
 		break;
 	}
+	animation.Play(idle, 0.2f);
+	animation.Update(0.2f);
 }
 void Enemyleader::Draw()
 {
-	
-	m_model.Draw(
-		g_camera3D.GetViewMatrix(),
-		g_camera3D.GetProjectionMatrix()
-	);
+	if (state == group) {
+		m_model.Draw(
+			g_camera3D.GetViewMatrix(),
+			g_camera3D.GetProjectionMatrix()
+		);
+	}
+	else
+	{
+		for (int i = 0; i < remaining; i++) {
+			enemy[i]->Draw();
+		}
+	}
 	for (int i = 0; i < remaining; i++) {
-		enemy[i]->Draw();
+		enemy[i]->postDraw();
 	}
 }
 void Enemyleader::move()
@@ -100,7 +115,7 @@ void Enemyleader::move()
 	CVector3 speed = CVector3::Zero();
 	CVector3 nowpos = position;
 	speed = m_nextpos - nowpos;
-	if (speed.Length() <= 250.0f)
+	if (speed.Length() <= 50.0f)
 	{
 		m_nextpos = path->Pathpos();	
 		if (m_nextpos.x == m_oldposition.y&&m_nextpos.y == m_oldposition.x&&m_nextpos.z == m_oldposition.z)

@@ -19,11 +19,18 @@ public:
 	*@param[in]	h				縦方向の長さ（720）
 	*/
 	void Init(ShaderResourceView* texture, float w, float h);
-
+	/*!
+	*@brief	テクスチャのハーフサイズ（X）
+	*@return　float
+	*/
 	float Gethalf_sizeX()
 	{
 		return half_size.x;
 	}
+	/*!
+	*@brief	テクスチャのハーフサイズ（Y）
+	*@return　float 
+	*/
 	float Gethalf_sizeY()
 	{
 		return half_size.y;
@@ -63,19 +70,18 @@ public:
 		m_mulColor.w = clear;
 	}
 private:
-	Shader m_ps;															//!<ピクセルシェーダー。
-	Shader m_vs;															//!<頂点シェーダー。
-	SpriteData m_date;
-	CVector2 sprite_size;													//!スプライトのサイズ（ｘ、ｙ）
-	CVector2 half_size;														//!スプライトのハーフサイズ（ｘ*0.5、ｙ*0.5）
-	CVector3				m_position = CVector3::Zero();					//!<座標。
-	CQuaternion				m_rotation = CQuaternion::Identity();			//!<回転
-	CVector3				m_scale = CVector3::One();
-	CMatrix					m_world = CMatrix::Identity();					//!<ワールド行列。					
-	CVector4				m_mulColor = CVector4::White();					//!<乗算カラー。
 	ShaderResourceView*	    m_textureSRV = nullptr;							//!<テクスチャ。
+	SpriteData				m_date;
+	Shader					m_ps;											//!<ピクセルシェーダー。
+	Shader					m_vs;											//!<頂点シェーダー。
 	constantBuffer			m_cb;
-
+	CVector2			    sprite_size;									//!スプライトのサイズ（ｘ、ｙ）
+	CVector2				half_size;										//!スプライトのハーフサイズ（ｘ*0.5、ｙ*0.5）
 	CVector2				m_size = CVector2::Zero();						//!<サイズ。
+	CVector3				m_position = CVector3::Zero();					//!<座標。
+	CVector3				m_scale = CVector3::One();			
+	CVector4				m_mulColor = CVector4::White();					//!<乗算カラー。
+	CQuaternion				m_rotation = CQuaternion::Identity();			//!<回転
+	CMatrix					m_world = CMatrix::Identity();					//!<ワールド行列。		
 };
 
