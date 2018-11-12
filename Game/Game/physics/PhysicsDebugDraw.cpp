@@ -37,7 +37,7 @@ void PhysicsDebugDraw::EndDraw()
 	cb.mView = g_camera3D.GetViewMatrix();
 	cb.mProj = g_camera3D.GetProjectionMatrix();
 	CVector4 colr;
-	static color Color;
+
 	//static float ja=0.0f;
 	//ja += 1.0f/30.0f;
 	//if (ja >= 1.0f)

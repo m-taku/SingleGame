@@ -56,6 +56,16 @@ void GraphicsEngine::Release()
 		m_pd3dDevice->Release();
 		m_pd3dDevice = NULL;
 	}
+	if (m_SpriteBatch != NULL)
+	{
+		delete m_SpriteBatch;
+		m_SpriteBatch = NULL;
+	}
+	if (m_SpriteFont != NULL)
+	{
+		delete m_SpriteFont;
+		m_SpriteFont = NULL;
+	}
 }
 void GraphicsEngine::Init(HWND hWnd)
 {
@@ -193,4 +203,7 @@ void GraphicsEngine::Init(HWND hWnd)
 
 	}
 	m_pd3dDeviceContext->RSSetState(m_rasterizerState);
+
+	m_SpriteBatch = new DirectX::SpriteBatch(m_pd3dDeviceContext);
+	m_SpriteFont = new DirectX::SpriteFont(m_pd3dDevice, L"Assets/font/myfile.spritefont");
 }

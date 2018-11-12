@@ -1,12 +1,29 @@
 #pragma once
 #include"EnemyState.h"
+/// <summary>
+/// Enemyのアタックステートクラス。
+/// </summary>
 class EnemyStateAttack :public EnemyState
 {
 public:
-	EnemyStateAttack(Enemy* enamy, Player* player);
-	~EnemyStateAttack();
-	void Update();
+	/// <summary>
+	/// コンストラクタ。
+	/// </summary>
+	/// <param name="enemy_point">
+	/// エネミーのポインタ。（Enemy*）
+	/// </param>
+	/// <param name="pla">
+	/// プレイヤーのポインタ。（Player*）
+	/// </param>
+	EnemyStateAttack(Enemy* enemy_point, Player* pla);
+	/// <summary>
+	/// デストラクタ。
+	/// </summary>
+	~EnemyStateAttack();	
+	/// <summary>
+	/// EnemyStateから継承したアップデート関数。
+	/// </summary>
+	void Update() override;
 private:
-	int ja;
 }; 
 

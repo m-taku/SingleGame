@@ -30,7 +30,7 @@ Navimake::Navimake()
 			data->cost[2] = -1;
 			data->No = No++;
 			//できたポリゴン（セル）情報をpush_backする
-			seru.push_back(data);
+			m_seru.push_back(data);
 			//ここからContactTestによるパス除外処理
 			{
 				m_collider = new CharacterController;
@@ -51,9 +51,9 @@ Navimake::Navimake()
 				});
 				if (frag)
 				{
-					seru.erase(
-						std::remove(seru.begin(), seru.end(), data),
-						seru.end());
+					m_seru.erase(
+						std::remove(m_seru.begin(), m_seru.end(), data),
+						m_seru.end());
 					delete data;
 					No--;
 				}
@@ -64,11 +64,11 @@ Navimake::Navimake()
 	}
 	//ここからリンク情報の制作
 
-	for (auto Major = seru.begin(); Major != seru.end(); Major++)
+	for (auto Major = m_seru.begin(); Major != m_seru.end(); Major++)
 	{
 		//まず大元になる１つのポリゴン（セル）を決定する
 		SData& MajorData = *(*Major);
-		for (auto Former = seru.begin(); Former != seru.end(); Former++)
+		for (auto Former = m_seru.begin(); Former != m_seru.end(); Former++)
 		{
 			const SData& ComparisonData = **Former;
 			//大元以外のポリゴン（セル）を検索する
@@ -128,10 +128,10 @@ Navimake::Navimake()
 	//ここからデバック用の中点表示
 	{
 		std::vector<CVector3> centerposition;
-		vector.push_back(new VectorDraw(seru[0]->centerposition, seru.size()));
-		for (int i = 0; i < seru.size(); i++)
+		vector.push_back(new VectorDraw(m_seru[0]->centerposition,m_seru.size()));
+		for (int i = 0; i < m_seru.size(); i++)
 		{
-			centerposition.push_back(seru[i]->centerposition);
+			centerposition.push_back(m_seru[i]->centerposition);
 		}
 		vector[vector.size() - 1]->Update(centerposition);
 	}
@@ -179,11 +179,11 @@ Navimake::~Navimake()
 	{
 		delete vector[i];
 	}
-	for (int i = 0; i < seru.size(); i++)
+	for (int i = 0; i < m_seru.size(); i++)
 	{
-		delete seru[i];
+		delete m_seru[i];
 	}
-	seru.clear();
+	m_seru.clear();
 
 }
 void Navimake::Draw()
@@ -205,20 +205,20 @@ CVector3 Navimake::Searchcenter(const CVector3 (&pos)[3])
 	centerpos.z = (pos[0].z + pos[1].z + pos[2].z) / 3;
 	return centerpos;
 }
-const std::vector<Path::PasDate*> Navimake::FindLinc(Path::PasDate& date, int endNo,float cost)const
+std::vector<Path::PasDate*> Navimake::FindLinc(Path::PasDate& date, int endNo,float cost)const
 {
 	std::vector<Path::PasDate*> dete;
 	dete.resize(3);
 	for (int i = 0; i < 3; i++) {
 		Path::PasDate* pasDate = new Path::PasDate;
-		if (seru[date.No]->linkNoList[i] != -1) {
+		if (m_seru[date.No]->linkNoList[i] != -1) {
 			pasDate->ParentDate = &date;
-			pasDate->No = seru[date.No]->linkNoList[i];
-			pasDate->LincNo[0]=  seru[pasDate->No]->linkNoList[0];
-			pasDate->LincNo[1] = seru[pasDate->No]->linkNoList[1];
-			pasDate->LincNo[2] = seru[pasDate->No]->linkNoList[2];
-			pasDate->MoveCost = seru[date.No]->cost[i]+ cost;
-			pasDate->to_DrstinCost= (seru[endNo]->centerposition - seru[pasDate->No]->centerposition).Length();
+			pasDate->No = m_seru[date.No]->linkNoList[i];
+			pasDate->LincNo[0]= m_seru[pasDate->No]->linkNoList[0];
+			pasDate->LincNo[1] = m_seru[pasDate->No]->linkNoList[1];
+			pasDate->LincNo[2] = m_seru[pasDate->No]->linkNoList[2];
+			pasDate->MoveCost = m_seru[date.No]->cost[i]+ cost;
+			pasDate->to_DrstinCost= (m_seru[endNo]->centerposition - m_seru[pasDate->No]->centerposition).Length();
 		}
 		else
 		{
@@ -229,22 +229,22 @@ const std::vector<Path::PasDate*> Navimake::FindLinc(Path::PasDate& date, int en
 	}
 	return dete;
 }
-void Navimake::DebugVector(std::vector<int>* a)
+void Navimake::DebugVector(const std::vector<int>& posudate)
 {
 	std::vector<CVector3> Vectorlist;
 	std::vector<CVector3> centerposition;
 	std::vector<float> Vectorpore;
-	for (int i = 0; i < a->size() - 1; i++)
+	for (int i = 0; i < posudate.size() - 1; i++)
 	{
 		CVector3 c_position;
-		c_position = seru[(*a)[i]]->centerposition;
+		c_position = m_seru[posudate[i]]->centerposition;
 		CVector3 Vector = CVector3::Zero();
-		Vector = seru[(*a)[i + 1]]->centerposition - c_position;
+		Vector = m_seru[posudate[i + 1]]->centerposition - c_position;
 		centerposition.push_back(c_position);
 		Vectorlist.push_back(Vector);
 		Vectorpore.push_back(Vector.Length() / 3.0f);
 	}
-	vector.push_back(new VectorDraw(seru[0]->centerposition, centerposition.size()));
+	vector.push_back(new VectorDraw(m_seru[0]->centerposition, centerposition.size()));
 	if (centerposition.size() != 1) {
 		vector[vector.size() - 1]->Update(centerposition.begin(), Vectorlist.begin(), Vectorpore.begin());
 	}
@@ -274,14 +274,14 @@ bool Navimake::CollisionTest(int sturtNo, int nextNo)
 	
 	CapsuleCollider m_collide;						//コライダー。
 	m_collide.Create(high, ballsize);
-	CVector3 nextPosition = seru[nextNo]->centerposition;
+	CVector3 nextPosition = m_seru[nextNo]->centerposition;
 	//現在の座標から次の移動先へ向かうベクトルを求める。
 	CVector3 addPos;
-	addPos.Subtract(seru[sturtNo]->centerposition, seru[nextNo]->centerposition);
+	addPos.Subtract(m_seru[sturtNo]->centerposition, m_seru[nextNo]->centerposition);
 	CVector3 addPosXZ = addPos;
 	addPosXZ.y = 0.0f;
 	//仮の当たり判定の中心座標 + 高さ*0.1の座標をposTmpに求める。
-	CVector3 posTmp = seru[sturtNo]->centerposition;
+	CVector3 posTmp = m_seru[sturtNo]->centerposition;
 	posTmp.y += high + ballsize + high * 0.1f;
 	//レイを作成。
 	btTransform start, end;

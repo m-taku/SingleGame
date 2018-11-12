@@ -37,39 +37,13 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	g_camera2D.SetFar(1000.0f);
 	g_camera2D.Setcamera2D(true);
 	g_camera2D.Update();
-	//g_camera3D.SetTarget({ 0.0f, 0.0f, 0.0f });
-	//g_camera3D.SetPosition({ 0.0f, 100.0f, 0.0f });
-	//g_camera3D.SetUp({ 1.0f, 0.0f, 0.0f });
-	//g_camera3D.SetFar(10000.0f);
-
-	//int* ka = new int;
+	
 	//プレイヤー
 	//Player player;
 	GameobjectManager objectManage;
 	objectManager = &objectManage;
 	g_physics.SetDebugDrawMode(btIDebugDraw::DBG_DrawWireframe);
-	//objectManager->NewGO<Stage>(0);
-	////ゲームループ。
-	//auto player = objectManager->NewGO<Player>(1);
- //   auto Camera = objectManager->NewGO<Gamecamera>(10);
-	//Camera->SetPlayer(player);
-	//player->SetCamera(Camera);
-	//static int kuku = 0;
-	//Level level;
-	//level.Init(L"Assets/level/Enemy_lever1.tkl", [&](LevelObjectData objData)
-	//{
-	//	kuku++;
-	//	if (kuku != 2) {
-	//		return true;
-	//	}
-	//	Enemyleader* enemy = objectManager->NewGO<Enemyleader>(1, "Enemyleader");
-	//	auto pos = objData.position;
-	//	pos.y = 100.0f;
-	//	enemy->Setposition(pos);
-	//	enemy->Setplayer(player);
-	//	return true;
-	//});
-
+	
 	auto tittle = objectManager->NewGO<title>(0);
 	int debak = 0;
 	while (DispatchWindowMessage() == true)

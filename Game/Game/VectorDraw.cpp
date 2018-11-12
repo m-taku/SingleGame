@@ -61,7 +61,7 @@ void VectorDraw::Update()
 	Rot.SetRotationDeg(CVector3::AxisX(), -90.0f);
 	m_vector.UpdateWorldMatrix(m_position, Rot, {1.0f,20.0f,1.0f});
 }
-void VectorDraw::Update(std::vector<CVector3>& posotion)
+void VectorDraw::Update(const std::vector<CVector3>& posotion)
 {
 	CQuaternion Rot;
 	Rot.SetRotationDeg(CVector3::AxisX(), -90.0f);

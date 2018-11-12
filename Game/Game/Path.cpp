@@ -4,7 +4,8 @@
 
 Path::Path()
 {
-	pathdete = objectManager->FindGO<Navimake>("Navimake");
+	char hoge[] = "Navimake";
+	pathdete = objectManager->FindGO<Navimake>(hoge);
 }
 
 
@@ -12,13 +13,13 @@ Path::~Path()
 {
 
 }
-void Path::course(CVector3 sturt, CVector3 end)
+void Path::Course(CVector3 sturt, CVector3 end)
 {
 	m_nuwNo = 0;
 	coursepasu.clear();
 
-	int sturtNo = pathdete->Findpos_No(sturt);
-	int endNo = pathdete->Findpos_No(end);
+	int sturtNo = pathdete->FindPos_No(sturt);
+	int endNo = pathdete->FindPos_No(end);
 
 	PasDate* ka = new PasDate;
 	ka->No = sturtNo;
@@ -33,18 +34,9 @@ void Path::course(CVector3 sturt, CVector3 end)
 	}
 	float CurrentCost = 0.0f;
 
-	while (p->No!= endNo)
-	{	
-		float costnV2 = FLT_MAX;
-		for (auto i = open.begin(); i < open.end(); i++)
-		{
-			if (((*i)->MoveCost+(*i)->to_DrstinCost) <= costnV2){
-				costnV2 = (*i)->MoveCost + (*i)->to_DrstinCost;
-				p = *i;
-			}
-		}
-		CurrentCost = p->MoveCost;
-		auto ka5 = pathdete->FindLinc(*p,endNo,CurrentCost);
+	while (p->No != endNo)
+	{
+		auto ka5 = pathdete->FindLinc(*p, endNo, CurrentCost);
 		//auto ka1= ka5.begin();
 		//float costng = FLT_MAX;
 		//int MinNo = 0;
@@ -52,9 +44,9 @@ void Path::course(CVector3 sturt, CVector3 end)
 			std::remove(open.begin(), open.end(), p),
 			open.end());
 		cloas.push_back(p);
-		for (int j=0;j<3;j++)
+		for (int j = 0; j < 3; j++)
 		{
-			
+
 			if (-1 != ka5[j]->No)
 			{
 				open.push_back(ka5[j]);
@@ -112,6 +104,15 @@ void Path::course(CVector3 sturt, CVector3 end)
 		{
 			break;
 		}
+		float costnV2 = FLT_MAX;
+		for (auto i = open.begin(); i < open.end(); i++)
+		{
+			if (((*i)->MoveCost + (*i)->to_DrstinCost) <= costnV2) {
+				costnV2 = (*i)->MoveCost + (*i)->to_DrstinCost;
+				p = *i;
+			}
+		}
+		CurrentCost = p->MoveCost;
 	}
 
 	if (open.size() <= 0)
@@ -122,7 +123,7 @@ void Path::course(CVector3 sturt, CVector3 end)
 	{
 		while (p->No != sturtNo) {
 			coursepasu.push_back(p->No);
-			p = p->ParentDate;
+			p = (PasDate*)p->ParentDate;
 		}
 		coursepasu.push_back(p->No);
 		std::reverse(coursepasu.begin(), coursepasu.end());
@@ -130,7 +131,7 @@ void Path::course(CVector3 sturt, CVector3 end)
 		{
 			Smoothing(&coursepasu);
 		}
-		pathdete->DebugVector(&coursepasu);
+		pathdete->DebugVector(coursepasu);
 	}
 	for (auto ereas : open) {
 		delete ereas;
@@ -159,13 +160,13 @@ void Path::Smoothing(std::vector<int>* pasu)
 	pa.push_back(Next);
 	*pasu = pa;
 }
-CVector3 Path::Pathpos()
+CVector3 Path::PathPos()
 {
 	if (coursepasu.size()-1 > m_nuwNo) {
-		return pathdete->FindNo_pos(coursepasu[m_nuwNo++]);
+		return pathdete->FindNo_Pos(coursepasu[m_nuwNo++]);
 	}
 	else
 	{
-		return pathdete->FindNo_pos(coursepasu[m_nuwNo]);
+		return pathdete->FindNo_Pos(coursepasu[m_nuwNo]);
 	}
 }

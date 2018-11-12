@@ -109,6 +109,7 @@
     <ClCompile Include="Enemy\EnemyState.cpp" />
     <ClCompile Include="Enemy\EnemyStateMove.cpp" />
     <ClCompile Include="Enemy\EnemyStateTracking.cpp" />
+    <ClCompile Include="font.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Gamecamera.cpp" />
     <ClCompile Include="Gameobject\Gameobject.cpp" />
@@ -172,8 +173,10 @@
     <ClInclude Include="Enemy\EnemyState.h" />
     <ClInclude Include="Enemy\EnemyStateMove.h" />
     <ClInclude Include="Enemy\EnemyStateTracking.h" />
+    <ClInclude Include="font.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Gamecamera.h" />
+    <ClInclude Include="GameObjectPriority.h" />
     <ClInclude Include="Gameobject\Gameobject.h" />
     <ClInclude Include="Gameobject\GameobjectList.h" />
     <ClInclude Include="Gameobject\GameobjectManager.h" />

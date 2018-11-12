@@ -203,7 +203,7 @@ void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 	}
 	vsCb.mProj = projMatrix;
 	vsCb.mView = viewMatrix;
-	static color Color;
+	static Color color;
 	LightBuffer LCb;
 	CVector3 ka;
 	CQuaternion la=CQuaternion::Identity();
@@ -213,7 +213,7 @@ void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 	CVector4 ma = { ka.x,ka.y,ka.z,1.0 };
 	LCb.angle = { 0.0f,-1.0f,0.0f,1.0f };
 	m_colre = 1/360;
-	LCb.color = Color.HSVtoRGB({ m_colre,1.0f,1.0f });
+	LCb.color = color.HSVtoRGB({ m_colre,1.0f,1.0f });
 	LCb.Camerapos = g_camera3D.GetPosition();
 	d3dDeviceContext->UpdateSubresource(m_cb, 0, nullptr, &vsCb, 0, 0);
 	d3dDeviceContext->UpdateSubresource(m_ritocb, 0, nullptr, &LCb, 0, 0);

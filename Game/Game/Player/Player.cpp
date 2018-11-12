@@ -21,7 +21,7 @@ bool Player::Load()
 	m_Front.y = mRot.m[2][1];
 	m_Front.z = mRot.m[2][2];
 	m_Front.Normalize();
-	m_model.UpdateWorldMatrix(m_position, m_rotation, CVector3::One());
+	m_model.UpdateWorldMatrix(m_position, m_rotation, {0.1f,0.1f,0.1f});
 	return true;
 }
 void Player::Update()
@@ -35,7 +35,7 @@ void Player::Update()
 	{
 		CVector3 amount = m_amount;
 		amount.Normalize();
-		CVector3 camer_front = m_camer->Getcamerafront();
+		CVector3 camer_front = m_camer->GetCameraFront();
 		camer_front.y = 0.0f;
 		camer_front.Normalize();
 		m_kaiten = acos(amount.Dot(CVector3::AxisZ()));
@@ -67,7 +67,7 @@ void Player::Update()
 		m_movespeed.y = 2000.0f;
 	}
 	m_position = m_collider.Execute(1.0f / 30.0f, m_movespeed);
-	m_model.UpdateWorldMatrix(m_position, m_rotation, CVector3::One());
+	m_model.UpdateWorldMatrix(m_position, m_rotation, { 0.5f,0.5f,0.5f });
 	vector->Update(m_position, m_Front, m_amount.Length()*3.0f); 
 }
 void Player::Draw()

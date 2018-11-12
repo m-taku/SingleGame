@@ -2,15 +2,15 @@
 #include "color.h"
 
 
-color::color()
+Color::Color()
 {
 }
 
 
-color::~color()
+Color::~Color()
 {
 }
-CVector3 color::HSVtoRGB(const CVector3& hsv)
+CVector3 Color::HSVtoRGB(const CVector3& hsv)
 {
 	const float h = hsv.x - floor(hsv.x);
 	const float s = hsv.y;
@@ -36,12 +36,12 @@ CVector3 color::HSVtoRGB(const CVector3& hsv)
 
 	return rgb;
 }
-CVector4 color::HSVtoRGB()
+CVector4 Color::HSVtoRGB()
 {
-	HSV.x += 30.0f / 360.0f;
-	const float h = HSV.x-floor(HSV.x);
-	const float s = HSV.y;
-	const float v = HSV.z;
+	m_HSV.x += 30.0f / 360.0f;
+	const float h = m_HSV.x-floor(m_HSV.x);
+	const float s = m_HSV.y;
+	const float v = m_HSV.z;
 	const float hueF = h * 6.0f;
 	const int hueI = static_cast<int>(hueF);
 	const float fr = hueF - hueI;

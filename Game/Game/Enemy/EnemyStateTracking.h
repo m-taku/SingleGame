@@ -1,14 +1,30 @@
 #pragma once
 #include"EnemyState.h"
+/// <summary>
+/// Enemyの追尾処理ステートクラス。
+/// </summary>
 class EnemyStateTracking:public EnemyState
 {
 public:
-	EnemyStateTracking(Enemy* enemy, Player* player);
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	/// <param name="enemy_point">
+	/// エネミーのポインタ（Enemy*）
+	/// </param>
+	/// <param name="pla">
+	/// プレイヤーのポインタ（Player*）
+	/// </param>
+	EnemyStateTracking(Enemy* enemy_point, Player* pla);
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
 	~EnemyStateTracking();
-	void Update();
-	
+	/// <summary>
+	/// EnemyStateから継承したアップデート関数。
+	/// </summary>
+	void Update() override;
 private:
-	int hanten = 1;
-	VectorDraw* vector = nullptr;
+	VectorDraw* vector = nullptr;			//デバック用のベクトル表示インスタンス
 };
 

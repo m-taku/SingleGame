@@ -1,29 +1,46 @@
 #pragma once
 class Navimake;
+/// <summary>
+/// パスデータを使った経路探査クラス。
+/// </summary>
 class Path:Noncopyable
 {
 public:
+	/// <summary>
+	/// コンストラクタ。
+	/// </summary>
 	Path();
+	/// <summary>
+	/// デストラクタ。
+	/// </summary>
 	~Path();
-	/*
-	*@brief パスデータのインスタンスセット
-	*@param[in]　Navimake*
-	*/
+	/// <summary>
+	/// パスデータのインスタンスセット。
+	/// </summary>
+	/// <param name="navimake">
+	/// パスデータのインスタンス。（Navimake*）
+	/// </param>
 	void Setpathdete(Navimake* navimake)
 	{
 		pathdete = navimake;
 	}
-	/*
-	*@brief 経路探査+スムージング処理（やりすぎ注意！！）
-	*@param[in]　CVector3　sturt  （初期ポジション）
-	*@param[in]　CVector3　end　　（目標ポジション）
-	*/
-	void course(CVector3 sturt, CVector3 end);
-	/*
-	*@brief 次に動く目標位置(引数なし)
-	*@return CVctor3
-	*/
-	CVector3 Pathpos();
+	/// <summary>
+	/// 経路探査+スムージング処理。（やりすぎ注意！！）
+	/// </summary>
+	/// <param name="sturt">
+	/// 初期ポジション。（CVector3）
+	/// </param>
+	/// <param name="end">
+	/// 　目標ポジション。（CVector3）
+	/// </param>
+	void Course(CVector3 sturt, CVector3 end);
+	/// <summary>
+	/// メンバ変数を使って次に動く目標位置を取得。(引数なし)
+	/// </summary>
+	/// <returns>
+	/// 目標位置。（CVector3）
+	/// </returns>
+	CVector3 PathPos();
 	//パスのデータ形式
 	struct PasDate
 	{
@@ -44,12 +61,14 @@ public:
 		int LincNo[3];				//自身からのリンク先番号
 		float MoveCost;				//自身の場所まで行くコスト
 		float to_DrstinCost;		//自身の場所から目的地までのコスト
-		PasDate* ParentDate;		//親のパステータのポインタ
+		PasDate* ParentDate;	//親のパステータのポインタ
 	};
-	/*
-	*@brief パスデータによるスムージング処理（coursepasuを変更）
-	*@param[in]　std::vector<int>* pasu（移動パスの集合）
-	*/
+	/// <summary>
+	/// パスデータによるスムージング処理。（coursepasuを変更）
+	/// </summary>
+	/// <param name="pasu">
+	/// 移動パスの集合 。(std::vector(int)*)
+	/// </param>
 	void Smoothing(std::vector<int>* pasu);
 private:
 	std::vector<int> coursepasu;							//経路探査の結果（スムージング処理済み）

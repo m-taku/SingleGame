@@ -522,7 +522,7 @@ public:
 	void Slerp(float t, CQuaternion q1, CQuaternion q2)
 	{
 		DirectX::XMVECTOR xmv = DirectX::XMQuaternionSlerp(
-			DirectX::XMLoadFloat4(&q1.vec),
+		    DirectX::XMLoadFloat4(&q1.vec),
 			DirectX::XMLoadFloat4(&q2.vec),
 			t
 		);

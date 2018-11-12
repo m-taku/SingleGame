@@ -17,7 +17,7 @@ bool Monn::Load()
 /*	wchar_t filePath[256];
 	swprintf_s(filePath, L"Assets/modelData/%s.cmo", objData.name);*/
 	m_model.Init(L"Assets/modelData/monn1.cmo", 1);
-	m_model.UpdateWorldMatrix(m_position, m_rotation, CVector3::One());
+	m_model.UpdateWorldMatrix(m_position, m_rotation,CVector3::One());
 	//静的物理オブジェクトをメッシュコライダーから作成する。
 	//メッシュコライダーを作成。
 	m_meshCollider.CreateFromSkinModel(m_model, nullptr);

@@ -30,27 +30,27 @@ bool Enemy::Load()
 	m_Front.y = mRot.m[2][1];
 	m_Front.z = mRot.m[2][2];
 	m_Front.Normalize();
-	transitionState(State_Tracking);
+	TransitionState(State_Tracking);
 	m_position.y = 0.0f;
-	Leader->GetSkinmdel().UpdateInstancingData(m_position, CQuaternion::Identity(), CVector3::One());
+	Leader->CopySkinModel().UpdateInstancingData(m_position, CQuaternion::Identity(), CVector3::One());
 	return true;
 }
-void Enemy::transitionState(State state)
+void Enemy::TransitionState(State state)
 {
 	delete m_enemystate;
 	switch (state)
 	{
 	case State_Tracking:
-		m_enemystate = new EnemyStateTracking(this, player);
+		m_enemystate = new EnemyStateTracking(this, m_player);
 		break;
 	case State_Move:
-		m_enemystate = new EnemyStateMove(this, player);
+		m_enemystate = new EnemyStateMove(this, m_player);
 		break;
 	case State_Attack:
-		m_enemystate = new EnemyStateAttack(this, player);
+		m_enemystate = new EnemyStateAttack(this, m_player);
 		break;
 	case State_Gathering:
-		m_enemystate = new EnemyStategathering(this, player);
+		m_enemystate = new EnemyStategathering(this, m_player);
 		break;
 	default:
 		break;
@@ -90,7 +90,7 @@ void Enemy::postDraw()
 {
 
 	Vectordraw();
-	DDraw();
+	HP_Draw();
 }
 void Enemy::Draw()
 {
@@ -126,7 +126,7 @@ void Enemy::Vectordraw()
 
 	kasa->Update(m_position, kakaa, 1.0);
 }
-void Enemy::DDraw()
+void Enemy::HP_Draw()
 {
 	if (g_pad[0].IsPress(enButtonRB1))
 	{
@@ -144,16 +144,16 @@ void Enemy::DDraw()
 		g_camera3D.GetProjectionMatrix()
 	);
 }
-void Enemy::Findangle(CVector3 Front)
+void Enemy::FindAngle(CVector3 Vector)
 {
 	m_Front.y = 0;
 	m_Front.Normalize();
 	auto debag = m_Front;
-	auto Angle = acos(debag.Dot(Front));
+	auto Angle = acos(debag.Dot(Vector));
 	if (Angle >= CMath::DegToRad(1.0f))
 	{
 		auto ka5 = CVector3::Zero();
-		ka5.Cross(debag, Front);
+		ka5.Cross(debag, Vector);
 		CQuaternion ma3;
 		if (ka5.y < 0)
 		{
@@ -173,49 +173,4 @@ void Enemy::Findangle(CVector3 Front)
 		}
 		m_angle.Multiply(ma3, m_angle);
 	}
-}
-bool Enemy::syuuketu()
-{
-	CVector3 nowpos = m_position;
-	nowpos.y = 0.0f;
-	auto ka = GetLeaderposition();
-	ka.y = 0;
-	CVector3 distance = ka - nowpos;
-	if (distance.Length() <= 150.0f)
-	{
-		SetLeaderState(Enemyleader::gathering);
-		Leader->GetSkinmdel().UpdateInstancingData(m_position, m_angle, CVector3::One());
-		return true;
-	}
-	CVector3 speed = CVector3::Zero();
-	speed = m_nextpos - nowpos;
-	if (speed.Length() <= 250.0f)
-	{
-		m_nextpos = path.Pathpos();
-		if (m_nextpos.x == m_oldposition.y&&m_nextpos.y == m_oldposition.x&&m_nextpos.z == m_oldposition.z)
-		{
-			SetLeaderState(Enemyleader::gathering);
-			return true;
-		}
-		m_oldposition = m_nextpos;
-	}
-	speed.y = 0.0;
-	speed.Normalize();
-	Findangle(speed);
-	speed *= 500.0f;
-	//Setmove(speed);
-	m_moveVector = m_Front;
-	m_moveVector *= m_speed;
-	m_moveVector.y -= 9.8*10.0f;
-	m_position += m_moveVector * 1.0 / 30.0f;
-	m_position = m_collider.Execute(1.0f / 30.0f, m_moveVector);
-	Leader->GetSkinmdel().UpdateInstancingData(m_position, m_angle, CVector3::One());
-
-	mRot.MakeRotationFromQuaternion(m_angle);
-	m_Front.x = mRot.m[2][0];
-	m_Front.y = mRot.m[2][1];
-	m_Front.z = mRot.m[2][2];
-	m_Front.y = 0.0f;
-	m_Front.Normalize();
-	return false;
 }

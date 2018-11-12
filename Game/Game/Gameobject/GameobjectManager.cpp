@@ -7,7 +7,7 @@ GameobjectManager::GameobjectManager()
 }
 GameobjectManager::~GameobjectManager()
 {
-	for (auto list : List) {
+	for (auto& list : List) {
 		for (auto objedct : list.GetList()) {
 			delete objedct;
 		}
@@ -17,7 +17,7 @@ GameobjectManager::~GameobjectManager()
 void GameobjectManager::Execute()
 {
 	DeleteExecution();
-	for (auto list : List) {
+	for (auto& list : List) {
 		for (auto objedct : list.GetList())
 		{
 			if (objedct->GetLodefrag()) {
@@ -29,21 +29,18 @@ void GameobjectManager::Execute()
 			}
 		}
 	}
-	for (auto list : List) {
+	for (auto& list : List) {
 		for (auto objedct : list.GetList()) {
 			if (objedct->GetLodefrag()) {
-				if (objedct->GetDrewfragu()) {
-					objedct->Draw();
-				}
+				objedct->Draw();
 			}
 		}
 	}
-	for (auto list : List) {
+	for (auto& list : List) {
 		for (auto objedct : list.GetList()) {
 			if (objedct->GetLodefrag()) {
-				if (objedct->GetDrewfragu()) {
-					objedct->postDraw();
-				}
+				objedct->postDraw();
+
 			}
 		}
 	}
@@ -81,11 +78,14 @@ void GameobjectManager::Execute()
 
 	GameTime().PushFrameDeltaTime((float)m_sw.GetElapsed());
 }*/
+	int u = 0;
 }
 void GameobjectManager::DeleteExecution()
 {
-	for (auto Deleteobject : DeleteList[DeleteNo]) {
-		int no = Deleteobject.first->Getpriority();
+	auto ka = DeleteNo;
+	DeleteNo = ++DeleteNo % 2;
+	for (auto Deleteobject : DeleteList[ka]) {
+		int no = Deleteobject.first->GetPriority();
 		if (!List[no].DereteGo(Deleteobject.first, Deleteobject.second))
 		{
 			//ƒNƒ‰ƒbƒVƒ…‚³‚¹‚½‚¢
@@ -93,12 +93,11 @@ void GameobjectManager::DeleteExecution()
 		}
 	}
 	DeleteList[DeleteNo].clear();
-	DeleteNo = ++DeleteNo % 2;
 }
 bool GameobjectManager::DereteGO(Gameobject* pointa)
 {
-	No = 0;
-	for (auto kaa : List[pointa->Getpriority()].GetList())
+	int No = 0;
+	for (auto kaa : List[pointa->GetPriority()].GetList())
 	{
 		if (kaa == pointa)
 		{
@@ -111,9 +110,10 @@ bool GameobjectManager::DereteGO(Gameobject* pointa)
 }
 bool GameobjectManager::DereteGO(char* Name)
 {
-	for (auto ka : List) {
-		No = 0;
+	int No = 0;
+	for (auto& ka : List) {
 		for (auto kaa : ka.GetName()) {
+			No = 0;
 			if (Name == kaa) {
 				auto map = ka.GetList();
 				DeleteList[DeleteNo].insert(std::make_pair(map[No], No));

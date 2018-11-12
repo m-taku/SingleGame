@@ -14,10 +14,10 @@ EnemyStateAttack::~EnemyStateAttack()
 void EnemyStateAttack::Update()
 {
 	player->Ui->SetDamage(0.001f);
-	auto distance = player->Get2Dposition() - enemy->Get2Dposition();
+	auto distance = player->Get2Dposition() - enemy->Get2DPosition();
 	if (distance.Length() >= 200.0f)
 	{
 		//speed.y = 800.0f;
-		enemy->transitionState(Enemy::State_Tracking);
+		enemy->TransitionState(Enemy::State_Tracking);
 	}
 }

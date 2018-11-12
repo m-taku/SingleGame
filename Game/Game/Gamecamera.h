@@ -1,24 +1,51 @@
 #pragma once
 #include"Player/Player.h"
+/// <summary>
+/// ゲームカメラクラス。
+/// </summary>
 class Gamecamera:public Gameobject
 {
 public:
+	/// <summary>
+	/// コンストラクタ。
+	/// </summary>
 	Gamecamera();
+	/// <summary>
+	/// デストラクタ。
+	/// </summary>
 	~Gamecamera();
+	/// <summary>
+	/// Gemeobjectから継承したLoad関数。
+	/// </summary>
+	/// <returns>
+	/// 成功でtrue、失敗でfloat。
+	/// </returns>
 	bool Load();
+	/// <summary>
+	/// Gemeobjectから継承したUpdate関数。
+	/// </summary>
 	void Update();
+	/// <summary>
+	/// Gameobjectから継承したDraw関数。
+	/// </summary>
 	void Draw();
-	/*
-	プレイヤーのポインタ入れる
-	*/
-	void SetPlayer(Player* pLater)
+	/// <summary>
+	///  プレイヤーのインスタンスのセット。
+	/// </summary>
+	/// <param name="player">
+	/// セットしたいプレイヤーのインスタンス。(Player*)
+	/// </param>
+	void SetPlayer(Player* plater)
 	{
-		player = pLater;
+		m_player = plater;
 	}
-	/*
-	カメラの前方向ベクトルを取得（CVector3）
-	*/
-	CVector3 Getcamerafront()
+	/// <summary>
+	/// カメラの今向いている方向ベクトル。
+	/// </summary>
+	/// <returns>
+	/// 方向ベクトル。（CVector3）
+	/// </returns>
+	CVector3 GetCameraFront()const
 	{
 		return camerfront;
 	}
@@ -31,10 +58,9 @@ private:
 	CQuaternion	m_reg = CQuaternion::Identity();	//回転角度
 	CMatrix mRot;									//回転行列
 	CVector3 m_angle = CVector3::Zero();			//回転入力量
-	CVector3 ka;
-	float kakudo = 0.0f;
+	CVector3 m_jiku;								//軸
 	CVector3 m_targetpos = CVector3::Zero();		//カメラの目標地点
 	CVector3 m_position = CVector3::Zero();			//カメラの現在地
-	Player* player = nullptr;						//プレイヤーのポインタ
+	Player* m_player = nullptr;						//プレイヤーのポインタ
 };
 

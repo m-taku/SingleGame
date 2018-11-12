@@ -12,27 +12,27 @@ title::~title()
 }
 bool title::Load()
 {
-	texture.CreateFromDDSTextureFromFile(L"Resource/sprite/taitoru.dds");
-	title_haikei.Init(&texture, 1280.0f, 720.0f);
-	Texture.CreateFromDDSTextureFromFile(L"Resource/sprite/yellow.dds");
-	title_moji.Init(&Texture, 1280.0f, 720.0f);
-	texturea.CreateFromDDSTextureFromFile(L"Resource/sprite/White.dds");
-	feid.Init(&texturea, 1280.0f, 720.0f);
+	m_texture.CreateFromDDSTextureFromFile(L"Resource/sprite/taitoru.dds");
+	m_title_haikei.Init(&m_texture, 1280.0f, 720.0f);
+	m_Texture.CreateFromDDSTextureFromFile(L"Resource/sprite/yellow.dds");
+	m_title_moji.Init(&m_Texture, 1280.0f, 720.0f);
+	m_texturea.CreateFromDDSTextureFromFile(L"Resource/sprite/White.dds");
+	m_feid.Init(&m_texturea, 1280.0f, 720.0f);
 
-	title_haikei.Updete(CVector3::Zero(), CQuaternion::Identity(), CVector3::One());
-	title_moji.Updete(CVector3::Zero(), CQuaternion::Identity(), CVector3::One());
+	m_title_haikei.Updete(CVector3::Zero(), CQuaternion::Identity(), CVector3::One());
+	m_title_moji.Updete(CVector3::Zero(), CQuaternion::Identity(), CVector3::One());
 	return true;
 }
 void title::Update()
 {
-	title_haikei.Updete(CVector3::Zero(), CQuaternion::Identity(), CVector3::One());
+	m_title_haikei.Updete(CVector3::Zero(), CQuaternion::Identity(), CVector3::One());
 	static float la = 0.0f;
-	title_moji.Updete(CVector3::Zero(), CQuaternion::Identity(), { 1.0f,1.0f,1.0f });
+	m_title_moji.Updete(CVector3::Zero(), CQuaternion::Identity(), { 1.0f,1.0f,1.0f });
 	if (toumei >= 1.0f) {
-		objectManager->NewGO<Game>(1);
+		objectManager->NewGO<Game>(GameObjectPriority_Game);
 		objectManager->DereteGO(this);
 	}
-	feid.SetclearColor(toumei);
+	m_feid.SetclearColor(toumei);
 	toumei += la;
 	if (g_pad[0].IsTrigger(enButtonA) )
 	{
@@ -43,15 +43,15 @@ void title::Update()
 void title::postDraw()
 {
 
-	title_moji.Draw(
+	m_title_moji.Draw(
 		g_camera2D.GetViewMatrix(),
 		g_camera2D.GetProjectionMatrix()
 	);
-	title_haikei.Draw(
+	m_title_haikei.Draw(
 		g_camera2D.GetViewMatrix(),
 		g_camera2D.GetProjectionMatrix()
 	);
-	feid.Draw(
+	m_feid.Draw(
 		g_camera2D.GetViewMatrix(),
 		g_camera2D.GetProjectionMatrix()
 	);

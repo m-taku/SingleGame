@@ -10,16 +10,16 @@ GameobjectList::~GameobjectList()
 }
 bool GameobjectList::DereteGo(Gameobject* obj, int no)
 {
-	if (ObjectList[no] == obj) {
+	if (m_ObjectList[no] == obj) {
 
 		//delete obj;
-		ObjectList.erase(
-			std::remove(ObjectList.begin(), ObjectList.end(), obj),
-			ObjectList.end()
+		m_ObjectList.erase(
+			std::remove(m_ObjectList.begin(), m_ObjectList.end(), obj),
+			m_ObjectList.end()
 		);
 		delete obj;
-		Name.erase(
-			Name.begin() + no
+		m_Name.erase(
+			m_Name.begin() + no
 		);
 		return true;
 	}

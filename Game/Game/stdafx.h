@@ -43,6 +43,8 @@
 #include "VectorDraw.h"
 #include "color.h"
 #include "physics/Physics.h"
+#include "GameObjectPriority.h"
+
 extern GameobjectManager* objectManager;
 extern bool frame(CVector3 position);
 const float GRAVITY = 9.8f * 30;

@@ -3,76 +3,117 @@
 #include "physics/RigidBody.h"
 #include"character/CharacterController.h"
 #include"Path.h"
+/// <summary>
+/// 経路探査用のメッシュデータ。
+/// </summary>
 class Navimake:public Gameobject
 {
 public:
+	/// <summary>
+	/// コンストラクタ。
+	/// </summary>
 	Navimake();
+	/// <summary>
+	/// デストラクタ。
+	/// </summary>
 	~Navimake();
+	/// <summary>
+	/// Gameobjectから継承したDraw関数
+	/// </summary>
 	void Draw();
-	/*
-	*@brief	ポジションを使ったバス番号検索
-	*@param[in] CVector3(ポジション)
-	*@return int（パス番号）
-	*/
-	int Findpos_No(CVector3 position)
+	/// <summary>
+	/// ポジションを使ったバス番号検索。
+	/// </summary>
+	/// <param name="position">
+	/// ポジション。(CVector3)
+	/// </param>
+	/// <returns>
+	/// パス番号。（int）
+	/// </returns>
+	int FindPos_No(CVector3 position)
 	{
 		CVector3 closepos;
 		closepos.x = FLT_MAX;
 		closepos.y = FLT_MAX;
 		closepos.z = FLT_MAX;
 		int No = 0;
-		for (int i = 0; i < seru.size(); i++)
+		for (int i = 0; i < m_seru.size(); i++)
 		{
-			CVector3 pos = position - seru[i]->centerposition;
+			CVector3 pos = position - m_seru[i]->centerposition;
 			if (closepos.Length() >= pos.Length())
 			{
-				No = seru[i]->No;
+				No = m_seru[i]->No;
 				closepos = pos;
 			}
 		}
 		return No;
 	}
-	/*
-	*@brief	番号がわかっているときの中心座標検索
-	*@param[in]  std::vector<int>
-	*@return CVector3
-	*/
-	CVector3 FindNo_pos(int No)
+	/// <summary>
+	/// 番号がわかっているときの中心座標検索。
+	/// </summary>
+	/// <param name="No">
+	/// パス番号。（int）
+	/// </param>
+	/// <returns>
+	/// ポジション。（CVector3）
+	/// </returns>
+	CVector3 FindNo_Pos(int No)
 	{
-		return seru[No]->centerposition;
+		return m_seru[No]->centerposition;
 	}
-	/*
-	*@brief	パスの入った配列を使ったデバック表示用関数
-	*@param[in]  std::vector<int>
-	*/
-	void DebugVector(std::vector<int>* a);
-	/*
-	*@brief	親のPasDateとコストと目的地を使ってリンクを検索する
-	*@return std::vector<Path::PasDate*>[3]（リンク先のPasDate*3）
-	*/
-	const std::vector<Path::PasDate*> FindLinc(Path::PasDate& date, int endNo,float cost) const;
-	/*
-	*@brief	スムーズ処理の時の地形との当たり判定
-	*@return bool（trueでヒット）
-	*/
+	/// <summary>
+	/// パスの入った配列を使ったデバック表示用関数
+	/// </summary>
+	/// <param name="posudate">
+	///  ポス番号の入った可変長配列(std::vector(int))
+	/// </param>
+	void DebugVector(const std::vector<int>& posudate);
+	/// <summary>
+	/// 親のPasDateとコストと目的地を使ってリンクを検索する
+	/// </summary>
+	/// <param name="date">
+	/// 親のPasDate(Path::PasDate&)
+	/// </param>
+	/// <param name="endNo">
+	/// 目的地（int）
+	/// </param>
+	/// <param name="cost">
+	/// 親のパスまでのコスト（float）
+	/// </param>
+	/// <returns>
+	/// リンク情報（std::vector(Path::PasDate*)3つ）
+	/// </returns>
+	std::vector<Path::PasDate*> FindLinc(Path::PasDate& date, int endNo,float cost) const;
+	/// <summary>
+	/// スムーズ処理の時の地形との当たり判定
+	/// </summary>
+	/// <param name="sturtNo">
+	/// レイを飛ばす始点
+	/// </param>
+	/// <param name="nextNo">
+	/// レイを飛ばす終点
+	/// </param>
+	/// <returns>
+	/// 衝突でtrue、未衝突でfalse
+	/// </returns>
 	bool CollisionTest(int sturtNo, int nextNo);
 private:	
-	static const int high = 100;
-	static const int ballsize = 5;
-	struct SData {
-		//CVector3				normal;				//!<法線
-		CVector3				position[3];		//!<三角形1個の座標
-		CVector3				centerposition;		//!<中心座標
-		int	                    linkNoList[3];		//!<リンクのリスト
-		int                     No;					//!<自分の番号
-		float                   cost[3];			//!<リンク先に行く際のコスト
-	};
 	CVector3 Searchcenter(const CVector3 (&pos)[3]);	//中点を求める関数
+	struct SData {
+		//CVector3				normal;				//法線
+		CVector3				position[3];		//三角形1個の座標
+		CVector3				centerposition;		//中心座標
+		int	                    linkNoList[3];		//リンクのリスト
+		int                     No;					//自分の番号
+		float                   cost[3];			//リンク先に行く際のコスト
+	};
 	MeshCollider m_meshCollider;						//メッシュ情報
 	CharacterController *m_collider = nullptr;			//キャラクターコントローラー
 	SkinModel m_model;									//モデルデータ
-	std::vector<SData*> seru;							//三角形１つのデータ
+	std::vector<SData*> m_seru;							//三角形１つのデータ
 	RigidBody m_rigidBody;			                 	//剛体。
 	std::vector<VectorDraw*> vector;					//中点描画用のデータ
+	static const int high = 100;					//CollisionTest用のカプセルの高さ
+	static const int ballsize = 5;					//CollisionTest用のカプセルの幅
 };
 

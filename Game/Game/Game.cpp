@@ -20,24 +20,23 @@ bool Game::Load()
 {
 	objectManager->NewGO<Stage>(0);
 	//ゲームループ。
-	player = objectManager->NewGO<Player>(1);
-	Camera = objectManager->NewGO<Gamecamera>(10);
+	player = objectManager->NewGO<Player>(GameObjectPriority_Player);
+	Camera = objectManager->NewGO<Gamecamera>(GameObjectPriority_Camera);
 	Camera->SetPlayer(player);
 	player->SetCamera(Camera);
 	static int kuku = 0;
 	Level level;
 	level.Init(L"Assets/level/Enemy_lever00.tkl", [&](LevelObjectData objData)
 	{
-		//kuku++;
-		//if (kuku != 2) {
-		//	return true;
-
-		//}
-		Enemyleader* enemy = objectManager->NewGO<Enemyleader>(1, "Enemyleader");
+		kuku++;
+		if (kuku != 2) {
+			return true;
+		}
+		Enemyleader* enemy = objectManager->NewGO<Enemyleader>(GameObjectPriority_EnemyLeader, "Enemyleader");
 		auto pos = objData.position;
 
-		enemy->Setposition(pos);
-		enemy->Setplayer(player);
+		enemy->SetPosition(pos);
+		enemy->SetPlayer(player);
 		return true;
 	});
 	return true;

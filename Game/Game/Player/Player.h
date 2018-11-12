@@ -3,28 +3,59 @@
 #include"UI.h"
 class Gamecamera;
 class Navimake;
+/// <summary>
+/// プレイヤークラス
+/// </summary>
 class Player: public Gameobject
 {
 public:
+	/// <summary>
+	/// コンストラクタ。
+	/// </summary>
 	Player();
+	/// <summary>
+	/// デストラクタ。
+	/// </summary>
 	~Player();
+	/// <summary>
+	/// Gemeobjectから継承したLoat関数。
+	/// </summary>
+	/// <returns>
+	/// 成功でtrue、失敗でfalse。
+	/// </returns>
 	bool Load();
+	/// <summary>
+	/// Gameobjectから継承したUpdate関数
+	/// </summary>
 	void Update();
+	/// <summary>
+	/// Gameobjectから継承したDraw関数
+	/// </summary>
 	void Draw();
-	/*
-	*@brief	2Ｄ座標系での位置
-	*@return CVector3 
-	*/
+	/// <summary>
+	/// 2D（ｘ、ｚ）での現在のポジション。
+	/// </summary>
+	/// <remarks>
+	/// 3D次元で返す関数もあるので適しているか確認。
+	/// </remarks>
+	/// <returns>
+	/// 2Dでのポジション。（CVector3）
+	/// </returns>
 	CVector3 Get2Dposition() const
 	{
 		auto position = m_position;
 		position.y = 0.0f;
 		return position;
-	} 	
-	/*
-	*@brief	3Ｄ座標系での位置
-	*@return CVector3 
-	*/
+	} 
+	/// <summary>
+	/// 3D（ｘ、ｙ、ｚ）での現在のポジション。
+	/// </summary>
+	/// <remarks>
+	/// 2D次元で返す関数ももあるので適しているか確認。
+	/// </remarks>
+	/// <returns>
+	/// 3Dでのポジション。（CVector3）
+	/// </returns>
 	CVector3 Get3Dposition() const
 	{
 		return m_position;
