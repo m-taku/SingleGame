@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "title.h"
 #include"Game.h"
+#include"Stage.h"
 
 title::title()
 {
@@ -30,6 +31,7 @@ void title::Update()
 	m_title_moji.Updete(CVector3::Zero(), CQuaternion::Identity(), { 1.0f,1.0f,1.0f });
 	if (toumei >= 1.0f) {
 		objectManager->NewGO<Game>(GameObjectPriority_Game);
+		objectManager->NewGO<Stage>(0);
 		objectManager->DereteGO(this);
 	}
 	m_feid.SetclearColor(toumei);

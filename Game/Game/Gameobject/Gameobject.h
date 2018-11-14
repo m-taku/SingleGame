@@ -69,7 +69,16 @@ public:
 	{
 		m_Loadfrag = frag;
 	}
+	const std::string& GetName()const
+	{
+		return m_Name;
+	}
+	void SetNeme(const std::string& Name)
+	{
+		m_Name = Name;
+	}
 private:
+	std::string m_Name = "NULL";     	//インスタンスの名前
 	int m_priority = 0;					//優先度
 	bool m_Loadfrag = false;			//ロード完了したか
 };

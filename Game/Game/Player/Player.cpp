@@ -3,6 +3,8 @@
 #include"Gamecamera.h"
 Player::Player()
 {
+	//m_collider.Init(15.0f, 80.0f, m_position);
+	//m_model.Init(L"Assets/modelData/unityChan.cmo");
 }
 Player::~Player()
 {

@@ -173,8 +173,11 @@ float4 PSMain( PSInput In ) : SV_Target0
     //ディレクションライトの拡散反射光を計算する。
     float3 lig = max(0.0f, dot(angle*-1.0f,In.Normal)) * color;
 
+
+
 	float3 toEyeDir = normalize(pos - In.WorldPos);
-	float3 na = -toEyeDir + 2.0f * dot(In.Normal, toEyeDir) * In.Normal;
+	float3 na = reflect(toEyeDir, In.Normal);
+	//float3 na = -toEyeDir + 2.0f * dot(In.Normal, toEyeDir) * In.Normal;
 
 	////③ ２で求めた反射ベクトルとディレクションライトの方向との内積を取って、スペキュラの強さを計算する。
 	float n2 = max(0.0f, dot(na, -angle));

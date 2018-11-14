@@ -289,7 +289,7 @@ private:
 	CVector3 m_nextpos = CVector3::Zero();					//経路探査で出た次のポジション
 	CQuaternion m_angle = CQuaternion::Identity();			//回転角度
 	CQuaternion m_Sprite_angle = CQuaternion::Identity();	//テクスチャの回転角度
-	const float m_kaku = 80.0f;								//1フレームで回転させる最大角度(degree)
+	const float m_kaku = 10.0f;								//1フレームで回転させる最大角度(degree)
 	const float m_margin = CMath::DegToRad(m_kaku);			//1フレームで回転させる最大角度(radian)
 	float m_HP = 1.0f;										//ＨＰの割合
 	float m_speed = 500.0f;             					//移動速度

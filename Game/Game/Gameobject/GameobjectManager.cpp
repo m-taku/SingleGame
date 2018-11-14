@@ -18,7 +18,7 @@ void GameobjectManager::Execute()
 {
 	DeleteExecution();
 	for (auto& list : List) {
-		for (auto objedct : list.GetList())
+		for (auto& objedct : list.GetList())
 		{
 			if (objedct->GetLodefrag()) {
 				objedct->Update();
@@ -44,6 +44,7 @@ void GameobjectManager::Execute()
 			}
 		}
 	}
+	NewExecution();
 	/*static int count = 0;
 	m_timeTotal += (float)m_sw.GetElapsed();
 	count++;
@@ -82,9 +83,9 @@ void GameobjectManager::Execute()
 }
 void GameobjectManager::DeleteExecution()
 {
-	auto ka = DeleteNo;
+	auto nowNo = DeleteNo;
 	DeleteNo = ++DeleteNo % 2;
-	for (auto Deleteobject : DeleteList[ka]) {
+	for (auto Deleteobject : DeleteList[nowNo]) {
 		int no = Deleteobject.first->GetPriority();
 		if (!List[no].DereteGo(Deleteobject.first, Deleteobject.second))
 		{
@@ -93,6 +94,14 @@ void GameobjectManager::DeleteExecution()
 		}
 	}
 	DeleteList[DeleteNo].clear();
+}
+void GameobjectManager::NewExecution()
+{
+	for (auto Newobject : newLest)
+	{
+		List[Newobject.second].PushObject(Newobject.first);
+	}
+	newLest.clear();
 }
 bool GameobjectManager::DereteGO(Gameobject* pointa)
 {
@@ -112,9 +121,9 @@ bool GameobjectManager::DereteGO(char* Name)
 {
 	int No = 0;
 	for (auto& ka : List) {
-		for (auto kaa : ka.GetName()) {
+		for (auto kaa : ka.GetList()) {
 			No = 0;
-			if (Name == kaa) {
+			if (Name == kaa->GetName()) {
 				auto map = ka.GetList();
 				DeleteList[DeleteNo].insert(std::make_pair(map[No], No));
 				return true;

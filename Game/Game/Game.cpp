@@ -2,7 +2,6 @@
 #include "Game.h"
 #include"level/Level.h"
 #include"UI.h"
-#include"Stage.h"
 #include"Enemy/EnemyLeader/Enemyleader.h"
 #include"Enemy/Enemy.h"
 #include"Player/Player.h"
@@ -18,7 +17,7 @@ Game::~Game()
 }
 bool Game::Load()
 {
-	objectManager->NewGO<Stage>(0);
+
 	//ゲームループ。
 	player = objectManager->NewGO<Player>(GameObjectPriority_Player);
 	Camera = objectManager->NewGO<Gamecamera>(GameObjectPriority_Camera);

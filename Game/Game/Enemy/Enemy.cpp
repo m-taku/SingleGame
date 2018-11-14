@@ -169,7 +169,7 @@ void Enemy::FindAngle(CVector3 Vector)
 		}
 		else
 		{
-			ma3.SetRotationDeg(ka5, kaku);
+			ma3.SetRotationDeg(ka5, m_kaku);
 		}
 		m_angle.Multiply(ma3, m_angle);
 	}

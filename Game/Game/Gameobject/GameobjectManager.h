@@ -20,6 +20,11 @@ public:
 	/// </summary>
 	void DeleteExecution();
 	/// <summary>
+	/// Newの処理関数。1フレームでNewGOしたものを一括で登録。
+	/// エンジン側の処理のため外で呼ばないで！！
+	/// </summary>
+	void NewExecution();
+	/// <summary>
 	/// オブジェクトの更新処理。
 	/// 1フレームで2回以上呼ぶとおかしくなるので注意。
 	/// </summary>
@@ -39,7 +44,12 @@ public:
 	template<class T>
 	T* NewGO(int No, char* name="NULL")
 	{
-		return List.at(No).NewGo<T>(No,name);
+		T* object = new T;
+		object->SetNeme(name);
+		object->SetPriority(No);
+		newLest.insert(std::make_pair(object, No));
+		return object;
+		// List.at(No).NewGo<T>(No, name);
 	}
 	/// <summary>
 	/// ポインタによるDelete処理。
@@ -97,9 +107,8 @@ public:
 		int No = 0;
 		for (const auto& ka : List) {
 			No = 0;
-			const auto& list = ka.GetName();
-			for (const auto& kaa : list) {
-				if (Name == kaa) {
+			for (const auto& kaa : ka.GetList()) {
+				if (Name == kaa->GetName()) {
 					const auto& map = ka.GetList();
 					return (T*)map[No];
 				}
@@ -112,4 +121,5 @@ private:
 	int DeleteNo = 0;								//DeleteListの番号
 	std::vector<GameobjectList> List;				//Gemeobjectのリスト（優先度付き）
 	std::map<Gameobject*, int> DeleteList[2];		//deleteの際の保存場所（2つあるのはデストラクタでDeleteGOが呼ばれた時の対策）
+	std::map<Gameobject*, int> newLest;				//newの際の保存場所（）
 };
