@@ -33,7 +33,6 @@ bool Game::Load()
 		}
 		Enemyleader* enemy = objectManager->NewGO<Enemyleader>(GameObjectPriority_EnemyLeader, "Enemyleader");
 		auto pos = objData.position;
-
 		enemy->SetPosition(pos);
 		enemy->SetPlayer(player);
 		return true;

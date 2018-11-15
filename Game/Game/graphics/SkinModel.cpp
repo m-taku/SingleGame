@@ -95,6 +95,7 @@ void SkinModel::InitSamplerState(int maxInstance)
 	if (maxInstance > 1) {
 		//インスタンシング用のデータを作成。
 		m_instancingData.reset(new CMatrix[maxInstance]);
+		m_Matrix.resize(maxInstance);
 		D3D11_BUFFER_DESC desc;
 		ZeroMemory(&desc, sizeof(desc));
 		desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;	//SRVとしてバインド可能。
@@ -115,7 +116,6 @@ void SkinModel::UpdateInstancingData(
 	if (m_numInstance < m_maxInstance) {
 		m_instancingData[m_numInstance] = m_worldMatrix;
 		if (result) {
-			auto na = m_worldMatrix;
 			//スキンあり用の行列を生成
 			CMatrix transMatrix, rotMatrix, scaleMatrix;
 			//平行移動行列を作成する。

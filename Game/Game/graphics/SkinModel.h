@@ -131,11 +131,12 @@ private:
 	DirectX::Model*		m_modelDx;						//!<DirectXTKが提供するモデルクラス。
 	ID3D11SamplerState* m_samplerState = nullptr;		//!<サンプラステート。	
 	std::unique_ptr<CMatrix[]>	m_instancingData;		//!<インスタンシング描画用のデータ。
-	CMatrix m_Matrix[10];
-	float m_colre = 0.0f;
-	bool result = true;
+	std::vector<CMatrix> m_Matrix;						//スキンモデル付きのインスタンシング用配列
+	float m_colre = 0.0f;								//ライトの色
+	bool result = true;									//スキンモデルにボーンがあるかどうか
+	static const int m_Max = 100;						//インスタンシング用
 	int m_numInstance = 0;								//!<インスタンシング用の個数
-	int m_maxInstance = 0;								//!<インスタンシングデータの最大数(インスタンシング始動時に決定)
+	int m_maxInstance = 0;							    //!<インスタンシングデータの最大数(これ以上は表示できません)
 	StucturedBuffer	m_instancingDataSB;				    //!<インスタンシング描画用のストラクチャーバッファ。
 	//CBox ka;
 };

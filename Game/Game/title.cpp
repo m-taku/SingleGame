@@ -19,7 +19,6 @@ bool title::Load()
 	m_title_moji.Init(&m_Texture, 1280.0f, 720.0f);
 	m_texturea.CreateFromDDSTextureFromFile(L"Resource/sprite/White.dds");
 	m_feid.Init(&m_texturea, 1280.0f, 720.0f);
-
 	m_title_haikei.Updete(CVector3::Zero(), CQuaternion::Identity(), CVector3::One());
 	m_title_moji.Updete(CVector3::Zero(), CQuaternion::Identity(), CVector3::One());
 	return true;
@@ -27,16 +26,22 @@ bool title::Load()
 void title::Update()
 {
 	m_title_haikei.Updete(CVector3::Zero(), CQuaternion::Identity(), CVector3::One());
-	static float la = 0.0f;
 	m_title_moji.Updete(CVector3::Zero(), CQuaternion::Identity(), { 1.0f,1.0f,1.0f });
 	if (toumei >= 1.0f) {
 		objectManager->NewGO<Game>(GameObjectPriority_Game);
 		objectManager->NewGO<Stage>(0);
+
+		m_title_moji.SetclearColor(0.0f);
+		m_title_haikei.SetclearColor(0.0f);
+		la *= -10;
+	}
+	if (toumei < 0.0f)
+	{
 		objectManager->DereteGO(this);
 	}
 	m_feid.SetclearColor(toumei);
 	toumei += la;
-	if (g_pad[0].IsTrigger(enButtonA) )
+	if (g_pad[0].IsTrigger(enButtonA)&& toumei==0.0f)
 	{
 		la = 0.02f;
 	}

@@ -11,7 +11,6 @@ Monn::~Monn()
 {
 	g_physics.RemoveRigidBody(m_rigidBody);
 }
-
 bool Monn::Load()
 {
 /*	wchar_t filePath[256];

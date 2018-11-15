@@ -36,5 +36,6 @@ private:
 	ShaderResourceView m_texturea;							//タイトルのフェイド用のリソース
 	sprite m_feid;											//タイトルのフェイド表示用のインスタンス
 	float toumei = 0.0f;									//フェイドの度合い
+	float la = 0.0f;
 };
 
