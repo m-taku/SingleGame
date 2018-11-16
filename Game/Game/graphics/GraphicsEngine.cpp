@@ -205,5 +205,5 @@ void GraphicsEngine::Init(HWND hWnd)
 	m_pd3dDeviceContext->RSSetState(m_rasterizerState);
 
 	m_SpriteBatch = new DirectX::SpriteBatch(m_pd3dDeviceContext);
-	m_SpriteFont = new DirectX::SpriteFont(m_pd3dDevice, L"Assets/font/myfile.spritefont");
+	m_SpriteFont = new DirectX::SpriteFont(m_pd3dDevice, L"Assets/font/floay.spritefont");
 }

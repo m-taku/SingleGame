@@ -21,6 +21,7 @@ public:
 	/// </param>
 	void SetFont(DirectX::SpriteFont* font)
 	{
+		delete m_spriteFont;
 		m_spriteFont = font;
 	}
 	/// <summary>

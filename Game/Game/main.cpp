@@ -68,10 +68,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//プレイヤーの描画。
 		//player.Draw();
 
-	//    objectManager->DereteGO(ks);
+	    //objectManager->DereteGO(ks);
 		//カメラの更新。
 		//描画終了。
 		g_graphicsEngine->EndRender();
 	}
-	
+    delete g_graphicsEngine;
 }

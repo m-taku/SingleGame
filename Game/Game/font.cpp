@@ -93,6 +93,8 @@ void Font::Draw(
 	float scale,
 	CVector2 pivot)
 {
+
+	ID3D11Device* d3dDevice = g_graphicsEngine->GetD3DDevice();
 	pivot.y = 1.0f - pivot.y;
 	DirectX::XMFLOAT2 tkFloat2Zero(0, 0);
 	//座標系をスプライトと合わせる。
@@ -101,7 +103,6 @@ void Font::Draw(
 	float frameBufferHalfHeight = FRAME_BUFFER_H * 0.5f;
 	pos.x += frameBufferHalfWidth;
 	pos.y = -pos.y + frameBufferHalfHeight;
-
 	m_spriteFont->DrawString(
 		m_spriteBatch,
 		text,
