@@ -1,5 +1,6 @@
 #pragma once
 #include"GameobjectList.h"
+
 /// <summary>
 /// Gemeobjectのマネージャークラス
 /// </summary>
@@ -42,12 +43,12 @@ public:
 	/// 発生させたインスタンスのポインタ。
 	/// </returns>
 	template<class T>
-	T* NewGO(int No, char* name="NULL")
+	T* NewGO(int No, const char* name="NULL")
 	{
 		T* object = new T;
-		object->SetNeme(name);
+		object->SetName(name);
 		object->SetPriority(No);
-		newLest.insert(std::make_pair(object, No));
+		m_newLest.insert({ object, No });
 		return object;
 		// List.at(No).NewGo<T>(No, name);
 	}
@@ -105,7 +106,7 @@ public:
 	T* FindGO(char* Name)
 	{
 		int No = 0;
-		for (const auto& ka : List) {
+		for (const auto& ka : m_List) {
 			No = 0;
 			for (const auto& kaa : ka.GetList()) {
 				if (Name == kaa->GetName()) {
@@ -118,8 +119,9 @@ public:
 		return nullptr;
 	}
 private:
-	int DeleteNo = 0;								//DeleteListの番号
-	std::vector<GameobjectList> List;				//Gemeobjectのリスト（優先度付き）
-	std::map<Gameobject*, int> DeleteList[2];		//deleteの際の保存場所（2つあるのはデストラクタでDeleteGOが呼ばれた時の対策）
-	std::map<Gameobject*, int> newLest;				//newの際の保存場所（）
+	enum { NUM_PRIORITY = 20 };								//優先順位の数。
+	int m_DeleteNo = 0;										//DeleteListの番号
+	std::array<GameobjectList, NUM_PRIORITY>	m_List;		//Gemeobjectのリスト（優先度付き）
+	std::map<Gameobject*, int> m_DeleteList[2];				//deleteの際の保存場所（2つあるのはデストラクタでDeleteGOが呼ばれた時の対策）
+	std::map<Gameobject*, int> m_newLest;					//newの際の保存場所（）
 };

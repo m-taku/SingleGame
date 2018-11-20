@@ -26,7 +26,7 @@ public:
 	/// </summary>
 	virtual void Update() = 0;
 protected:
-	Enemy* enemy=nullptr;			//エネミーのインスタンス
-	Player* player=nullptr;			//プレイヤーのインスタンス
+	Enemy* m_enemy=nullptr;			//エネミーのインスタンス
+	Player* m_player=nullptr;			//プレイヤーのインスタンス
 };
 

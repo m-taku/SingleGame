@@ -21,15 +21,6 @@ public:
 	/// <param name="object">
 	/// プッシュしたいインスタンスのポインタ
 	/// </param>
-	/// <param name="No">
-	/// 優先度、基本0。（int）
-	/// </param>
-	/// <param name="name">
-	/// 名前、なければNULL。（char*）
-	/// </param>
-	/// <returns>
-	/// 発生させたインスタンスのポインタ。
-	/// </returns>
 	void PushObject(Gameobject* object)
 	{
 		m_ObjectList.push_back(object);
@@ -65,7 +56,7 @@ public:
 	/// <returns>
 	/// Gemeobjjectの可変長配列。(std::vector(ameobject*))
 	/// </returns>
-    std::vector<Gameobject*> GetList() const
+    const std::vector<Gameobject*>& GetList() const
 	{
 		return m_ObjectList;
 

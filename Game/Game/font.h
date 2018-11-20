@@ -27,27 +27,14 @@ public:
 	/// <summary>
 	/// 描画開始。
 	/// </summary>
-	void Begin();
+	void BeginDraw();
 	/// <summary>
 	/// 描画終了
 	/// </summary>
 	/// <remarks>
 	/// そのままだと透過などの設定が変更されてままなので忘れずに呼び出してください。
 	/// </remarks>
-	void end();
-	/*!
-	* @brief	描画。
-	*@param[in]	text		表示したいテキスト。
-	*@param[in]	trans		平行移動。
-	*@param[in]	color		カラー。
-	*@param[in]	rot			回転。
-	*@param[in]	scale		拡大。
-	*@param[in]	pivot		基点。
-	*						0.5, 0.5で画像の中心が基点。
-	*						0.0, 0.0で画像の左下。
-	*						1.0, 1.0で画像の右上。
-	*						UnityのuGUIに準拠。
-	*/
+	void EndDraw();
 	/// <summary>
 	/// 描画。
 	/// </summary>
@@ -55,7 +42,9 @@ public:
 	/// 表示したいテキスト。
 	/// </param>
 	/// <param name="position">
-	/// どこに出したいか
+	/// フォントを表示する座標。
+	/// 座標系は、画面の左上が(-FRAME_BUFFER_W/2、FRAME_BUFFER_H/2)
+	/// 画面の右下が(FRAME_BUFFER_W/2、-FRAME_BUFFER_H/2)となっている。
 	/// </param>
 	/// <param name="color">
 	/// 文字の色
@@ -68,6 +57,10 @@ public:
 	/// </param>
 	/// <param name="pivot">
 	/// 2D上でどこを起点にするか
+	///	0.5, 0.5で画像の中心が基点。
+	///	0.0, 0.0で画像の左下。
+    ///	1.0, 1.0で画像の右上。
+    /// UnityのuGUIに準拠。
 	/// </param>
 	void Draw(
 		wchar_t const* text,
@@ -80,6 +73,6 @@ public:
 private:
 	DirectX::SpriteBatch*	m_spriteBatch = nullptr;	//!<スプライトバッチ。
 	DirectX::SpriteFont*	m_spriteFont = nullptr;		//!<スプライトフォント。
-	CMatrix m_scaleMat;									//拡大行列
+	CMatrix m_scaleMat=CMatrix::Identity();				//拡大行列
 };
 

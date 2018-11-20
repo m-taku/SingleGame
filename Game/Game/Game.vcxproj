@@ -176,6 +176,7 @@
     <ClInclude Include="font.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Gamecamera.h" />
+    <ClInclude Include="GameobjectName.h" />
     <ClInclude Include="GameObjectPriority.h" />
     <ClInclude Include="Gameobject\Gameobject.h" />
     <ClInclude Include="Gameobject\GameobjectList.h" />

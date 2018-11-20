@@ -12,33 +12,33 @@ Enemy::Enemy()
 Enemy::~Enemy()
 {
 	delete m_enemystate;
-	delete kasa;
+	delete m_debugVecor;
 }
 bool Enemy::Load()
 {
 	//cmoファイルの読み込み。
 	m_model.Init(L"Assets/modelData/ToonRTS_demo_Knight.cmo");
-	m_collider.Init(30.0f, 50.0f, m_position);
-	texture_hp.CreateFromDDSTextureFromFile(L"Resource/sprite/HP.dds");
-	texture_fram.CreateFromDDSTextureFromFile(L"Resource/sprite/HP_waku.dds");
-	Sprite_hp.Init(&texture_hp, 100.0f, 25.0f);
-	Sprite_fram.Init(&texture_fram, 100.0f, 25.0f);
-	kasa = new VectorDraw(m_position); 
+	m_collider.Init(20.0f, 50.0f, m_position);
+	m_texture_hp.CreateFromDDSTextureFromFile(L"Resource/sprite/HP.dds");
+	m_texture_fram.CreateFromDDSTextureFromFile(L"Resource/sprite/HP_waku.dds");
+	m_Sprite_hp.Init(&m_texture_hp, 100.0f, 25.0f);
+	m_Sprite_fram.Init(&m_texture_fram, 100.0f, 25.0f);
+	m_debugVecor = new VectorDraw(m_position);
 
-	mRot.MakeRotationFromQuaternion(m_angle);
-	m_Front.x = mRot.m[2][0];
-	m_Front.y = mRot.m[2][1];
-	m_Front.z = mRot.m[2][2];
+	m_Rot.MakeRotationFromQuaternion(m_angle);
+	m_Front.x = m_Rot.m[2][0];
+	m_Front.y = m_Rot.m[2][1];
+	m_Front.z = m_Rot.m[2][2];
 	m_Front.Normalize();
 	TransitionState(State_Tracking);
 	m_position.y = 0.0f;
-	Leader->CopySkinModel().UpdateInstancingData(m_position, CQuaternion::Identity(), CVector3::One());
+	m_Leader->CopySkinModel().UpdateInstancingData(m_position, CQuaternion::Identity(), CVector3::One());
 	return true;
 }
-void Enemy::TransitionState(State state)
+void Enemy::TransitionState(State m_state)
 {
 	delete m_enemystate;
-	switch (state)
+	switch (m_state)
 	{
 	case State_Tracking:
 		m_enemystate = new EnemyStateTracking(this, m_player);
@@ -64,10 +64,10 @@ void Enemy::Update()
 	//ワールド行列の更新。	
 	//m_speed.x = g_pad->GetLStickXF()*500.0f;
 	//m_speed.z = g_pad->GetLStickYF()*500.0f;
-	mRot.MakeRotationFromQuaternion(m_angle);
-	m_Front.x = mRot.m[2][0];
-	m_Front.y = mRot.m[2][1];
-	m_Front.z = mRot.m[2][2];
+	m_Rot.MakeRotationFromQuaternion(m_angle);
+	m_Front.x = m_Rot.m[2][0];
+	m_Front.y = m_Rot.m[2][1];
+	m_Front.z = m_Rot.m[2][2];
 	m_Front.y = 0.0f;
 	m_Front.Normalize();
 	m_moveVector = m_Front;
@@ -76,7 +76,7 @@ void Enemy::Update()
 	m_position += m_moveVector * 1.0 / 30.0f;
 	m_position = m_collider.Execute(1.0f / 30.0f, m_moveVector);
 	m_model.UpdateWorldMatrix(m_position, m_angle, CVector3::One());
-	//Leader->GetSkinmdel().UpdateInstancingData(m_position, m_angle, CVector3::One());
+	//m_Leader->GetSkinmdel().UpdateInstancingData(m_position, m_angle, CVector3::One());
 	//if ((player->Get2Dposition() - m_position).Length() <= 100.0f)
 	//{
 	//	m_HP -= 0.01;
@@ -89,14 +89,14 @@ void Enemy::Update()
 void Enemy::postDraw()
 {
 
-	Vectordraw();
+	DrawDebugVector();
 	HP_Draw();
 }
 void Enemy::Draw()
 {
 	//m_position.y += 120.0f;
 	//kasa->Draw();	
-	//m_position.x -= Sprite_fram.Gethalf_sizeX();
+	//m_position.x -= m_Sprite_fram.Gethalf_sizeX();
 	//if (DrewFragu) {
 	//}
 	m_model.Draw(
@@ -104,7 +104,7 @@ void Enemy::Draw()
 		g_camera3D.GetProjectionMatrix()
 	);
 }
-void Enemy::Vectordraw()
+void Enemy::DrawDebugVector()
 {
 	
 	CVector3 kakudo;
@@ -121,10 +121,13 @@ void Enemy::Vectordraw()
 	else {
 		m_Sprite_angle.SetRotationDeg(CVector3::AxisY()*-1, kaku);
 	}
-	CVector3 kakaa = CVector3::AxisZ()*-1;
-	m_Sprite_angle.Multiply(kakaa);
+#ifdef _DEBUG
+	//@todo m_Sprite_angleで回した結果を見るためのデバッグコード
+	CVector3 hoge = CVector3::AxisZ()*-1;
+	m_Sprite_angle.Multiply(hoge);
 
-	kasa->Update(m_position, kakaa, 1.0);
+	m_debugVecor->Update(m_position, hoge, 1.0);
+#endif
 }
 void Enemy::HP_Draw()
 {
@@ -134,12 +137,12 @@ void Enemy::HP_Draw()
 	}
 	auto la = m_position;
 	la.y += 300.0f;
-	//Sprite_fram.Updete(la, m_Sprite_angle, { 1.0f,1.0f,1.0f });
-	//Sprite_fram.Draw(
+	//m_Sprite_fram.Updete(la, m_Sprite_angle, { 1.0f,1.0f,1.0f });
+	//m_Sprite_fram.Draw(
 	//	g_camera3D.GetViewMatrix(),
 	//	g_camera3D.GetProjectionMatrix());
-	Sprite_hp.Updete(la, m_Sprite_angle, { m_HP,1.0f ,1.0f });
-	Sprite_hp.Draw(
+	m_Sprite_hp.Updete(la, m_Sprite_angle, { m_HP,1.0f ,1.0f });
+	m_Sprite_hp.Draw(
 		g_camera3D.GetViewMatrix(),
 		g_camera3D.GetProjectionMatrix()
 	);

@@ -17,21 +17,28 @@ public:
 	/// デストラクタ。
 	/// </summary>
 	~Player();
+	struct PlyerStatus
+	{
+		float Max_HP = 100.0f;				//マックスのHP
+		float Attack = 10.0f;				//基本の攻撃力
+		float defense = 10.0f;				//基本の守備力
+		float speed = 100.0f;				//	
+	};
 	/// <summary>
 	/// Gemeobjectから継承したLoat関数。
 	/// </summary>
 	/// <returns>
 	/// 成功でtrue、失敗でfalse。
 	/// </returns>
-	bool Load();
+	bool Load() override;
 	/// <summary>
 	/// Gameobjectから継承したUpdate関数
 	/// </summary>
-	void Update();
+	void Update() override;
 	/// <summary>
 	/// Gameobjectから継承したDraw関数
 	/// </summary>
-	void Draw();
+	void Draw() override;
 	/// <summary>
 	/// 2D（ｘ、ｚ）での現在のポジション。
 	/// </summary>
@@ -68,7 +75,7 @@ public:
 	/// </returns>
 	const CMatrix& GetMatrix() const
 	{
-		return mRot;
+		return m_mRot;
 	}	
 	/// <summary>
 	/// スティックの移動量の取得。
@@ -98,22 +105,46 @@ public:
 	/// </param>
 	void SetCamera(Gamecamera* camera)
 	{
-		m_camer = camera;
+		m_camera = camera;
 	}
-	UI* Ui = nullptr;
+	/// <summary>
+	/// ポジションのセット
+	/// </summary>
+	/// <param name="position">
+	/// セットしたいポジション（CVector3）
+	/// </param>
+	void SetPosition(CVector3 position)
+	{
+		m_position = position;
+	}
+	/// <summary>
+	/// ダメージ処理
+	/// </summary>
+	/// <param name="damage">
+	/// プレイヤーに与えるダメージ（ダメージ量そのまま）（float）
+	/// </param>
+	void Damage(float damage)
+	{
+		auto wariai = damage / 100/*HPの最大値*/;
+
+		//ここで０～1の形に変換
+		m_ui->SetDamage(wariai);
+	}
 private:
+	UI* m_ui = nullptr;
 	CharacterController m_collider;						//キャラクターコントローラー
 	SkinModel m_model;									//モデルデータ
 	CVector3 m_movespeed = CVector3::Zero();			//移動速度
 	CQuaternion m_rotation = CQuaternion::Identity();	//回転クオータニオン
-	CMatrix mRot;										//回転行列
-	Gamecamera* m_camer = nullptr;						//カメラのポインタ
-	CVector3 m_Up = CVector3::AxisY();					//上方向
+	CMatrix m_mRot=CMatrix::Identity();					//回転行列
+	Gamecamera* m_camera = nullptr;						//カメラのポインタ
+	CVector3 m_playerUp = CVector3::AxisY();					//上方向
 	CVector3 m_Front = CVector3::Zero();				//前方向
 	CVector3 m_position = { 0.0f,150.0f,-30.0f };		//現在位置
 	CVector3 m_amount = { 0.0f,0.0f,0.0f };				//スティックの移動量
-	float m_kaiten = 0.0f;								//回転角度（ラジアン）
-	VectorDraw* vector =nullptr;						//デバック用おベクトル表示
+	float m_angle = 0.0f;								//回転角度（ラジアン）
+	VectorDraw* m_debugVector =nullptr;					//デバック用のベクトル表示
+	PlyerStatus m_plyerStatus;
 	//CVector3 m_angle = CVector3::Zero();				
 	//wchar_t bonename[50];								//名前
 	//int bonenum = 0;									

@@ -35,7 +35,7 @@ public:
 	/// <summary>
 	/// Gameobject‚©‚çŒp³‚µ‚½postDrawŠÖ”B
 	/// </summary>
-	void postDraw() override;
+	void PostDraw() override;
 private:
 //	PhysicsStaticObject Stege;
 	//SkinModel m_model;

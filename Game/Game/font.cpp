@@ -20,7 +20,7 @@ Font::Font()
 Font::~Font()
 {
 }
-void Font::Begin()
+void Font::BeginDraw()
 {
 	m_spriteBatch->Begin(
 		DirectX::SpriteSortMode_Deferred,
@@ -32,7 +32,7 @@ void Font::Begin()
 		m_scaleMat
 	);
 }
-void Font::end()
+void Font::EndDraw()
 {
 	ID3D11DeviceContext* d3dDeviceContext = g_graphicsEngine->GetD3DDeviceContext();
 	ID3D11Device* d3dDevice = g_graphicsEngine->GetD3DDevice();
@@ -60,6 +60,9 @@ void Font::end()
 		d3dDeviceContext->OMSetBlendState(BlendState, nullptr, 0xFFFFFFFF);
 
 		MemoryBarrier();
+	}
+	{
+		d3dDeviceContext->RSSetState(g_graphicsEngine->mrasterizerState());
 	}
 	{
 		D3D11_DEPTH_STENCIL_DESC desc = {};
@@ -94,7 +97,6 @@ void Font::Draw(
 	CVector2 pivot)
 {
 
-	ID3D11Device* d3dDevice = g_graphicsEngine->GetD3DDevice();
 	pivot.y = 1.0f - pivot.y;
 	DirectX::XMFLOAT2 tkFloat2Zero(0, 0);
 	//座標系をスプライトと合わせる。

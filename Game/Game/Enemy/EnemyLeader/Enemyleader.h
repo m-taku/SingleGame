@@ -109,7 +109,7 @@ public:
 	/// <remarks>
 	/// すべての敵が集まった場合グループ状態になる。
 	/// </remarks>
-	void Rollcall()
+	void RollCall()
 	{
 		m_ninzuu++;
 		if (m_ninzuu >= m_remaining)
@@ -123,14 +123,14 @@ public:
 	void Move();
 private:
 	static const int SOLDIER = 3;								//リーダーを含む部隊の総数（定数）
-	CVector3 haiti[5] = {
+	CVector3 m_haiti[5] = {
 	{ 70.0f,0.0f,0.0f },
 	{-70.0f,0.0f,0.0f},
 	{0.0f,0.0f,-70.0f},
 	{0.0f,0.0f,70.0f},
 	{0.0f,0.0f,0.0f}
 	};														    //発生位置の調整のための数値			
-	CVector3 haiti2[5] = {
+	CVector3 m_haiti2[5] = {
 		{ 70.0f,0.0f,0.0f },
 	{ -70.0f,0.0f,70.0f },
 	{ -70.0f,0.0f,-70.0f },
@@ -142,7 +142,7 @@ private:
 	AnimationClip m_animationclip[animnum];						//アニメーションクリップ
 	Animation m_animation;										//アニメーションのインスタンス
 	Path* m_path=nullptr;									    //経路探査用のインスタンス
-	Player* m_player;											//プレイヤーのインスタンス
+	Player* m_player = nullptr;									//プレイヤーのインスタンス
 	std::array<Enemy*, SOLDIER> m_enemy;						//エネミーのインスタンス（SOLDIER）
 	CVector3 m_position = { 0.0f,100.0f,0.0f };				    //架空のリーダーのポジション
 	CVector3 m_nextpos = CVector3::Zero();						//パス移動用の次ポジション

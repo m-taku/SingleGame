@@ -1,4 +1,5 @@
 #pragma once
+#ifdef _DEBUG
 /// <summary>
 /// デバック用のベクトル表示クラス
 /// </summary>
@@ -57,14 +58,14 @@ public:
 	void Update(
 			std::vector<CVector3>::iterator posotion,
 			std::vector<CVector3>::iterator& Vector,
-			std::vector<float>::iterator power);							//インスタンシングでの大量のベクトル表示
+			std::vector<float>::iterator power);
 	/// <summary>
 	/// インスタンシングによる大量の点を表示
 	/// </summary>
 	/// <param name="posotion">
 	/// 表示したい点の配列（std::vector(CVector3)&）
 	/// </param>
-	void Update(const std::vector<CVector3>& posotion);						//インスタンシングによる大量の点表示
+	void Update(const std::vector<CVector3>& posotion);
 	/// <summary>
 	/// 表示用の関数
 	/// （勝手に呼ばれないので注意！！）
@@ -73,8 +74,26 @@ public:
 private:
 	SkinModel m_vector;							//スキンモデルのインスタンス
 	CVector3 vector = CVector3::Zero();			//表示したいベクトルの向き（ノーマライズ）
-	CVector3 m_position;		                //表示したいベクトルの原点（ノーマライズ）
+	CVector3 m_position;		                //表示したいベクトルの原点
 	int m_count = 1;							//表示するベクトル（点）の個数
 	float Power = 0.0f;							//表示したいベクトルの大きさ（float）
 };
+#else
+
+class VectorDraw :Noncopyable
+{
+public:
+	
+	VectorDraw(CVector3 position, int counnt = 1){}
+	~VectorDraw() {}
+	void Update(CVector3 posotion, CVector3& Vector, float power) {}
+	void Update() {}
+	void Update(
+		std::vector<CVector3>::iterator posotion,
+		std::vector<CVector3>::iterator& Vector,
+		std::vector<float>::iterator power) {}
+	void Update(const std::vector<CVector3>& posotion) {}
+	void Draw() {}
+};
+#endif
 

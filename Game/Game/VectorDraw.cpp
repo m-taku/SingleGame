@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "VectorDraw.h"
 
-
+#ifdef _DEBUG
 VectorDraw::~VectorDraw()
 {
 }
@@ -79,3 +79,5 @@ void VectorDraw::Draw()
 		g_camera3D.GetProjectionMatrix()
 	);
 }
+
+#endif

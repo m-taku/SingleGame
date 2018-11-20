@@ -16,6 +16,9 @@ public:
 	/// <summary>
 	/// 発生した後、データの読み込み、初期化を行う関数。
 	/// </summary>
+	/// <returns>
+	/// trueで終了、falseでロード中。
+	/// </returns>
 	virtual bool Load() { return true; };
 	/// <summary>
 	/// Loadが終わった後、毎フレーム呼ばれる関数。
@@ -28,7 +31,7 @@ public:
 	/// <summary>
 	/// Drawの後に、毎フレーム呼ばれる表示関数。
 	/// </summary>
-	virtual void postDraw() {};
+	virtual void PostDraw() {};
 	/// <summary>
 	/// オブジェクトの優先度取得。
 	/// </summary>
@@ -55,7 +58,7 @@ public:
 	/// <returns>
 	/// Load成功でtrue、失敗またはLoat中はfalse。
 	/// </returns>
-	bool GetLodefrag()
+	bool GetLodefrag() const
 	{
 		return m_Loadfrag;
 	}
@@ -73,7 +76,7 @@ public:
 	{
 		return m_Name;
 	}
-	void SetNeme(const std::string& Name)
+	void SetName(const std::string& Name)
 	{
 		m_Name = Name;
 	}

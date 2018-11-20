@@ -15,7 +15,7 @@ bool Monn::Load()
 {
 /*	wchar_t filePath[256];
 	swprintf_s(filePath, L"Assets/modelData/%s.cmo", objData.name);*/
-	m_model.Init(L"Assets/modelData/monn1.cmo", 1);
+	m_model.Init(L"Assets/modelData/monn1.cmo");
 	m_model.UpdateWorldMatrix(m_position, m_rotation,CVector3::One());
 	//静的物理オブジェクトをメッシュコライダーから作成する。
 	//メッシュコライダーを作成。
@@ -46,17 +46,17 @@ void Monn::Update()
 		m_rod = 2.0f;
 		Setkaku();
 	}
-	auto rod = CQuaternion::Identity();
+	CQuaternion rod;
 	rod.SetRotationDeg(CVector3::AxisY(), m_rod);
 	m_rotation.Multiply(rod);
 	m_model.UpdateWorldMatrix(m_position, m_rotation, CVector3::One());
-	m_kaku += fabs(m_rod);
+	m_angle += fabs(m_rod);
 	//開ききる（閉じきる）まで回ったら
-	if (m_kaku >= 90.0f)
+	if (m_angle >= 90.0f)
 	{
 		//回転を終了する
 		m_rod = 0.0f; 
-		m_kaku = 0.0f;
+		m_angle = 0.0f;
 	}
 	btRigidBody* btBody = m_rigidBody.GetBody();
 	//剛体を動かす。

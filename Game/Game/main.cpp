@@ -18,14 +18,16 @@
 ///////////////////////////////////////////////////////////////////
 // ウィンドウプログラムのメイン関数。
 ///////////////////////////////////////////////////////////////////
-GameobjectManager* objectManager;
+GameobjectManager* g_objectManager;
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
 {
 	//ゲームの初期化。
 	InitGame(hInstance, hPrevInstance, lpCmdLine, nCmdShow, "Game");
 
+#ifdef _DEBUG
 	//::_CrtSetDbgFlag(_CRTDBG_LEAK_CHECK_DF | _CRTDBG_ALLOC_MEM_DF);
 	::_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+#endif
 	//カメラを初期化。
 	g_camera3D.SetPosition({ 0.0f, 150.0f, -1000.0f });
 	g_camera3D.SetTarget({ 0.0f, 100.0f, 0.0f });
@@ -41,10 +43,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//プレイヤー
 	//Player player;
 	GameobjectManager objectManage;
-	objectManager = &objectManage;
+	g_objectManager = &objectManage;
 	g_physics.SetDebugDrawMode(btIDebugDraw::DBG_DrawWireframe);
 	
-	auto tittle = objectManager->NewGO<title>(0);
+	auto tittle = g_objectManager->NewGO<title>(0);
 	int debak = 0;
 	while (DispatchWindowMessage() == true)
 	{
@@ -57,7 +59,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
        // auto ks = objectManager->NewGO<Player>(0);
 		//物理エンジンの更新。
-		objectManager->Execute();
+		g_objectManager->Execute();
 		if (debak==0)
 		{
 			g_physics.DebubDrawWorld();

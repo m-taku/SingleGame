@@ -128,12 +128,12 @@ Navimake::Navimake()
 	//ここからデバック用の中点表示
 	{
 		std::vector<CVector3> centerposition;
-		vector.push_back(new VectorDraw(m_seru[0]->centerposition,m_seru.size()));
+		m_vector.push_back(new VectorDraw(m_seru[0]->centerposition,m_seru.size()));
 		for (int i = 0; i < m_seru.size(); i++)
 		{
 			centerposition.push_back(m_seru[i]->centerposition);
 		}
-		vector[vector.size() - 1]->Update(centerposition);
+		m_vector[m_vector.size() - 1]->Update(centerposition);
 	}
 	//ここからデバック用のリンク表示
 	//{
@@ -175,9 +175,9 @@ Navimake::Navimake()
 Navimake::~Navimake()
 {
 	g_physics.RemoveRigidBody(m_rigidBody);
-	for (int i = 0; i < vector.size(); i++)
+	for (int i = 0; i < m_vector.size(); i++)
 	{
-		delete vector[i];
+		delete m_vector[i];
 	}
 	for (int i = 0; i < m_seru.size(); i++)
 	{
@@ -192,8 +192,8 @@ void Navimake::Draw()
 		g_camera3D.GetViewMatrix(),
 		g_camera3D.GetProjectionMatrix()
 	);
-	for (int i = 0; i < vector.size(); i++) {
-		vector[i]->Draw();
+	for (int i = 0; i < m_vector.size(); i++) {
+		m_vector[i]->Draw();
 	}
 }
 CVector3 Navimake::Searchcenter(const CVector3 (&pos)[3])
@@ -244,13 +244,13 @@ void Navimake::DebugVector(const std::vector<int>& posudate)
 		Vectorlist.push_back(Vector);
 		Vectorpore.push_back(Vector.Length() / 3.0f);
 	}
-	vector.push_back(new VectorDraw(m_seru[0]->centerposition, centerposition.size()));
+	m_vector.push_back(new VectorDraw(m_seru[0]->centerposition, centerposition.size()));
 	if (centerposition.size() != 1) {
-		vector[vector.size() - 1]->Update(centerposition.begin(), Vectorlist.begin(), Vectorpore.begin());
+		m_vector[m_vector.size() - 1]->Update(centerposition.begin(), Vectorlist.begin(), Vectorpore.begin());
 	}
 	else
 	{
-		vector[vector.size() - 1]->Update(centerposition[0], Vectorlist[0], Vectorpore[0]);
+		m_vector[m_vector.size() - 1]->Update(centerposition[0], Vectorlist[0], Vectorpore[0]);
 	}
 }
 //スムージング用のコールバッククラス
@@ -273,7 +273,7 @@ bool Navimake::CollisionTest(int sturtNo, int nextNo)
 	//スムーズする際の仮の当たり判定（固定値なんだよなぁ、、、、、）
 	
 	CapsuleCollider m_collide;						//コライダー。
-	m_collide.Create(high, ballsize);
+	m_collide.Create(hight, ballsize);
 	CVector3 nextPosition = m_seru[nextNo]->centerposition;
 	//現在の座標から次の移動先へ向かうベクトルを求める。
 	CVector3 addPos;
@@ -282,7 +282,7 @@ bool Navimake::CollisionTest(int sturtNo, int nextNo)
 	addPosXZ.y = 0.0f;
 	//仮の当たり判定の中心座標 + 高さ*0.1の座標をposTmpに求める。
 	CVector3 posTmp = m_seru[sturtNo]->centerposition;
-	posTmp.y += high + ballsize + high * 0.1f;
+	posTmp.y += hight + ballsize + hight * 0.1f;
 	//レイを作成。
 	btTransform start, end;
 	start.setIdentity();

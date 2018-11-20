@@ -4,8 +4,7 @@
 
 Path::Path()
 {
-	char hoge[] = "Navimake";
-	pathdete = objectManager->FindGO<Navimake>(hoge);
+	m_pathdata = g_objectManager->FindGO<Navimake>("Navimake");
 }
 
 
@@ -15,20 +14,20 @@ Path::~Path()
 }
 void Path::Course(CVector3 sturt, CVector3 end)
 {
-	m_nuwNo = 0;
-	coursepasu.clear();
+	m_nowNo = 0;
+	m_coursepasu.clear();
 
-	int sturtNo = pathdete->FindPos_No(sturt);
-	int endNo = pathdete->FindPos_No(end);
+	int startNo = m_pathdata->FindPos_No(sturt);
+	int endNo = m_pathdata->FindPos_No(end);
 
 	PasDate* ka = new PasDate;
-	ka->No = sturtNo;
+	ka->No = startNo;
 	std::vector<PasDate*> open;
-	std::vector<PasDate*> cloas;
+	std::vector<PasDate*> close;
 	open.push_back(ka);
 	auto p = open[0];
-	if (sturtNo == endNo) {
-		coursepasu.push_back(p->No);
+	if (startNo == endNo) {
+		m_coursepasu.push_back(p->No);
 		delete ka;
 		return;
 	}
@@ -36,14 +35,14 @@ void Path::Course(CVector3 sturt, CVector3 end)
 
 	while (p->No != endNo)
 	{
-		auto ka5 = pathdete->FindLinc(*p, endNo, CurrentCost);
+		 auto ka5 = m_pathdata->FindLinc(*p, endNo, CurrentCost);
 		//auto ka1= ka5.begin();
 		//float costng = FLT_MAX;
 		//int MinNo = 0;
 		open.erase(
 			std::remove(open.begin(), open.end(), p),
 			open.end());
-		cloas.push_back(p);
+		close.push_back(p);
 		for (int j = 0; j < 3; j++)
 		{
 
@@ -75,9 +74,9 @@ void Path::Course(CVector3 sturt, CVector3 end)
 						}
 					}
 				}
-				for (int k = 0; k < cloas.size(); k++) {
-					if (cloas[k]->No == ka5[j]->No) {
-						if (cloas[k]->to_DrstinCost <= ka5[j]->to_DrstinCost) {
+				for (int k = 0; k < close.size(); k++) {
+					if (close[k]->No == ka5[j]->No) {
+						if (close[k]->to_DrstinCost <= ka5[j]->to_DrstinCost) {
 							delete  ka5[j];
 							open.erase(
 								std::remove(open.begin(), open.end(), ka5[j]),
@@ -85,9 +84,9 @@ void Path::Course(CVector3 sturt, CVector3 end)
 							break;
 						}
 						else {
-							delete cloas[k];
-							cloas.erase(
-								std::remove(cloas.begin(), cloas.end(), cloas[k]),
+							delete close[k];
+							close.erase(
+								std::remove(close.begin(), close.end(), close[k]),
 								open.end());
 							break;
 						}
@@ -105,11 +104,11 @@ void Path::Course(CVector3 sturt, CVector3 end)
 			break;
 		}
 		float costnV2 = FLT_MAX;
-		for (auto i = open.begin(); i < open.end(); i++)
+		for (auto i : open)
 		{
-			if (((*i)->MoveCost + (*i)->to_DrstinCost) <= costnV2) {
-				costnV2 = (*i)->MoveCost + (*i)->to_DrstinCost;
-				p = *i;
+			if ((i->MoveCost + i->to_DrstinCost) <= costnV2) {
+				costnV2 = i->MoveCost + i->to_DrstinCost;
+				p = i;
 			}
 		}
 		CurrentCost = p->MoveCost;
@@ -117,26 +116,26 @@ void Path::Course(CVector3 sturt, CVector3 end)
 
 	if (open.size() <= 0)
 	{
-		coursepasu.push_back(sturtNo);
+		m_coursepasu.push_back(startNo);
 	}
 	else
 	{
-		while (p->No != sturtNo) {
-			coursepasu.push_back(p->No);
+		while (p->No != startNo) {
+			m_coursepasu.push_back(p->No);
 			p = (PasDate*)p->ParentDate;
 		}
-		coursepasu.push_back(p->No);
-		std::reverse(coursepasu.begin(), coursepasu.end());
-		if (coursepasu.size() > 2)
+		m_coursepasu.push_back(p->No);
+		std::reverse(m_coursepasu.begin(), m_coursepasu.end());
+		if (m_coursepasu.size() > 2)
 		{
-			Smoothing(&coursepasu);
+			Smoothing(&m_coursepasu);
 		}
-		pathdete->DebugVector(coursepasu);
+		m_pathdata->DebugVector(m_coursepasu);
 	}
 	for (auto ereas : open) {
 		delete ereas;
 	}
-	for (auto ereas : cloas) {
+	for (auto ereas : close) {
 		delete ereas;
 	}
 }
@@ -151,7 +150,7 @@ void Path::Smoothing(std::vector<int>* pasu)
 	for (int i = 2; i < pasu->size(); i++) 
 	{
 		Next = (*pasu)[i];
-		if (pathdete->CollisionTest(start, Next))
+		if (m_pathdata->CollisionTest(start, Next))
 		{
 			start = (*pasu)[i-1];
 			pa.push_back(start);
@@ -162,11 +161,11 @@ void Path::Smoothing(std::vector<int>* pasu)
 }
 CVector3 Path::PathPos()
 {
-	if (coursepasu.size()-1 > m_nuwNo) {
-		return pathdete->FindNo_Pos(coursepasu[m_nuwNo++]);
+	if (m_coursepasu.size()-1 > m_nowNo) {
+		return m_pathdata->FindNo_Pos(m_coursepasu[m_nowNo++]);
 	}
 	else
 	{
-		return pathdete->FindNo_Pos(coursepasu[m_nuwNo]);
+		return m_pathdata->FindNo_Pos(m_coursepasu[m_nowNo]);
 	}
 }

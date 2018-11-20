@@ -46,6 +46,15 @@ public:
 	 *@brief	描画終了。
 	 */
 	void EndRender();
+	//確認したいため絶対直せ
+	ID3D11RasterizerState* mrasterizerState()
+	{
+		return m_rasterizerState;
+	}
+	ID3D11RasterizerState* terizerState()
+	{
+		return m_rasterizer;
+	}
 private:
 	D3D_FEATURE_LEVEL		m_featureLevel;				//Direct3D デバイスのターゲットとなる機能セット。
 	ID3D11Device*			m_pd3dDevice = NULL;		//D3D11デバイス。
@@ -53,6 +62,7 @@ private:
 	ID3D11DeviceContext*	m_pd3dDeviceContext = NULL;	//D3D11デバイスコンテキスト。
 	ID3D11RenderTargetView* m_backBuffer = NULL;		//バックバッファ。
 	ID3D11RasterizerState*	m_rasterizerState = NULL;	//ラスタライザステート。
+	ID3D11RasterizerState*  m_rasterizer = NULL;
 	ID3D11Texture2D*		m_depthStencil = NULL;		//デプスステンシル。
 	ID3D11DepthStencilView* m_depthStencilView = NULL;	//デプスステンシルビュー。
 	DirectX::SpriteFont*    m_SpriteFont = NULL;

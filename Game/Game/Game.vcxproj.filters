@@ -355,6 +355,7 @@
     </ClInclude>
     <ClInclude Include="font.h" />
     <ClInclude Include="GameObjectPriority.h" />
+    <ClInclude Include="GameobjectName.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">

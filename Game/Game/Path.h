@@ -22,7 +22,7 @@ public:
 	/// </param>
 	void Setpathdete(Navimake* navimake)
 	{
-		pathdete = navimake;
+		m_pathdata = navimake;
 	}
 	/// <summary>
 	/// 経路探査+スムージング処理。（やりすぎ注意！！）
@@ -71,8 +71,8 @@ public:
 	/// </param>
 	void Smoothing(std::vector<int>* pasu);
 private:
-	std::vector<int> coursepasu;							//経路探査の結果（スムージング処理済み）
-	Navimake* pathdete = nullptr;							//セル（ポリゴン）のデータ
-	int m_nuwNo = 0;										//今何番目のポイントに向かっているか
+	std::vector<int> m_coursepasu;							//経路探査の結果（スムージング処理済み）
+	Navimake* m_pathdata = nullptr;							//セル（ポリゴン）のデータ
+	int m_nowNo = 0;										//今何番目のポイントに向かっているか
 };
 

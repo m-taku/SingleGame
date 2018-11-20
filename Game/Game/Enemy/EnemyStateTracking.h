@@ -25,6 +25,6 @@ public:
 	/// </summary>
 	void Update() override;
 private:
-	VectorDraw* vector = nullptr;			//デバック用のベクトル表示インスタンス
+	VectorDraw* m_vector = nullptr;			//デバック用のベクトル表示インスタンス
 };
 

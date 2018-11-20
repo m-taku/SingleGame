@@ -20,7 +20,7 @@ public:
 	/// <summary>
 	/// Gameobjectから継承したDraw関数
 	/// </summary>
-	void Draw();
+	void Draw() override;
 	/// <summary>
 	/// ポジションを使ったバス番号検索。
 	/// </summary>
@@ -30,7 +30,7 @@ public:
 	/// <returns>
 	/// パス番号。（int）
 	/// </returns>
-	int FindPos_No(CVector3 position)
+	int FindPos_No(CVector3 position) const
 	{
 		CVector3 closepos;
 		closepos.x = FLT_MAX;
@@ -57,7 +57,7 @@ public:
 	/// <returns>
 	/// ポジション。（CVector3）
 	/// </returns>
-	CVector3 FindNo_Pos(int No)
+	CVector3 FindNo_Pos(int No) const
 	{
 		return m_seru[No]->centerposition;
 	}
@@ -72,7 +72,7 @@ public:
 	/// 親のPasDateとコストと目的地を使ってリンクを検索する
 	/// </summary>
 	/// <param name="date">
-	/// 親のPasDate(Path::PasDate&)
+	/// 親のPasDate
 	/// </param>
 	/// <param name="endNo">
 	/// 目的地（int）
@@ -81,7 +81,7 @@ public:
 	/// 親のパスまでのコスト（float）
 	/// </param>
 	/// <returns>
-	/// リンク情報（std::vector(Path::PasDate*)3つ）
+	/// リンク情報
 	/// </returns>
 	std::vector<Path::PasDate*> FindLinc(Path::PasDate& date, int endNo,float cost) const;
 	/// <summary>
@@ -99,6 +99,13 @@ public:
 	bool CollisionTest(int sturtNo, int nextNo);
 private:	
 	CVector3 Searchcenter(const CVector3 (&pos)[3]);	//中点を求める関数
+	/// <summary>
+	/// Cell構造体
+	/// </summary>
+	/// <remarks>
+	/// ナビゲーションメッシュの最小単位となCell構造体。
+	/// セルを構成する３角形の頂点と、隣接Cell情報などを持っている。
+	/// </remarks>
 	struct SData {
 		//CVector3				normal;				//法線
 		CVector3				position[3];		//三角形1個の座標
@@ -107,13 +114,13 @@ private:
 		int                     No;					//自分の番号
 		float                   cost[3];			//リンク先に行く際のコスト
 	};
-	MeshCollider m_meshCollider;						//メッシュ情報
-	CharacterController *m_collider = nullptr;			//キャラクターコントローラー
-	SkinModel m_model;									//モデルデータ
-	std::vector<SData*> m_seru;							//三角形１つのデータ
-	RigidBody m_rigidBody;			                 	//剛体。
-	std::vector<VectorDraw*> vector;					//中点描画用のデータ
-	static const int high = 100;					//CollisionTest用のカプセルの高さ
+	MeshCollider m_meshCollider;					//メッシュ情報
+	CharacterController *m_collider = nullptr;		//キャラクターコントローラー
+	SkinModel m_model;								//モデルデータ
+	std::vector<SData*> m_seru;						//三角形１つのデータ
+	RigidBody m_rigidBody;			               	//剛体。
+	std::vector<VectorDraw*> m_vector;				//中点描画用のデータ
+	static const int hight = 100;					//CollisionTest用のカプセルの高さ
 	static const int ballsize = 5;					//CollisionTest用のカプセルの幅
 };
 

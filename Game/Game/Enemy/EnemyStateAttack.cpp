@@ -3,6 +3,7 @@
 #include"../../Player/Player.h"
 #include"Enemy.h"
 
+
 EnemyStateAttack::EnemyStateAttack(Enemy* enamy, Player* player) :EnemyState(enamy, player)
 {
 }
@@ -13,11 +14,11 @@ EnemyStateAttack::~EnemyStateAttack()
 }
 void EnemyStateAttack::Update()
 {
-	player->Ui->SetDamage(0.001f);
-	auto distance = player->Get2Dposition() - enemy->Get2DPosition();
+	m_player->Damage(0.001f);
+	auto distance = m_player->Get2Dposition() - m_enemy->Get2DPosition();
 	if (distance.Length() >= 200.0f)
 	{
 		//speed.y = 800.0f;
-		enemy->TransitionState(Enemy::State_Tracking);
+		m_enemy->TransitionState(Enemy::State_Tracking);
 	}
 }

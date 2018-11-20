@@ -18,18 +18,18 @@ public:
 	/// </summary>
 	~Enemy();
 	/// <summary>
-	/// Gameobjectから継承した最初に呼ばれる関数。
+	/// 最初に呼ばれる関数。
 	/// </summary>
 	/// <returns>
 	/// Load成功でtrue、失敗でfalse。
 	/// </returns>
 	bool Load();
 	/// <summary>
-	/// Gameobjectから継承した毎フレーム呼ばれる関数。
+	/// 毎フレーム呼ばれる関数。
 	/// </summary>
 	void Update();
 	/// <summary>
-	/// Gameobjectから継承した表示用関数。
+	/// 表示用関数。
 	/// </summary>
 	void Draw();
 	/// <summary>
@@ -156,19 +156,19 @@ public:
 	/// <remarks>
 	/// Delete、Newがあるため少し重い。
 	/// </remarks>
-	/// <param name="state">
-	/// 遷移したいステート。（Enemy::State）
+	/// <param name="m_state">
+	/// 遷移したいステート。（Enemy::m_state）
 	/// </param>
-	void TransitionState(State state);
+	void TransitionState(State m_state);
 	/// <summary>
 	/// 所属しているリーダーのセット。
 	/// </summary>
-	/// <param name="leader">
+	/// <param name="m_Leader">
 	/// リーダーのインスタンス。（Enemyleader*）
 	/// </param>
-	void SetLeader(Enemyleader* leader)
+	void SetLeader(Enemyleader* Leader)
 	{
-		Leader = leader;
+		m_Leader = Leader;
 	}
 	/// <summary>
 	///  プレイヤーのインスタンスのセット。
@@ -176,19 +176,19 @@ public:
 	/// <param name="player">
 	/// セットしたいプレイヤーのインスタンス。(Player*)
 	/// </param>
-	void Setplayer(Player* player)
+	void SetPlayer(Player* player)
 	{
 		m_player = player;
 	}
 	/// <summary>
 	/// 所属しているリーダーの状態遷移。
 	/// </summary>
-	/// <param name="leader">
-	/// 変更したい状態。(Enemyleader::State)
+	/// <param name="m_Leader">
+	/// 変更したい状態。(Enemyleader::m_state)
 	/// </param>
-	void ChangeLeaderState(Enemyleader::State ka)
+	void ChangeLeaderState(Enemyleader::State m_state)
 	{
-		Leader->ChangeSteat(ka);
+		m_Leader->ChangeSteat(m_state);
 	}
 	/// <summary>
 	/// 経路探査のインスタンスのゲット。
@@ -207,16 +207,16 @@ public:
 	/// <param name="position">
 	/// セットしたいポジション。（CVector3）
 	/// </param>
-	void SetLeaderposition(CVector3 position)
+	void SetLeaderPosition(CVector3 position)
 	{
-		Leader->SetPosition(position);
+		m_Leader->SetPosition(position);
 	}
 	/// <summary>
 	/// 集合する際の判定関数。
 	/// </summary>
-	void Rollcall()
+	void RollCall()
 	{
-		Leader->Rollcall();
+		m_Leader->RollCall();
 	}
 	/// <summary>
 	/// 所属しているリーダーのポジションのゲット。
@@ -226,7 +226,7 @@ public:
 	/// </returns>
 	CVector3 GetLeaderPosition()const
 	{
-		return Leader->GetPosition();
+		return m_Leader->GetPosition();
 	}
 	/// <summary>
 	/// HPバーの計算+表示。
@@ -259,7 +259,7 @@ public:
 	/// <param name="position">
 	/// 更新後のポジション。（CVector3）
 	/// </param>
-	void SetCollider(CVector3 position)
+	void SetColliderPosition(CVector3 position)
 	{
 		m_collider.SetPosition(m_position);
 	}
@@ -267,20 +267,20 @@ private:
 	/// <summary>
 	/// デバック用のベクトル表示。
 	/// </summary>
-	void Vectordraw();
+	void DrawDebugVector();
 	SkinModel m_model;										//インスタンシング抜きの１人１人のインスタンス
-	ShaderResourceView texture_hp;							//体力用の2Ｄデータ(中身)
-	ShaderResourceView texture_fram;						//体力用の2Ｄデータ(枠)
-	sprite Sprite_hp;										//体力用の2Ｄ(中身)
-	sprite Sprite_fram;										//体力用の2Ｄ(枠)
+	ShaderResourceView m_texture_hp;						//体力用の2Ｄデータ(中身)
+	ShaderResourceView m_texture_fram;						//体力用の2Ｄデータ(枠)
+	sprite m_Sprite_hp;										//体力用の2Ｄ(中身)
+	sprite m_Sprite_fram;										//体力用の2Ｄ(枠)
 	CharacterController m_collider;					        //キャラクターコントローラー
-	Enemyleader* Leader = nullptr;							//Leaderのポインタ
+	Enemyleader* m_Leader = nullptr;							//m_Leaderのポインタ
 	Player* m_player = nullptr;								//Playerのポインタ
-	VectorDraw* kasa = nullptr;								//デバック用のベクトル表示
+	VectorDraw* m_debugVecor = nullptr;						//デバック用のベクトル表示
 	Path m_path;											//経路探査のインスタンス
 	EnemyState* m_enemystate = nullptr;						//エネミーのステート
-	State state = State_Tracking;							//ステートの状態
-	CMatrix mRot;											//角度に関する行列
+	State m_state = State_Tracking;							//ステートの状態
+	CMatrix m_Rot;											//角度に関する行列
 	CVector3 m_position = { 0.0f,150.0f,-30.0f };			//現在位置
 	CVector3 m_moveVector = CVector3::Zero();				//移動させるベクトル
 	CVector3 m_Front = CVector3::Zero();					//エネミーの前方向

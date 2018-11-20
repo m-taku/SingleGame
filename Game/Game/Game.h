@@ -21,17 +21,17 @@ public:
 	/// <returns>
 	/// 成功でtrue、失敗でfalse。
 	/// </returns>
-	bool Load();
+	bool Load() override;
 	/// <summary>
 	/// Gameobjectから継承したUpdate関数
 	/// </summary>
-	void Update();
+	void Update() override;
 	/// <summary>
 	/// Gameobjectから継承したDraw関数
 	/// </summary>
-	void Draw();
+	void Draw() override;
 private:
-	Player * player;					//プレイヤーのインスタンス
-	Gamecamera* Camera;					//ゲームカメラのインスタンス
+	Player* m_player=nullptr;					//プレイヤーのインスタンス
+	Gamecamera* m_camera = nullptr;					//ゲームカメラのインスタンス
 };
 

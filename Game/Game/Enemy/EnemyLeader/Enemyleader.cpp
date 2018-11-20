@@ -17,15 +17,14 @@ Enemyleader::~Enemyleader()
 }
 bool Enemyleader::Load()
 {
-	m_position = { 0.0f,0.0f,0.0f };
 	m_model.Init(L"Assets/modelData/ToonRTS_demo_Knight.cmo",SOLDIER);
 	for (int i = 0; i < SOLDIER; i++) {
 		m_enemy[i] = new Enemy;
 		m_enemy[i]->SetPosition(m_position);
-		m_enemy[i]->Setplayer(m_player);
+		m_enemy[i]->SetPlayer(m_player);
 		m_enemy[i]->SetLeader(this);
 		m_enemy[i]->Load();
-		m_position += haiti[i];
+		m_position += m_haiti[i];
 	}
 	//m_collider.Init(10.0f, 10.0f, position);
 	m_path = new Path;
@@ -59,9 +58,9 @@ void Enemyleader::Update()
 		}
 		else {
 			for (int i = 0; i < m_remaining; i++) {
-				m_model.UpdateInstancingData(m_position + haiti[i], CQuaternion::Identity(), CVector3::One());
-				m_enemy[i]->SetPosition(m_position + haiti[i]);
-			    m_enemy[i]->SetCollider(m_position + haiti[i]);
+				m_model.UpdateInstancingData(m_position + m_haiti[i], CQuaternion::Identity(), CVector3::One());
+				m_enemy[i]->SetPosition(m_position + m_haiti[i]);
+				m_enemy[i]->SetColliderPosition(m_position + m_haiti[i]);
 			}
 		}
 		break;

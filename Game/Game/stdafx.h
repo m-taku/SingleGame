@@ -12,6 +12,7 @@
 #include <map>
 #include <functional>
 #include <algorithm>
+#include <array>
 
 #define _CRTDBG_MAP_ALLOC #include <stdlib.h> #include <crtdbg.h>  
 #include "btBulletDynamicsCommon.h"
@@ -44,8 +45,8 @@
 #include "color.h"
 #include "physics/Physics.h"
 #include "GameObjectPriority.h"
-
-extern GameobjectManager* objectManager;
+#include "GameObjectName.h"
+extern GameobjectManager* g_objectManager;
 extern bool frame(CVector3 position);
 const float GRAVITY = 9.8f * 30;
 const float FRAME_BUFFER_W = 1280.0f;				//フレームバッファの幅。

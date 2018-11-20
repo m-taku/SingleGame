@@ -18,7 +18,7 @@ bool title::Load()
 	m_Texture.CreateFromDDSTextureFromFile(L"Resource/sprite/yellow.dds");
 	m_title_moji.Init(&m_Texture, 1280.0f, 720.0f);
 	m_texturea.CreateFromDDSTextureFromFile(L"Resource/sprite/White.dds");
-	m_feid.Init(&m_texturea, 1280.0f, 720.0f);
+	m_fadeSprite.Init(&m_texturea, 1280.0f, 720.0f);
 	m_title_haikei.Updete(CVector3::Zero(), CQuaternion::Identity(), CVector3::One());
 	m_title_moji.Updete(CVector3::Zero(), CQuaternion::Identity(), CVector3::One());
 	return true;
@@ -27,29 +27,27 @@ void title::Update()
 {
 	m_title_haikei.Updete(CVector3::Zero(), CQuaternion::Identity(), CVector3::One());
 	m_title_moji.Updete(CVector3::Zero(), CQuaternion::Identity(), { 1.0f,1.0f,1.0f });
-	if (toumei >= 1.0f) {
-		objectManager->NewGO<Game>(GameObjectPriority_Game);
-		objectManager->NewGO<Stage>(0);
-
+	if (m_toumei >= 1.0f) {
+		g_objectManager->NewGO<Game>(GameObjectPriority_Game);
+		g_objectManager->NewGO<Stage>(0);
 		m_title_moji.SetclearColor(0.0f);
 		m_title_haikei.SetclearColor(0.0f);
-		la *= -10;
+		m_faderate *= -10;
 	}
-	if (toumei < 0.0f)
+	if (m_toumei < 0.0f)
 	{
-		objectManager->DereteGO(this);
+		g_objectManager->DereteGO(this);
 	}
-	m_feid.SetclearColor(toumei);
-	toumei += la;
-	if (g_pad[0].IsTrigger(enButtonA)&& toumei==0.0f)
+	m_fadeSprite.SetclearColor(m_toumei);
+	m_toumei += m_faderate;
+	if (g_pad[0].IsTrigger(enButtonA)&& m_toumei==0.0f)
 	{
-		la = 0.02f;
+		m_faderate = 0.02f;
 	}
 	
 }
-void title::postDraw()
+void title::PostDraw()
 {
-
 	m_title_moji.Draw(
 		g_camera2D.GetViewMatrix(),
 		g_camera2D.GetProjectionMatrix()
@@ -58,7 +56,7 @@ void title::postDraw()
 		g_camera2D.GetViewMatrix(),
 		g_camera2D.GetProjectionMatrix()
 	);
-	m_feid.Draw(
+	m_fadeSprite.Draw(
 		g_camera2D.GetViewMatrix(),
 		g_camera2D.GetProjectionMatrix()
 	);

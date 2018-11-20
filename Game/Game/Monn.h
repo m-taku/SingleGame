@@ -20,15 +20,15 @@ public:
 	/// <returns>
 	/// 成功でtrue、失敗でfalse。
 	/// </returns>
-	bool Load();
+	bool Load() override;
 	/// <summary>
 	/// Gameobjectから継承したUpdate関数
 	/// </summary>
-	void Update();
+	void Update() override;
 	/// <summary>
 	/// Gameobjectから継承したDraw関数
 	/// </summary>
-	void Draw();
+	void Draw() override;
 	/// <summary>
 	/// ポジションのセット。
 	/// </summary>
@@ -54,13 +54,13 @@ public:
 	/// </summary>
 	void Setkaku()
 	{
-		if (m_kaihei) {
+		if (m_isOpen) {
 			m_rod *= -1;
-			m_kaihei = false;
+			m_isOpen = false;
 		}
 		else
 		{
-			m_kaihei = true;
+			m_isOpen = true;
 		}
 	}
 private:
@@ -69,9 +69,9 @@ private:
 	MeshCollider m_meshCollider;								//メッシュコライダー。
 	RigidBody m_rigidBody;										//剛体。
 	CVector3 m_position = CVector3::Zero();						//門のポジション
-	CQuaternion m_rotation = CQuaternion::Identity();			//門の角度
-	bool m_kaihei = false;										//開いているかどうか
+	CQuaternion m_rotation = CQuaternion::Identity();			//門の回転クォータニオン。
+	bool m_isOpen = false;										//開いているかどうか
 	float m_rod = 0.0f;											//回す角度
-	float m_kaku = 0.0f;										//今の角度
+	float m_angle = 0.0f;										//今の角度
 };
 

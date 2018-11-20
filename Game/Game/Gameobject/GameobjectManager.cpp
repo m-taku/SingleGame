@@ -1,23 +1,24 @@
 #include "stdafx.h"
 #include "GameobjectManager.h"
 #include"GameobjectList.h"
+
+
 GameobjectManager::GameobjectManager()
 {
-	List.resize(20);
 }
 GameobjectManager::~GameobjectManager()
 {
-	for (auto& list : List) {
+	
+	for (auto& list : m_List) {
 		for (auto objedct : list.GetList()) {
 			delete objedct;
 		}
 	}
-	List.clear();
 }
 void GameobjectManager::Execute()
 {
 	DeleteExecution();
-	for (auto& list : List) {
+	for (auto& list : m_List) {
 		for (auto& objedct : list.GetList())
 		{
 			if (objedct->GetLodefrag()) {
@@ -29,17 +30,17 @@ void GameobjectManager::Execute()
 			}
 		}
 	}
-	for (auto& list : List) {
+	for (auto& list : m_List) {
 		for (auto objedct : list.GetList()) {
 			if (objedct->GetLodefrag()) {
 				objedct->Draw();
 			}
 		}
 	}
-	for (auto& list : List) {
+	for (auto& list : m_List) {
 		for (auto objedct : list.GetList()) {
 			if (objedct->GetLodefrag()) {
-				objedct->postDraw();
+				objedct->PostDraw();
 
 			}
 		}
@@ -79,38 +80,37 @@ void GameobjectManager::Execute()
 
 	GameTime().PushFrameDeltaTime((float)m_sw.GetElapsed());
 }*/
-	int u = 0;
 }
 void GameobjectManager::DeleteExecution()
 {
-	auto nowNo = DeleteNo;
-	DeleteNo = ++DeleteNo % 2;
-	for (auto Deleteobject : DeleteList[nowNo]) {
+	auto nowNo = m_DeleteNo;
+	m_DeleteNo = ++m_DeleteNo % 2;
+	for (auto Deleteobject : m_DeleteList[nowNo]) {
 		int no = Deleteobject.first->GetPriority();
-		if (!List[no].DereteGo(Deleteobject.first, Deleteobject.second))
+		if (!m_List[no].DereteGo(Deleteobject.first, Deleteobject.second))
 		{
 			//ƒNƒ‰ƒbƒVƒ…‚³‚¹‚½‚¢
 			throw;
 		}
 	}
-	DeleteList[DeleteNo].clear();
+	m_DeleteList[m_DeleteNo].clear();
 }
 void GameobjectManager::NewExecution()
 {
-	for (auto Newobject : newLest)
+	for (auto Newobject : m_newLest)
 	{
-		List[Newobject.second].PushObject(Newobject.first);
+		m_List[Newobject.second].PushObject(Newobject.first);
 	}
-	newLest.clear();
+	m_newLest.clear();
 }
 bool GameobjectManager::DereteGO(Gameobject* pointa)
 {
 	int No = 0;
-	for (auto kaa : List[pointa->GetPriority()].GetList())
+	for (auto kaa : m_List[pointa->GetPriority()].GetList())
 	{
 		if (kaa == pointa)
 		{
-			DeleteList[DeleteNo].insert(std::make_pair(pointa, No));
+			m_DeleteList[m_DeleteNo].insert(std::make_pair(pointa, No));
 			return true;
 		}
 		No++;
@@ -120,12 +120,12 @@ bool GameobjectManager::DereteGO(Gameobject* pointa)
 bool GameobjectManager::DereteGO(char* Name)
 {
 	int No = 0;
-	for (auto& ka : List) {
+	for (auto& ka : m_List) {
 		for (auto kaa : ka.GetList()) {
 			No = 0;
 			if (Name == kaa->GetName()) {
 				auto map = ka.GetList();
-				DeleteList[DeleteNo].insert(std::make_pair(map[No], No));
+				m_DeleteList[m_DeleteNo].insert(std::make_pair(map[No], No));
 				return true;
 			}
 			No++;

@@ -18,56 +18,60 @@ bool Gamecamera::Load()
 	m_position.z -= 500.0f;
 	return true;
 }
-void Gamecamera::Update()
+void Gamecamera::ExecuteTracking()
 {
-
-	camerfront.Normalize();
-	m_position = m_player->Get3Dposition();
-	Jiku();
-	m_angle.y = g_pad->GetRStickXF()*3.0f;
-	m_angle.x = g_pad->GetRStickYF()*3.0f;
-	m_reg = CQuaternion::Identity();
-	m_reg.SetRotationDeg(m_Up, m_angle.y);
-	m_Front.Normalize();
-	m_reg.Multiply(camerfront);
-	camerfront.Normalize();
 	float kakudo = 0.0f;
-	kakudo = acos(camerfront.Dot(m_Front));
-	if (kakudo > (20.0f*3.14159/180)&& m_player->Getangle().Length()>0.0f&&kakudo <(100.0f*3.14159 / 180))
+	kakudo = acos(m_playerFront.Dot(m_front));
+	if (kakudo > (CMath::DegToRad(20.0f)) && m_player->Getangle().Length() > 0.0f&&kakudo < (CMath::DegToRad(100.0f)))
 	{
 		if (m_angle.Length() <= 0) {
-			m_jiku = CVector3::Zero();
-			m_jiku.Cross(camerfront, m_Front);
-			if (m_jiku.y >= 0.0f)
+			m_axis = CVector3::Zero();
+			m_axis.Cross(m_front, m_playerFront);
+			if (m_axis.y >= 0.0f)
 			{
-				m_jiku.y = 1.0f;
+				m_axis.y = 1.0f;
 			}
 			else
 			{
-				m_jiku.y = -1.0f;
+				m_axis.y = -1.0f;
 			}
-			m_angle.y += kakudo / 0.5 *m_jiku.y;
-			m_reg.SetRotationDeg(m_Up, m_angle.y);
-			m_reg.Multiply(camerfront);
+			m_angle.y += kakudo / 1.0 *m_axis.y;
+			m_reg.SetRotationDeg(m_playerUp, m_angle.y);
+			m_reg.Multiply(m_front);
 		}
 	}
-	camerfront.Normalize();
-	float kakudo2 = acos(camerfront.Dot(CVector3::AxisZ()));
-	m_reg.SetRotation(m_Up, kakudo2);
-	mRot.MakeRotationFromQuaternion(m_reg);
-	m_right.x = mRot.m[0][0];
-	m_right.y = mRot.m[0][1];
-	m_right.z = mRot.m[0][2];
+}
+void Gamecamera::Update()
+{
+	m_position = m_player->Get3Dposition();
+	UpdateBasisInPlayerSpace();
+	m_angle.y = g_pad->GetRStickXF()*5.0f;
+	m_angle.x = g_pad->GetRStickYF()*5.0f;
+	m_reg = CQuaternion::Identity();
+	m_reg.SetRotationDeg(m_playerFront, m_angle.y);
+	m_playerFront.Normalize();
+	m_reg.Multiply(m_front);
+	m_front.Normalize();
+
+	ExecuteTracking();
+	
+	m_front.Normalize();
+	float kakudo2 = acos(m_front.Dot(CVector3::AxisZ()));
+	m_reg.SetRotation(m_playerUp, kakudo2);
+	m_mRot.MakeRotationFromQuaternion(m_reg);
+	m_right.x = m_mRot.m[0][0];
+	m_right.y = m_mRot.m[0][1];
+	m_right.z = m_mRot.m[0][2];
 	m_right.Normalize();
 	//m_reg = CQuaternion::Identity();
 	//m_reg.SetRotationDeg(m_right, m_angle.x);
 	//m_angle.x = max(m_angle.x, -30.0f);
 	//m_angle.x = min(m_angle.x, 20.0f);
 	//m_reg.Multiply(camerfront);
-	camerfront.Normalize();
+
 	m_targetpos = m_player->Get3Dposition();
 	m_targetpos.y += 50.0f;
-	m_position += camerfront * -100.0f;
+	m_position += m_front * -100.0f;
 	m_position.y += 50.0f;
 	//m_reg = CQuaternion::Identity();
 	g_camera3D.SetTarget(m_targetpos);
@@ -80,14 +84,17 @@ void Gamecamera::Draw()
 {
 
 }
-void Gamecamera::Jiku()
+void Gamecamera::UpdateBasisInPlayerSpace()
 {
-	mRot = m_player->GetMatrix();
-	m_Up.x = mRot.m[1][0];
-	m_Up.y = mRot.m[1][1];
-	m_Up.z = mRot.m[1][2];
-	m_Up.y = 1.0f;
-	m_Front.x = mRot.m[2][0];
-	m_Front.y = mRot.m[2][1];
-	m_Front.z = mRot.m[2][2];
+	m_mRot = m_player->GetMatrix();
+	//プレイヤーの回転行列の0行目～2行目に
+	//プレイヤー座標系の基底軸が入っているので、
+	//それを抜き出す。
+	m_playerUp.x = m_mRot.m[1][0];
+	m_playerUp.y = m_mRot.m[1][1];
+	m_playerUp.z = m_mRot.m[1][2];
+	m_playerUp.y = 1.0f;
+	m_playerFront.x = m_mRot.m[2][0];
+	m_playerFront.y = m_mRot.m[2][1];
+	m_playerFront.z = m_mRot.m[2][2];
 }

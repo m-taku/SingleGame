@@ -17,12 +17,12 @@ bool Stage::Load()
 	//cmoファイルの読み込み。
     // m_model.Init(L"Assets/modelData/wall--.cmo");
 	//ステージのレベル
-	m_level.Init(L"Assets/level/stage_05.tkl", [&](LevelObjectData objData)
+	m_level.Init(L"Assets/level/stage_04.tkl", [&](LevelObjectData objData)
 	{
 		auto No = wcscmp(objData.name, (L"monn1"));
 		if (No==0)
 		{
-			auto monn = objectManager->NewGO<Monn>(0, "Monn");
+			auto monn = g_objectManager->NewGO<Monn>(0, GameObjectName_Monn);
 			monn->SetPosition(objData.position);
 			monn->Setrotation(objData.rotation);
 			monn->Setkaku();
@@ -31,7 +31,7 @@ bool Stage::Load()
 		auto No1 = wcscmp(objData.name, (L"monn2"));
 		if (No1 == 0)
 		{
-			auto monn = objectManager->NewGO<Monn>(0, "Monn");
+			auto monn = g_objectManager->NewGO<Monn>(0, GameObjectName_Monn);
 			monn->SetPosition(objData.position);
 			monn->Setrotation(objData.rotation);
 			return true;
@@ -40,7 +40,7 @@ bool Stage::Load()
 	});
 	//Stege.CreateMeshObject(m_model, CVector3::Zero(), CQuaternion::Identity());
 	//地面のみのセル（ポリゴン）を生成する（地面のモデルはこちらから）
-	m_navimake = objectManager->NewGO<Navimake>(0,"Navimake");
+	m_navimake = g_objectManager->NewGO<Navimake>(0,"Navimake");
 	//Loadfrag = true;
 	return true;
 }
@@ -60,13 +60,7 @@ void Stage::Draw()
 	m_navimake->Update();
 	m_level.Draw();
 }
-void Stage::postDraw()
+void Stage::PostDraw()
 {
-	m_font.Begin();	//フォントの描画開始。
-	m_font.Draw(
-		L"こんにちは世界",		//表示する文字列。
-		{0.0f,100.0f},			//表示する座標。0.0f, 0.0が画面の中心。
-		CVector4::White()
-	);
-	m_font.end();		//フォントの描画終了。
+
 }

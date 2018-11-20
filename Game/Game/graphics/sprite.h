@@ -12,17 +12,29 @@ public:
 	};
 	sprite();
 	~sprite();
-	/*!
-	*@brief	初期化
-	*@param[in]	texFilePath		ＤＤＳファイルのパス
-	*@param[in]	w				横方向の長さ（1280）
-	*@param[in]	h				縦方向の長さ（720）
-	*/
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="texture">
+	/// ＤＤＳファイルのパス
+	/// </param>
+	/// <param name="w">
+	/// 横方向の長さ（1280）
+	/// </param>
+	/// <param name="h">
+	/// 縦方向の長さ（720）
+	/// </param>
 	void Init(ShaderResourceView* texture, float w, float h);
 	/*!
 	*@brief	テクスチャのハーフサイズ（X）
 	*@return　float
 	*/
+	/// <summary>
+	/// テクスチャのハーフサイズ（X）
+	/// </summary>
+	/// <returns>
+	/// float
+	/// </returns>
 	float Gethalf_sizeX()
 	{
 		return half_size.x;
