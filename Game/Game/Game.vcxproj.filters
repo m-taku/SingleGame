@@ -193,6 +193,7 @@
       <Filter>Enemy</Filter>
     </ClCompile>
     <ClCompile Include="font.cpp" />
+    <ClCompile Include="Enemy\EnemyManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -356,6 +357,7 @@
     <ClInclude Include="font.h" />
     <ClInclude Include="GameObjectPriority.h" />
     <ClInclude Include="GameobjectName.h" />
+    <ClInclude Include="Enemy\EnemyManager.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">

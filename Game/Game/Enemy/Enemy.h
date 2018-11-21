@@ -46,6 +46,14 @@ public:
 		State_Gathering		//集合中
 	};
 	/// <summary>
+	/// アニメーション用のenum。
+	/// </summary>
+	enum animation {
+		idle,		//停止アニメーション
+		attack,
+		animnum		//アニメーション状態
+	};
+	/// <summary>
 	/// 2D（ｘ、ｚ）での現在のポジション。
 	/// </summary>
 	/// <remarks>
@@ -272,9 +280,11 @@ private:
 	ShaderResourceView m_texture_hp;						//体力用の2Ｄデータ(中身)
 	ShaderResourceView m_texture_fram;						//体力用の2Ｄデータ(枠)
 	sprite m_Sprite_hp;										//体力用の2Ｄ(中身)
-	sprite m_Sprite_fram;										//体力用の2Ｄ(枠)
+	sprite m_Sprite_fram;									//体力用の2Ｄ(枠)
 	CharacterController m_collider;					        //キャラクターコントローラー
-	Enemyleader* m_Leader = nullptr;							//m_Leaderのポインタ
+	AnimationClip m_animationclip[animnum];						//アニメーションクリップ
+	Animation m_animation;										//アニメーションのインスタンス
+	Enemyleader* m_Leader = nullptr;						//m_Leaderのポインタ
 	Player* m_player = nullptr;								//Playerのポインタ
 	VectorDraw* m_debugVecor = nullptr;						//デバック用のベクトル表示
 	Path m_path;											//経路探査のインスタンス

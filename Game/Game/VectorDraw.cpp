@@ -9,7 +9,7 @@ void VectorDraw::Update(CVector3 posotion, CVector3& Vector, float power)
 {
 	vector = std::move(Vector);
 	Power = power;
-	vector.y = 0.0f;
+	//vector.y = 0.0f;
 	CQuaternion Rot;
 	vector.Normalize();
 	float kakuo = acos(vector.Dot(CVector3::AxisZ()));

@@ -101,6 +101,7 @@
   <ItemGroup>
     <ClCompile Include="character\CharacterController.cpp" />
     <ClCompile Include="color.cpp" />
+    <ClCompile Include="Enemy\EnemyManager.cpp" />
     <ClCompile Include="Enemy\EnemyStategathering.cpp" />
     <ClCompile Include="Enemy\EnemyLeader\EnemySteatGroupMove.cpp" />
     <ClCompile Include="Enemy\EnemyStateAttack.cpp" />
@@ -165,6 +166,7 @@
   <ItemGroup>
     <ClInclude Include="character\CharacterController.h" />
     <ClInclude Include="color.h" />
+    <ClInclude Include="Enemy\EnemyManager.h" />
     <ClInclude Include="Enemy\EnemyStategathering.h" />
     <ClInclude Include="Enemy\EnemyLeader\EnemySteatGroupMove.h" />
     <ClInclude Include="Enemy\EnemyStateAttack.h" />

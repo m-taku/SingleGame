@@ -32,9 +32,11 @@ bool Enemyleader::Load()
 	m_nextpos = m_path->PathPos();
 	m_animationclip[idle].Load(L"Assets/animData/enemy_idel.tka");
 	m_animationclip[idle].SetLoopFlag(true);
+	m_animationclip[attack].Load(L"Assets/animData/enemy_attack.tka");
+	m_animationclip[attack].SetLoopFlag(true);
 	m_animation.Init(m_model, m_animationclip, animnum);
 
-	m_animation.Play(idle, 0.2f);
+	m_animation.Play(attack, 0.2f);
 	return true;
 }
 void Enemyleader::Update()
@@ -87,11 +89,12 @@ void Enemyleader::Update()
 	default:
 		break;
 	}
-	m_animation.Play(idle, 0.2f);
-	m_animation.Update(0.2f);
+	m_animation.Play(attack, 0.2f);
+	m_animation.Update(0.1f);
 }
 void Enemyleader::Draw()
 {
+
 	if (m_state == group) {
 		m_model.Draw(
 			g_camera3D.GetViewMatrix(),

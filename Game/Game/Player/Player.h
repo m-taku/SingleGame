@@ -25,6 +25,14 @@ public:
 		float speed = 100.0f;				//	
 	};
 	/// <summary>
+	/// アニメーション用のenum。
+	/// </summary>
+	enum animation {
+		idle,		//停止アニメーション
+		attack,
+		animnum		//アニメーション状態
+	};
+	/// <summary>
 	/// Gemeobjectから継承したLoat関数。
 	/// </summary>
 	/// <returns>
@@ -134,6 +142,8 @@ private:
 	UI* m_ui = nullptr;
 	CharacterController m_collider;						//キャラクターコントローラー
 	SkinModel m_model;									//モデルデータ
+	AnimationClip m_animationclip[animnum];						//アニメーションクリップ
+	Animation m_animation;										//アニメーションのインスタンス
 	CVector3 m_movespeed = CVector3::Zero();			//移動速度
 	CQuaternion m_rotation = CQuaternion::Identity();	//回転クオータニオン
 	CMatrix m_mRot=CMatrix::Identity();					//回転行列

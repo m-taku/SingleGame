@@ -39,6 +39,7 @@ public:
 	/// </summary>
 	enum animation 	{
 		idle,		//停止アニメーション
+		attack,
 		animnum		//アニメーション状態
 	};
 	/// <summary>

@@ -32,7 +32,7 @@ void title::Update()
 		g_objectManager->NewGO<Stage>(0);
 		m_title_moji.SetclearColor(0.0f);
 		m_title_haikei.SetclearColor(0.0f);
-		m_faderate *= -10;
+		m_faderate *= -1;
 	}
 	if (m_toumei < 0.0f)
 	{

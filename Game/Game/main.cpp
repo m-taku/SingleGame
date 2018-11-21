@@ -62,7 +62,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		g_objectManager->Execute();
 		if (debak==0)
 		{
-			g_physics.DebubDrawWorld();
+			//g_physics.DebubDrawWorld();
 		}
 		g_physics.Update();
 		//プレイヤーの更新。

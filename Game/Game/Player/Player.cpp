@@ -22,7 +22,7 @@ bool Player::Load()
 	m_model.Init(L"Assets/modelData/unityChan.cmo");
 	m_debugVector = new VectorDraw(m_position);
 	m_rotation.SetRotationDeg(CVector3::AxisY(), 0.0f);
-	m_ui = g_objectManager->NewGO<UI>(0);
+	//m_ui = g_objectManager->NewGO<UI>(0);
 	m_mRot.MakeRotationFromQuaternion(m_rotation);
 	m_Front.x = m_mRot.m[2][0];
 	m_Front.y = m_mRot.m[2][1];
@@ -79,9 +79,9 @@ void Player::Update()
 }
 void Player::Draw()
 {
-	m_debugVector->Draw();
-	m_model.Draw(
-		g_camera3D.GetViewMatrix(), 
-		g_camera3D.GetProjectionMatrix()
-	);
+	//m_debugVector->Draw();
+	//m_model.Draw(
+	//	g_camera3D.GetViewMatrix(), 
+	//	g_camera3D.GetProjectionMatrix()
+	//);
 }
