@@ -258,6 +258,10 @@ public:
 	{
 		m_position = position;
 	}
+	SkinModel& CopyModel()
+	{
+		return m_model;
+	}
 	/// <summary>
 	/// キャラクターコントローラーの交代の更新
 	/// </summary>
@@ -282,8 +286,8 @@ private:
 	sprite m_Sprite_hp;										//体力用の2Ｄ(中身)
 	sprite m_Sprite_fram;									//体力用の2Ｄ(枠)
 	CharacterController m_collider;					        //キャラクターコントローラー
-	AnimationClip m_animationclip[animnum];						//アニメーションクリップ
-	Animation m_animation;										//アニメーションのインスタンス
+	AnimationClip m_animationclip[animnum];					//アニメーションクリップ
+	Animation m_animation;									//アニメーションのインスタンス
 	Enemyleader* m_Leader = nullptr;						//m_Leaderのポインタ
 	Player* m_player = nullptr;								//Playerのポインタ
 	VectorDraw* m_debugVecor = nullptr;						//デバック用のベクトル表示

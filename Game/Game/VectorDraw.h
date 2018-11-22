@@ -38,7 +38,7 @@ public:
 	/// <param name="power">
 	/// ベクトルの力（長さ）（float）
 	/// </param>
-	void Update(CVector3 posotion, CVector3& Vector, float power);
+	void Update(CVector3 posotion, CVector3 Vector, float power);
 	/// <summary>
 	/// 1つ1つ個別で点を表示
 	/// </summary>

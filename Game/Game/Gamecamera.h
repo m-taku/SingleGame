@@ -65,22 +65,22 @@ private:
 	/// 最近のゲームの後ろに回り込むカメラの処理。
 	/// ドラクエ11とか色々。
 	/// </remarks>
-	static const int XMAX = 46;
-	static const int XMIN = -46;
+	static const int XMAX = 20;
+	static const int XMIN = -20;
 	void ExecuteTracking();
-	VectorDraw* m_debugVecor = nullptr;						//デバック用のベクトル表示
+	VectorDraw* m_debugVecor = nullptr;				//デバック用のベクトル表示
+	VectorDraw* m_aebugVecor = nullptr;				//デバック用のベクトル表示
 	CVector3 m_playerFront = CVector3::Zero();		//プレイヤーの前方向
 	CVector3 m_playerUp = CVector3::Zero();			//プレイヤーの上方向
-	CVector3 m_right = CVector3::Zero();		//右方向
+	CVector3 m_right = CVector3::Zero();		    //右方向
 	CVector3 m_front = CVector3::AxisZ();			//前方向ベクトル
 	CQuaternion	m_reg = CQuaternion::Identity();	//回転角度
 	CMatrix m_mRot = CMatrix::Identity();			//回転行列
-	CVector3 m_angle = CVector3::Zero();			//回転入力量
+	CVector2 m_nowangle = CVector2::Zero();			//回転入力量
+	float m_maxangle = 0;							//X軸の現在角度
 	CVector3 m_axis = CVector3::Zero();				//軸
 	CVector3 m_targetpos = CVector3::Zero();		//カメラの目標地点
 	CVector3 m_position = CVector3::Zero();			//カメラの現在地
-	CVector2 m_nowangle =CVector2::Zero();			//現在のカメラの縦軸周り回転量
-
 	Player* m_player = nullptr;						//プレイヤーのポインタ
 };
 

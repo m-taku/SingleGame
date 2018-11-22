@@ -5,11 +5,11 @@
 VectorDraw::~VectorDraw()
 {
 }
-void VectorDraw::Update(CVector3 posotion, CVector3& Vector, float power)
+void VectorDraw::Update(CVector3 posotion, CVector3 Vector, float power)
 {
-	vector = std::move(Vector);
+	vector = Vector;
 	Power = power;
-	//vector.y = 0.0f;
+	vector.y = 0.0f;
 	CQuaternion Rot;
 	vector.Normalize();
 	float kakuo = acos(vector.Dot(CVector3::AxisZ()));
@@ -24,6 +24,26 @@ void VectorDraw::Update(CVector3 posotion, CVector3& Vector, float power)
 	{
 		Rot.SetRotationDeg(CVector3::AxisY()*-1, kakuo);
 	}
+	vector = Vector;
+	vector.x = 0;
+	vector.Normalize();
+	//vector.z = 1.0f;
+	float kakuo2 = acos(vector.Dot(CVector3::AxisZ()));
+	kakuo2 = CMath::RadToDeg(kakuo2);
+	CVector3 jiku1;
+	jiku1.Cross(CVector3::AxisZ(), vector);
+	if (jiku1.x > 0.0f)
+	{
+		CQuaternion hoge;
+		hoge.SetRotationDeg(CVector3::AxisX(), kakuo2);
+		Rot.Multiply(hoge);
+	}
+	else
+	{
+		CQuaternion hoge;
+		hoge.SetRotationDeg(CVector3::AxisX()*-1, kakuo2);
+		Rot.Multiply(hoge);
+	}
 	m_position = posotion;
 	m_vector.UpdateWorldMatrix(m_position, Rot, { 5.0f,Power*1.0f,1.0f });
 }
@@ -33,7 +53,7 @@ void VectorDraw::Update(std::vector<CVector3>::iterator posotion, std::vector<CV
 	do {
 		vector = *Vector;
 		Power = *power;
-		vector.y = 0.0f;
+		//vector.y = 0.0f;
 		CQuaternion Rot;
 		vector.Normalize();
 		float kakuo = acos(vector.Dot(CVector3::AxisZ()));

@@ -2,7 +2,7 @@
 /// <summary>
 /// フォントクラス
 /// </summary>
-class Font
+class Font :public Noncopyable
 {
 public:
 	/// <summary>

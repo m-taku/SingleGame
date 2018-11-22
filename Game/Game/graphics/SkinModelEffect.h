@@ -1,6 +1,12 @@
 #pragma once
 
 #include "graphics/Shader.h"
+enum ShaderNo
+{
+    Normal,			//普通
+	Instancing,		//インスタンシング
+	Shadow			//影
+};
 
 /*!
 *@brief	モデルエフェクト。
@@ -43,17 +49,23 @@ public:
 	{
 		m_materialName = matName;
 	} 
-	void SetInstancing(int maxInstance)
+	void ChangeShader(ShaderNo No)
 	{
-		if (maxInstance > 1)
-		{	
-			m_pVSShader = &m_vsShaderInstancing;
-		}
-		else
+		switch (No)
 		{
+		case Normal:
 			m_pVSShader = &m_vsShader;
+			break;
+		case Instancing:
+			m_pVSShader = &m_vsShaderInstancing;
+			break;
+		case Shadow:
+			break;
+		default:
+			break;
 		}
 	}
+
 	bool EqualMaterialName(const wchar_t* name) const
 	{
 		return wcscmp(name, m_materialName.c_str()) == 0;

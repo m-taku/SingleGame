@@ -183,7 +183,7 @@ public:
 	/*!
 	*@brief	ボーンを取得。
 	*/
-	Bone* GetBone(int boneNo)
+	Bone* GetBone(int boneNo) const
 	{
 		return m_bones[boneNo];
 	}
@@ -213,7 +213,6 @@ public:
 	*/
 	static 	void UpdateBoneWorldMatrix(Bone& bone, const CMatrix& parentMatrix);
 private:
-	
 	std::vector<Bone*>			m_bones;					//!<ボーンの配列。
 	std::vector<CMatrix>		m_boneMatrixs;				//!<ボーン行列。
 	ID3D11Buffer*				m_boneMatrixSB = nullptr;	//!<ボーン行列のストラクチャーバッファ。

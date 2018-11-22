@@ -3,7 +3,7 @@ class Navimake;
 /// <summary>
 /// パスデータを使った経路探査クラス。
 /// </summary>
-class Path:Noncopyable
+class Path:public Noncopyable
 {
 public:
 	/// <summary>

@@ -30,7 +30,7 @@ bool Enemy::Load()
 	m_Front.y = m_Rot.m[2][1];
 	m_Front.z = m_Rot.m[2][2];
 	m_Front.Normalize();
-	TransitionState(State_Tracking);
+	TransitionState(State_Attack);
 	m_position.y = 0.0f;
 	m_Leader->CopySkinModel().UpdateInstancingData(m_position, CQuaternion::Identity(), CVector3::One());
 	return true;

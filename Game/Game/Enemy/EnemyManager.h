@@ -1,5 +1,6 @@
 #pragma once
 #include"Player/Player.h"
+#include "Enemyleader/Enemyleader.h"
 /// <summary>
 /// エネミーのマネージャークラス
 /// </summary>
@@ -37,6 +38,6 @@ public:
 	}
 private:
 	Player* m_player = nullptr;
-
+	std::vector<Enemyleader*> m_enemy;
 };
 

@@ -2,7 +2,7 @@
 /// <summary>
 /// カラークラス
 /// </summary>
-class Color
+class Color:public Noncopyable
 {
 public:
 	Color();

@@ -56,8 +56,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		for (auto& pad : g_pad) {
 			pad.Update();
 		}
-
-       // auto ks = objectManager->NewGO<Player>(0);
+        //auto ks = objectManager->NewGO<Player>(0);
 		//物理エンジンの更新。
 		g_objectManager->Execute();
 		if (debak==0)

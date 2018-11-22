@@ -233,10 +233,10 @@ void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 			ModelEffect* effect = reinterpret_cast<ModelEffect*>(mesh->effect.get());
 			//頂点1つ1つにインスタンシング用のシェーダーに変
 			if (m_numInstance > 1) {
-				effect->SetInstancing(m_numInstance);
+				effect->ChangeShader(Instancing);
 			}
 			else {
-				effect->SetInstancing(1);
+				effect->ChangeShader(Normal);
 			}
 		}
 	}

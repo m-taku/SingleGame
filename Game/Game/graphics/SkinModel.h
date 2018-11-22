@@ -13,7 +13,7 @@ enum EnFbxUpAxis {
 /*!
 *@brief	スキンモデルクラス。
 */
-class SkinModel
+class SkinModel:public Noncopyable
 {
 public:
 	//メッシュが見つかったときのコールバック関数。
@@ -72,7 +72,7 @@ public:
 	/*!
 	*@brief	スケルトンの取得。
 	*/
-	Skeleton& GetSkeleton()
+	Skeleton& GetSkeleton() 
 	{
 		return m_skeleton;
 	}
