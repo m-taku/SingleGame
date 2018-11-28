@@ -5,16 +5,20 @@
 #include"Enemy/EnemyManager.h"
 #include"Enemy/Enemy.h"
 #include"Player/Player.h"
-
+#include"title.h"
 #include"Gamecamera.h"
+#include"Stage.h"
 
 Game::Game()
 {
 }
-
-
 Game::~Game()
 {
+	g_objectManager->NewGO<title>(0);
+}
+void Game::OnDestroy()
+{
+	g_objectManager->Release();
 }
 bool Game::Load()
 {
@@ -24,7 +28,8 @@ bool Game::Load()
 	m_camera = g_objectManager->NewGO<Gamecamera>(GameObjectPriority_Camera);
 	m_camera->SetPlayer(m_player);
 	m_player->SetCamera(m_camera);
-	auto ka= g_objectManager->NewGO<EnemyManager>(0);
+	g_objectManager->NewGO<Stage>(GameObjectPriority_Default);
+	auto ka= g_objectManager->NewGO<EnemyManager>(GameObjectPriority_Default);
 	ka->SetPlayer(m_player);
 	//level.Init(L"Assets/level/Enemy_lever03.tkl", [&](LevelObjectData objData)
 	//{
@@ -50,7 +55,10 @@ bool Game::Load()
 }
 void Game::Update()
 {
-
+	if (g_pad[0].IsPress(enButtonLB3))
+	{
+		g_objectManager->DereteGO(this);
+	}
 }
 void Game::Draw()
 {

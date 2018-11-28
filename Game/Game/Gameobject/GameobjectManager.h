@@ -26,6 +26,10 @@ public:
 	/// </summary>
 	void NewExecution();
 	/// <summary>
+	/// 解放処理
+	/// </summary>
+	void Release();
+	/// <summary>
 	/// オブジェクトの更新処理。
 	/// 1フレームで2回以上呼ぶとおかしくなるので注意。
 	/// </summary>
@@ -50,7 +54,6 @@ public:
 		object->SetPriority(No);
 		m_newLest.insert({ object, No });
 		return object;
-		// List.at(No).NewGo<T>(No, name);
 	}
 	/// <summary>
 	/// ポインタによるDelete処理。

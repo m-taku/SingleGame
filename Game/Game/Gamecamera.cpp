@@ -109,7 +109,8 @@ void Gamecamera::Update()
 }
 void Gamecamera::Draw()
 {
-	m_debugVecor->Draw();
+	
+	//m_debugVecor->Draw();
 	//m_aebugVecor->Draw();
 }
 void Gamecamera::UpdateBasisInPlayerSpace()

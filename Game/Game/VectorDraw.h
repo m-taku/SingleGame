@@ -42,7 +42,7 @@ public:
 	/// <summary>
 	/// 1つ1つ個別で点を表示
 	/// </summary>
-	void Update();					
+	void Update(CVector3 posotion);					
 	/// <summary>
 	/// インスタンシングによる大量のベクトル表示
 	/// </summary>
@@ -87,7 +87,7 @@ public:
 	VectorDraw(CVector3 position, int counnt = 1){}
 	~VectorDraw() {}
 	void Update(CVector3 posotion, CVector3& Vector, float power) {}
-	void Update() {}
+	void Update(CVector3 posotion) {}
 	void Update(
 		std::vector<CVector3>::iterator posotion,
 		std::vector<CVector3>::iterator& Vector,

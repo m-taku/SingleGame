@@ -2,7 +2,7 @@
 #include "Stage.h"
 #include"Monn.h"
 #include"level/MapChip.h"
-
+#include "title.h"
 
 Stage::Stage()
 {
@@ -17,7 +17,10 @@ bool Stage::Load()
 	//cmoファイルの読み込み。
     // m_model.Init(L"Assets/modelData/wall--.cmo");
 	//ステージのレベル
-	m_level.Init(L"Assets/level/stage_04.tkl", [&](LevelObjectData objData)
+	auto mode=g_objectManager->FindGO<title>("title");
+	wchar_t moveFilePath[256];
+	swprintf_s(moveFilePath, L"Assets/level/stage_0%d.tkl",mode->Getmode()+4);
+	m_level.Init(moveFilePath, [&](LevelObjectData objData)
 	{
 		auto No = wcscmp(objData.name, (L"monn1"));
 		if (No==0)

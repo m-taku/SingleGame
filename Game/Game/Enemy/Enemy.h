@@ -1,6 +1,7 @@
 #pragma once
 #include "character/CharacterController.h"
 #include"../Player/Player.h"
+#include"../../Path.h"
 #include"EnemyLeader/EnemyLeader.h"
 class EnemyState;
 /// <summary>
@@ -50,7 +51,8 @@ public:
 	/// </summary>
 	enum animation {
 		idle,		//停止アニメーション
-		attack,
+		attack, 
+		walk,
 		animnum		//アニメーション状態
 	};
 	/// <summary>
@@ -258,9 +260,35 @@ public:
 	{
 		m_position = position;
 	}
+	/// <summary>
+	///　モデルのインスタンスのゲット。
+	/// （constなしのため注意！！！）
+	/// </summary>
+	/// <returns>
+	/// モデルのインスタンス（SkinModel）
+	/// </returns>
 	SkinModel& CopyModel()
 	{
 		return m_model;
+	}
+	/// <summary>
+	/// 腕の位置のボーン番号
+	/// </summary>
+	/// <returns>
+	/// ボーン番号（int）
+	/// </returns>
+	int GetNo()
+	{
+		return bolnNo;
+	}
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="Animation"></param>
+	void ChangeAnimation(animation Animation)
+	{
+		m_animation.Play(Animation,0.1);
+		//m_animation.Update(0.01f);
 	}
 	/// <summary>
 	/// キャラクターコントローラーの交代の更新
@@ -271,9 +299,9 @@ public:
 	/// <param name="position">
 	/// 更新後のポジション。（CVector3）
 	/// </param>
-	void SetColliderPosition(CVector3 position)
+	void ChangeColliderPosition(CVector3 position)
 	{
-		m_collider.SetPosition(m_position);
+		//m_collider.SetPosition(m_position);
 	}
 private:
 	/// <summary>
@@ -285,7 +313,7 @@ private:
 	ShaderResourceView m_texture_fram;						//体力用の2Ｄデータ(枠)
 	sprite m_Sprite_hp;										//体力用の2Ｄ(中身)
 	sprite m_Sprite_fram;									//体力用の2Ｄ(枠)
-	CharacterController m_collider;					        //キャラクターコントローラー
+	//CharacterController m_collider;					        //キャラクターコントローラー
 	AnimationClip m_animationclip[animnum];					//アニメーションクリップ
 	Animation m_animation;									//アニメーションのインスタンス
 	Enemyleader* m_Leader = nullptr;						//m_Leaderのポインタ
@@ -303,10 +331,11 @@ private:
 	CVector3 m_nextpos = CVector3::Zero();					//経路探査で出た次のポジション
 	CQuaternion m_angle = CQuaternion::Identity();			//回転角度
 	CQuaternion m_Sprite_angle = CQuaternion::Identity();	//テクスチャの回転角度
-	const float m_kaku = 30.0f;								//1フレームで回転させる最大角度(degree)
+	const float m_kaku = 10.0f;								//1フレームで回転させる最大角度(degree)
 	const float m_margin = CMath::DegToRad(m_kaku);			//1フレームで回転させる最大角度(radian)
+	int bolnNo = 0;
 	float m_HP = 1.0f;										//ＨＰの割合
-	float m_speed = 500.0f;             					//移動速度
+	float m_speed = 0.0f;             					//移動速度
 
 };
 

@@ -33,6 +33,10 @@ public:
 	/// </summary>
 	virtual void PostDraw() {};
 	/// <summary>
+	/// delete処理直後に呼ばれる関数
+	/// </summary>
+	virtual void OnDestroy() {};
+	/// <summary>
 	/// オブジェクトの優先度取得。
 	/// </summary>
 	/// <returns>

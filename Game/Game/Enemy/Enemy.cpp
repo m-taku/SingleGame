@@ -2,7 +2,7 @@
 #include "Enemy.h"
 #include"Enenystate.h"
 #include"../../Player/Player.h"
-
+#include "Physics/CollisionAttr.h"
 
 Enemy::Enemy()
 {
@@ -18,20 +18,44 @@ bool Enemy::Load()
 {
 	//cmoファイルの読み込み。
 	m_model.Init(L"Assets/modelData/ToonRTS_demo_Knight.cmo");
-	m_collider.Init(20.0f, 50.0f, m_position);
+	//m_collider.Init(20.0f, 50.0f, m_position);
 	m_texture_hp.CreateFromDDSTextureFromFile(L"Resource/sprite/HP.dds");
 	m_texture_fram.CreateFromDDSTextureFromFile(L"Resource/sprite/HP_waku.dds");
 	m_Sprite_hp.Init(&m_texture_hp, 100.0f, 25.0f);
 	m_Sprite_fram.Init(&m_texture_fram, 100.0f, 25.0f);
 	m_debugVecor = new VectorDraw(m_position);
-
 	m_Rot.MakeRotationFromQuaternion(m_angle);
 	m_Front.x = m_Rot.m[2][0];
 	m_Front.y = m_Rot.m[2][1];
 	m_Front.z = m_Rot.m[2][2];
 	m_Front.Normalize();
-	TransitionState(State_Attack);
 	m_position.y = 0.0f;
+	static int hoge = -1;
+	int num = CopyModel().GetSkeleton().GetNumBones();
+	if (hoge == -1) {
+		for (int i = 0; i < num; i++) {
+			auto bonename = CopyModel().GetSkeleton().GetBone(i)->GetName();
+
+			int result = wcscmp(L"Bip001 R Hand", bonename);
+			if (result == 0)
+			{
+				
+				hoge = CopyModel().GetSkeleton().GetBone(i)->GetNo();
+				break;
+			}
+		}
+	}
+	bolnNo = hoge;
+	m_animationclip[idle].Load(L"Assets/animData/enemy_idel.tka");
+	m_animationclip[idle].SetLoopFlag(true); 
+	m_animationclip[attack].Load(L"Assets/animData/enemy_attack.tka");
+	m_animationclip[attack].SetLoopFlag(true);	
+	m_animationclip[walk].Load(L"Assets/animData/enemy_walk.tka");
+	m_animationclip[walk].SetLoopFlag(true);
+	m_animation.Init(m_model, m_animationclip, animnum);
+	m_animation.Play(walk, 0.2f);
+	TransitionState(State_Move);
+	m_model.UpdateWorldMatrix(m_position, m_angle, CVector3::One());
 	m_Leader->CopySkinModel().UpdateInstancingData(m_position, CQuaternion::Identity(), CVector3::One());
 	return true;
 }
@@ -55,50 +79,40 @@ void Enemy::TransitionState(State m_state)
 	default:
 		break;
 	}
-
+	m_model.UpdateWorldMatrix(m_position, m_angle, { 0.8f,0.8f,0.8f });
 }
 void Enemy::Update()
 {
 	m_enemystate->Update();
 
 	//ワールド行列の更新。	
-	//m_speed.x = g_pad->GetLStickXF()*500.0f;
-	//m_speed.z = g_pad->GetLStickYF()*500.0f;
 	m_Rot.MakeRotationFromQuaternion(m_angle);
 	m_Front.x = m_Rot.m[2][0];
 	m_Front.y = m_Rot.m[2][1];
 	m_Front.z = m_Rot.m[2][2];
 	m_Front.y = 0.0f;
 	m_Front.Normalize();
-	m_moveVector = m_Front;
-	m_moveVector *= m_speed;
-	m_moveVector.y -= 9.8*10.0f;
-	m_position += m_moveVector * 1.0 / 30.0f;
-	m_position = m_collider.Execute(1.0f / 30.0f, m_moveVector);
-	m_model.UpdateWorldMatrix(m_position, m_angle, CVector3::One());
-	//m_Leader->GetSkinmdel().UpdateInstancingData(m_position, m_angle, CVector3::One());
-	//if ((player->Get2Dposition() - m_position).Length() <= 100.0f)
+	m_moveVector = m_Front*m_speed;
+	//m_moveVector.y -= 9.8*10.0f;
+	m_position += m_moveVector * 1.0f / 30.0f;
+	//m_position= m_collider.Execute(1.0f / 30.0f, m_moveVector);
+	//CVector3 distance = m_player->Get2Dposition() - Get2DPosition();
+	//if (distance.Length() >= 600.0f)
 	//{
-	//	m_HP -= 0.01;
+	//	ChangeLeaderState(Enemyleader::gathering);
+	//	SetLeaderPosition(Get3DPosition());
 	//}
-	/*	DrewFragu = */
-	//if (frame(m_position)) {
-//	}
-
+	m_animation.Update(1.0f / 30.0f);
+	m_model.UpdateWorldMatrix(m_position, m_angle, { 0.8f,0.8f,0.8f });
+	m_Leader->CopySkinModel().UpdateInstancingData(m_position, m_angle, { 0.8f,0.8f,0.8f });
 }
 void Enemy::postDraw()
 {
-
 	DrawDebugVector();
 	HP_Draw();
 }
 void Enemy::Draw()
 {
-	//m_position.y += 120.0f;
-	//kasa->Draw();	
-	//m_position.x -= m_Sprite_fram.Gethalf_sizeX();
-	//if (DrewFragu) {
-	//}
 	m_model.Draw(
 		g_camera3D.GetViewMatrix(),
 		g_camera3D.GetProjectionMatrix()
@@ -125,7 +139,6 @@ void Enemy::DrawDebugVector()
 	//@todo m_Sprite_angleで回した結果を見るためのデバッグコード
 	CVector3 hoge = CVector3::AxisZ()*-1;
 	m_Sprite_angle.Multiply(hoge);
-
 	m_debugVecor->Update(m_position, hoge, 1.0);
 #endif
 }
@@ -136,7 +149,7 @@ void Enemy::HP_Draw()
 		m_HP -= 0.01;
 	}
 	auto la = m_position;
-	la.y += 300.0f;
+	la.y += 100.0f;
 	//m_Sprite_fram.Updete(la, m_Sprite_angle, { 1.0f,1.0f,1.0f });
 	//m_Sprite_fram.Draw(
 	//	g_camera3D.GetViewMatrix(),

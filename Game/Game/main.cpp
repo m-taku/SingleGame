@@ -46,7 +46,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	g_objectManager = &objectManage;
 	g_physics.SetDebugDrawMode(btIDebugDraw::DBG_DrawWireframe);
 	
-	auto tittle = g_objectManager->NewGO<title>(0);
+	auto tittle = g_objectManager->NewGO<title>(0,"title");
 	int debak = 0;
 	while (DispatchWindowMessage() == true)
 	{
@@ -61,7 +61,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		g_objectManager->Execute();
 		if (debak==0)
 		{
-			//g_physics.DebubDrawWorld();
+			g_physics.DebubDrawWorld();
 		}
 		g_physics.Update();
 		//プレイヤーの更新。

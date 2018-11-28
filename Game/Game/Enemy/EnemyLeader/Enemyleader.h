@@ -3,10 +3,10 @@
 #include "character/CharacterController.h"
 #include"../../Path.h"
 #include <array> 
-class Enemy;
 /// <summary>
 /// Enemy1グループの動作クラス。
 /// </summary>
+class Enemy;
 class Enemyleader:public Gameobject
 {
 public:
@@ -113,10 +113,7 @@ public:
 	void RollCall()
 	{
 		m_ninzuu++;
-		if (m_ninzuu >= m_remaining)
-		{
-			m_state = group;
-		}
+	
 	}
 	/// <summary>
 	/// グループ状態での移動計算処理。
@@ -126,8 +123,8 @@ private:
 	static const int SOLDIER = 3;								//リーダーを含む部隊の総数（定数）
 	CVector3 m_haiti[5] = {
 	{ 70.0f,0.0f,0.0f },
-	{-70.0f,0.0f,0.0f},
-	{0.0f,0.0f,-70.0f},
+	{-70.0f,0.0f,70.0f},
+	{-70.0f,0.0f,-70.0f},
 	{0.0f,0.0f,70.0f},
 	{0.0f,0.0f,0.0f}
 	};														    //発生位置の調整のための数値			

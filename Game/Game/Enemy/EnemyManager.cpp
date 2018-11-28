@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "EnemyManager.h"
 #include"level/Level.h"
+#include "title.h"
 
 
 EnemyManager::EnemyManager()
@@ -14,8 +15,11 @@ EnemyManager::~EnemyManager()
 bool EnemyManager::Load()
 {
 	int kuku = 0;
+	auto mode = g_objectManager->FindGO<title>("title");
+	wchar_t moveFilePath[256];
+	swprintf_s(moveFilePath, L"Assets/level/Enemy_lever0%d.tkl", mode->Getmode() + 3);
 	Level level;
-	level.Init(L"Assets/level/Enemy_lever03.tkl", [&](LevelObjectData objData)
+	level.Init(moveFilePath, [&](LevelObjectData objData)
 	{
 		//Ç∆ÇËÇ†Ç¶Ç∏ÉvÉåÉCÉÑÅ[Ç‡
 		auto No = wcscmp(objData.name, (L"unityChan"));

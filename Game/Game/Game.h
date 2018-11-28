@@ -30,6 +30,10 @@ public:
 	/// Gameobjectから継承したDraw関数
 	/// </summary>
 	void Draw() override;
+	/// <summary>
+	/// Gameobjectから継承したOnDestroy関数
+	/// </summary>
+	void OnDestroy() override;
 private:
 	Player* m_player=nullptr;					//プレイヤーのインスタンス
 	Gamecamera* m_camera = nullptr;					//ゲームカメラのインスタンス

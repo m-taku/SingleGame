@@ -115,15 +115,23 @@ void SkinModel::UpdateInstancingData(
 	UpdateWorldMatrix(trans, rot, scale);
 	if (m_numInstance < m_maxInstance) {
 		m_instancingData[m_numInstance] = m_worldMatrix;
-		if (result) {
+		if (result) {	
+			//3dsMaxと軸を合わせるためのバイアス。
+			CMatrix mBias = CMatrix::Identity();
+			if (m_enFbxUpAxis == enFbxUpAxisZ) {
+				//Z-up
+				mBias.MakeRotationX(CMath::PI * -0.5f);
+			}
 			//スキンあり用の行列を生成
 			CMatrix transMatrix, rotMatrix, scaleMatrix;
 			//平行移動行列を作成する。
 			transMatrix.MakeTranslation(trans);
 			//回転行列を作成する。
 			rotMatrix = CMatrix::Identity();
+			rotMatrix.MakeRotationFromQuaternion(rot);
+			rotMatrix.Mul(mBias, rotMatrix);
 			//拡大行列を作成する。
-			scaleMatrix.MakeScaling(scale);
+			scaleMatrix = CMatrix::Identity();
 			//ワールド行列を作成する。
 			//拡大×回転×平行移動の順番で乗算するように！
 			//順番を間違えたら結果が変わるよ。
@@ -139,7 +147,6 @@ void SkinModel::UpdateInstancingData(
 		}
 		m_numInstance++;
 	}
-
 }
 //void SkinModel::EndUpdateInstancingData()
 //{

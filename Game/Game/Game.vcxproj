@@ -243,6 +243,9 @@
     <MeshContentTask Include="Assets\modelData\monn1.fbx" />
     <MeshContentTask Include="Assets\modelData\monn2.fbx" />
     <MeshContentTask Include="Assets\modelData\stageGround.fbx" />
+    <MeshContentTask Include="Assets\modelData\test_box1.fbx" />
+    <MeshContentTask Include="Assets\modelData\test_box2.fbx" />
+    <MeshContentTask Include="Assets\modelData\test_box3.fbx" />
     <MeshContentTask Include="Assets\modelData\ToonRTS_demo_Knight.FBX" />
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\Assets\modelData\%(Filename).cmo</ContentOutput>
@@ -263,6 +266,7 @@
     <Image Include="Assets\texture\BRICKBMP.GIF" />
     <Image Include="Assets\texture\Building_texture7.jpg" />
     <Image Include="Assets\texture\damage.png" />
+    <ImageContentTask Include="Assets\texture\yaji.png" />
     <ImageContentTask Include="Assets\texture\White.png" />
     <ImageContentTask Include="Assets\texture\taitoru.png" />
     <ImageContentTask Include="Assets\texture\yellow.png" />

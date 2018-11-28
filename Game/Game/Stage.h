@@ -43,5 +43,6 @@ private:
 	Font m_font;						//文字表示のインスタンス
 	Level m_level;						//ステージ表示用のレベルインスタンス					
 	Navimake* m_navimake = nullptr;		//ナビゲーションメッシュ作成処理。
+
 };
 

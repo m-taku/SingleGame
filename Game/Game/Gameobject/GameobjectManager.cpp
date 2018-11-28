@@ -8,16 +8,19 @@ GameobjectManager::GameobjectManager()
 }
 GameobjectManager::~GameobjectManager()
 {
-	
+	Release();
+}
+void GameobjectManager::Release()
+{
 	for (auto& list : m_List) {
-		for (auto objedct : list.GetList()) {
+		auto List = list.GetList();
+		for (auto& objedct : List) {
 			delete objedct;
 		}
 	}
 }
 void GameobjectManager::Execute()
 {
-	DeleteExecution();
 	for (auto& list : m_List) {
 		for (auto& objedct : list.GetList())
 		{
@@ -45,6 +48,7 @@ void GameobjectManager::Execute()
 			}
 		}
 	}
+	DeleteExecution();
 	NewExecution();
 	/*static int count = 0;
 	m_timeTotal += (float)m_sw.GetElapsed();
@@ -87,6 +91,7 @@ void GameobjectManager::DeleteExecution()
 	m_DeleteNo = ++m_DeleteNo % 2;
 	for (auto Deleteobject : m_DeleteList[nowNo]) {
 		int no = Deleteobject.first->GetPriority();
+		Deleteobject.first->OnDestroy();
 		if (!m_List[no].DereteGo(Deleteobject.first, Deleteobject.second))
 		{
 			//ƒNƒ‰ƒbƒVƒ…‚³‚¹‚½‚¢

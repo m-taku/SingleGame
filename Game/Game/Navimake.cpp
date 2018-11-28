@@ -10,7 +10,7 @@ Navimake::Navimake()
 	m_meshCollider.CreateFromSkinModel(m_model, nullptr);
 	//メッシュコライダーから頂点バッファとインデックスバッファの情報をGetする
 	int No = 0;
-	for (int i = 0; i < /*m_meshCollider.Getok()*/1; i++) {
+	for (int i = 0; i </* m_meshCollider.Getok()*/1; i++) {
 		auto vertex = m_meshCollider.Getvertex(i);
 		auto index = m_meshCollider.GetIndex(i);
 		
@@ -136,28 +136,28 @@ Navimake::Navimake()
 		m_vector[m_vector.size() - 1]->Update(centerposition);
 	}
 	//ここからデバック用のリンク表示
-	//{
-	//	std::vector<CVector3> centerposition1;
-	//	std::vector<CVector3> Vectorlist;
-	//	std::vector<float> Vectorpore;
-	//	for (int i = 0; i < seru.size(); i++)
-	//	{
-	//		CVector3 c_position;
-	//		c_position = seru[i]->centerposition;
-	//		for (int j = 0; j < 3; j++) {
-	//			if (seru[i]->linkNoList[j] != -1)
-	//			{
-	//				CVector3 Vector = CVector3::Zero();
-	//				Vector = seru[seru[i]->linkNoList[j]]->centerposition - c_position;
-	//				centerposition1.push_back(c_position);
-	//				Vectorlist.push_back(Vector);
-	//				Vectorpore.push_back(Vector.Length() / 3.0f);
-	//			}
-	//		}
-	//	}
-	//	vector.push_back(new VectorDraw(seru[0]->centerposition, centerposition1.size()));
-	//	vector[vector.size()-1]->Update(centerposition1.begin(), Vectorlist.begin(), Vectorpore.begin());
-	//}
+	{
+		std::vector<CVector3> centerposition1;
+		std::vector<CVector3> Vectorlist;
+		std::vector<float> Vectorpore;
+		for (int i = 0; i < m_seru.size(); i++)
+		{
+			CVector3 c_position;
+			c_position = m_seru[i]->centerposition;
+			for (int j = 0; j < 3; j++) {
+				if (m_seru[i]->linkNoList[j] != -1)
+				{
+					CVector3 Vector = CVector3::Zero();
+					Vector = m_seru[m_seru[i]->linkNoList[j]]->centerposition - c_position;
+					centerposition1.push_back(c_position);
+					Vectorlist.push_back(Vector);
+					Vectorpore.push_back(Vector.Length() / 3.0f);
+				}
+			}
+		}
+		m_vector.push_back(new VectorDraw(m_seru[0]->centerposition, centerposition1.size()));
+		m_vector[m_vector.size()-1]->Update(centerposition1.begin(), Vectorlist.begin(), Vectorpore.begin());
+	}
 	//剛体を作成、
 	RigidBodyInfo rbInfo;
 	rbInfo.collider = &m_meshCollider; //剛体に形状(コライダー)を設定する。
@@ -271,15 +271,9 @@ struct Collision : public btCollisionWorld::ConvexResultCallback
 bool Navimake::CollisionTest(int sturtNo, int nextNo)
 {
 	//スムーズする際の仮の当たり判定（固定値なんだよなぁ、、、、、）
-	
 	CapsuleCollider m_collide;						//コライダー。
 	m_collide.Create(hight, ballsize);
 	CVector3 nextPosition = m_seru[nextNo]->centerposition;
-	//現在の座標から次の移動先へ向かうベクトルを求める。
-	CVector3 addPos;
-	addPos.Subtract(m_seru[sturtNo]->centerposition, m_seru[nextNo]->centerposition);
-	CVector3 addPosXZ = addPos;
-	addPosXZ.y = 0.0f;
 	//仮の当たり判定の中心座標 + 高さ*0.1の座標をposTmpに求める。
 	CVector3 posTmp = m_seru[sturtNo]->centerposition;
 	posTmp.y += hight + ballsize + hight * 0.1f;

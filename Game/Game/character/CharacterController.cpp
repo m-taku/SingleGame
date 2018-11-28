@@ -4,7 +4,6 @@
 
 #include "stdafx.h"
 #include "character/CharacterController.h"
-#include "Physics/CollisionAttr.h"
 
 
 
@@ -98,7 +97,7 @@ namespace {
 }
 
 
-void CharacterController::Init(float radius, float height, const CVector3& position)
+void CharacterController::Init(float radius, float height, const CVector3& position, EnCollisionAttr Attr)
 {
 	m_position = position;
 	//ƒRƒŠƒWƒ‡ƒ“ì¬B

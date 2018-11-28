@@ -2,7 +2,6 @@
 #include "Enemyleader.h"
 #include"../Enemy.h"
 
-
 Enemyleader::Enemyleader()
 {
 
@@ -18,6 +17,8 @@ Enemyleader::~Enemyleader()
 bool Enemyleader::Load()
 {
 	m_model.Init(L"Assets/modelData/ToonRTS_demo_Knight.cmo",SOLDIER);
+	m_path = new Path;
+	//m_path->Course(m_position, m_player->Get2Dposition());
 	for (int i = 0; i < SOLDIER; i++) {
 		m_enemy[i] = new Enemy;
 		m_enemy[i]->SetPosition(m_position);
@@ -27,81 +28,90 @@ bool Enemyleader::Load()
 		m_position += m_haiti[i];
 	}
 	//m_collider.Init(10.0f, 10.0f, position);
-	m_path = new Path;
-	m_path->Course(m_position, m_player->Get2Dposition());
-	m_nextpos = m_path->PathPos();
+	//m_nextpos = m_path->PathPos();
 	m_animationclip[idle].Load(L"Assets/animData/enemy_idel.tka");
 	m_animationclip[idle].SetLoopFlag(true);
-	m_animationclip[attack].Load(L"Assets/animData/enemy_attack.tka");
+	m_animationclip[attack].Load(L"Assets/animData/enemy_attack1.tka");
 	m_animationclip[attack].SetLoopFlag(true);
 	m_animation.Init(m_model, m_animationclip, animnum);
-
-	m_animation.Play(attack, 0.2f);
+	m_animation.Play(idle, 0.2f);
 	return true;
 }
 void Enemyleader::Update()
 {
 	m_model.BeginUpdateInstancingData();
-	//for (int i = 0; i < remaining; i++) {
-	//	enemy[i]->Update();
+	for (int i = 0; i < m_remaining; i++) {
+		m_enemy[i]->Update();
+	}
+	//CVector3 distance = CVector3::Zero();
+	//for (int i = 0; i < SOLDIER; i++) {
+	//	m_enemy[i]->Update();
 	//}
-	CVector3 distance = CVector3::Zero();
-	switch (m_state)
-	{
-	case group:
-		Move();
-		distance = m_player->Get2Dposition() - m_position;
-		if (distance.Length() < 500.0f)
-		{
-			for (int i = 0; i < m_remaining; i++) {
-				m_enemy[i]->TransitionState(Enemy::State_Move);
-			}
-			ChangeSteat(person);
-		}
-		else {
-			for (int i = 0; i < m_remaining; i++) {
-				m_model.UpdateInstancingData(m_position + m_haiti[i], CQuaternion::Identity(), CVector3::One());
-				m_enemy[i]->SetPosition(m_position + m_haiti[i]);
-				m_enemy[i]->SetColliderPosition(m_position + m_haiti[i]);
-			}
-		}
-		break;
-	case person:
-		for (int i = 0; i < m_remaining; i++) {
-			m_enemy[i]->Update();
-			if (m_state == gathering)
-			{
-				for (int i = 0; i < m_remaining; i++) {
-					m_enemy[i]->TransitionState(Enemy::State_Gathering);
-				}
-				break;
-			}
-		}
-		break;
-	case gathering:
-	{
-		m_ninzuu = 0;
-		for (int i = 0; i < m_remaining; i++) {
-			m_enemy[i]->Update();
-		}
-	}
-	break;
-	default:
-		break;
-	}
-	m_animation.Play(attack, 0.2f);
+	//switch (m_state)
+	//{
+	/*とりあえず切った*/
+	//case group:
+	//	Move();
+	//	distance = m_player->Get2Dposition() - m_position;
+	//	if (distance.Length() < 500.0f)
+	//	{
+	//		for (int i = 0; i < m_remaining; i++) {
+	//			m_enemy[i]->TransitionState(Enemy::State_Move);
+	//		}
+	//		ChangeSteat(person);
+	//	}
+	//	else {
+	//		for (int i = 0; i < m_remaining; i++) {
+	//			m_model.UpdateInstancingData(m_position + m_haiti[i], CQuaternion::Identity(), { 0.5f,0.5f,0.5f });
+	//			m_enemy[i]->SetPosition(m_position + m_haiti[i]);
+	//			m_enemy[i]->ChangeColliderPosition(m_position + m_haiti[i]);
+	//		}
+	//	}
+	//	break;
+	//case person:
+	//	for (int i = 0; i < m_remaining; i++) {
+	//		m_enemy[i]->Update();
+	//		if (m_state == gathering)
+	//		{
+	//			for (int i = 0; i < m_remaining; i++) {
+	//				m_enemy[i]->TransitionState(Enemy::State_Gathering);
+	//			}
+	//			break;
+	//		}
+	//	}
+	//	break;
+	//case gathering:
+	//{
+	//	m_ninzuu = 0;
+	//	for (int i = 0; i < m_remaining; i++) {
+	//		m_enemy[i]->Update();
+	//	}
+	//	if (m_ninzuu >= m_remaining)
+	//	{
+	//		m_state = group;	
+	//		for (int i = 0; i < SOLDIER; i++) {
+	//			m_enemy[i]->TransitionState(Enemy::State_Attack);			//デバックで追加。一応製品ではいらない初期化。
+	//		}
+
+	//	}
+	//}
+	//break;
+	//default:
+	//	break;
+	//}
+	m_animation.Play(idle, 0.2f);
 	m_animation.Update(0.1f);
 }
 void Enemyleader::Draw()
 {
 
-	if (m_state == group) {
-		m_model.Draw(
-			g_camera3D.GetViewMatrix(),
-			g_camera3D.GetProjectionMatrix()
-		);
-	}
-	else
+	//if (m_state == group) {
+		//m_model.Draw(
+		//	g_camera3D.GetViewMatrix(),
+		//	g_camera3D.GetProjectionMatrix()
+		//);
+	//}
+	//else
 	{
 		for (int i = 0; i < m_remaining; i++) {
 			m_enemy[i]->Draw();
