@@ -79,10 +79,9 @@ void VectorDraw::Update(const std::vector<CVector3>& posotion)
 	CQuaternion Rot;
 	Rot.SetRotationDeg(CVector3::AxisX(), -90.0f);
 	m_vector.BeginUpdateInstancingData();
-	for (auto ka = posotion.begin(); ka < posotion.end(); ka++)
+	for (auto pos = posotion.begin(); pos < posotion.end(); pos++)
 	{
-	
-		m_vector.UpdateInstancingData(*ka, Rot, { 1.0f,20.0f,1.0f });
+		m_vector.UpdateInstancingData(*pos, Rot, { 1.0f,20.0f,1.0f });
 	}
 }
 void VectorDraw::Draw()

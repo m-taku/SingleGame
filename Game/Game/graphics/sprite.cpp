@@ -63,13 +63,10 @@ void sprite::Updete(const CVector3& position, const CQuaternion& rot, const CVec
 	Pivot.y -= 0.5f;
 	Pivot.x *= -2.0f;
 	Pivot.y *= -2.0f;
-	CMatrix mPivotTrans,ka;
+	CMatrix mPivotTrans;
 
 	mPivotTrans.MakeTranslation(
 		{ Pivot.x * half_size.x, Pivot.y * half_size.y, 0.0f }
-	);
-	ka.MakeTranslation(
-		{ 0.5f * half_size.x, 0.5f * half_size.y, 0.0f }
 	);
 	CMatrix mTrans, mRot, mScale;
 	mTrans.MakeTranslation(position);

@@ -138,6 +138,5 @@ private:
 	int m_numInstance = 0;								//!<インスタンシング用の個数
 	int m_maxInstance = 0;							    //!<インスタンシングデータの最大数(これ以上は表示できません)
 	StucturedBuffer	m_instancingDataSB;				    //!<インスタンシング描画用のストラクチャーバッファ。
-	//CBox ka;
 };
 

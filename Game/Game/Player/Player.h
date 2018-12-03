@@ -22,7 +22,7 @@ public:
 		float Max_HP = 100.0f;				//マックスのHP
 		float Attack = 10.0f;				//基本の攻撃力
 		float defense = 10.0f;				//基本の守備力
-		float speed = 100.0f;				//	
+		float speed = 500.0f;				//	
 	};
 	/// <summary>
 	/// アニメーション用のenum。
@@ -124,6 +124,7 @@ public:
 	void SetPosition(CVector3 position)
 	{
 		m_position = position;
+		ChangeColliderPosition(m_position);
 	}
 	/// <summary>
 	/// ダメージ処理
@@ -133,10 +134,24 @@ public:
 	/// </param>
 	void Damage(float damage)
 	{
-		auto wariai = damage / 100/*HPの最大値*/;
+		
+		auto wariai = (damage- m_plyerStatus.defense) / m_plyerStatus.Max_HP/*HPの最大値*/;
 
 		//ここで０～1の形に変換
 		m_ui->SetDamage(wariai);
+	}
+	/// <summary>
+	/// キャラクターコントローラーの交代の更新
+	/// </summary>
+	/// <remarks>
+	/// 当たり判定は取っていません。動かすだけです。
+	/// </remarks>
+	/// <param name="position">
+	/// 更新後のポジション。（CVector3）
+	/// </param>
+	void ChangeColliderPosition(CVector3 position)
+	{
+		m_collider.SetPosition(position);
 	}
 private:
 	UI* m_ui = nullptr;

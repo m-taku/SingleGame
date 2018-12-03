@@ -33,13 +33,18 @@ void GameobjectManager::Execute()
 			}
 		}
 	}
+
 	for (auto& list : m_List) {
 		for (auto objedct : list.GetList()) {
 			if (objedct->GetLodefrag()) {
 				objedct->Draw();
 			}
 		}
-	}
+	}	
+	//デバック用の剛体表示
+#ifdef _DEBUG
+	g_physics.DebubDrawWorld();
+#endif
 	for (auto& list : m_List) {
 		for (auto objedct : list.GetList()) {
 			if (objedct->GetLodefrag()) {
@@ -111,9 +116,9 @@ void GameobjectManager::NewExecution()
 bool GameobjectManager::DereteGO(Gameobject* pointa)
 {
 	int No = 0;
-	for (auto kaa : m_List[pointa->GetPriority()].GetList())
+	for (auto objedct : m_List[pointa->GetPriority()].GetList())
 	{
-		if (kaa == pointa)
+		if (objedct == pointa)
 		{
 			m_DeleteList[m_DeleteNo].insert(std::make_pair(pointa, No));
 			return true;
@@ -125,11 +130,11 @@ bool GameobjectManager::DereteGO(Gameobject* pointa)
 bool GameobjectManager::DereteGO(char* Name)
 {
 	int No = 0;
-	for (auto& ka : m_List) {
-		for (auto kaa : ka.GetList()) {
+	for (auto& list : m_List) {
+		for (auto objedct : list.GetList()) {
 			No = 0;
-			if (Name == kaa->GetName()) {
-				auto map = ka.GetList();
+			if (Name == objedct->GetName()) {
+				auto map = list.GetList();
 				m_DeleteList[m_DeleteNo].insert(std::make_pair(map[No], No));
 				return true;
 			}

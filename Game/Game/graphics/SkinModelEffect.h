@@ -38,8 +38,8 @@ public:
 
 	void __cdecl GetVertexShaderBytecode(void const** pShaderByteCode, size_t* pByteCodeLength) override
 	{
-		*pShaderByteCode = m_vsShader.GetByteCode();
-		*pByteCodeLength = m_vsShader.GetByteCodeSize();
+		*pShaderByteCode = m_pVSShader->GetByteCode();
+		*pByteCodeLength = m_pVSShader->GetByteCodeSize();
 	}
 	void SetAlbedoTexture(ID3D11ShaderResourceView* tex)
 	{

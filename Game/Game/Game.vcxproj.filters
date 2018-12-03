@@ -174,9 +174,6 @@
     <ClCompile Include="Monn.cpp" />
     <ClCompile Include="title.cpp" />
     <ClCompile Include="Game.cpp" />
-    <ClCompile Include="Enemy\Enemy.cpp">
-      <Filter>Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="Enemy\EnemyState.cpp">
       <Filter>Enemy</Filter>
     </ClCompile>
@@ -194,6 +191,9 @@
     </ClCompile>
     <ClCompile Include="font.cpp" />
     <ClCompile Include="Enemy\EnemyManager.cpp" />
+    <ClCompile Include="Enemy\Enemy.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">

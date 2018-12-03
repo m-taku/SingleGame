@@ -10,7 +10,7 @@ Navimake::Navimake()
 	m_meshCollider.CreateFromSkinModel(m_model, nullptr);
 	//メッシュコライダーから頂点バッファとインデックスバッファの情報をGetする
 	int No = 0;
-	for (int i = 0; i </* m_meshCollider.Getok()*/1; i++) {
+	for (int i = 0; i < m_meshCollider.Getok(); i++) {
 		auto vertex = m_meshCollider.Getvertex(i);
 		auto index = m_meshCollider.GetIndex(i);
 		
@@ -125,39 +125,39 @@ Navimake::Navimake()
 			}
 		}
 	}
-	//ここからデバック用の中点表示
-	{
-		std::vector<CVector3> centerposition;
-		m_vector.push_back(new VectorDraw(m_seru[0]->centerposition,m_seru.size()));
-		for (int i = 0; i < m_seru.size(); i++)
-		{
-			centerposition.push_back(m_seru[i]->centerposition);
-		}
-		m_vector[m_vector.size() - 1]->Update(centerposition);
-	}
-	//ここからデバック用のリンク表示
-	{
-		std::vector<CVector3> centerposition1;
-		std::vector<CVector3> Vectorlist;
-		std::vector<float> Vectorpore;
-		for (int i = 0; i < m_seru.size(); i++)
-		{
-			CVector3 c_position;
-			c_position = m_seru[i]->centerposition;
-			for (int j = 0; j < 3; j++) {
-				if (m_seru[i]->linkNoList[j] != -1)
-				{
-					CVector3 Vector = CVector3::Zero();
-					Vector = m_seru[m_seru[i]->linkNoList[j]]->centerposition - c_position;
-					centerposition1.push_back(c_position);
-					Vectorlist.push_back(Vector);
-					Vectorpore.push_back(Vector.Length() / 3.0f);
-				}
-			}
-		}
-		m_vector.push_back(new VectorDraw(m_seru[0]->centerposition, centerposition1.size()));
-		m_vector[m_vector.size()-1]->Update(centerposition1.begin(), Vectorlist.begin(), Vectorpore.begin());
-	}
+	//////ここからデバック用の中点表示
+	//{
+	//	std::vector<CVector3> centerposition;
+	//	m_vector.push_back(new VectorDraw(m_seru[0]->centerposition,m_seru.size()));
+	//	for (int i = 0; i < m_seru.size(); i++)
+	//	{
+	//		centerposition.push_back(m_seru[i]->centerposition);
+	//	}
+	//	m_vector[m_vector.size() - 1]->Update(centerposition);
+	//}
+	////ここからデバック用のリンク表示
+	//{
+	//	std::vector<CVector3> centerposition1;
+	//	std::vector<CVector3> Vectorlist;
+	//	std::vector<float> Vectorpore;
+	//	for (int i = 0; i < m_seru.size(); i++)
+	//	{
+	//		CVector3 c_position;
+	//		c_position = m_seru[i]->centerposition;
+	//		for (int j = 0; j < 3; j++) {
+	//			if (m_seru[i]->linkNoList[j] != -1)
+	//			{
+	//				CVector3 Vector = CVector3::Zero();
+	//				Vector = m_seru[m_seru[i]->linkNoList[j]]->centerposition - c_position;
+	//				centerposition1.push_back(c_position);
+	//				Vectorlist.push_back(Vector);
+	//				Vectorpore.push_back(Vector.Length() / 3.0f);
+	//			}
+	//		}
+	//	}
+	//	m_vector.push_back(new VectorDraw(m_seru[0]->centerposition, centerposition1.size()));
+	//	m_vector[m_vector.size()-1]->Update(centerposition1.begin(), Vectorlist.begin(), Vectorpore.begin());
+	//}
 	//剛体を作成、
 	RigidBodyInfo rbInfo;
 	rbInfo.collider = &m_meshCollider; //剛体に形状(コライダー)を設定する。

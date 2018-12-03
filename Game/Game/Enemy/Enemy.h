@@ -287,8 +287,7 @@ public:
 	/// <param name="Animation"></param>
 	void ChangeAnimation(animation Animation)
 	{
-		m_animation.Play(Animation,0.1);
-		//m_animation.Update(0.01f);
+		m_animation.Play(Animation,0.1f);
 	}
 	/// <summary>
 	/// キャラクターコントローラーの交代の更新
@@ -313,7 +312,7 @@ private:
 	ShaderResourceView m_texture_fram;						//体力用の2Ｄデータ(枠)
 	sprite m_Sprite_hp;										//体力用の2Ｄ(中身)
 	sprite m_Sprite_fram;									//体力用の2Ｄ(枠)
-	//CharacterController m_collider;					        //キャラクターコントローラー
+	//CharacterController m_collider;					    //キャラクターコントローラー
 	AnimationClip m_animationclip[animnum];					//アニメーションクリップ
 	Animation m_animation;									//アニメーションのインスタンス
 	Enemyleader* m_Leader = nullptr;						//m_Leaderのポインタ
@@ -331,7 +330,7 @@ private:
 	CVector3 m_nextpos = CVector3::Zero();					//経路探査で出た次のポジション
 	CQuaternion m_angle = CQuaternion::Identity();			//回転角度
 	CQuaternion m_Sprite_angle = CQuaternion::Identity();	//テクスチャの回転角度
-	const float m_kaku = 10.0f;								//1フレームで回転させる最大角度(degree)
+	const float m_kaku = 5.0f;								//1フレームで回転させる最大角度(degree)
 	const float m_margin = CMath::DegToRad(m_kaku);			//1フレームで回転させる最大角度(radian)
 	int bolnNo = 0;
 	float m_HP = 1.0f;										//ＨＰの割合

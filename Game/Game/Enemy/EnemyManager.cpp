@@ -18,13 +18,14 @@ bool EnemyManager::Load()
 	auto mode = g_objectManager->FindGO<title>("title");
 	wchar_t moveFilePath[256];
 	swprintf_s(moveFilePath, L"Assets/level/Enemy_lever0%d.tkl", mode->Getmode() + 3);
+	m_player = g_objectManager->FindGO<Player>("player");
 	Level level;
 	level.Init(moveFilePath, [&](LevelObjectData objData)
 	{
 		//‚Æ‚è‚ ‚¦‚¸ƒvƒŒƒCƒ„[‚à
 		auto No = wcscmp(objData.name, (L"unityChan"));
 		if (No == 0) {
-			m_player->SetPosition(objData.position);
+		//	m_player->SetPosition(objData.position);
 			return true;
 		}
 		else {

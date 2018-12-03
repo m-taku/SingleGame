@@ -7,7 +7,7 @@ EnemyStateMove::EnemyStateMove(Enemy* enamy,Player* player):EnemyState(enamy,pla
 {
 	m_path = m_enemy->CopyPath();
 	m_path->Course(m_enemy->Get2DPosition(), player->Get2Dposition());
-	m_enemy->SetSpeed(500.0f);
+	m_enemy->SetSpeed(300.0f);
 	m_nextpos = m_path->PathPos();
 }
 EnemyStateMove::~EnemyStateMove()
@@ -24,11 +24,14 @@ void EnemyStateMove::Update()
 	CVector3 speed =CVector3::Zero();
 	CVector3 nowpos = m_enemy->Get3DPosition();
 	speed = m_nextpos - nowpos;
-	if(speed.Length() <= 100.0f)
+	//ƒ|ƒŠƒSƒ“‚ð“à•ï‚·‚é‰~‚É“ü‚Á‚½‚ç
+	if(speed.Length() <= 80.0f)
 	{
+		//ŽŸ‚ÌƒpƒX‚ðŒŸõ‚·‚é
 		m_nextpos = m_path->PathPos();
 		if (m_nextpos.x == m_oldposition.x&&m_nextpos.y == m_oldposition.y&&m_nextpos.z == m_oldposition.z)
 		{
+			//‚à‚µ‚àI“_‚È‚ç‚Î’Tõ‚µ‚È‚¨‚·
 			m_path->Course(m_enemy->Get2DPosition(), m_player->Get2Dposition());
 			m_nextpos = m_path->PathPos();
 		}
@@ -37,13 +40,20 @@ void EnemyStateMove::Update()
 	}
 	speed.y = 0.0;
 	speed.Normalize();
+	//m_enemy->SetSpeed(500.0f);
 	m_enemy->FindAngle(speed);
 	//speed *= 500.0f;
-	m_enemy->SetSpeed(500.0f);
 	CVector3 distance = m_player->Get2Dposition() - m_enemy->Get2DPosition();	
-	if (distance.Length() <= 150.0f)
+	if (distance.Length() <= 110.0f)
 	{
 		m_enemy->SetSpeed(0.0f);
 		m_enemy->TransitionState(Enemy::State_Attack);
 	}
+
+	if (++m_fream>30) {
+		m_path->Course(m_enemy->Get2DPosition(), m_player->Get2Dposition());
+		m_nextpos = m_path->PathPos();
+		m_fream = 0;
+	}
+
 }

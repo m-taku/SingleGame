@@ -128,8 +128,6 @@ void SkinModel::UpdateInstancingData(
 			transMatrix.MakeTranslation(trans);
 			//回転行列を作成する。
 			rotMatrix = CMatrix::Identity();
-			rotMatrix.MakeRotationFromQuaternion(rot);
-			rotMatrix.Mul(mBias, rotMatrix);
 			//拡大行列を作成する。
 			scaleMatrix = CMatrix::Identity();
 			//ワールド行列を作成する。
@@ -212,13 +210,7 @@ void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 	vsCb.mView = viewMatrix;
 	static Color color;
 	LightBuffer LCb;
-	CVector3 ka;
-	CQuaternion la=CQuaternion::Identity();
-	la.SetRotationDeg(CVector3::AxisZ(),-45.0f);
-	ka = CVector3::AxisY()*-1.0f;
-	la.Multiply(ka);
-	CVector4 ma = { ka.x,ka.y,ka.z,1.0 };
-	LCb.angle = { 0.0f,-1.0f,0.0f,1.0f };
+	LCb.angle = { 0.707f,-0.707f,0.0f,1.0f };
 	m_colre = 1/360;
 	LCb.color = color.HSVtoRGB({ m_colre,1.0f,1.0f });
 	LCb.Camerapos = g_camera3D.GetPosition();
@@ -234,20 +226,29 @@ void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 	//ボーン行列をGPUに転送。
 	m_skeleton.SendBoneMatrixArrayToGPU(); 
 	//m_skinModelData->FindMesh([&](auto& mesh) {
-	for (auto& mamam : m_modelDx->meshes) {
-		for (std::unique_ptr<DirectX::ModelMeshPart>& mesh : mamam->meshParts)
-		{
-			ModelEffect* effect = reinterpret_cast<ModelEffect*>(mesh->effect.get());
-			//頂点1つ1つにインスタンシング用のシェーダーに変
-			if (m_numInstance > 1) {
-				effect->ChangeShader(Instancing);
-			}
-			else {
-				effect->ChangeShader(Normal);
-			}
+	//for (auto& mamam : m_modelDx->meshes) {
+	//	for (std::unique_ptr<DirectX::ModelMeshPart>& mesh : mamam->meshParts)
+	//	{
+	//		ModelEffect* effect = reinterpret_cast<ModelEffect*>(mesh->effect.get());
+	//		//頂点1つ1つにインスタンシング用のシェーダーに変
+	//		if (m_numInstance > 1) {
+	//			effect->ChangeShader(Instancing);
+	//		}
+	//		else {
+	//			effect->ChangeShader(Normal);
+	//		}
+	//	}
+	//}
+	FindMesh([&](auto& mesh)
+	{
+		ModelEffect* effect = reinterpret_cast<ModelEffect*>(mesh->effect.get());
+		if (m_numInstance > 1) {
+			effect->ChangeShader(Instancing);
 		}
-	}
-	
+		else {
+			effect->ChangeShader(Normal);
+		}
+	});
 	
 		//描画。
 	m_modelDx->Draw(

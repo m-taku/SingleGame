@@ -6,7 +6,7 @@
 /// <summary>
 /// 経路探査用のメッシュデータ。
 /// </summary>
-class Navimake:public Gameobject
+class Navimake :public Gameobject
 {
 public:
 	/// <summary>
@@ -83,7 +83,7 @@ public:
 	/// <returns>
 	/// リンク情報
 	/// </returns>
-	std::vector<Path::PasDate*> FindLinc(Path::PasDate& date, int endNo,float cost) const;
+	std::vector<Path::PasDate*> FindLinc(Path::PasDate& date, int endNo, float cost) const;
 	/// <summary>
 	/// スムーズ処理の時の地形との当たり判定
 	/// </summary>
@@ -97,8 +97,8 @@ public:
 	/// 衝突でtrue、未衝突でfalse
 	/// </returns>
 	bool CollisionTest(int sturtNo, int nextNo);
-private:	
-	CVector3 Searchcenter(const CVector3 (&pos)[3]);	//中点を求める関数
+private:
+	CVector3 Searchcenter(const CVector3(&pos)[3]);	//中点を求める関数
 	/// <summary>
 	/// Cell構造体
 	/// </summary>
@@ -120,7 +120,6 @@ private:
 	std::vector<SData*> m_seru;						//三角形１つのデータ
 	RigidBody m_rigidBody;			               	//剛体。
 	std::vector<VectorDraw*> m_vector;				//中点描画用のデータ
-	static const int hight = 100;					//CollisionTest用のカプセルの高さ
-	static const int ballsize = 5;					//CollisionTest用のカプセルの幅
+	static const int hight = 50;					//CollisionTest用のカプセルの幅
+	static const int ballsize = 100;					//CollisionTest用のカプセルの高さ
 };
-

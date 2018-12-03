@@ -168,6 +168,7 @@ void Enemy::FindAngle(CVector3 Vector)
 	auto Angle = acos(debag.Dot(Vector));
 	if (Angle >= CMath::DegToRad(1.0f))
 	{
+		SetSpeed(0.0f);
 		auto ka5 = CVector3::Zero();
 		ka5.Cross(debag, Vector);
 		CQuaternion ma3;
@@ -188,5 +189,16 @@ void Enemy::FindAngle(CVector3 Vector)
 			ma3.SetRotationDeg(ka5, m_kaku);
 		}
 		m_angle.Multiply(ma3, m_angle);
+	}
+	else
+	{
+		if (m_speed <= 300)
+		{
+			m_speed += 100.0f;
+		}
+		else 
+		{
+			SetSpeed(300.0f);
+		}
 	}
 }

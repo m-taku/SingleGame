@@ -33,6 +33,8 @@ bool Enemyleader::Load()
 	m_animationclip[idle].SetLoopFlag(true);
 	m_animationclip[attack].Load(L"Assets/animData/enemy_attack1.tka");
 	m_animationclip[attack].SetLoopFlag(true);
+	m_animationclip[walk].Load(L"Assets/animData/enemy_walk.tka");
+	m_animationclip[walk].SetLoopFlag(true);
 	m_animation.Init(m_model, m_animationclip, animnum);
 	m_animation.Play(idle, 0.2f);
 	return true;
@@ -44,12 +46,8 @@ void Enemyleader::Update()
 		m_enemy[i]->Update();
 	}
 	//CVector3 distance = CVector3::Zero();
-	//for (int i = 0; i < SOLDIER; i++) {
-	//	m_enemy[i]->Update();
-	//}
 	//switch (m_state)
 	//{
-	/*とりあえず切った*/
 	//case group:
 	//	Move();
 	//	distance = m_player->Get2Dposition() - m_position;
@@ -92,7 +90,6 @@ void Enemyleader::Update()
 	//		for (int i = 0; i < SOLDIER; i++) {
 	//			m_enemy[i]->TransitionState(Enemy::State_Attack);			//デバックで追加。一応製品ではいらない初期化。
 	//		}
-
 	//	}
 	//}
 	//break;

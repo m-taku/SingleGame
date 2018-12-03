@@ -38,16 +38,8 @@ void PhysicsDebugDraw::EndDraw()
 	cb.mProj = g_camera3D.GetProjectionMatrix();
 	CVector4 colr;
 
-	//static float ja=0.0f;
-	//ja += 1.0f/30.0f;
-	//if (ja >= 1.0f)
-	//{
-	//	ja -= 1.0f;
-	//}
-	//ka.x = ja;
-	colr = { 1.0f,1.0f,1.0f,1.0f };// Color.HSVtoRGB();
 
-	//colr = { ka.x,ka.y,ka.z,1.0f };
+	colr = { 1.0f,1.0f,1.0f,1.0f };
 	DeviceContext->UpdateSubresource(m_cb2.GetBody(), 0, NULL, &colr, 0, 0);
 	DeviceContext->PSSetConstantBuffers(1, 1, &(m_cb2.GetBody()));
 	DeviceContext->UpdateSubresource(m_cb.GetBody(), 0, NULL, &cb, 0, 0);

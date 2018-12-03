@@ -59,10 +59,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
         //auto ks = objectManager->NewGO<Player>(0);
 		//物理エンジンの更新。
 		g_objectManager->Execute();
-		if (debak==0)
-		{
-			g_physics.DebubDrawWorld();
-		}
 		g_physics.Update();
 		//プレイヤーの更新。
 		//player.Update();

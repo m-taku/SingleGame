@@ -109,11 +109,11 @@ public:
 	T* FindGO(char* Name)
 	{
 		int No = 0;
-		for (const auto& ka : m_List) {
+		for (const auto& list : m_List) {
 			No = 0;
-			for (const auto& kaa : ka.GetList()) {
-				if (Name == kaa->GetName()) {
-					const auto& map = ka.GetList();
+			for (const auto& objedct : list.GetList()) {
+				if (Name == objedct->GetName()) {
+					const auto& map = list.GetList();
 					return (T*)map[No];
 				}
 				No++;

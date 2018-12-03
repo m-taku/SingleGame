@@ -20,15 +20,15 @@ void Path::Course(CVector3 sturt, CVector3 end)
 	int startNo = m_pathdata->FindPos_No(sturt);
 	int endNo = m_pathdata->FindPos_No(end);
 
-	PasDate* ka = new PasDate;
-	ka->No = startNo;
+	PasDate* Date = new PasDate;
+	Date->No = startNo;
 	std::vector<PasDate*> open;
 	std::vector<PasDate*> close;
-	open.push_back(ka);
+	open.push_back(Date);
 	auto p = open[0];
 	if (startNo == endNo) {
 		m_coursepasu.push_back(p->No);
-		delete ka;
+		delete Date;
 		return;
 	}
 	float CurrentCost = 0.0f;

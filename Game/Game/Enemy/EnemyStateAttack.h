@@ -27,18 +27,33 @@ public:
 	/// </summary>
 	void Update() override;
 	/// <summary>
-	/// 
+	/// 剣に対してプレイヤーが当たったかどうか
 	/// </summary>
-	bool CollisionTest();
+	void CollisionTest();
 private:
-	int m_boneNo = 0;
-	CVector3 center = CVector3::Zero();
-	CVector3 m_center = CVector3::Zero();
-	CVector3 swodaabb2 = CVector3::Zero();
-	CVector3 swodaabb20 = CVector3::Zero();
-	CQuaternion m_Rot = CQuaternion::Identity();
-	//CapsuleCollider m_collide;
-	RigidBody*	m_rigidBody=nullptr;					//剛体。デバック
+	/// <summary>
+	/// 剣の当たり判定用の回転角度取得
+	/// </summary>
+	/// <param name="vector1">
+	/// １つ目のベクトル（Normalize）
+	/// </param>
+	/// <param name="vector2">
+	/// 2つ目のベクトル（Normalize）
+	/// </param>
+	/// <returns>
+	/// 回転クオータニオン
+	/// </returns>
+	CQuaternion anglecalculation(CVector3 vector1, CVector3 vector2);
+	/// <summary>
+	/// 剣の中心と手の位置を検索する
+	/// </summary>
+	void FindSwordpos();
+	int m_boneNo = 0;										//手のボーンの番号
+	CVector3 m_oldhandpos = CVector3::Zero();				//移動前の手のポジション
+	CVector3 m_handpos= CVector3::Zero();					//移動後の手のポジション
+	CVector3 m_oldSwordcenter = CVector3::Zero();			//移動前の剣の中心ポジション
+	CVector3 m_Swordcenter = CVector3::Zero();				//移動後の剣の中心ポジション
+	CVector3 m_Up;											//手の上方向ベクトル
 	VectorDraw* m_debugVecor = nullptr;						//デバック用のベクトル表示
 }; 
 

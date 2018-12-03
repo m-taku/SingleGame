@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Player.h"
 #include"Gamecamera.h"
+#include"../graphics/SkinModelEffect.h"
 
 
 Player::Player()
@@ -66,12 +67,12 @@ void Player::Update()
 	m_Front.y = m_mRot.m[2][1];
 	m_Front.z = m_mRot.m[2][2];
 	m_Front.Normalize();
-	m_movespeed.x = m_Front.x * 500.0f*m_amount.Length();
-	m_movespeed.z = m_Front.z * 500.0f*m_amount.Length();
+	m_movespeed.x = m_Front.x * m_plyerStatus.speed*m_amount.Length();
+	m_movespeed.z = m_Front.z * m_plyerStatus.speed*m_amount.Length();
 	m_movespeed.y -= GRAVITY;
 	if (g_pad[0].IsTrigger(enButtonA)&& m_collider.IsOnGround())
 	{
-		m_movespeed.y = 2000.0f;
+		m_movespeed.y = 1500.0f;
 	}
 	m_position = m_collider.Execute(1.0f / 30.0f, m_movespeed);
 	m_model.UpdateWorldMatrix(m_position, m_rotation, { 0.5f,0.5f,0.5f });

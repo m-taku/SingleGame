@@ -29,10 +29,10 @@ bool Gamecamera::Load()
 void Gamecamera::ExecuteTracking()
 {
 	float kakudo = 0.0f;
-	auto ka = m_front;
-	ka.y = 0.0f;
-	ka.Normalize();
-	kakudo = acos(m_playerFront.Dot(ka));
+	auto front = m_front;
+	front.y = 0.0f;
+	front.Normalize();
+	kakudo = acos(m_playerFront.Dot(front));
 	if (kakudo > (CMath::DegToRad(20.0f)) && m_player->Getangle().Length() > 0.0f&&kakudo < (CMath::DegToRad(100.0f)))
 	{
 		if (m_nowangle.y <= 0|| m_nowangle.x<=0) {
@@ -97,7 +97,7 @@ void Gamecamera::Update()
 	m_targetpos.y += 50.0f;
 	m_position = m_player->Get3Dposition();
 	m_position += m_front * -100.0f;
-	m_position.y += 50.0f;
+	m_position.y += 70.0f;
 	//m_reg = CQuaternion::Identity();
 	g_camera3D.SetTarget(m_targetpos);
 	g_camera3D.SetPosition(m_position);
