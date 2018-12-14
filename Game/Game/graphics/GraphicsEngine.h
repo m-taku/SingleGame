@@ -2,6 +2,7 @@
 /*!
  *@brief	グラフィックスエンジン。
  */
+#include"ShadowMap.h"
 class GraphicsEngine
 {
 public:
@@ -38,6 +39,11 @@ public:
 	{
 		return m_SpriteBatch;
 	}
+	bool SetShadoCaster(SkinModel* model)
+	{
+		m_shadowmap->RegistShadowCaster(model);
+		return true;
+	}
 	/*!
 	 *@brief	描画開始。
 	 */
@@ -51,9 +57,35 @@ public:
 	{
 		return m_rasterizerState;
 	}
-	ID3D11RasterizerState* terizerState()
+	//ID3D11RasterizerState* terizerState()
+	//{
+	//	return m_rasterizer;
+	//}
+	void shadoUpdate()
 	{
-		return m_rasterizer;
+		m_shadowmap->RenderToShadowMap();
+		ka();
+	}
+	ShadowMap* GetShadowMap()
+	{
+		return m_shadowmap;
+	}
+	void ka()
+	{
+		auto d3dDeviceContext = GetD3DDeviceContext();
+		ID3D11RenderTargetView* rtTbl[] = {
+			m_frameBufferRenderTargetView
+		};
+		//レンダリングターゲットの切り替え。
+		d3dDeviceContext->OMSetRenderTargets(1, rtTbl, m_frameBufferDepthStencilView);
+		if (&m_frameBufferViewports != nullptr) {
+			//ビューポートが指定されていたら、ビューポートも変更する。
+			d3dDeviceContext->RSSetViewports(1, &m_frameBufferViewports);
+		}
+		m_frameBufferRenderTargetView->Release();
+		m_frameBufferDepthStencilView->Release();
+		float clearColor[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+		Target.ClearRenderTarget(clearColor);
 	}
 private:
 	D3D_FEATURE_LEVEL		m_featureLevel;				//Direct3D デバイスのターゲットとなる機能セット。
@@ -67,6 +99,11 @@ private:
 	ID3D11DepthStencilView* m_depthStencilView = NULL;	//デプスステンシルビュー。
 	DirectX::SpriteFont*    m_SpriteFont = NULL;
 	DirectX::SpriteBatch*   m_SpriteBatch = NULL;
+	ShadowMap* m_shadowmap = NULL;
+	RenderTarget Target;	
+	D3D11_VIEWPORT m_frameBufferViewports;			//フレームバッファのビューポート。
+	ID3D11RenderTargetView* m_frameBufferRenderTargetView = nullptr;	//フレームバッファのレンダリングターゲットビュー。
+	ID3D11DepthStencilView* m_frameBufferDepthStencilView = nullptr;	//フレームバッファのデプスステンシルビュー。
 };
 
 extern GraphicsEngine* g_graphicsEngine;			//グラフィックスエンジン

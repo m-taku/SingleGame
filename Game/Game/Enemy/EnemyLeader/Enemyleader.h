@@ -47,7 +47,8 @@ public:
 	/// グループの状態のenum。
 	/// </summary>
 	enum State{
-		group,		//グループ状態
+		group_stop,		//グループ状態
+		group_move,		
 		person,		//個人状態
 		gathering	//集合中状態
 	};
@@ -120,6 +121,12 @@ public:
 	/// グループ状態での移動計算処理。
 	/// </summary>
 	void Move();
+	void ChangeGroup_state()
+	{
+		m_group_state = group_move;
+		m_path->Course(m_position, m_player->Get2Dposition());
+		m_nextpos = m_path->PathPos();
+	}
 private:
 	static const int SOLDIER = 3;								//リーダーを含む部隊の総数（定数）
 	CVector3 m_haiti[5] = {
@@ -146,7 +153,8 @@ private:
 	CVector3 m_position = { 0.0f,100.0f,0.0f };				    //架空のリーダーのポジション
 	CVector3 m_nextpos = CVector3::Zero();						//パス移動用の次ポジション
 	CVector3 m_oldposition = CVector3::Zero();					//1フレーム前のポジション（壁擦りなどの判定などなど）
-	State m_state = { group };									//グループの今の状態
+	State m_state = { group_stop };								//グループの今の状態
+	State m_group_state = { group_stop };
 	int m_remaining = SOLDIER;									//今現在のエネミー総数		
 	int m_ninzuu = 0;											//今現在のグループ状態の人数（集合時に使用）
 };

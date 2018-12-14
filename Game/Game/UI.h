@@ -1,5 +1,4 @@
 #pragma once
-#include"font.h"
 /// <summary>
 /// ユーザーインターフェースクラス。
 /// </summary>

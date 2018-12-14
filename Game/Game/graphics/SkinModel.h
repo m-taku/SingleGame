@@ -95,6 +95,25 @@ public:
 		enSkinModelSRVReg_DiffuseTexture = 0,		//!<ディフューズテクスチャ。
 		enSkinModelSRVReg_BoneMatrix,				//!<ボーン行列。
 	};
+	/// <summary>
+	/// シャドウレシーバーのフラグを設定する。
+	/// </summary>
+	/// <param name="flag">trueを渡すとシャドウレシーバーになる</param>
+	/// <remarks>
+	/// シャドウレシーバーとは影を落とされるオブジェクトのことです。
+	/// シャドウキャスターによって生成された、シャドウマップを利用して
+	/// 自身に影を落とします。
+	/// オブジェクトがシャドウレシーバーかつシャドウキャスターになっている場合は
+	/// セルフシャドウ(自分の影が自分に落ちる)を行うことができます。
+	/// </remarks>
+	void SetShadowReciever(bool flag)
+	{
+		m_isShadowReciever = flag;
+	}
+	void SetShadowCaster(bool flag)
+	{
+		m_isShadowCaster = flag;
+	}
 private:
 	/*!
 	*@brief	サンプラステートの初期化。
@@ -109,13 +128,15 @@ private:
 	*@param[in]	filePath		ロードするcmoファイルのファイルパス。
 	*/
 	void InitSkeleton(const wchar_t* filePath);
-	
 private:
 	//定数バッファ。
 	struct SVSConstantBuffer {
 		CMatrix mWorld;
 		CMatrix mView;
 		CMatrix mProj;
+		CMatrix mLightView;		//ライトビュー行列。
+		CMatrix mLightProj;		//ライトプロジェクション行列。
+		int isShadowReciever;	//シャドウレシーバーのフラグ。
 	};	
 	//定数バッファ。
 	struct LightBuffer {
@@ -138,5 +159,7 @@ private:
 	int m_numInstance = 0;								//!<インスタンシング用の個数
 	int m_maxInstance = 0;							    //!<インスタンシングデータの最大数(これ以上は表示できません)
 	StucturedBuffer	m_instancingDataSB;				    //!<インスタンシング描画用のストラクチャーバッファ。
+	bool m_isShadowReciever = false;					//!<シャドーレシーバーにするかのフラグ
+	bool m_isShadowCaster = false;
 };
 

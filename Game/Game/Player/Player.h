@@ -30,6 +30,7 @@ public:
 	enum animation {
 		idle,		//停止アニメーション
 		attack,
+		walk,
 		animnum		//アニメーション状態
 	};
 	/// <summary>
@@ -169,7 +170,7 @@ private:
 	CVector3 m_amount = { 0.0f,0.0f,0.0f };				//スティックの移動量
 	float m_angle = 0.0f;								//回転角度（ラジアン）
 	VectorDraw* m_debugVector =nullptr;					//デバック用のベクトル表示
-	PlyerStatus m_plyerStatus;
+	PlyerStatus m_plyerStatus;	
 	//CVector3 m_angle = CVector3::Zero();				
 	//wchar_t bonename[50];								//名前
 	//int bonenum = 0;									

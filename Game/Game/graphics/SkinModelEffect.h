@@ -5,7 +5,8 @@ enum ShaderNo
 {
     Normal,			//普通
 	Instancing,		//インスタンシング
-	Shadow			//影
+	ShadowNormal,	//影
+	ShadowInstancing
 };
 
 /*!
@@ -19,6 +20,9 @@ protected:
 	Shader m_vsShader;
 	Shader m_psShader;
 	Shader m_vsShaderInstancing;		//!<頂点シェーダー。インスタンシング用。
+	Shader m_vsShaderShadowInstancing;
+	Shader m_vsShaderShadow;
+	Shader m_psShaderShadow;
 	bool isSkining;
 	ID3D11ShaderResourceView* m_albedoTex = nullptr;
 
@@ -26,6 +30,7 @@ public:
 	ModelEffect()
 	{
 		m_psShader.Load("Assets/shader/model.fx", "PSMain", Shader::EnType::PS);
+		m_psShaderShadow.Load("Assets/shader/model.fx", "PSMain_ShadowMap", Shader::EnType::PS);
 		m_pPSShader = &m_psShader;
 	}
 	virtual ~ModelEffect()
@@ -54,18 +59,26 @@ public:
 		switch (No)
 		{
 		case Normal:
-			m_pVSShader = &m_vsShader;
+			m_pVSShader = &m_vsShader; 
+			m_pPSShader = &m_psShader;
 			break;
 		case Instancing:
 			m_pVSShader = &m_vsShaderInstancing;
+			m_pPSShader = &m_psShader;
 			break;
-		case Shadow:
+		case ShadowNormal:
+			m_pVSShader = &m_vsShaderShadow;
+			m_pPSShader = &m_psShaderShadow;
 			break;
+		case ShadowInstancing:
+			m_pVSShader = &m_vsShaderShadowInstancing;
+			m_pPSShader = &m_psShaderShadow;
+			break;
+
 		default:
 			break;
 		}
 	}
-
 	bool EqualMaterialName(const wchar_t* name) const
 	{
 		return wcscmp(name, m_materialName.c_str()) == 0;
@@ -81,7 +94,9 @@ public:
 	NonSkinModelEffect()
 	{
 		m_vsShader.Load("Assets/shader/model.fx", "VSMain", Shader::EnType::VS);
-		m_vsShaderInstancing.Load("Assets/shader/model.fx", "VSMainInstancing", Shader::EnType::VS);	
+		m_vsShaderInstancing.Load("Assets/shader/model.fx", "VSMainInstancing", Shader::EnType::VS);
+		m_vsShaderShadow.Load("Assets/shader/model.fx", "VSMainShadow", Shader::EnType::VS);
+		m_vsShaderShadowInstancing.Load("Assets/shader/model.fx", "VSMainShadowInstancing", Shader::EnType::VS);
 		m_pVSShader = &m_vsShader;
 		isSkining = false;
 	}
@@ -94,12 +109,13 @@ class SkinModelEffect : public ModelEffect {
 public:
 	SkinModelEffect()
 	{
-		wchar_t hoge[256];
-		GetCurrentDirectoryW(256, hoge);
+	/*	wchar_t hoge[256];
+		GetCurrentDirectoryW(256, hoge);*/
 		m_vsShader.Load("Assets/shader/model.fx", "VSMainSkin", Shader::EnType::VS);
 		m_vsShaderInstancing.Load("Assets/shader/model.fx", "VSMainSkinInstancing", Shader::EnType::VS);
-		
-		m_pVSShader = &m_vsShader;
+		m_vsShaderShadowInstancing.Load("Assets/shader/model.fx", "VSMainSkinShadowInstancing", Shader::EnType::VS);
+		m_vsShaderShadow.Load("Assets/shader/model.fx", "VSMainSkinShadow", Shader::EnType::VS);
+		m_pVSShader = &m_vsShader; 
 		isSkining = true;
 	}
 };

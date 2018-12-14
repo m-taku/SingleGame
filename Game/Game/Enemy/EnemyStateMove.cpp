@@ -17,15 +17,11 @@ EnemyStateMove::~EnemyStateMove()
 void EnemyStateMove::Update()
 {
 	m_enemy->ChangeAnimation(Enemy::walk);
-	//path.course(enemy->Get2Dposition(), player->Get2Dposition());
-	//m_nextpos = path.Pathpos();
-	//m_path->Course(m_enemy->Get2DPosition(), m_player->Get2Dposition());
-	//m_nextpos = m_path->PathPos();
-	CVector3 speed =CVector3::Zero();
+	CVector3 speed = CVector3::Zero();
 	CVector3 nowpos = m_enemy->Get3DPosition();
 	speed = m_nextpos - nowpos;
 	//ƒ|ƒŠƒSƒ“‚ð“à•ï‚·‚é‰~‚É“ü‚Á‚½‚ç
-	if(speed.Length() <= 80.0f)
+	if (speed.Length() <= 80.0f)
 	{
 		//ŽŸ‚ÌƒpƒX‚ðŒŸõ‚·‚é
 		m_nextpos = m_path->PathPos();
@@ -40,20 +36,17 @@ void EnemyStateMove::Update()
 	}
 	speed.y = 0.0;
 	speed.Normalize();
-	//m_enemy->SetSpeed(500.0f);
 	m_enemy->FindAngle(speed);
-	//speed *= 500.0f;
-	CVector3 distance = m_player->Get2Dposition() - m_enemy->Get2DPosition();	
+	CVector3 distance = m_player->Get2Dposition() - m_enemy->Get2DPosition();
 	if (distance.Length() <= 110.0f)
 	{
 		m_enemy->SetSpeed(0.0f);
 		m_enemy->TransitionState(Enemy::State_Attack);
 	}
-
-	if (++m_fream>30) {
+	//‚«‚ê‚¢‚É‚·‚é‚½‚ß‚É–ñ‚P•b‚ÅXV
+	if (++m_fream > 30) {
 		m_path->Course(m_enemy->Get2DPosition(), m_player->Get2Dposition());
 		m_nextpos = m_path->PathPos();
 		m_fream = 0;
 	}
-
 }

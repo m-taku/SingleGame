@@ -4,7 +4,7 @@
 /// <summary>
 /// エネミーのマネージャークラス
 /// </summary>
-class EnemyManager:public Gameobject
+class EnemyManager :public Gameobject
 {
 public:
 	/// <summary>
@@ -37,7 +37,9 @@ public:
 		m_player = pleyer;
 	}
 private:
-	Player* m_player = nullptr;
+	Player * m_player = nullptr;
 	std::vector<Enemyleader*> m_enemy;
+	Font* m_font = nullptr;											//文字表示のインスタンス
+	int m_No = 0;
+	Timer* m_timer = nullptr;
 };
-

@@ -6,14 +6,17 @@
 
 EnemyManager::EnemyManager()
 {
+	m_timer = new Timer;
 }
 
 
 EnemyManager::~EnemyManager()
 {
+	delete m_timer;
 }
 bool EnemyManager::Load()
 {
+	m_timer->TimerStart();
 	int kuku = 0;
 	auto mode = g_objectManager->FindGO<title>("title");
 	wchar_t moveFilePath[256];
@@ -25,19 +28,17 @@ bool EnemyManager::Load()
 		//とりあえずプレイヤーも
 		auto No = wcscmp(objData.name, (L"unityChan"));
 		if (No == 0) {
-		//	m_player->SetPosition(objData.position);
+			//m_player->SetPosition(objData.position);
 			return true;
 		}
 		else {
-			kuku++;
-			if (kuku != 2) {
-				//デバック用判定
-				return true;
+			if (++kuku > 2) {
+				m_enemy.push_back(g_objectManager->NewGO<Enemyleader>(GameObjectPriority_EnemyLeader, "Enemyleader"));
+				auto No = m_enemy.size() - 1;
+				//objData.position
+				m_enemy[No]->SetPosition({0.0f,0.0f,0.0f});
+				m_enemy[No]->SetPlayer(m_player);
 			}
-			m_enemy.push_back(g_objectManager->NewGO<Enemyleader>(GameObjectPriority_EnemyLeader, "Enemyleader"));
-			auto No=m_enemy.size()-1;
-			m_enemy[No]->SetPosition(objData.position);
-			m_enemy[No]->SetPlayer(m_player);
 			return true;
 		}
 	});
@@ -45,5 +46,12 @@ bool EnemyManager::Load()
 }
 void EnemyManager::Update()
 {
-
+	m_timer->TimerStop();
+	if (m_timer->GetAllSeconds()>=60.0f)
+	{
+		if (m_No <m_enemy.size()) {
+			m_enemy[m_No++]->ChangeGroup_state();
+			m_timer->TimerStart();
+		}
+	}
 }

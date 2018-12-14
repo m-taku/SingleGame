@@ -45,7 +45,7 @@ bool Enemy::Load()
 			}
 		}
 	}
-	bolnNo = hoge;
+	m_bolnNo = hoge;
 	m_animationclip[idle].Load(L"Assets/animData/enemy_idel.tka");
 	m_animationclip[idle].SetLoopFlag(true); 
 	m_animationclip[attack].Load(L"Assets/animData/enemy_attack.tka");
@@ -54,7 +54,7 @@ bool Enemy::Load()
 	m_animationclip[walk].SetLoopFlag(true);
 	m_animation.Init(m_model, m_animationclip, animnum);
 	m_animation.Play(walk, 0.2f);
-	TransitionState(State_Move);
+	TransitionState(State_Attack);
 	m_model.UpdateWorldMatrix(m_position, m_angle, CVector3::One());
 	m_Leader->CopySkinModel().UpdateInstancingData(m_position, CQuaternion::Identity(), CVector3::One());
 	return true;
@@ -79,12 +79,15 @@ void Enemy::TransitionState(State m_state)
 	default:
 		break;
 	}
-	m_model.UpdateWorldMatrix(m_position, m_angle, { 0.8f,0.8f,0.8f });
+	m_model.UpdateWorldMatrix(m_position, m_angle,CVector3::One());
 }
 void Enemy::Update()
 {
-	m_enemystate->Update();
+	if (m_HP <= 0.0f)
+	{
 
+	}
+	m_enemystate->Update();
 	//ワールド行列の更新。	
 	m_Rot.MakeRotationFromQuaternion(m_angle);
 	m_Front.x = m_Rot.m[2][0];
@@ -96,15 +99,17 @@ void Enemy::Update()
 	//m_moveVector.y -= 9.8*10.0f;
 	m_position += m_moveVector * 1.0f / 30.0f;
 	//m_position= m_collider.Execute(1.0f / 30.0f, m_moveVector);
-	//CVector3 distance = m_player->Get2Dposition() - Get2DPosition();
-	//if (distance.Length() >= 600.0f)
-	//{
-	//	ChangeLeaderState(Enemyleader::gathering);
-	//	SetLeaderPosition(Get3DPosition());
-	//}
+	CVector3 distance = m_player->Get2Dposition() - Get2DPosition();
+	if (distance.Length() >= 600.0f)
+	{
+		ChangeLeaderState(Enemyleader::gathering);
+		SetLeaderPosition(Get3DPosition());
+	}
 	m_animation.Update(1.0f / 30.0f);
-	m_model.UpdateWorldMatrix(m_position, m_angle, { 0.8f,0.8f,0.8f });
-	m_Leader->CopySkinModel().UpdateInstancingData(m_position, m_angle, { 0.8f,0.8f,0.8f });
+	m_model.UpdateWorldMatrix(m_position, m_angle, CVector3::One());
+	g_graphicsEngine->SetShadoCaster(&m_model);
+	m_model.SetShadowReciever(true);
+	m_Leader->CopySkinModel().UpdateInstancingData(m_position, m_angle, CVector3::One());
 }
 void Enemy::postDraw()
 {
@@ -140,6 +145,7 @@ void Enemy::DrawDebugVector()
 	CVector3 hoge = CVector3::AxisZ()*-1;
 	m_Sprite_angle.Multiply(hoge);
 	m_debugVecor->Update(m_position, hoge, 1.0);
+	m_debugVecor->Draw();
 #endif
 }
 void Enemy::HP_Draw()
@@ -150,10 +156,6 @@ void Enemy::HP_Draw()
 	}
 	auto la = m_position;
 	la.y += 100.0f;
-	//m_Sprite_fram.Updete(la, m_Sprite_angle, { 1.0f,1.0f,1.0f });
-	//m_Sprite_fram.Draw(
-	//	g_camera3D.GetViewMatrix(),
-	//	g_camera3D.GetProjectionMatrix());
 	m_Sprite_hp.Updete(la, m_Sprite_angle, { m_HP,1.0f ,1.0f });
 	m_Sprite_hp.Draw(
 		g_camera3D.GetViewMatrix(),

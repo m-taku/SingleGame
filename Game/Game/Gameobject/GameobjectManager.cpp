@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "GameobjectManager.h"
 #include"GameobjectList.h"
+#include "ShadowMap.h"
 
 
 GameobjectManager::GameobjectManager()
@@ -21,6 +22,7 @@ void GameobjectManager::Release()
 }
 void GameobjectManager::Execute()
 {
+
 	for (auto& list : m_List) {
 		for (auto& objedct : list.GetList())
 		{
@@ -33,6 +35,12 @@ void GameobjectManager::Execute()
 			}
 		}
 	}
+	//ここからレンダー系の処理を書く
+	//g_graphicsEngine->GetShadowMap()->UpdateFromLightTarget(
+	//	{ 0.0f, 1000.0f, 0.0f },
+	//	{ 0.0f, 0.0f, 0.0f }
+	//);
+	g_graphicsEngine->shadoUpdate();
 
 	for (auto& list : m_List) {
 		for (auto objedct : list.GetList()) {
@@ -40,11 +48,12 @@ void GameobjectManager::Execute()
 				objedct->Draw();
 			}
 		}
-	}	
+	}
 	//デバック用の剛体表示
 #ifdef _DEBUG
 	g_physics.DebubDrawWorld();
 #endif
+
 	for (auto& list : m_List) {
 		for (auto objedct : list.GetList()) {
 			if (objedct->GetLodefrag()) {
@@ -55,40 +64,7 @@ void GameobjectManager::Execute()
 	}
 	DeleteExecution();
 	NewExecution();
-	/*static int count = 0;
-	m_timeTotal += (float)m_sw.GetElapsed();
-	count++;
-	if (count == 30) {
-		m_fps = 1.0f / (m_timeTotal / count);
-		m_timeTotal = 0.0f;
-		count = 0;
 
-	}
-
-	m_font->Begin(GraphicsEngine().GetRenderContext());
-	wchar_t fps[256];
-	swprintf_s(fps, L"FPS = %f", m_fps);
-	float w = (float)GraphicsEngine().Get2DSpaceScreenWidth();
-	float h = (float)GraphicsEngine().Get2DSpaceScreenHeight();
-	m_font->Draw(
-		fps,
-		{
-			w * -0.5f,
-			h * 0.5f
-		},
-		CVector4::White,
-		0.0f,															//ＦＰＳ表示、、、まだ（２Ｄからユウセン）
-		1.0f,
-		{ 0.0f, 1.0f }
-	);
-	m_font->End(GraphicsEngine().GetRenderContext());
-#endif
-	m_graphicsEngine.EndRender();
-
-	m_sw.Stop();
-
-	GameTime().PushFrameDeltaTime((float)m_sw.GetElapsed());
-}*/
 }
 void GameobjectManager::DeleteExecution()
 {

@@ -20,6 +20,6 @@ enum EnSkinModelCBReg{
  *@brief	SRVのレジスタ番号。
  */
 enum EnSkinModelSRVReg{
-	enSkinModelSRVReg_AlbedoTexture,		//!<アルベドテクスチャ。
-	enSkinModelSRVReg_BoneMatrixArray,		//!<ボーン行列の配列。
+	enSkinModelSRVReg_AlbedoTexture=2,		//!<アルベドテクスチャ。
+	enSkinModelSRVReg_BoneMatrixArray=1,		//!<ボーン行列の配列。
 };

@@ -22,7 +22,6 @@ void Game::OnDestroy()
 }
 bool Game::Load()
 {
-	//デバック用の変数（１部隊だけ出したい）
 	m_player = g_objectManager->NewGO<Player>(GameObjectPriority_Player,"player");	
 	m_camera = g_objectManager->NewGO<Gamecamera>(GameObjectPriority_Camera);
 	m_camera->SetPlayer(m_player);

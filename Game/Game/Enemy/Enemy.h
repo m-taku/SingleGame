@@ -279,7 +279,7 @@ public:
 	/// </returns>
 	int GetNo()
 	{
-		return bolnNo;
+		return m_bolnNo;
 	}
 	/// <summary>
 	/// 
@@ -332,9 +332,8 @@ private:
 	CQuaternion m_Sprite_angle = CQuaternion::Identity();	//テクスチャの回転角度
 	const float m_kaku = 5.0f;								//1フレームで回転させる最大角度(degree)
 	const float m_margin = CMath::DegToRad(m_kaku);			//1フレームで回転させる最大角度(radian)
-	int bolnNo = 0;
+	int m_bolnNo = 0;										//手のボーンの番号
 	float m_HP = 1.0f;										//ＨＰの割合
-	float m_speed = 0.0f;             					//移動速度
-
+	float m_speed = 0.0f;             				    	//移動速度
 };
 

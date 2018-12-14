@@ -1,6 +1,7 @@
 #pragma once
 #include"GameobjectList.h"
-
+class Font;
+class Timer;
 /// <summary>
 /// Gemeobjectのマネージャークラス
 /// </summary>

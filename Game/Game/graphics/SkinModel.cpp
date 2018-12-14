@@ -182,7 +182,6 @@ void SkinModel::UpdateWorldMatrix(CVector3 position, CQuaternion rotation, CVect
 void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 {
 	ID3D11DeviceContext* d3dDeviceContext = g_graphicsEngine->GetD3DDeviceContext();
-
 	DirectX::CommonStates state(g_graphicsEngine->GetD3DDevice());	
 	if (m_maxInstance > 1) {
 		//インスタンシング用のデータを更新。
@@ -198,6 +197,7 @@ void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 		d3dDeviceContext->VSSetShaderResources(100,1, &(m_instancingDataSB.GetSRV()).GetBody());
 	}
 	//定数バッファの内容を更新。
+	auto shadowMap = g_graphicsEngine->GetShadowMap();
 	SVSConstantBuffer vsCb;
 	if (result) {
 		vsCb.mWorld = CMatrix::Identity();
@@ -208,6 +208,16 @@ void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 	}
 	vsCb.mProj = projMatrix;
 	vsCb.mView = viewMatrix;
+	vsCb.mLightProj = shadowMap->GetLightProjMatrix();
+	vsCb.mLightView = shadowMap->GetLighViewMatrix();
+	if (m_isShadowReciever == true) {
+		vsCb.isShadowReciever = 1;
+	}
+	else {
+
+		vsCb.isShadowReciever = 0;
+	}
+
 	static Color color;
 	LightBuffer LCb;
 	LCb.angle = { 0.707f,-0.707f,0.0f,1.0f };
@@ -242,15 +252,33 @@ void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 	FindMesh([&](auto& mesh)
 	{
 		ModelEffect* effect = reinterpret_cast<ModelEffect*>(mesh->effect.get());
-		if (m_numInstance > 1) {
-			effect->ChangeShader(Instancing);
+		if(m_isShadowCaster)
+		{
+			if (m_numInstance > 1)
+			{
+				effect->ChangeShader(ShadowInstancing);
+			}
+			else
+			{
+				effect->ChangeShader(ShadowNormal);
+			}
 		}
-		else {
-			effect->ChangeShader(Normal);
+		else
+		{
+			auto deviceContext = g_graphicsEngine->GetD3DDeviceContext();
+			ID3D11ShaderResourceView* Resource = g_graphicsEngine->GetShadowMap()->GetShadowMapSRV();
+			deviceContext->PSSetShaderResources(3, 1, &Resource);
+			if (m_numInstance > 1) {
+				effect->ChangeShader(Instancing);
+
+			}
+			else {
+				effect->ChangeShader(Normal);
+			}
 		}
 	});
-	
-		//描画。
+	m_isShadowCaster = false;
+	//描画。
 	m_modelDx->Draw(
 		d3dDeviceContext,
 		state,

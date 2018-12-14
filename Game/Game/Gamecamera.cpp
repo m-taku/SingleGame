@@ -96,8 +96,8 @@ void Gamecamera::Update()
 	m_targetpos = m_player->Get3Dposition();
 	m_targetpos.y += 50.0f;
 	m_position = m_player->Get3Dposition();
-	m_position += m_front * -100.0f;
-	m_position.y += 70.0f;
+	m_position += m_front * -200.0f;
+	m_position.y += 140.0f;
 	//m_reg = CQuaternion::Identity();
 	g_camera3D.SetTarget(m_targetpos);
 	g_camera3D.SetPosition(m_position);

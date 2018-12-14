@@ -194,6 +194,9 @@
     <ClCompile Include="Enemy\Enemy.cpp">
       <Filter>Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="RenderTarget.cpp" />
+    <ClCompile Include="ShadowMap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -358,6 +361,9 @@
     <ClInclude Include="GameObjectPriority.h" />
     <ClInclude Include="GameobjectName.h" />
     <ClInclude Include="Enemy\EnemyManager.h" />
+    <ClInclude Include="Timer.h" />
+    <ClInclude Include="RenderTarget.h" />
+    <ClInclude Include="ShadowMap.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">

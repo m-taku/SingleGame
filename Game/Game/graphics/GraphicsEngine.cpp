@@ -20,6 +20,16 @@ void GraphicsEngine::BegineRender()
 	//バックバッファを灰色で塗りつぶす。
 	m_pd3dDeviceContext->ClearRenderTargetView(m_backBuffer, ClearColor);
 	m_pd3dDeviceContext->ClearDepthStencilView(m_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+	//フレームバッファののレンダリングターゲットをバックアップしておく。
+	auto d3dDeviceContext = g_graphicsEngine->GetD3DDeviceContext();
+	d3dDeviceContext->OMGetRenderTargets(
+		1,
+		&m_frameBufferRenderTargetView,
+		&m_frameBufferDepthStencilView
+	);
+	//ビューポートもバックアップを取っておく。
+	unsigned int numViewport = 1;
+	d3dDeviceContext->RSGetViewports(&numViewport, &m_frameBufferViewports);
 }
 void GraphicsEngine::EndRender()
 {
@@ -66,6 +76,7 @@ void GraphicsEngine::Release()
 		delete m_SpriteFont;
 		m_SpriteFont = NULL;
 	}
+	delete m_shadowmap;
 }
 void GraphicsEngine::Init(HWND hWnd)
 {
@@ -200,10 +211,11 @@ void GraphicsEngine::Init(HWND hWnd)
 		m_pd3dDevice->CreateDepthStencilState(&desc,&depthStencilState);
 		m_pd3dDeviceContext->OMSetDepthStencilState(depthStencilState,0);
 		MemoryBarrier();
-
 	}
 	m_pd3dDeviceContext->RSSetState(m_rasterizerState);
-
 	m_SpriteBatch = new DirectX::SpriteBatch(m_pd3dDeviceContext);
 	m_SpriteFont = new DirectX::SpriteFont(m_pd3dDevice, L"Assets/font/floay.spritefont");
+	Target.Create(FRAME_BUFFER_W,FRAME_BUFFER_H,DXGI_FORMAT_R8G8B8A8_UNORM);
+	m_shadowmap = new ShadowMap;
+	m_shadowmap->UpdateFromLightTarget({ 00.0f, 1000.0f, 0.0f },{ 0.0f, 0.0f, 0.0f });
 }
