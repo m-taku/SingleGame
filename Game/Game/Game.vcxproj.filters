@@ -197,6 +197,10 @@
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="RenderTarget.cpp" />
     <ClCompile Include="ShadowMap.cpp" />
+    <ClCompile Include="Light.cpp" />
+    <ClCompile Include="bloom.cpp" />
+    <ClCompile Include="PostEffect.cpp" />
+    <ClCompile Include="GaussianBlur.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -364,6 +368,10 @@
     <ClInclude Include="Timer.h" />
     <ClInclude Include="RenderTarget.h" />
     <ClInclude Include="ShadowMap.h" />
+    <ClInclude Include="Light.h" />
+    <ClInclude Include="bloom.h" />
+    <ClInclude Include="PostEffect.h" />
+    <ClInclude Include="GaussianBlur.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">

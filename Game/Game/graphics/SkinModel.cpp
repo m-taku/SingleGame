@@ -214,15 +214,13 @@ void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 		vsCb.isShadowReciever = 1;
 	}
 	else {
-
 		vsCb.isShadowReciever = 0;
 	}
-
 	static Color color;
 	LightBuffer LCb;
 	LCb.angle = { 0.707f,-0.707f,0.0f,1.0f };
 	m_colre = 1/360;
-	LCb.color = color.HSVtoRGB({ m_colre,1.0f,1.0f });
+	LCb.color = color.HSVtoRGB({ m_colre,1.5f,1.2f });
 	LCb.Camerapos = g_camera3D.GetPosition();
 	d3dDeviceContext->UpdateSubresource(m_cb, 0, nullptr, &vsCb, 0, 0);
 	d3dDeviceContext->UpdateSubresource(m_ritocb, 0, nullptr, &LCb, 0, 0);
@@ -267,7 +265,7 @@ void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 		{
 			auto deviceContext = g_graphicsEngine->GetD3DDeviceContext();
 			ID3D11ShaderResourceView* Resource = g_graphicsEngine->GetShadowMap()->GetShadowMapSRV();
-			deviceContext->PSSetShaderResources(3, 1, &Resource);
+			deviceContext->PSSetShaderResources(5, 1, &Resource);
 			if (m_numInstance > 1) {
 				effect->ChangeShader(Instancing);
 

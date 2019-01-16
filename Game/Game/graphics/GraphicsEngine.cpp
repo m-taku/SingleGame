@@ -11,25 +11,23 @@ GraphicsEngine::~GraphicsEngine()
 {
 	Release();
 }
-
 void GraphicsEngine::BegineRender()
 {
 	float ClearColor[4] = { 0.5f, 0.5f, 0.5f, 1.0f }; //red,green,blue,alpha
 													  //描き込み先をバックバッファにする。
-	m_pd3dDeviceContext->OMSetRenderTargets(1, &m_backBuffer, m_depthStencilView);
+	m_pd3dDeviceContext->OMSetRenderTargets(1,&m_backBuffer, m_depthStencilView);
 	//バックバッファを灰色で塗りつぶす。
 	m_pd3dDeviceContext->ClearRenderTargetView(m_backBuffer, ClearColor);
 	m_pd3dDeviceContext->ClearDepthStencilView(m_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 	//フレームバッファののレンダリングターゲットをバックアップしておく。
-	auto d3dDeviceContext = g_graphicsEngine->GetD3DDeviceContext();
-	d3dDeviceContext->OMGetRenderTargets(
+	m_pd3dDeviceContext->OMGetRenderTargets(
 		1,
 		&m_frameBufferRenderTargetView,
 		&m_frameBufferDepthStencilView
 	);
 	//ビューポートもバックアップを取っておく。
 	unsigned int numViewport = 1;
-	d3dDeviceContext->RSGetViewports(&numViewport, &m_frameBufferViewports);
+	m_pd3dDeviceContext->RSGetViewports(&numViewport, &m_frameBufferViewports);
 }
 void GraphicsEngine::EndRender()
 {
@@ -83,12 +81,12 @@ void GraphicsEngine::Init(HWND hWnd)
 	//スワップチェインを作成するための情報を設定する。
 	DXGI_SWAP_CHAIN_DESC sd;
 	ZeroMemory(&sd, sizeof(sd));
-	sd.BufferCount = 1;									//スワップチェインのバッファ数。通常は１。
-	sd.BufferDesc.Width = (UINT)FRAME_BUFFER_W;			//フレームバッファの幅。
-	sd.BufferDesc.Height = (UINT)FRAME_BUFFER_H;		//フレームバッファの高さ。
-	sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;	//フレームバッファのフォーマット。R8G8B8A8の32bit。
-	sd.BufferDesc.RefreshRate.Numerator = 60;			//モニタのリフレッシュレート。(バックバッファとフロントバッファを入れ替えるタイミングとなる。)
-	sd.BufferDesc.RefreshRate.Denominator = 1;			//２にしたら30fpsになる。1でいい。
+	sd.BufferCount = 1;									    //スワップチェインのバッファ数。通常は１。
+	sd.BufferDesc.Width = (UINT)FRAME_BUFFER_W;			    //フレームバッファの幅。
+	sd.BufferDesc.Height = (UINT)FRAME_BUFFER_H;		    //フレームバッファの高さ。
+	sd.BufferDesc.Format = DXGI_FORMAT_R16G16B16A16_FLOAT;	//フレームバッファのフォーマット。R8G8B8A8の32bit。
+	sd.BufferDesc.RefreshRate.Numerator = 60;			    //モニタのリフレッシュレート。(バックバッファとフロントバッファを入れ替えるタイミングとなる。)
+	sd.BufferDesc.RefreshRate.Denominator = 1;			    //２にしたら30fpsになる。1でいい。
 	sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;	//サーフェスまたはリソースを出力レンダー ターゲットとして使用します。
 	sd.OutputWindow = hWnd;								//出力先のウィンドウハンドル。
 	sd.SampleDesc.Count = 1;							//1でいい。
@@ -184,7 +182,6 @@ void GraphicsEngine::Init(HWND hWnd)
 		BLEND_DETE.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_INV_SRC_ALPHA;
 		BLEND_DETE.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
 		BLEND_DETE.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
-		ID3D11BlendState* BlendState;
 		m_pd3dDevice->CreateBlendState(&BLEND_DETE, &BlendState);
 		m_pd3dDeviceContext->OMSetBlendState(BlendState, nullptr, 0xFFFFFFFF);
 
@@ -215,7 +212,9 @@ void GraphicsEngine::Init(HWND hWnd)
 	m_pd3dDeviceContext->RSSetState(m_rasterizerState);
 	m_SpriteBatch = new DirectX::SpriteBatch(m_pd3dDeviceContext);
 	m_SpriteFont = new DirectX::SpriteFont(m_pd3dDevice, L"Assets/font/floay.spritefont");
-	Target.Create(FRAME_BUFFER_W,FRAME_BUFFER_H,DXGI_FORMAT_R8G8B8A8_UNORM);
+	mainTarget.Create(FRAME_BUFFER_W,FRAME_BUFFER_H, DXGI_FORMAT_R16G16B16A16_FLOAT);
+	ka.Init(mainTarget.GetRenderTargetSRV(), 1280.0f, 720.0f);
+	m_posteffec = new PostEffect;
 	m_shadowmap = new ShadowMap;
 	m_shadowmap->UpdateFromLightTarget({ 00.0f, 1000.0f, 0.0f },{ 0.0f, 0.0f, 0.0f });
 }

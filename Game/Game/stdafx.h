@@ -31,6 +31,7 @@
 
 #include "math/Vector.h"
 #include "math/Matrix.h"
+#include "graphics/Camera.h"
 #include "graphics/GraphicsEngine.h"
 
 #include "graphics/SkinModel.h"
@@ -38,7 +39,6 @@
 
 #include "graphics/animation/Animation.h"
 #include "graphics/animation/AnimationClip.h"
-#include "graphics/Camera.h"
 #include "graphics/sprite.h"
 #include "Gameobject/Gameobject.h"
 #include "VectorDraw.h"

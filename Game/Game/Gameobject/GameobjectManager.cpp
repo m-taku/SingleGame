@@ -37,7 +37,7 @@ void GameobjectManager::Execute()
 	}
 	//ここからレンダー系の処理を書く
 	//g_graphicsEngine->GetShadowMap()->UpdateFromLightTarget(
-	//	{ 0.0f, 1000.0f, 0.0f },
+	//	{ -0.707f,0.707f,0.0f },
 	//	{ 0.0f, 0.0f, 0.0f }
 	//);
 	g_graphicsEngine->shadoUpdate();
@@ -50,8 +50,9 @@ void GameobjectManager::Execute()
 		}
 	}
 	//デバック用の剛体表示
+	g_graphicsEngine->PostEffectUpdate();
 #ifdef _DEBUG
-	g_physics.DebubDrawWorld();
+	//g_physics.DebubDrawWorld();
 #endif
 
 	for (auto& list : m_List) {

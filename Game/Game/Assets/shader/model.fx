@@ -9,7 +9,7 @@
 //アルベドテクスチャ。
 Texture2D<float4> albedoTexture : register(t2);	
 //todo シャドウマップ。
-Texture2D<float4> g_shadowMap : register(t3);		
+Texture2D<float4> g_shadowMap : register(t5);		
 //ボーン行列
 StructuredBuffer<float4x4> boneMatrix : register(t1);
 //インスタンシング描画用
@@ -196,14 +196,13 @@ float4 PSMain( PSInput In ) : SV_Target0
 {
 	float4 albedoColor = albedoTexture.Sample(Sampler, In.TexCoord);
     //ディレクションライトの拡散反射光を計算する。
-	float3 lig = 
-		max(0.0f, dot(angle*-1.0f, In.Normal)) * color;
+	float3 lig = max(0.0f, dot(angle*-1.0f, In.Normal)) * color;
 	float3 toEyeDir = normalize(pos - In.WorldPos);
 	float3 na = reflect(-toEyeDir, In.Normal);
 	//float3 na = -toEyeDir + 2.0f * dot(In.Normal, toEyeDir) * In.Normal;
 	float n2 = max(0.0f, dot(na, -angle));
 	float3 ka = pow(n2, 10.0f)*color.xyx;
-	lig = lig + ka;
+//	lig = lig + ka;
 	if (isShadowReciever == 1) {	//シャドウレシーバー。	//LVP空間から見た時の最も手前の深度値をシャドウマップから取得する。
 		float2 shadowMapUV = In.posInLVP.xy / In.posInLVP.w;
 		shadowMapUV *= float2(0.5f, -0.5f);

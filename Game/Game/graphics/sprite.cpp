@@ -17,7 +17,7 @@ struct SSimpleVertex {
 	CVector4 pos;
 	CVector2 tex;
 };
-void sprite::Init(ShaderResourceView* texture, float w, float h)
+void sprite::Init(ID3D11ShaderResourceView* texture, float w, float h)
 {
 	m_ps.Load("Assets/shader/sprite.fx", "PSMain", Shader::EnType::PS);
 	m_vs.Load("Assets/shader/sprite.fx", "VSMain", Shader::EnType::VS);
@@ -94,9 +94,8 @@ void sprite::Draw(const CMatrix& viewMatrix, const CMatrix& projMatrix)
 	cb.S_mulColor = m_mulColor;
 	d3dDeviceContext->UpdateSubresource(m_cb.GetBody(),0,NULL, &cb,0,0);
 	d3dDeviceContext->VSSetConstantBuffers(0,1,&(m_cb.GetBody()));
-	d3dDeviceContext->PSSetConstantBuffers(0,1, &(m_cb.GetBody()));
-	ID3D11ShaderResourceView* srv = m_textureSRV->GetBody();
-	d3dDeviceContext->PSSetShaderResources(1,1, &srv); 
+	d3dDeviceContext->PSSetConstantBuffers(0, 1, &(m_cb.GetBody()));
+	d3dDeviceContext->PSSetShaderResources(1,1, &m_textureSRV);
 	d3dDeviceContext->PSSetShader((ID3D11PixelShader*)m_ps.GetBody(),NULL,0);
 	d3dDeviceContext->VSSetShader((ID3D11VertexShader*)m_vs.GetBody(),NULL,0);
 	d3dDeviceContext->IASetInputLayout(m_vs.GetInputLayout());

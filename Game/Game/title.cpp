@@ -13,15 +13,15 @@ title::~title()
 bool title::Load()
 {
 	m_texture_moji.CreateFromDDSTextureFromFile(L"Resource/sprite/taitoru.dds");
-	m_title_haikei.Init(&m_texture_moji, 1280.0f, 720.0f);
+	m_title_haikei.Init(m_texture_moji.GetBody(), 1280.0f, 720.0f);
 	m_texture_haikei.CreateFromDDSTextureFromFile(L"Resource/sprite/yellow.dds");
-	m_title_moji.Init(&m_texture_haikei, 1280.0f, 720.0f);
+	m_title_moji.Init(m_texture_haikei.GetBody(), 1280.0f, 720.0f);
 	m_texture_fade.CreateFromDDSTextureFromFile(L"Resource/sprite/White.dds");
-	m_fadeSprite.Init(&m_texture_fade, 1280.0f, 720.0f);
+	m_fadeSprite.Init(m_texture_fade.GetBody(), 1280.0f, 720.0f);
 	m_texture_yaji.CreateFromDDSTextureFromFile(L"Resource/sprite/yaji.dds");							//タイトルの矢印用のリソース
-	m_yajiSprite.Init(&m_texture_yaji, 100.0f, 72.0f);									//タイトルの矢印用のインスタンス
-	m_title_haikei.Updete(CVector3::Zero(), CQuaternion::Identity(), CVector3::One());
-	m_title_moji.Updete(CVector3::Zero(), CQuaternion::Identity(), CVector3::One());
+	m_yajiSprite.Init(m_texture_yaji.GetBody(), 100.0f, 72.0f);											//タイトルの矢印用のインスタンス
+	m_title_haikei.Updete(CVector3::Zero(), CQuaternion::Identity(), CVector3::One());					
+	m_title_moji.Updete(CVector3::Zero(), CQuaternion::Identity(), CVector3::One());					
 	m_yajiSprite.Updete(m_pos, CQuaternion::Identity(), CVector3::One());
 	return true;
 }

@@ -21,8 +21,8 @@ bool Enemy::Load()
 	//m_collider.Init(20.0f, 50.0f, m_position);
 	m_texture_hp.CreateFromDDSTextureFromFile(L"Resource/sprite/HP.dds");
 	m_texture_fram.CreateFromDDSTextureFromFile(L"Resource/sprite/HP_waku.dds");
-	m_Sprite_hp.Init(&m_texture_hp, 100.0f, 25.0f);
-	m_Sprite_fram.Init(&m_texture_fram, 100.0f, 25.0f);
+	m_Sprite_hp.Init(m_texture_hp.GetBody(), 100.0f, 25.0f);
+	m_Sprite_fram.Init(m_texture_fram.GetBody(), 100.0f, 25.0f);
 	m_debugVecor = new VectorDraw(m_position);
 	m_Rot.MakeRotationFromQuaternion(m_angle);
 	m_Front.x = m_Rot.m[2][0];

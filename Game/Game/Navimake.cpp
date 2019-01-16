@@ -10,7 +10,7 @@ Navimake::Navimake()
 	m_meshCollider.CreateFromSkinModel(m_model, nullptr);
 	//メッシュコライダーから頂点バッファとインデックスバッファの情報をGetする
 	int No = 0;
-	for (int i = 0; i < 1/*m_meshCollider.Getok()*/; i++) {
+	for (int i = 0; i < /*m_meshCollider.Getok()*/1; i++) {
 		auto vertex = m_meshCollider.Getvertex(i);
 		auto index = m_meshCollider.GetIndex(i);
 		
@@ -175,6 +175,7 @@ Navimake::Navimake()
 
 Navimake::~Navimake()
 {
+	//
 	g_physics.RemoveRigidBody(m_rigidBody);
 	for (int i = 0; i < m_vector.size(); i++)
 	{

@@ -49,7 +49,25 @@ public:
 	{
 		return &m_viewport;
 	}
+	/// <summary>
+	/// レンダリングターゲットの幅を取得。
+	/// </summary>
+	/// <returns></returns>
+	float GetWidth() const
+	{
+		return m_width;
+	}
+	/// <summary>
+	/// レンダリングターゲットの高さを取得。
+	/// </summary>
+	/// <returns></returns>
+	float GetHeight() const
+	{
+		return m_height;
+	}
 private:
+	float m_width = 0;										//!<レンダリングターゲットの幅。
+	float m_height = 0;										//!<レンダリングターゲットの高さ。
 	ID3D11RenderTargetView * RenderTargetView;
 	ID3D11DepthStencilView* DepthStencilView;
 	//ここからレンダリングターゲット関係のメンバ変数です。

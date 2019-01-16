@@ -77,7 +77,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		}
 		m_font->BeginDraw();	//フォントの描画開始。
 		wchar_t fps[256];
-		swprintf_s(fps, L"FPS = %f", m_fps);
+		swprintf_s(fps, L"FPS = %.2f", m_fps);
 		float w = FRAME_BUFFER_W;
 		float h = FRAME_BUFFER_H;
 		m_font->Draw(

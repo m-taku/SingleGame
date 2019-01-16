@@ -19,9 +19,9 @@ UI::~UI()
 bool UI::Load()
 {
 	m_Texture_bar_waku.CreateFromDDSTextureFromFile(L"Resource/sprite/HP_Player_waku.dds");
-	m_HP_bar_waku.Init(&m_Texture_bar_waku, Hpbarsize.x, Hpbarsize.y);
+	m_HP_bar_waku.Init(m_Texture_bar_waku.GetBody(), Hpbarsize.x, Hpbarsize.y);
 	m_Texture_bar.CreateFromDDSTextureFromFile(L"Resource/sprite/HP_Player.dds");
-	m_HP_bar.Init(&m_Texture_bar, Hpbarsize.x, Hpbarsize.y);
+	m_HP_bar.Init(m_Texture_bar.GetBody(), Hpbarsize.x, Hpbarsize.y);
 	m_HP_bar_waku.Updete(m_HP_waku_position, CQuaternion::Identity(), CVector3::One(), {0.0f,1.0f});
 	m_HP_bar.Updete(m_HP_position, CQuaternion::Identity(), CVector3::One(), { 0.0f,1.0f });
 	return true;

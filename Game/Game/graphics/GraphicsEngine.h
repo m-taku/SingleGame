@@ -2,6 +2,8 @@
 /*!
  *@brief	グラフィックスエンジン。
  */
+#include"sprite.h"
+#include"../PostEffect.h"
 #include"ShadowMap.h"
 class GraphicsEngine
 {
@@ -64,13 +66,35 @@ public:
 	void shadoUpdate()
 	{
 		m_shadowmap->RenderToShadowMap();
-		ka();
+		ChangeRenderTarget(
+			mainTarget.GetRenderTargetView(),
+			mainTarget.GetDepthStensilView(),
+			mainTarget.GetViewport());
+		float clearColor[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+		mainTarget.ClearRenderTarget(clearColor);
+	}
+	void PostEffectUpdate()
+	{
+		m_posteffec->Update();
+		m_posteffec->Draw();
+		ChangeRenderTarget(
+			m_frameBufferRenderTargetView,
+			m_frameBufferDepthStencilView,
+			&m_frameBufferViewports);
+		ka.Draw(
+			g_camera2D.GetViewMatrix(),
+			g_camera2D.GetProjectionMatrix()
+		);
+	}
+	RenderTarget* GetMainRenderTarget()
+	{
+		return &mainTarget;
 	}
 	ShadowMap* GetShadowMap()
 	{
 		return m_shadowmap;
 	}
-	void ka()
+	void ChangeRenderTarget(ID3D11RenderTargetView* m_frameBufferRenderTargetView,ID3D11DepthStencilView* m_frameBufferDepthStencilView,D3D11_VIEWPORT* m_frameBufferViewports)
 	{
 		auto d3dDeviceContext = GetD3DDeviceContext();
 		ID3D11RenderTargetView* rtTbl[] = {
@@ -80,12 +104,12 @@ public:
 		d3dDeviceContext->OMSetRenderTargets(1, rtTbl, m_frameBufferDepthStencilView);
 		if (&m_frameBufferViewports != nullptr) {
 			//ビューポートが指定されていたら、ビューポートも変更する。
-			d3dDeviceContext->RSSetViewports(1, &m_frameBufferViewports);
+			d3dDeviceContext->RSSetViewports(1,m_frameBufferViewports);
 		}
-		m_frameBufferRenderTargetView->Release();
-		m_frameBufferDepthStencilView->Release();
-		float clearColor[] = { 0.0f, 0.0f, 0.0f, 1.0f };
-		Target.ClearRenderTarget(clearColor);
+		//m_frameBufferRenderTargetView->Release();
+		//m_frameBufferDepthStencilView->Release();
+		//float clearColor[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+		//Target.ClearRenderTarget(clearColor);
 	}
 private:
 	D3D_FEATURE_LEVEL		m_featureLevel;				//Direct3D デバイスのターゲットとなる機能セット。
@@ -100,10 +124,13 @@ private:
 	DirectX::SpriteFont*    m_SpriteFont = NULL;
 	DirectX::SpriteBatch*   m_SpriteBatch = NULL;
 	ShadowMap* m_shadowmap = NULL;
-	RenderTarget Target;	
+	sprite ka;
+	PostEffect* m_posteffec;
+	RenderTarget mainTarget;	
 	D3D11_VIEWPORT m_frameBufferViewports;			//フレームバッファのビューポート。
 	ID3D11RenderTargetView* m_frameBufferRenderTargetView = nullptr;	//フレームバッファのレンダリングターゲットビュー。
 	ID3D11DepthStencilView* m_frameBufferDepthStencilView = nullptr;	//フレームバッファのデプスステンシルビュー。
+	ID3D11BlendState* BlendState;  //かかか
 };
 
 extern GraphicsEngine* g_graphicsEngine;			//グラフィックスエンジン

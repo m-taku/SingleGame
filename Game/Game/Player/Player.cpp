@@ -31,7 +31,7 @@ bool Player::Load()
 	m_animationclip[idle].Load(L"Assets/animData/enemy_idel.tka");
 	m_animationclip[idle].SetLoopFlag(true);
 	m_animationclip[attack].Load(L"Assets/animData/enemy_attack.tka");
-	m_animationclip[attack].SetLoopFlag(true);
+	m_animationclip[attack].SetLoopFlag(false);
 	m_animationclip[walk].Load(L"Assets/animData/enemy_walk.tka");
 	m_animationclip[walk].SetLoopFlag(true);
 	m_animation.Init(m_model, m_animationclip, animnum);
@@ -68,7 +68,17 @@ void Player::Update()
 		m_angle += camer_angle;
 		m_rotation.SetRotation(CVector3::AxisY(), m_angle);
 	}
-
+	if (g_pad[0].IsTrigger(enButtonX))
+	{
+		m_animation.Play(attack, 0.2f);
+	}
+	else
+	{
+		if (!m_animation.IsPlaying())
+		{
+			m_animation.Play(walk, 0.2f);
+		}
+	}
 	m_mRot.MakeRotationFromQuaternion(m_rotation);
 	m_Front.x = m_mRot.m[2][0];
 	m_Front.y = m_mRot.m[2][1];
@@ -77,18 +87,19 @@ void Player::Update()
 	m_movespeed.x = m_Front.x * m_plyerStatus.speed*m_amount.Length();
 	m_movespeed.z = m_Front.z * m_plyerStatus.speed*m_amount.Length();
 	m_movespeed.y -= GRAVITY;
-	if (g_pad[0].IsTrigger(enButtonA)&& m_collider.IsOnGround())
+	if (g_pad[0].IsTrigger(enButtonA) && m_collider.IsOnGround())
 	{
 		m_movespeed.y = 1500.0f;
 	}
 	m_position = m_collider.Execute(1.0f / 30.0f, m_movespeed);
-	m_model.UpdateWorldMatrix(m_position, m_rotation, {1.0f,1.0f,1.0f });
+	m_model.UpdateWorldMatrix(m_position, m_rotation, { 1.0f,1.0f,1.0f });
 	g_graphicsEngine->SetShadoCaster(&m_model);
 	m_model.SetShadowReciever(true);
 	auto ka = m_position;
-	ka.y += 100.0f;
-	g_graphicsEngine->GetShadowMap()->UpdateFromLightTarget(ka, m_position);
-	m_animation.Play(walk, 0.2f);
+	CVector3 m = { -70.7f, 70.7f, 0.0f };
+	ka.x += m.x;
+	ka.y += m.y;
+	g_graphicsEngine->GetShadowMap()->UpdateFromLightTarget(ka , m_position);
 	m_animation.Update(1.0f / 30.0f);
 	m_debugVector->Update(m_position, m_Front, m_amount.Length()*3.0f);
 }

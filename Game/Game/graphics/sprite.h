@@ -24,7 +24,7 @@ public:
 	/// <param name="h">
 	/// 縦方向の長さ（720）
 	/// </param>
-	void Init(ShaderResourceView* texture, float w, float h);
+	void Init(ID3D11ShaderResourceView* texture, float w, float h);
 	/*!
 	*@brief	テクスチャのハーフサイズ（X）
 	*@return　float
@@ -82,7 +82,7 @@ public:
 		m_mulColor.w = clear;
 	}
 private:
-	ShaderResourceView*	    m_textureSRV = nullptr;							//!<テクスチャ。
+	ID3D11ShaderResourceView*	    m_textureSRV = nullptr;							//!<テクスチャ。
 	SpriteData				m_date;
 	Shader					m_ps;											//!<ピクセルシェーダー。
 	Shader					m_vs;											//!<頂点シェーダー。
