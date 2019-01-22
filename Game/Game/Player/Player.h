@@ -1,6 +1,7 @@
 #pragma once
 #include "character/CharacterController.h"
 #include"UI.h"
+class HitObjict;
 class Gamecamera;
 class Navimake;
 /// <summary>
@@ -48,6 +49,7 @@ public:
 	/// Gameobjectから継承したDraw関数
 	/// </summary>
 	void Draw() override;
+	void Hit();
 	/// <summary>
 	/// 2D（ｘ、ｚ）での現在のポジション。
 	/// </summary>
@@ -154,6 +156,10 @@ public:
 	{
 		m_collider.SetPosition(position);
 	}
+	void Sethit(HitObjict* Hit) 
+	{
+		m_hit = Hit;
+	}
 private:
 	UI* m_ui = nullptr;
 	CharacterController m_collider;						//キャラクターコントローラー
@@ -171,6 +177,8 @@ private:
 	float m_angle = 0.0f;								//回転角度（ラジアン）
 	VectorDraw* m_debugVector =nullptr;					//デバック用のベクトル表示
 	PlyerStatus m_plyerStatus;	
+	bool m_attac=false;
+	HitObjict* m_hit;
 	//CVector3 m_angle = CVector3::Zero();				
 	//wchar_t bonename[50];								//名前
 	//int bonenum = 0;									

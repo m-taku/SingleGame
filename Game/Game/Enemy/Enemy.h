@@ -4,10 +4,11 @@
 #include"../../Path.h"
 #include"EnemyLeader/EnemyLeader.h"
 class EnemyState;
+class HitObjict;
 /// <summary>
 /// Enemy1つ1つの動作クラス。
 /// </summary>
-class Enemy
+class Enemy:public Noncopyable
 {
 public:
 	/// <summary>
@@ -302,6 +303,15 @@ public:
 	{
 		//m_collider.SetPosition(m_position);
 	}
+	void Hit();
+	void Sethit(HitObjict* Hit)
+	{
+		m_hit = Hit;
+	}
+	HitObjict* Gethit()
+	{
+		return m_hit;
+	}
 private:
 	/// <summary>
 	/// デバック用のベクトル表示。
@@ -335,5 +345,6 @@ private:
 	int m_bolnNo = 0;										//手のボーンの番号
 	float m_HP = 1.0f;										//ＨＰの割合
 	float m_speed = 0.0f;             				    	//移動速度
+	HitObjict* m_hit;
 };
 

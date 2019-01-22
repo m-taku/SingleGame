@@ -140,6 +140,8 @@
     <ClCompile Include="graphics\SpriteData.cpp" />
     <ClCompile Include="graphics\UnorderedAccessView.cpp" />
     <ClCompile Include="HID\Pad.cpp" />
+    <ClCompile Include="HitObjict.cpp" />
+    <ClCompile Include="HitReceive.cpp" />
     <ClCompile Include="level\Level.cpp" />
     <ClCompile Include="level\MapChip.cpp" />
     <ClCompile Include="Light.cpp" />
@@ -216,6 +218,8 @@
     <ClInclude Include="graphics\UnorderedAccessView.h" />
     <ClInclude Include="Enemy\Enenystate.h" />
     <ClInclude Include="HID\Pad.h" />
+    <ClInclude Include="HitObjict.h" />
+    <ClInclude Include="HitReceive.h" />
     <ClInclude Include="level\Level.h" />
     <ClInclude Include="level\MapChip.h" />
     <ClInclude Include="Light.h" />

@@ -2,6 +2,7 @@
 #include "Enemy.h"
 #include"Enenystate.h"
 #include"../../Player/Player.h"
+#include"../HitObjict.h"
 #include "Physics/CollisionAttr.h"
 
 Enemy::Enemy()
@@ -57,6 +58,7 @@ bool Enemy::Load()
 	TransitionState(State_Attack);
 	m_model.UpdateWorldMatrix(m_position, m_angle, CVector3::One());
 	m_Leader->CopySkinModel().UpdateInstancingData(m_position, CQuaternion::Identity(), CVector3::One());
+	m_hit->Create(&m_position, 1000.0f, [&]() {Hit(); },HitReceive::enemy );	
 	return true;
 }
 void Enemy::TransitionState(State m_state)
@@ -80,6 +82,7 @@ void Enemy::TransitionState(State m_state)
 		break;
 	}
 	m_model.UpdateWorldMatrix(m_position, m_angle,CVector3::One());
+	m_animation.Update(1.0f / 30.0f);
 }
 void Enemy::Update()
 {
@@ -150,12 +153,8 @@ void Enemy::DrawDebugVector()
 }
 void Enemy::HP_Draw()
 {
-	if (g_pad[0].IsPress(enButtonRB1))
-	{
-		m_HP -= 0.01;
-	}
 	auto la = m_position;
-	la.y += 100.0f;
+	la.y += 150.0f;
 	m_Sprite_hp.Updete(la, m_Sprite_angle, { m_HP,1.0f ,1.0f });
 	m_Sprite_hp.Draw(
 		g_camera3D.GetViewMatrix(),
@@ -203,4 +202,8 @@ void Enemy::FindAngle(CVector3 Vector)
 			SetSpeed(300.0f);
 		}
 	}
+}
+void Enemy::Hit()
+{
+	m_HP -= 0.01;
 }

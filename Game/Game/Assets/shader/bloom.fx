@@ -41,7 +41,7 @@ float4 PSSamplingLuminance(PSInput In) : SV_Target0
 {
 	float4 color = sceneTexture.Sample(Sampler, In.uv);
 	float t = dot(color.xyz, float3(0.2125f, 0.7154f, 0.0721f));
-	clip(t - 1.001f);			//輝度が0.5以下ならピクセルキル
+	clip(t - 1.001f);			//輝度が1.0以下ならピクセルキル
 	color.xyz *= (t - 1.001f);
 	color.a = 1.0f;
 	return color;

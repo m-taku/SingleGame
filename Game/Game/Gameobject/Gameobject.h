@@ -76,14 +76,31 @@ public:
 	{
 		m_Loadfrag = frag;
 	}
+	/// <summary>
+	/// 名前の取得
+	/// </summary>
+	/// <returns>
+	/// 名前（string）
+	/// </returns>
 	const std::string& GetName()const
 	{
 		return m_Name;
 	}
+	/// <summary>
+	/// 名前のセット
+	/// </summary>
+	/// <param name="Name">
+	/// 名前（string）
+	/// </param>
 	void SetName(const std::string& Name)
 	{
 		m_Name = Name;
 	}
+	const Gameobject* Getobjict()
+	{
+		return this;
+	}
+	virtual void Hit() {};
 private:
 	std::string m_Name = "NULL";     	//インスタンスの名前
 	int m_priority = 0;					//優先度

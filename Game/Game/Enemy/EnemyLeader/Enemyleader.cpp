@@ -22,6 +22,7 @@ bool Enemyleader::Load()
 		m_enemy[i] = new Enemy;
 		m_enemy[i]->SetPosition(m_position);
 		m_enemy[i]->SetPlayer(m_player);
+		m_enemy[i]->Sethit(m_hit);
 		m_enemy[i]->SetLeader(this);
 		m_enemy[i]->Load();
 		m_position += m_haiti[i];

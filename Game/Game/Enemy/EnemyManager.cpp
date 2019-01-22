@@ -32,12 +32,14 @@ bool EnemyManager::Load()
 			return true;
 		}
 		else {
-			if (++kuku > 2) {
+			if (++kuku <= 3) {
 				m_enemy.push_back(g_objectManager->NewGO<Enemyleader>(GameObjectPriority_EnemyLeader, "Enemyleader"));
 				auto No = m_enemy.size() - 1;
 				//objData.position
-				m_enemy[No]->SetPosition({0.0f,0.0f,0.0f});
+				m_enemy[No]->SetPosition(objData.position);
+				m_enemy[No]->Sethit(m_hit);
 				m_enemy[No]->SetPlayer(m_player);
+
 			}
 			return true;
 		}

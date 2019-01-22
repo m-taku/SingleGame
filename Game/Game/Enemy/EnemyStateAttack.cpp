@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "EnemyStateAttack.h"
 #include"../../Player/Player.h"
+#include"../HitObjict.h"
 #include "Physics/CollisionAttr.h"
 #include"Enemy.h"
 namespace {
@@ -27,7 +28,10 @@ void EnemyStateAttack::Update()
 	m_debugVecor->Update(m_handpos,m_Up, 300.0f);
 	auto distance = m_player->Get2Dposition() - m_enemy->Get2DPosition();
 	//m_debugVecor->Draw();
-	CollisionTest();
+	auto ka = (m_Swordcenter - m_oldSwordcenter) / 2 + m_Swordcenter;
+	m_enemy->Gethit()->HitTest(ka,HitReceive::enemy);
+	m_oldSwordcenter = m_Swordcenter;
+	//CollisionTest();
 	if (distance.Length() >= 200.0f)
 	{
 		m_enemy->SetSpeed(500.0f);

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Player.h"
+#include"../HitObjict.h"
 #include"Gamecamera.h"
 #include"../graphics/SkinModelEffect.h"
 
@@ -11,6 +12,7 @@ Player::Player()
 }
 Player::~Player()
 {
+	delete m_hit;
 	delete m_debugVector;
 }
 bool Player::Load()
@@ -37,6 +39,8 @@ bool Player::Load()
 	m_animation.Init(m_model, m_animationclip, animnum);
 	m_animation.Play(walk, 0.2f);
 	m_model.UpdateWorldMatrix(m_position, m_rotation, {0.1f,0.1f,0.1f});
+	m_hit->Create(&m_position, 100.0f, [&]() { Hit(); }
+	, HitReceive::player);
 	return true;
 }
 void Player::Update()
@@ -71,12 +75,23 @@ void Player::Update()
 	if (g_pad[0].IsTrigger(enButtonX))
 	{
 		m_animation.Play(attack, 0.2f);
+		auto ka = m_position;
+		ka.x += 100.0f;
+		m_hit->HitTest(ka, HitReceive::player);
+		m_attac = true;
 	}
 	else
 	{
 		if (!m_animation.IsPlaying())
 		{
 			m_animation.Play(walk, 0.2f);
+			m_attac = false;
+		}
+		if (m_attac)
+		{
+			auto ka = m_position;
+			ka.y+= 100.0f;
+			m_hit->HitTest(ka, HitReceive::player);
 		}
 	}
 	m_mRot.MakeRotationFromQuaternion(m_rotation);
@@ -95,11 +110,11 @@ void Player::Update()
 	m_model.UpdateWorldMatrix(m_position, m_rotation, { 1.0f,1.0f,1.0f });
 	g_graphicsEngine->SetShadoCaster(&m_model);
 	m_model.SetShadowReciever(true);
-	auto ka = m_position;
+	auto ritpos= m_position;
 	CVector3 m = { -70.7f, 70.7f, 0.0f };
-	ka.x += m.x;
-	ka.y += m.y;
-	g_graphicsEngine->GetShadowMap()->UpdateFromLightTarget(ka , m_position);
+	ritpos.x += m.x;
+	ritpos.y += m.y;
+	g_graphicsEngine->GetShadowMap()->UpdateFromLightTarget(ritpos, m_position);
 	m_animation.Update(1.0f / 30.0f);
 	m_debugVector->Update(m_position, m_Front, m_amount.Length()*3.0f);
 }
@@ -110,4 +125,12 @@ void Player::Draw()
 		g_camera3D.GetViewMatrix(), 
 		g_camera3D.GetProjectionMatrix()
 	);
+}
+void Player::Hit()
+{
+
+	Damage(20.0f);
+	//‚±‚±‚Éƒ_ƒ[ƒW‚Ìˆ—
+	//m_position.y += 1000.0f;
+
 }

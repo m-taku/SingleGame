@@ -6,6 +6,7 @@
 /// <summary>
 /// Enemy1グループの動作クラス。
 /// </summary>
+class HitObjict;
 class Enemy;
 class Enemyleader:public Gameobject
 {
@@ -127,6 +128,10 @@ public:
 		m_path->Course(m_position, m_player->Get2Dposition());
 		m_nextpos = m_path->PathPos();
 	}
+	void Sethit(HitObjict* Hit)
+	{
+		m_hit = Hit;
+	}
 private:
 	static const int SOLDIER = 3;								//リーダーを含む部隊の総数（定数）
 	CVector3 m_haiti[5] = {
@@ -157,5 +162,6 @@ private:
 	State m_group_state = { group_stop };
 	int m_remaining = SOLDIER;									//今現在のエネミー総数		
 	int m_ninzuu = 0;											//今現在のグループ状態の人数（集合時に使用）
+	HitObjict* m_hit;
 };
 
