@@ -45,7 +45,7 @@ bool Player::Load()
 }
 void Player::Update()
 {
-
+	m_debugVector->Update({0.0f,0.0f,0.0f});
 	//ワールド行列の更新。	
 	m_amount.x = g_pad->GetLStickXF();
 	m_amount.z = g_pad->GetLStickYF();
@@ -76,7 +76,9 @@ void Player::Update()
 	{
 		m_animation.Play(attack, 0.2f);
 		auto ka = m_position;
-		ka.x += 100.0f;
+		ka.y += 100.0f;
+		ka += m_Front*100.0f;
+		m_debugVector->Update(ka);
 		m_hit->HitTest(ka, HitReceive::player);
 		m_attac = true;
 	}
@@ -89,8 +91,10 @@ void Player::Update()
 		}
 		if (m_attac)
 		{
-			auto ka = m_position;
-			ka.y+= 100.0f;
+			auto ka = m_position;	
+			ka.y += 100.0f;
+			ka += m_Front * 100.0f;
+			m_debugVector->Update(ka);
 			m_hit->HitTest(ka, HitReceive::player);
 		}
 	}
@@ -99,28 +103,28 @@ void Player::Update()
 	m_Front.y = m_mRot.m[2][1];
 	m_Front.z = m_mRot.m[2][2];
 	m_Front.Normalize();
-	m_movespeed.x = m_Front.x * m_plyerStatus.speed*m_amount.Length();
-	m_movespeed.z = m_Front.z * m_plyerStatus.speed*m_amount.Length();
+	m_movespeed.x = m_Front.x * m_plyerStatus.speed*m_amount.Length()*100.0f;
+	m_movespeed.z = m_Front.z * m_plyerStatus.speed*m_amount.Length()*100.0f;
 	m_movespeed.y -= GRAVITY;
-	if (g_pad[0].IsTrigger(enButtonA) && m_collider.IsOnGround())
+	if (g_pad[0].IsTrigger(enButtonA) /*&& m_collider.IsOnGround()*/)
 	{
-		m_movespeed.y = 1500.0f;
+		m_movespeed.y = 5000.0f;
 	}
 	m_position = m_collider.Execute(1.0f / 30.0f, m_movespeed);
 	m_model.UpdateWorldMatrix(m_position, m_rotation, { 1.0f,1.0f,1.0f });
 	g_graphicsEngine->SetShadoCaster(&m_model);
 	m_model.SetShadowReciever(true);
 	auto ritpos= m_position;
-	CVector3 m = { -70.7f, 70.7f, 0.0f };
+	CVector3 m = { -707.0f,707.0f, 0.0f };
 	ritpos.x += m.x;
 	ritpos.y += m.y;
 	g_graphicsEngine->GetShadowMap()->UpdateFromLightTarget(ritpos, m_position);
 	m_animation.Update(1.0f / 30.0f);
-	m_debugVector->Update(m_position, m_Front, m_amount.Length()*3.0f);
+	//m_debugVector->Update(m_position, m_Front, m_amount.Length()*3.0f);
 }
 void Player::Draw()
 {
-	//m_debugVector->Draw();
+	m_debugVector->Draw();
 	m_model.Draw(
 		g_camera3D.GetViewMatrix(), 
 		g_camera3D.GetProjectionMatrix()

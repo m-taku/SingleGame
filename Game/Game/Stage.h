@@ -37,8 +37,8 @@ public:
 	/// </summary>
 	void PostDraw() override;
 private:
-//	PhysicsStaticObject Stege;
-	//SkinModel m_model;
+	PhysicsStaticObject Stege;
+	SkinModel m_model;
 
 	Font m_font;						//文字表示のインスタンス
 	Level m_level;						//ステージ表示用のレベルインスタンス					

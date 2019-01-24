@@ -8,9 +8,9 @@ Enemyleader::Enemyleader()
 }
 Enemyleader::~Enemyleader()
 {
-	for (int i = 0; i < m_remaining; i++)
+	for (auto enemy : m_enemy)
 	{
-		delete m_enemy[i];
+		delete enemy;
 	}
 	delete m_path;
 }
@@ -19,12 +19,13 @@ bool Enemyleader::Load()
 	m_model.Init(L"Assets/modelData/ToonRTS_demo_Knight.cmo",SOLDIER);
 	m_path = new Path;
 	for (int i = 0; i < SOLDIER; i++) {
-		m_enemy[i] = new Enemy;
-		m_enemy[i]->SetPosition(m_position);
-		m_enemy[i]->SetPlayer(m_player);
-		m_enemy[i]->Sethit(m_hit);
-		m_enemy[i]->SetLeader(this);
-		m_enemy[i]->Load();
+		auto k= new Enemy;
+		k->SetPosition(m_position);
+		k->SetPlayer(m_player);
+		k->Sethit(m_hit);
+		k->SetLeader(this);
+		k->Load();
+		m_enemy.push_back(k);
 		m_position += m_haiti[i];
 	}
 	//m_collider.Init(10.0f, 10.0f, position);
@@ -44,6 +45,7 @@ void Enemyleader::Update()
 	/*for (int i = 0; i < m_remaining; i++) {
 		m_enemy[i]->Update();
 	}*/
+	int i = 0;
 	CVector3 distance = CVector3::Zero();
 	switch (m_state)
 	{
@@ -51,15 +53,15 @@ void Enemyleader::Update()
 		distance = m_player->Get2Dposition() - m_position;
 		if (distance.Length() < 500.0f)
 		{
-			for (int i = 0; i < m_remaining; i++) {
-				m_enemy[i]->TransitionState(Enemy::State_Move);
+			for (auto enemy: m_enemy) {
+				enemy->TransitionState(Enemy::State_Move);
 			}
 			ChangeSteat(person);
 		}
 		else {
-			for (int i = 0; i < m_remaining; i++) {
+			for (auto enemy : m_enemy) {
 				m_model.UpdateInstancingData(m_position + m_haiti[i], CQuaternion::Identity(), CVector3::One());
-				m_enemy[i]->SetPosition(m_position + m_haiti[i]);
+				enemy->SetPosition(m_position + m_haiti[i++]);
 				//m_enemy[i]->ChangeColliderPosition(m_position + m_haiti[i]);
 				m_state = m_group_state;
 			}
@@ -70,26 +72,26 @@ void Enemyleader::Update()
 		distance = m_player->Get2Dposition() - m_position;
 		if (distance.Length() < 500.0f)
 		{
-			for (int i = 0; i < m_remaining; i++) {
-				m_enemy[i]->TransitionState(Enemy::State_Move);
+			for (auto enemy : m_enemy) {
+				enemy->TransitionState(Enemy::State_Move);
 			}
 			ChangeSteat(person);
 		}
 		else {
-			for (int i = 0; i < m_remaining; i++) {
+			for (auto enemy : m_enemy) {
 				m_model.UpdateInstancingData(m_position + m_haiti[i], CQuaternion::Identity(), CVector3::One());
-				m_enemy[i]->SetPosition(m_position + m_haiti[i]);
+				enemy->SetPosition(m_position + m_haiti[i++]);
 				//m_enemy[i]->ChangeColliderPosition(m_position + m_haiti[i]);
 			}
 		}
 		break;
 	case person:
-		for (int i = 0; i < m_remaining; i++) {
-			m_enemy[i]->Update();
+		for (auto enemy : m_enemy) {
+			enemy->Update();
 			if (m_state == gathering)
 			{
-				for (int i = 0; i < m_remaining; i++) {
-					m_enemy[i]->TransitionState(Enemy::State_Gathering);
+				for (auto enemy : m_enemy) {
+					enemy->TransitionState(Enemy::State_Gathering);
 				}
 				break;
 			}
@@ -98,20 +100,37 @@ void Enemyleader::Update()
 	case gathering:
 	{
 		m_ninzuu = 0;
-		for (int i = 0; i < m_remaining; i++) {
-			m_enemy[i]->Update();
+		for (auto enemy : m_enemy) {
+			enemy->Update();
 		}
 		if (m_ninzuu >= m_remaining)
 		{
 			m_state = m_group_state;
 			//for (int i = 0; i < SOLDIER; i++) {
-			//	m_enemy[i]->TransitionState(Enemy::State_Attack);			//デバックで追加。一応製品ではいらない初期化。
+			//	m_enemy[i]->TransitionState(Enemy::State_Attack);			//デバックで追加.製品ではいらない初期化。
 			//}
 		}
 	}
 	break;
 	default:
 		break;
+	}
+	m_enemy.begin();
+	for (auto enemy = m_enemy.begin(); enemy != m_enemy.end();) {
+		if (!(*enemy)->GetLife())
+		{
+			delete *enemy;
+			m_remaining--;
+			enemy = m_enemy.erase(enemy);
+		}
+		else
+		{
+			enemy++;
+		}
+	}
+	if (m_remaining <= 0)
+	{
+		m_life = false;
 	}
 	m_animation.Play(idle, 0.2f);
 	m_animation.Update(0.1f);
@@ -129,12 +148,12 @@ void Enemyleader::Draw()
 	}
 	else
 	{
-		for (int i = 0; i < m_remaining; i++) {
-			m_enemy[i]->Draw();
+		for (auto enemy : m_enemy) {
+			enemy->Draw();
 		}
 	}
-	for (int i = 0; i < m_remaining; i++) {
-		m_enemy[i]->postDraw();
+	for (auto enemy : m_enemy) {
+		enemy->postDraw();
 	}
 }
 void Enemyleader::Move()
@@ -154,5 +173,33 @@ void Enemyleader::Move()
 	}
 	speed.y = 0.0;
 	speed.Normalize();
-	m_position += speed*1.0f/30.0f *100.0f;
+	m_position += speed * 1.0f / 30.0f *100.0f;
+	//m_Front.y = 0;
+	//m_Front.Normalize();
+	//auto debag = m_Front;
+	//auto Angle = acos(debag.Dot(Vector));
+	//if (Angle >= CMath::DegToRad(1.0f))
+	//{
+	//	SetSpeed(0.0f);
+	//	auto ka5 = CVector3::Zero();
+	//	ka5.Cross(debag, Vector);
+	//	CQuaternion ma3;
+	//	if (ka5.y < 0)
+	//	{
+	//		ka5 = CVector3::AxisY()*-1;
+	//	}
+	//	else
+	//	{
+	//		ka5 = CVector3::AxisY();
+	//	}
+	//	if (Angle <= m_margin)
+	//	{
+	//		ma3.SetRotation(ka5, Angle);
+	//	}
+	//	else
+	//	{
+	//		ma3.SetRotationDeg(ka5, m_kaku);
+	//	}
+	//	m_angle.Multiply(ma3, m_angle);
+	//}
 }

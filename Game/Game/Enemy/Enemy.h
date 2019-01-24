@@ -5,6 +5,7 @@
 #include"EnemyLeader/EnemyLeader.h"
 class EnemyState;
 class HitObjict;
+class HitReceive;
 /// <summary>
 /// Enemy1つ1つの動作クラス。
 /// </summary>
@@ -312,6 +313,10 @@ public:
 	{
 		return m_hit;
 	}
+	bool GetLife()
+	{
+		return m_life;
+	}
 private:
 	/// <summary>
 	/// デバック用のベクトル表示。
@@ -345,6 +350,8 @@ private:
 	int m_bolnNo = 0;										//手のボーンの番号
 	float m_HP = 1.0f;										//ＨＰの割合
 	float m_speed = 0.0f;             				    	//移動速度
+	bool m_life = true;											//生存フラグ
 	HitObjict* m_hit;
+	const HitReceive* m_obj;
 };
 

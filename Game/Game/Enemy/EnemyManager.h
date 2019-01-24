@@ -37,9 +37,19 @@ public:
 	{
 		m_player = pleyer;
 	}
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="Hit"></param>
 	void Sethit(HitObjict* Hit)
 	{
 		m_hit = Hit;
+	}
+	void Leaderdet(Enemyleader* k)
+	{
+		m_enemy.erase(
+			std::remove(m_enemy.begin(), m_enemy.end(),k),
+			m_enemy.end());
 	}
 private:
 	Player * m_player = nullptr;

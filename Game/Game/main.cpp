@@ -62,7 +62,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 			pad.Update();
 		}
 		g_physics.Update();
-        //auto ks = objectManager->NewGO<Player>(0);
 		//物理エンジンの更新。
 		g_objectManager->Execute();
 		static int count = 0;
@@ -113,4 +112,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		m_timer->TimerStop();
 	}
     delete g_graphicsEngine;
+	delete m_font;
+	delete m_timer;
 }

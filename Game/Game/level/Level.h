@@ -52,6 +52,10 @@ public :
 	* @brief	レベルを描画。
 	*/
 	void Draw();
+	/// <summary>
+	/// 更新処理
+	/// </summary>
+	void Update();
 	MapChip* GetMapChip() const
 	{
 		return m_mapChipArray[0].get();

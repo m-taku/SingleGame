@@ -28,7 +28,7 @@ bool EnemyManager::Load()
 		//‚Æ‚è‚ ‚¦‚¸ƒvƒŒƒCƒ„[‚à
 		auto No = wcscmp(objData.name, (L"unityChan"));
 		if (No == 0) {
-			//m_player->SetPosition(objData.position);
+			m_player->SetPosition({0.0f,1000.0f,0.0f});
 			return true;
 		}
 		else {
@@ -54,6 +54,18 @@ void EnemyManager::Update()
 		if (m_No <m_enemy.size()) {
 			m_enemy[m_No++]->ChangeGroup_state();
 			m_timer->TimerStart();
+		}
+	}
+	for (auto enemy = m_enemy.begin(); enemy != m_enemy.end();)
+	{
+		if (!(*enemy)->Getlife())
+		{
+			g_objectManager->DereteGO(*enemy);
+			enemy = m_enemy.erase(enemy);
+		}
+		else
+		{
+			enemy++;
 		}
 	}
 }

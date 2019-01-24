@@ -125,7 +125,7 @@ private:
 	DirectX::SpriteBatch*   m_SpriteBatch = NULL;
 	ShadowMap* m_shadowmap = NULL;
 	sprite ka;
-	PostEffect* m_posteffec;
+	PostEffect* m_posteffec = NULL;
 	RenderTarget mainTarget;	
 	D3D11_VIEWPORT m_frameBufferViewports;			//フレームバッファのビューポート。
 	ID3D11RenderTargetView* m_frameBufferRenderTargetView = nullptr;	//フレームバッファのレンダリングターゲットビュー。

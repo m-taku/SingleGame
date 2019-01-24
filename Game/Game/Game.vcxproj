@@ -259,6 +259,7 @@
     <MeshContentTask Include="Assets\modelData\jimennabi2.fbx" />
     <MeshContentTask Include="Assets\modelData\jimennabi3.fbx" />
     <MeshContentTask Include="Assets\modelData\kaka.fbx" />
+    <MeshContentTask Include="Assets\modelData\map00001.fbx" />
     <MeshContentTask Include="Assets\modelData\monn1.fbx" />
     <MeshContentTask Include="Assets\modelData\monn2.fbx" />
     <MeshContentTask Include="Assets\modelData\stageGround.fbx" />

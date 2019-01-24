@@ -58,7 +58,7 @@ bool Enemy::Load()
 	TransitionState(State_Attack);
 	m_model.UpdateWorldMatrix(m_position, m_angle, CVector3::One());
 	m_Leader->CopySkinModel().UpdateInstancingData(m_position, CQuaternion::Identity(), CVector3::One());
-	m_hit->Create(&m_position, 1000.0f, [&]() {Hit(); },HitReceive::enemy );	
+	m_obj = m_hit->Create(&m_position, 300.0f, [&]() {Hit(); },HitReceive::enemy );	
 	return true;
 }
 void Enemy::TransitionState(State m_state)
@@ -86,9 +86,11 @@ void Enemy::TransitionState(State m_state)
 }
 void Enemy::Update()
 {
-	if (m_HP <= 0.0f)
+	if (m_HP <= 0.01f)
 	{
-
+		m_life = false;
+		m_hit->Deleteobjict(m_obj);
+		return;
 	}
 	m_enemystate->Update();
 	//ワールド行列の更新。	

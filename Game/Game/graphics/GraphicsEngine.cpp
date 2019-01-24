@@ -74,7 +74,16 @@ void GraphicsEngine::Release()
 		delete m_SpriteFont;
 		m_SpriteFont = NULL;
 	}
-	delete m_shadowmap;
+	if (m_posteffec != NULL)
+	{
+		delete m_posteffec;
+		m_posteffec = NULL;
+	}	
+	if (m_shadowmap != NULL)
+	{
+		delete m_shadowmap;
+		m_shadowmap = NULL;
+	}
 }
 void GraphicsEngine::Init(HWND hWnd)
 {

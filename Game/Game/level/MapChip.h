@@ -19,6 +19,10 @@ public:
 	* @brief	•`‰æB
 	*/
 	void Draw();
+	/// <summary>
+	/// XVˆ—
+	/// </summary>
+	void Update();
 	PhysicsStaticObject* GetPhysicsStaticObject() 
 	{
 		return &m_physicsStaticObject;

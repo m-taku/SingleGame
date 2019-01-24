@@ -416,6 +416,7 @@
     <MeshContentTask Include="Assets\modelData\test_box1.fbx" />
     <MeshContentTask Include="Assets\modelData\test_box2.fbx" />
     <MeshContentTask Include="Assets\modelData\test_box3.fbx" />
+    <MeshContentTask Include="Assets\modelData\map00001.fbx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\level\stage_01.tkl">
