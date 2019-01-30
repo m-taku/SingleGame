@@ -5,12 +5,12 @@
 
 Navimake::Navimake()
 {
-	m_model.Init(L"Assets/modelData/map00001.cmo");
+	m_model.Init(L"Assets/modelData/jimennabi5.cmo");
 	//メッシュコライダーを作成。
 	m_meshCollider.CreateFromSkinModel(m_model, nullptr);
 	//メッシュコライダーから頂点バッファとインデックスバッファの情報をGetする
 	int No = 0;
-	for (int i = 0; i < /*m_meshCollider.Getok()*/1; i++) {
+	for (int i = 0; i < m_meshCollider.Getok(); i++) {
 		auto vertex = m_meshCollider.Getvertex(i);
 		auto index = m_meshCollider.GetIndex(i);
 		
@@ -20,8 +20,16 @@ Navimake::Navimake()
 			data->position[0] = vertex[index[i++]];
 			data->position[1] = vertex[index[i++]];
 			data->position[2] = vertex[index[i++]];
-			//出来たセルから中心を求める。
-			data->centerposition = Searchcenter(data->position);
+			auto vector1 = data->position[1] - data->position[0];
+			auto vector2 = data->position[2] - data->position[0];
+			CVector3 k;
+			k.Cross(vector2, vector1);
+			k.Normalize();
+			if (!(k.x <= 0.5&&k.y >= 0.5&&k.z <= 0.5))
+			{
+				delete data;
+				continue;
+			}
 			data->linkNoList[0] = -1;
 			data->linkNoList[1] = -1;
 			data->linkNoList[2] = -1;
@@ -29,6 +37,8 @@ Navimake::Navimake()
 			data->cost[1] = -1;
 			data->cost[2] = -1;
 			data->No = No++;
+			//出来たセルから中心を求める。
+			data->centerposition = Searchcenter(data->position);
 			//できたポリゴン（セル）情報をpush_backする
 			m_seru.push_back(data);
 			//ここからContactTestによるパス除外処理
@@ -188,10 +198,14 @@ Navimake::~Navimake()
 }
 void Navimake::Draw()
 {
-	m_model.Draw(
-		g_camera3D.GetViewMatrix(),
-		g_camera3D.GetProjectionMatrix()
-	);
+	static int j = 0;
+	if (j++ >= 10) {
+		m_model.Draw(
+			g_camera3D.GetViewMatrix(),
+			g_camera3D.GetProjectionMatrix()
+		);
+		j = 0;
+	}
 	for (int i = 0; i < m_vector.size(); i++) {
 		m_vector[i]->Draw();
 	}

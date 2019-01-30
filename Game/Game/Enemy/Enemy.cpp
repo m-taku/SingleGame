@@ -124,8 +124,8 @@ void Enemy::postDraw()
 void Enemy::Draw()
 {
 	m_model.Draw(
-		g_camera3D.GetViewMatrix(),
-		g_camera3D.GetProjectionMatrix()
+		g_camera2D.GetViewMatrix(),
+		g_camera2D.GetProjectionMatrix()
 	);
 }
 void Enemy::DrawDebugVector()

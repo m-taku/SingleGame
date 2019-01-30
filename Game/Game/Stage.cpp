@@ -6,6 +6,7 @@
 
 Stage::Stage()
 {
+
 }
 
 
@@ -15,11 +16,13 @@ Stage::~Stage()
 bool Stage::Load()
 {
 	//cmoファイルの読み込み。
-    m_model.Init(L"Assets/modelData/map00001.cmo");
+    //m_model.Init(L"Assets/modelData/map00001.cmo");
 	//ステージのレベル
 	auto mode=g_objectManager->FindGO<title>("title");
 	wchar_t moveFilePath[256];
-	//swprintf_s(moveFilePath, L"Assets/level/stage_0%d.tkl",mode->Getmode()+4);
+
+	m_navimake = g_objectManager->NewGO<Navimake>(0, "Navimake");
+	swprintf_s(moveFilePath, L"Assets/level/stage_sisaku.tkl",/*mode->Getmode()+4*/3);
 	//m_level.Init(moveFilePath, [&](LevelObjectData objData)
 	//{
 	//	auto No = wcscmp(objData.name, (L"monn1"));
@@ -44,15 +47,14 @@ bool Stage::Load()
 
 	//Stege.CreateMeshObject(m_model, CVector3::Zero(), CQuaternion::Identity());
 	//地面のみのセル（ポリゴン）を生成する（地面のモデルはこちらから）
-	m_navimake = g_objectManager->NewGO<Navimake>(0,"Navimake");
 	//Loadfrag = true;
 	return true;
 }
 void Stage::Update()
 {
-	m_level.Update();
+	//m_level.Update();
 	//ワールド行列の更新。
-	m_model.UpdateWorldMatrix({ 0.0f,0.0f,0.0f }, CQuaternion::Identity(), CVector3::One());
+	//m_model.UpdateWorldMatrix({ 0.0f,0.0f,0.0f }, CQuaternion::Identity(), CVector3::One());
 }
 void Stage::Draw()
 {
@@ -61,9 +63,7 @@ void Stage::Draw()
 	//	g_camera3D.GetProjectionMatrix()
 	//);
 	//
-
-	m_navimake->Update();
-	m_level.Draw();
+	//m_level.Draw();
 }
 void Stage::PostDraw()
 {

@@ -103,14 +103,14 @@ void Player::Update()
 	m_Front.y = m_mRot.m[2][1];
 	m_Front.z = m_mRot.m[2][2];
 	m_Front.Normalize();
-	m_movespeed.x = m_Front.x * m_plyerStatus.speed*m_amount.Length()*100.0f;
-	m_movespeed.z = m_Front.z * m_plyerStatus.speed*m_amount.Length()*100.0f;
+	m_movespeed.x = m_Front.x * m_plyerStatus.speed*m_amount.Length()*10.0f;
+	m_movespeed.z = m_Front.z * m_plyerStatus.speed*m_amount.Length()*10.0f;
 	m_movespeed.y -= GRAVITY;
+	m_position = m_collider.Execute(1.0f / 30.0f, m_movespeed);
 	if (g_pad[0].IsTrigger(enButtonA) /*&& m_collider.IsOnGround()*/)
 	{
 		m_movespeed.y = 5000.0f;
 	}
-	m_position = m_collider.Execute(1.0f / 30.0f, m_movespeed);
 	m_model.UpdateWorldMatrix(m_position, m_rotation, { 1.0f,1.0f,1.0f });
 	g_graphicsEngine->SetShadoCaster(&m_model);
 	m_model.SetShadowReciever(true);

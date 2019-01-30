@@ -251,22 +251,49 @@
     <ClInclude Include="VectorDraw.h" />
   </ItemGroup>
   <ItemGroup>
+    <MeshContentTask Include="Assets\modelData\Altar.fbx" />
+    <MeshContentTask Include="Assets\modelData\Atlantis Text.fbx" />
     <MeshContentTask Include="Assets\modelData\bill.fbx" />
+    <MeshContentTask Include="Assets\modelData\Bricks.fbx" />
+    <MeshContentTask Include="Assets\modelData\Bush.fbx" />
     <MeshContentTask Include="Assets\modelData\Enemy.fbx" />
+    <MeshContentTask Include="Assets\modelData\Four Exit.fbx" />
     <MeshContentTask Include="Assets\modelData\geito.fbx" />
+    <MeshContentTask Include="Assets\modelData\Grey Stone.fbx" />
+    <MeshContentTask Include="Assets\modelData\Ground Brown.fbx" />
+    <MeshContentTask Include="Assets\modelData\Ground Green.fbx" />
+    <MeshContentTask Include="Assets\modelData\Island Big.fbx" />
+    <MeshContentTask Include="Assets\modelData\Island Small.fbx" />
     <MeshContentTask Include="Assets\modelData\jimennabi.fbx" />
     <MeshContentTask Include="Assets\modelData\jimennabi1.fbx" />
     <MeshContentTask Include="Assets\modelData\jimennabi2.fbx" />
     <MeshContentTask Include="Assets\modelData\jimennabi3.fbx" />
+    <MeshContentTask Include="Assets\modelData\jimennabi5.fbx" />
     <MeshContentTask Include="Assets\modelData\kaka.fbx" />
     <MeshContentTask Include="Assets\modelData\map00001.fbx" />
     <MeshContentTask Include="Assets\modelData\monn1.fbx" />
     <MeshContentTask Include="Assets\modelData\monn2.fbx" />
+    <MeshContentTask Include="Assets\modelData\One Exit.fbx" />
+    <MeshContentTask Include="Assets\modelData\Path Cros.fbx" />
+    <MeshContentTask Include="Assets\modelData\Path Grass Pilar.fbx" />
+    <MeshContentTask Include="Assets\modelData\Path Grass.fbx" />
+    <MeshContentTask Include="Assets\modelData\Platform Mixed.fbx" />
+    <MeshContentTask Include="Assets\modelData\Sand.fbx" />
     <MeshContentTask Include="Assets\modelData\stageGround.fbx" />
+    <MeshContentTask Include="Assets\modelData\Temple Island Temple.fbx" />
+    <MeshContentTask Include="Assets\modelData\Temple Island.fbx" />
+    <MeshContentTask Include="Assets\modelData\Temple Object Gate.fbx" />
+    <MeshContentTask Include="Assets\modelData\Temple Object Small.fbx" />
+    <MeshContentTask Include="Assets\modelData\Temple Pyramid Big.fbx" />
+    <MeshContentTask Include="Assets\modelData\Temple Pyramid Small.fbx" />
     <MeshContentTask Include="Assets\modelData\test_box1.fbx" />
     <MeshContentTask Include="Assets\modelData\test_box2.fbx" />
     <MeshContentTask Include="Assets\modelData\test_box3.fbx" />
+    <MeshContentTask Include="Assets\modelData\Three Exit.fbx" />
     <MeshContentTask Include="Assets\modelData\ToonRTS_demo_Knight.FBX" />
+    <MeshContentTask Include="Assets\modelData\Tower.fbx" />
+    <MeshContentTask Include="Assets\modelData\Two Exit Corner.fbx" />
+    <MeshContentTask Include="Assets\modelData\Two Exit Straigth.fbx" />
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\Assets\modelData\%(Filename).cmo</ContentOutput>
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)\Assets\modelData\%(Filename).cmo</ContentOutput>
@@ -275,6 +302,7 @@
     <MeshContentTask Include="Assets\modelData\wall--.fbx" />
     <MeshContentTask Include="Assets\modelData\wall.fbx" />
     <MeshContentTask Include="Assets\modelData\wallgeit.fbx" />
+    <MeshContentTask Include="Assets\modelData\Water.fbx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\level\Enemy_lever.tkl" />

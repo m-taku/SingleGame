@@ -28,7 +28,7 @@ bool EnemyManager::Load()
 		//‚Æ‚è‚ ‚¦‚¸ƒvƒŒƒCƒ„[‚à
 		auto No = wcscmp(objData.name, (L"unityChan"));
 		if (No == 0) {
-			m_player->SetPosition({0.0f,1000.0f,0.0f});
+			m_player->SetPosition(/*{0.0f,0.0f,0.0f}*/{ -14203.2344f,403.032990f,-6998.72070f});
 			return true;
 		}
 		else {
