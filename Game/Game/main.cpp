@@ -31,7 +31,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//ƒJƒƒ‰‚ğ‰Šú‰»B
 	g_camera3D.SetPosition({ 0.0f, 150.0f, -1000.0f });
 	g_camera3D.SetTarget({ 0.0f, 100.0f, 0.0f });
-	g_camera3D.SetFar(10000.0f);	
+	g_camera3D.SetFar(1000000.0f);	
 	g_camera2D.SetTarget(CVector3::Zero());
 	g_camera2D.SetPosition({ 0.0f, 0.0f, -10.0f });
 	//g_camera2D.SetUpdateProjMatrixFunc(CCamera::enUpdateProjMatrixFunc_Ortho);

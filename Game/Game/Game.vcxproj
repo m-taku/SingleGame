@@ -118,6 +118,7 @@
     <ClCompile Include="Gameobject\Gameobject.cpp" />
     <ClCompile Include="Gameobject\GameobjectList.cpp" />
     <ClCompile Include="Gameobject\GameobjectManager.cpp" />
+    <ClCompile Include="Gameover.cpp" />
     <ClCompile Include="GaussianBlur.cpp" />
     <ClCompile Include="graphics\animation\Animation.cpp" />
     <ClCompile Include="graphics\animation\AnimationClip.cpp" />
@@ -194,6 +195,7 @@
     <ClInclude Include="Gameobject\Gameobject.h" />
     <ClInclude Include="Gameobject\GameobjectList.h" />
     <ClInclude Include="Gameobject\GameobjectManager.h" />
+    <ClInclude Include="Gameover.h" />
     <ClInclude Include="GaussianBlur.h" />
     <ClInclude Include="graphics\animation\Animation.h" />
     <ClInclude Include="graphics\animation\AnimationClip.h" />
@@ -267,6 +269,7 @@
     <MeshContentTask Include="Assets\modelData\jimennabi.fbx" />
     <MeshContentTask Include="Assets\modelData\jimennabi1.fbx" />
     <MeshContentTask Include="Assets\modelData\jimennabi2.fbx" />
+    <MeshContentTask Include="Assets\modelData\jimennabi20.fbx" />
     <MeshContentTask Include="Assets\modelData\jimennabi3.fbx" />
     <MeshContentTask Include="Assets\modelData\jimennabi5.fbx" />
     <MeshContentTask Include="Assets\modelData\kaka.fbx" />
@@ -278,6 +281,7 @@
     <MeshContentTask Include="Assets\modelData\Path Grass Pilar.fbx" />
     <MeshContentTask Include="Assets\modelData\Path Grass.fbx" />
     <MeshContentTask Include="Assets\modelData\Platform Mixed.fbx" />
+    <MeshContentTask Include="Assets\modelData\player1fbx.fbx" />
     <MeshContentTask Include="Assets\modelData\Sand.fbx" />
     <MeshContentTask Include="Assets\modelData\stageGround.fbx" />
     <MeshContentTask Include="Assets\modelData\Temple Island Temple.fbx" />

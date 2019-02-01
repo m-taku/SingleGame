@@ -19,11 +19,10 @@ bool Enemy::Load()
 {
 	//cmoファイルの読み込み。
 	m_model.Init(L"Assets/modelData/ToonRTS_demo_Knight.cmo");
-	//m_collider.Init(20.0f, 50.0f, m_position);
-	m_texture_hp.CreateFromDDSTextureFromFile(L"Resource/sprite/HP.dds");
-	m_texture_fram.CreateFromDDSTextureFromFile(L"Resource/sprite/HP_waku.dds");
-	m_Sprite_hp.Init(m_texture_hp.GetBody(), 100.0f, 25.0f);
-	m_Sprite_fram.Init(m_texture_fram.GetBody(), 100.0f, 25.0f);
+	m_collider.Init(40.0f, 50.0f, m_position);
+	InitTex();
+	Findarm();
+	InitAnim();
 	m_debugVecor = new VectorDraw(m_position);
 	m_Rot.MakeRotationFromQuaternion(m_angle);
 	m_Front.x = m_Rot.m[2][0];
@@ -31,6 +30,32 @@ bool Enemy::Load()
 	m_Front.z = m_Rot.m[2][2];
 	m_Front.Normalize();
 	m_position.y = 0.0f;
+	TransitionState(State_Attack);
+	m_model.UpdateWorldMatrix(m_position, m_angle, CVector3::One());
+	m_Leader->CopySkinModel().UpdateInstancingData(m_position, CQuaternion::Identity(), CVector3::One());
+	m_obj = m_hit->Create(&m_position, 300.0f, [&]() {Hit(); },HitReceive::enemy );	
+	return true;
+}
+void Enemy::InitTex()
+{
+	m_texture_hp.CreateFromDDSTextureFromFile(L"Resource/sprite/HP.dds");
+	m_texture_fram.CreateFromDDSTextureFromFile(L"Resource/sprite/HP_waku.dds");
+	m_Sprite_hp.Init(m_texture_hp.GetBody(), 100.0f, 25.0f);
+	m_Sprite_fram.Init(m_texture_fram.GetBody(), 100.0f, 25.0f);
+}
+void Enemy::InitAnim()
+{
+	m_animationclip[idle].Load(L"Assets/animData/enemy_idel.tka");
+	m_animationclip[idle].SetLoopFlag(true);
+	m_animationclip[attack].Load(L"Assets/animData/enemy_attack.tka");
+	m_animationclip[attack].SetLoopFlag(true);
+	m_animationclip[walk].Load(L"Assets/animData/enemy_walk.tka");
+	m_animationclip[walk].SetLoopFlag(true);
+	m_animation.Init(m_model, m_animationclip, animnum);
+	m_animation.Play(walk, 0.2f);
+}
+void Enemy::Findarm()
+{
 	static int hoge = -1;
 	int num = CopyModel().GetSkeleton().GetNumBones();
 	if (hoge == -1) {
@@ -40,26 +65,13 @@ bool Enemy::Load()
 			int result = wcscmp(L"Bip001 R Hand", bonename);
 			if (result == 0)
 			{
-				
+
 				hoge = CopyModel().GetSkeleton().GetBone(i)->GetNo();
 				break;
 			}
 		}
 	}
 	m_bolnNo = hoge;
-	m_animationclip[idle].Load(L"Assets/animData/enemy_idel.tka");
-	m_animationclip[idle].SetLoopFlag(true); 
-	m_animationclip[attack].Load(L"Assets/animData/enemy_attack.tka");
-	m_animationclip[attack].SetLoopFlag(true);	
-	m_animationclip[walk].Load(L"Assets/animData/enemy_walk.tka");
-	m_animationclip[walk].SetLoopFlag(true);
-	m_animation.Init(m_model, m_animationclip, animnum);
-	m_animation.Play(walk, 0.2f);
-	TransitionState(State_Attack);
-	m_model.UpdateWorldMatrix(m_position, m_angle, CVector3::One());
-	m_Leader->CopySkinModel().UpdateInstancingData(m_position, CQuaternion::Identity(), CVector3::One());
-	m_obj = m_hit->Create(&m_position, 300.0f, [&]() {Hit(); },HitReceive::enemy );	
-	return true;
 }
 void Enemy::TransitionState(State m_state)
 {
@@ -101,9 +113,9 @@ void Enemy::Update()
 	m_Front.y = 0.0f;
 	m_Front.Normalize();
 	m_moveVector = m_Front*m_speed;
-	//m_moveVector.y -= 9.8*10.0f;
-	m_position += m_moveVector * 1.0f / 30.0f;
-	//m_position= m_collider.Execute(1.0f / 30.0f, m_moveVector);
+	m_moveVector.y -= 9.8*10.0f;
+	//m_position += m_moveVector * 1.0f / 30.0f;
+	m_position= m_collider.Execute(1.0f / 30.0f, m_moveVector);
 	CVector3 distance = m_player->Get2Dposition() - Get2DPosition();
 	if (distance.Length() >= 600.0f)
 	{
@@ -124,8 +136,8 @@ void Enemy::postDraw()
 void Enemy::Draw()
 {
 	m_model.Draw(
-		g_camera2D.GetViewMatrix(),
-		g_camera2D.GetProjectionMatrix()
+		g_camera3D.GetViewMatrix(),
+		g_camera3D.GetProjectionMatrix()
 	);
 }
 void Enemy::DrawDebugVector()

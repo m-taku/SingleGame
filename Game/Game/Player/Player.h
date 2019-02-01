@@ -29,9 +29,10 @@ public:
 	/// アニメーション用のenum。
 	/// </summary>
 	enum animation {
-		idle,		//停止アニメーション
+		ded,
+		//idle,		//停止アニメーション
 		attack,
-		walk,
+		//walk,
 		animnum		//アニメーション状態
 	};
 	/// <summary>

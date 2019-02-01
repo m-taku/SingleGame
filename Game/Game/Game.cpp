@@ -19,7 +19,10 @@ Game::~Game()
 }
 void Game::OnDestroy()
 {
-	//g_objectManager->Release();
+	g_objectManager->DereteGO(m_player);
+	g_objectManager->DereteGO(m_camera);
+	g_objectManager->DereteGO(m_stage);
+	g_objectManager->DereteGO(m_enemyManager);
 	delete m_hitobjict;
 }
 bool Game::Load()
@@ -30,10 +33,10 @@ bool Game::Load()
 	m_camera->SetPlayer(m_player);
 	m_player->SetCamera(m_camera);
 	m_player->Sethit(m_hitobjict);
-	g_objectManager->NewGO<Stage>(GameObjectPriority_Default);
-	auto Enemy = g_objectManager->NewGO<EnemyManager>(GameObjectPriority_EnemyLeader);
-	Enemy->SetPlayer(m_player);
-	Enemy->Sethit(m_hitobjict);
+	m_stage = g_objectManager->NewGO<Stage>(GameObjectPriority_Default);
+	m_enemyManager = g_objectManager->NewGO<EnemyManager>(GameObjectPriority_EnemyLeader);
+	m_enemyManager->SetPlayer(m_player);
+	m_enemyManager->Sethit(m_hitobjict);
 	return true;
 }
 void Game::Update()

@@ -302,7 +302,7 @@ public:
 	/// </param>
 	void ChangeColliderPosition(CVector3 position)
 	{
-		//m_collider.SetPosition(m_position);
+		m_collider.SetPosition(m_position);
 	}
 	void Hit();
 	void Sethit(HitObjict* Hit)
@@ -317,6 +317,9 @@ public:
 	{
 		return m_life;
 	}
+	void Findarm();
+	void InitAnim();
+	void InitTex();
 private:
 	/// <summary>
 	/// デバック用のベクトル表示。
@@ -327,7 +330,7 @@ private:
 	ShaderResourceView m_texture_fram;						//体力用の2Ｄデータ(枠)
 	sprite m_Sprite_hp;										//体力用の2Ｄ(中身)
 	sprite m_Sprite_fram;									//体力用の2Ｄ(枠)
-	//CharacterController m_collider;					    //キャラクターコントローラー
+	CharacterController m_collider;					    //キャラクターコントローラー
 	AnimationClip m_animationclip[animnum];					//アニメーションクリップ
 	Animation m_animation;									//アニメーションのインスタンス
 	Enemyleader* m_Leader = nullptr;						//m_Leaderのポインタ

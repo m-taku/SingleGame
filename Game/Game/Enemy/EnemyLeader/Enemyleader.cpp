@@ -62,7 +62,7 @@ void Enemyleader::Update()
 			for (auto enemy : m_enemy) {
 				m_model.UpdateInstancingData(m_position + m_haiti[i], CQuaternion::Identity(), CVector3::One());
 				enemy->SetPosition(m_position + m_haiti[i++]);
-				//m_enemy[i]->ChangeColliderPosition(m_position + m_haiti[i]);
+				enemy->ChangeColliderPosition(m_position + m_haiti[i]);
 				m_state = m_group_state;
 			}
 		}
@@ -81,7 +81,7 @@ void Enemyleader::Update()
 			for (auto enemy : m_enemy) {
 				m_model.UpdateInstancingData(m_position + m_haiti[i], CQuaternion::Identity(), CVector3::One());
 				enemy->SetPosition(m_position + m_haiti[i++]);
-				//m_enemy[i]->ChangeColliderPosition(m_position + m_haiti[i]);
+				enemy->ChangeColliderPosition(m_position + m_haiti[i]);
 			}
 		}
 		break;
@@ -134,8 +134,8 @@ void Enemyleader::Update()
 	}
 	m_animation.Play(idle, 0.2f);
 	m_animation.Update(0.1f);
-	//g_graphicsEngine->SetShadoCaster(&m_model);
-	//m_model.SetShadowReciever(true);
+	g_graphicsEngine->SetShadoCaster(&m_model);
+	m_model.SetShadowReciever(true);
 }
 void Enemyleader::Draw()
 {

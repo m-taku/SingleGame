@@ -34,12 +34,11 @@ void UI::Update()
 	//else {
 	//	HP = 0.0f;
 	//}
-	if (g_pad[0].IsPress(enButtonY))
-	{
-		m_Damage = 0.0f;
-	}
+	//if (g_pad[0].IsPress(enButtonY))
+	//{
+	//	m_Damage = 0.0f;
+	//}
 	m_HP_bar_waku.Updete(m_HP_waku_position, CQuaternion::Identity(), CVector3::One(), { 0.0f,1.0f });
-
 	m_HP_bar.Updete(m_HP_position, CQuaternion::Identity(),{m_HP- m_Damage,1.0f,1.0f}, { 0.0f,1.0f });
 }
 void UI::PostDraw()

@@ -141,6 +141,7 @@ bool Skeleton::Load(const wchar_t* filePath)
 		if (bone->GetParentId() != -1) {
 			//親がいる。
 			m_bones.at(bone->GetParentId())->AddChild(bone);
+
 			//親の逆行列を取得する。h
 			const CMatrix& parentMatrix = m_bones.at(bone->GetParentId())->GetInvBindPoseMatrix();
 			//骨のバインドポーズの行列に、親の逆行列を乗算して、親の座標系での行列を求める。

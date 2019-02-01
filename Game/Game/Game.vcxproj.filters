@@ -203,6 +203,7 @@
     <ClCompile Include="Enemy\Enemy.cpp">
       <Filter>Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="Gameover.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -376,6 +377,7 @@
     <ClInclude Include="GaussianBlur.h" />
     <ClInclude Include="HitReceive.h" />
     <ClInclude Include="HitObjict.h" />
+    <ClInclude Include="Gameover.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
@@ -499,6 +501,8 @@
       <Filter>Assets\modelData</Filter>
     </MeshContentTask>
     <MeshContentTask Include="Assets\modelData\jimennabi5.fbx" />
+    <MeshContentTask Include="Assets\modelData\jimennabi20.fbx" />
+    <MeshContentTask Include="Assets\modelData\player1fbx.fbx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\level\stage_01.tkl">

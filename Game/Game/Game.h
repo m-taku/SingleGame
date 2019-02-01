@@ -1,6 +1,8 @@
 #pragma once
 class Player;
 class Gamecamera;
+class Stage;
+class EnemyManager;
 class HitObjict;
 /// <summary>
 /// ゲームクラス。
@@ -38,6 +40,8 @@ public:
 private:
 	Player* m_player=nullptr;					//プレイヤーのインスタンス
 	Gamecamera* m_camera = nullptr;					//ゲームカメラのインスタンス
+	Stage* m_stage = nullptr;
+	EnemyManager* m_enemyManager = nullptr;
 	HitObjict* m_hitobjict = nullptr;
 };
 

@@ -1,11 +1,21 @@
 #include "stdafx.h"
 #include "Navimake.h"
 #include "Physics/CollisionAttr.h"
+#include "title.h"
 
 
 Navimake::Navimake()
 {
-	m_model.Init(L"Assets/modelData/jimennabi5.cmo");
+
+	auto mode = g_objectManager->FindGO<title>("title");
+	wchar_t moveFilePath[256];
+	int No1 = 20;
+	if (mode->Getmode() == 1)
+	{
+		No1 = 1;
+	}
+	swprintf_s(moveFilePath, L"Assets/modelData/jimennabi%d.cmo", No1);
+	m_model.Init(moveFilePath);
 	//メッシュコライダーを作成。
 	m_meshCollider.CreateFromSkinModel(m_model, nullptr);
 	//メッシュコライダーから頂点バッファとインデックスバッファの情報をGetする
@@ -199,13 +209,12 @@ Navimake::~Navimake()
 void Navimake::Draw()
 {
 	static int j = 0;
-	if (j++ >= 10) {
-		m_model.Draw(
-			g_camera3D.GetViewMatrix(),
-			g_camera3D.GetProjectionMatrix()
-		);
-		j = 0;
-	}
+	//if (j++ >= 10) {
+	m_model.Draw(
+		g_camera3D.GetViewMatrix(),
+		g_camera3D.GetProjectionMatrix()
+	);
+	//}
 	for (int i = 0; i < m_vector.size(); i++) {
 		m_vector[i]->Draw();
 	}

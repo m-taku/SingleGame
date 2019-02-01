@@ -12,6 +12,11 @@ EnemyManager::EnemyManager()
 
 EnemyManager::~EnemyManager()
 {
+	for (auto enemy = m_enemy.begin(); enemy != m_enemy.end();)
+	{
+		g_objectManager->DereteGO(*enemy);
+		enemy = m_enemy.erase(enemy);
+	}
 	delete m_timer;
 }
 bool EnemyManager::Load()
@@ -20,7 +25,7 @@ bool EnemyManager::Load()
 	int kuku = 0;
 	auto mode = g_objectManager->FindGO<title>("title");
 	wchar_t moveFilePath[256];
-	swprintf_s(moveFilePath, L"Assets/level/Enemy_lever0%d.tkl", mode->Getmode() + 3);
+	swprintf_s(moveFilePath, L"Assets/level/Enemy_lever0%d.tkl", 5-mode->Getmode());
 	m_player = g_objectManager->FindGO<Player>("player");
 	Level level;
 	level.Init(moveFilePath, [&](LevelObjectData objData)
@@ -28,7 +33,7 @@ bool EnemyManager::Load()
 		//‚Æ‚è‚ ‚¦‚¸ƒvƒŒƒCƒ„[‚à
 		auto No = wcscmp(objData.name, (L"unityChan"));
 		if (No == 0) {
-			m_player->SetPosition(/*{0.0f,0.0f,0.0f}*/{ -14203.2344f,403.032990f,-6998.72070f});
+			m_player->SetPosition(objData.position/*{0.0f,0.0f,0.0f}*//*{ -14203.2344f,403.032990f,-6998.72070f}*/);
 			return true;
 		}
 		else {
