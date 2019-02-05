@@ -14,4 +14,5 @@ public:
 private:
 	std::list<HitReceive*> m_objict;
 };
+extern HitObjict* g_HitObjict;
 

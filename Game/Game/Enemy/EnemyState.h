@@ -4,7 +4,7 @@ class Player;
 /// <summary>
 /// ステートの基底クラス。
 /// </summary>
-class EnemyState
+class EnemyState:public Noncopyable
 {
 public:
 	/// <summary>

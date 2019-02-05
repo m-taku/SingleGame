@@ -159,7 +159,10 @@
     <ClCompile Include="physics\Physics.cpp" />
     <ClCompile Include="physics\PhysicsStaticObject.cpp" />
     <ClCompile Include="physics\RigidBody.cpp" />
+    <ClCompile Include="Player\Player_Attack.cpp" />
     <ClCompile Include="Player\Player.cpp" />
+    <ClCompile Include="Player\Player_State.cpp" />
+    <ClCompile Include="Player\Player_Move.cpp" />
     <ClCompile Include="PostEffect.cpp" />
     <ClCompile Include="RenderTarget.cpp" />
     <ClCompile Include="ShadowMap.cpp" />
@@ -240,7 +243,11 @@
     <ClInclude Include="physics\Physics.h" />
     <ClInclude Include="physics\PhysicsStaticObject.h" />
     <ClInclude Include="physics\RigidBody.h" />
+    <ClInclude Include="Player\PlayerState.h" />
+    <ClInclude Include="Player\Player_Attack.h" />
     <ClInclude Include="Player\Player.h" />
+    <ClInclude Include="Player\Player_State.h" />
+    <ClInclude Include="Player\Player_Move.h" />
     <ClInclude Include="PostEffect.h" />
     <ClInclude Include="RenderTarget.h" />
     <ClInclude Include="ShadowMap.h" />

@@ -48,7 +48,9 @@
 #include "GameObjectName.h"
 #include"font.h"
 #include"Timer.h"
+#include "HitObjict.h"
 extern GameobjectManager* g_objectManager;
+extern HitObjict* g_HitObjict;
 extern bool frame(CVector3 position);
 const float GRAVITY = 9.8f * 30;
 const float FRAME_BUFFER_W = 1280.0f;				//フレームバッファの幅。

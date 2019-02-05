@@ -204,6 +204,9 @@
       <Filter>Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Gameover.cpp" />
+    <ClCompile Include="Player\Player_State.cpp" />
+    <ClCompile Include="Player\Player_Attack.cpp" />
+    <ClCompile Include="Player\Player_Move.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -378,6 +381,10 @@
     <ClInclude Include="HitReceive.h" />
     <ClInclude Include="HitObjict.h" />
     <ClInclude Include="Gameover.h" />
+    <ClInclude Include="Player\Player_State.h" />
+    <ClInclude Include="Player\Player_Attack.h" />
+    <ClInclude Include="Player\PlayerState.h" />
+    <ClInclude Include="Player\Player_Move.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">

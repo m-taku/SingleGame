@@ -19,6 +19,7 @@
 // ウィンドウプログラムのメイン関数。
 ///////////////////////////////////////////////////////////////////
 GameobjectManager* g_objectManager;
+HitObjict* g_HitObjict;
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
 {
 	//ゲームの初期化。
@@ -47,6 +48,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	float m_fps = 0.0f;
 	//プレイヤー
 	//Player player;
+	g_HitObjict = new HitObjict;
 	GameobjectManager objectManage;
 	g_objectManager = &objectManage;
 	g_physics.SetDebugDrawMode(btIDebugDraw::DBG_DrawWireframe);
@@ -111,6 +113,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		g_graphicsEngine->EndRender();
 		m_timer->TimerStop();
 	}
+	delete g_HitObjict;
     delete g_graphicsEngine;
 	delete m_font;
 	delete m_timer;

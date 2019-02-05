@@ -20,7 +20,7 @@ void HitReceive::Create(const CVector3* pos, float radius, std::function<void()>
 }
 bool HitReceive::HitTest(CVector3 pos)
 {
-	auto rengs=*m_pos - pos;
+	auto rengs = *m_pos - pos;
 	//円形で判定（aabb等に変更する可能性あり）
 	if (rengs.Length() <= m_radius)
 	{

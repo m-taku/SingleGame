@@ -12,7 +12,7 @@ Navimake::Navimake()
 	int No1 = 20;
 	if (mode->Getmode() == 1)
 	{
-		No1 = 1;
+		No1 = 3;
 	}
 	swprintf_s(moveFilePath, L"Assets/modelData/jimennabi%d.cmo", No1);
 	m_model.Init(moveFilePath);

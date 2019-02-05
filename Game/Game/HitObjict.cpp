@@ -25,7 +25,7 @@ bool HitObjict::HitTest(CVector3 pos, HitReceive::objict_Name name)
 {
 	for (auto k : m_objict)
 	{
-		if (k->Getobjict_Name() != name) {
+		if (k->Getobjict_Name() == name) {
 			if (k->HitTest(pos))
 				return true;
 		}

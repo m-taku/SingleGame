@@ -1,7 +1,7 @@
 #pragma once
 #include "character/CharacterController.h"
 #include"UI.h"
-class HitObjict;
+class Player_State;
 class Gamecamera;
 class Navimake;
 /// <summary>
@@ -32,8 +32,13 @@ public:
 		ded,
 		//idle,		//停止アニメーション
 		attack,
-		//walk,
+		defens,
+		walk,
 		animnum		//アニメーション状態
+	};
+	enum State {
+		State_Attack,		//攻撃中
+		State_Move		//集合中
 	};
 	/// <summary>
 	/// Gemeobjectから継承したLoat関数。
@@ -50,6 +55,9 @@ public:
 	/// Gameobjectから継承したDraw関数
 	/// </summary>
 	void Draw() override;
+	/// <summary>
+	/// 
+	/// </summary>
 	void Hit();
 	/// <summary>
 	/// 2D（ｘ、ｚ）での現在のポジション。
@@ -67,6 +75,38 @@ public:
 		return position;
 	} 
 	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="Animation">
+	/// 
+	/// </param>
+	void ChangeAnimation(animation Animation)
+	{
+		m_animation.Play(Animation, 0.1f);
+	}
+	void UpdateFront()
+	{
+		m_mRot.MakeRotationFromQuaternion(m_rotation);
+		m_Front.x = m_mRot.m[2][0];
+		m_Front.y = m_mRot.m[2][1];
+		m_Front.z = m_mRot.m[2][2];
+		m_Front.Normalize();
+	}
+	bool GetanimationPlaying()
+	{
+		return m_animation.IsPlaying();
+	}
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="Animation">
+	/// 
+	/// </param>
+	bool AnimationPlaying()
+	{
+		return m_animation.IsPlaying();
+	}
+	/// <summary>
 	/// 3D（ｘ、ｙ、ｚ）での現在のポジション。
 	/// </summary>
 	/// <remarks>
@@ -78,6 +118,10 @@ public:
 	CVector3 Get3Dposition() const
 	{
 		return m_position;
+	}
+	void Setspeed(float speed)
+	{
+		m_speed = speed;
 	}
 	/// <summary>
 	/// 回転行列を取得。
@@ -119,6 +163,11 @@ public:
 	{
 		m_camera = camera;
 	}
+	Gamecamera* Getcamera()
+	{
+		return m_camera;
+	}
+	//カメラのポインタ
 	/// <summary>
 	/// ポジションのセット
 	/// </summary>
@@ -157,10 +206,12 @@ public:
 	{
 		m_collider.SetPosition(position);
 	}
-	void Sethit(HitObjict* Hit) 
+	void InitAnimation();
+	void Setrotation(CQuaternion rotation)
 	{
-		m_hit = Hit;
+		m_rotation = rotation;
 	}
+	void TransitionState(State m_state);
 private:
 	UI* m_ui = nullptr;
 	CharacterController m_collider;						//キャラクターコントローラー
@@ -177,9 +228,10 @@ private:
 	CVector3 m_amount = { 0.0f,0.0f,0.0f };				//スティックの移動量
 	float m_angle = 0.0f;								//回転角度（ラジアン）
 	VectorDraw* m_debugVector =nullptr;					//デバック用のベクトル表示
-	PlyerStatus m_plyerStatus;	
+	PlyerStatus m_plyerStatus;
+	Player_State* m_State = nullptr;
 	bool m_attac=false;
-	HitObjict* m_hit;
+	float m_speed = 0.0f;
 	//CVector3 m_angle = CVector3::Zero();				
 	//wchar_t bonename[50];								//名前
 	//int bonenum = 0;									

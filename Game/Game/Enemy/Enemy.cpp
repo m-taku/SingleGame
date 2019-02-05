@@ -33,7 +33,7 @@ bool Enemy::Load()
 	TransitionState(State_Attack);
 	m_model.UpdateWorldMatrix(m_position, m_angle, CVector3::One());
 	m_Leader->CopySkinModel().UpdateInstancingData(m_position, CQuaternion::Identity(), CVector3::One());
-	m_obj = m_hit->Create(&m_position, 300.0f, [&]() {Hit(); },HitReceive::enemy );	
+	m_obj = g_HitObjict->Create(&m_position, 300.0f, [&]() {Hit(); },HitReceive::enemy );
 	return true;
 }
 void Enemy::InitTex()
@@ -101,7 +101,7 @@ void Enemy::Update()
 	if (m_HP <= 0.01f)
 	{
 		m_life = false;
-		m_hit->Deleteobjict(m_obj);
+		g_HitObjict->Deleteobjict(m_obj);
 		return;
 	}
 	m_enemystate->Update();
@@ -117,7 +117,7 @@ void Enemy::Update()
 	//m_position += m_moveVector * 1.0f / 30.0f;
 	m_position= m_collider.Execute(1.0f / 30.0f, m_moveVector);
 	CVector3 distance = m_player->Get2Dposition() - Get2DPosition();
-	if (distance.Length() >= 600.0f)
+	if (distance.Length() >= 1000.0f)
 	{
 		ChangeLeaderState(Enemyleader::gathering);
 		SetLeaderPosition(Get3DPosition());

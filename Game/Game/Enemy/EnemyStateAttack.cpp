@@ -29,7 +29,7 @@ void EnemyStateAttack::Update()
 	auto distance = m_player->Get2Dposition() - m_enemy->Get2DPosition();
 	//m_debugVecor->Draw();
 	auto ka = (m_Swordcenter - m_oldSwordcenter) / 2 + m_Swordcenter;
-	m_enemy->Gethit()->HitTest(ka,HitReceive::enemy);
+	g_HitObjict->HitTest(ka,HitReceive::player);
 	m_oldSwordcenter = m_Swordcenter;
 	//CollisionTest();
 	if (distance.Length() >= 200.0f)

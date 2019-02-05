@@ -305,14 +305,6 @@ public:
 		m_collider.SetPosition(m_position);
 	}
 	void Hit();
-	void Sethit(HitObjict* Hit)
-	{
-		m_hit = Hit;
-	}
-	HitObjict* Gethit()
-	{
-		return m_hit;
-	}
 	bool GetLife()
 	{
 		return m_life;
@@ -354,7 +346,6 @@ private:
 	float m_HP = 1.0f;										//‚g‚o‚ÌŠ„‡
 	float m_speed = 0.0f;             				    	//ˆÚ“®‘¬“x
 	bool m_life = true;											//¶‘¶ƒtƒ‰ƒO
-	HitObjict* m_hit;
 	const HitReceive* m_obj;
 };
 

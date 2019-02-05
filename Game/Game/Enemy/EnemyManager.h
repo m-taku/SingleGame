@@ -37,14 +37,6 @@ public:
 	{
 		m_player = pleyer;
 	}
-	/// <summary>
-	/// 
-	/// </summary>
-	/// <param name="Hit"></param>
-	void Sethit(HitObjict* Hit)
-	{
-		m_hit = Hit;
-	}
 	void Leaderdet(Enemyleader* k)
 	{
 		m_enemy.erase(
@@ -57,5 +49,4 @@ private:
 	Font* m_font = nullptr;											//文字表示のインスタンス
 	int m_No = 0;
 	Timer* m_timer = nullptr;
-	HitObjict* m_hit;
 };

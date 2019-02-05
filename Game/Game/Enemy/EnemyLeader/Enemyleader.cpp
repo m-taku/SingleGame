@@ -22,7 +22,6 @@ bool Enemyleader::Load()
 		auto k= new Enemy;
 		k->SetPosition(m_position);
 		k->SetPlayer(m_player);
-		k->Sethit(m_hit);
 		k->SetLeader(this);
 		k->Load();
 		m_enemy.push_back(k);
