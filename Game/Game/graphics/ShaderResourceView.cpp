@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "ShaderResourceView.h"
+#include "g_SRVlist.h"
 
 
 ShaderResourceView::ShaderResourceView()
@@ -13,10 +14,10 @@ ShaderResourceView::~ShaderResourceView()
 }
 void ShaderResourceView::Release()
 {
-	if (m_srv != nullptr) {
-		m_srv->Release();
-		m_srv = nullptr;
-	}
+	//if (m_srv != nullptr) {
+	//	m_srv->Release();
+	//	m_srv = nullptr;
+	//}
 	m_isValid = false;
 }
 bool ShaderResourceView::Create(StucturedBuffer& structuredBuffer)
@@ -75,16 +76,21 @@ bool ShaderResourceView::Create(ID3D11Texture2D* texture)
 */
 bool ShaderResourceView::CreateFromDDSTextureFromFile(const wchar_t* fileName)
 {
-	Release();
-	HRESULT hr = DirectX::CreateDDSTextureFromFileEx(
-		g_graphicsEngine->GetD3DDevice(), fileName, 0,
-		D3D11_USAGE_DEFAULT, D3D11_BIND_SHADER_RESOURCE, 0, 0,
-		false, nullptr, &m_srv);
-	if (FAILED(hr)) {
-		//TK_WARNING_MESSAGE_BOX("Failed create texture");  //エラー出力
-
-		throw;
+	//Release();
+	m_srv = g_srvlist.Create(fileName);
+	//HRESULT hr = DirectX::CreateDDSTextureFromFileEx(
+	//g_graphicsEngine->GetD3DDevice(), fileName, 0,
+	//D3D11_USAGE_DEFAULT, D3D11_BIND_SHADER_RESOURCE, 0, 0,
+	//false, nullptr, &m_srv);
+	//if (FAILED(hr)) {
+	//	//TK_WARNING_MESSAGE_BOX("Failed create texture");  //エラー出力
+	//	throw;
+	//	return false;
+	//}
+	if (m_srv == nullptr)
+	{
 		return false;
 	}
+	m_isValid = true;
 	return true;
 }

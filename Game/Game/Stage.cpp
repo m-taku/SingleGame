@@ -12,7 +12,11 @@ Stage::Stage()
 
 Stage::~Stage()
 {
-	//g_objectManager->DereteGO(m_navimake);
+
+}
+void Stage::OnDestroy()
+{
+	g_objectManager->DereteGO(m_navimake);
 }
 bool Stage::Load()
 {

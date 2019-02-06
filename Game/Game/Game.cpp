@@ -15,14 +15,13 @@ Game::Game()
 }
 Game::~Game()
 {
-	//g_objectManager->NewGO<title>(0);
 }
 void Game::OnDestroy()
 {
-	g_objectManager->DereteGO(m_player);
 	g_objectManager->DereteGO(m_camera);
 	g_objectManager->DereteGO(m_stage);
 	g_objectManager->DereteGO(m_enemyManager);
+	g_objectManager->DereteGO(m_player);
 }
 bool Game::Load()
 {
@@ -37,6 +36,7 @@ bool Game::Load()
 }
 void Game::Update()
 {
+
 }
 void Game::Draw()
 {

@@ -7,33 +7,36 @@
 
 Enemy::Enemy()
 {
+
+
+	//体力用の2Ｄデータ(中身)				//体力用の2Ｄデータ(枠)
 }
 
 
 Enemy::~Enemy()
 {
 	delete m_enemystate;
-	delete m_debugVecor;
+//	delete m_debugVecor;
 }
 bool Enemy::Load()
 {
 	//cmoファイルの読み込み。
-	m_model.Init(L"Assets/modelData/ToonRTS_demo_Knight.cmo");
-	m_collider.Init(40.0f, 50.0f, m_position);
+	m_model.Init(m_Name);
+	//m_collider.Init(40.0f, 50.0f, m_position);
 	InitTex();
 	Findarm();
 	InitAnim();
-	m_debugVecor = new VectorDraw(m_position);
+	//m_debugVecor = new VectorDraw(m_position);
 	m_Rot.MakeRotationFromQuaternion(m_angle);
 	m_Front.x = m_Rot.m[2][0];
 	m_Front.y = m_Rot.m[2][1];
 	m_Front.z = m_Rot.m[2][2];
 	m_Front.Normalize();
+	TransitionState(State_Move);
 	m_position.y = 0.0f;
-	TransitionState(State_Attack);
 	m_model.UpdateWorldMatrix(m_position, m_angle, CVector3::One());
+	m_obj = g_HitObjict->Create(&m_position, 300.0f, [&]() {Hit(); }, HitReceive::enemy);
 	m_Leader->CopySkinModel().UpdateInstancingData(m_position, CQuaternion::Identity(), CVector3::One());
-	m_obj = g_HitObjict->Create(&m_position, 300.0f, [&]() {Hit(); },HitReceive::enemy );
 	return true;
 }
 void Enemy::InitTex()
@@ -113,9 +116,9 @@ void Enemy::Update()
 	m_Front.y = 0.0f;
 	m_Front.Normalize();
 	m_moveVector = m_Front*m_speed;
-	m_moveVector.y -= 9.8*10.0f;
-	//m_position += m_moveVector * 1.0f / 30.0f;
-	m_position= m_collider.Execute(1.0f / 30.0f, m_moveVector);
+	//m_moveVector.y -= 9.8*10.0f;
+	m_position += m_moveVector * 1.0f / 30.0f;
+	//m_position = m_collider.Execute(1.0f / 30.0f, m_moveVector);
 	CVector3 distance = m_player->Get2Dposition() - Get2DPosition();
 	if (distance.Length() >= 1000.0f)
 	{
@@ -159,10 +162,10 @@ void Enemy::DrawDebugVector()
 	}
 #ifdef _DEBUG
 	//@todo m_Sprite_angleで回した結果を見るためのデバッグコード
-	CVector3 hoge = CVector3::AxisZ()*-1;
-	m_Sprite_angle.Multiply(hoge);
-	m_debugVecor->Update(m_position, hoge, 1.0);
-	m_debugVecor->Draw();
+	//CVector3 hoge = CVector3::AxisZ()*-1;
+	//m_Sprite_angle.Multiply(hoge);
+	//m_debugVecor->Update(m_position, hoge, 1.0);
+	//m_debugVecor->Draw();
 #endif
 }
 void Enemy::HP_Draw()
@@ -179,13 +182,15 @@ void Enemy::FindAngle(CVector3 Vector)
 {
 	m_Front.y = 0;
 	m_Front.Normalize();
+	CVector3 vector = Vector;
+	vector.Normalize();
 	auto debag = m_Front;
-	auto Angle = acos(debag.Dot(Vector));
+	auto Angle = acos(debag.Dot(vector));
 	if (Angle >= CMath::DegToRad(1.0f))
 	{
 		SetSpeed(0.0f);
 		auto ka5 = CVector3::Zero();
-		ka5.Cross(debag, Vector);
+		ka5.Cross(debag, vector);
 		CQuaternion ma3;
 		if (ka5.y < 0)
 		{

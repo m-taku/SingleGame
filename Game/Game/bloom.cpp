@@ -144,7 +144,7 @@ void bloom::Draw(PostEffect& postEffect)
 		m_luminanceRT.ClearRenderTarget(clearColor);
 		//シーンをテクスチャとする。 
 		auto mainRTTexSRV = g_graphicsEngine->GetMainRenderTarget()->GetRenderTargetSRV();
-		deviceContext->PSSetShaderResources(0, 1, &mainRTTexSRV);
+		deviceContext->PSSetShaderResources(0, 1, &mainRTTexSRV);	
 		//フルスクリーン描画。 
 		postEffect.DrawFullScreenQuadPrimitive(deviceContext, m_vs, m_psLuminance);
 	}

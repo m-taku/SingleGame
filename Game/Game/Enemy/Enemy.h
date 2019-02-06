@@ -302,45 +302,62 @@ public:
 	/// </param>
 	void ChangeColliderPosition(CVector3 position)
 	{
-		m_collider.SetPosition(m_position);
+		//m_collider.SetPosition(m_position);
 	}
 	void Hit();
 	bool GetLife()
 	{
 		return m_life;
 	}
+	/// <summary>
+	/// 
+	/// </summary>
 	void Findarm();
+	/// <summary>
+	/// 
+	/// </summary>
 	void InitAnim();
+	/// <summary>
+	/// 
+	/// </summary>
 	void InitTex();
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="name"></param>
+	void SetfileName(const wchar_t* name)
+	{
+		m_Name = name;
+	}
 private:
 	/// <summary>
 	/// デバック用のベクトル表示。
 	/// </summary>
 	void DrawDebugVector();
 	SkinModel m_model;										//インスタンシング抜きの１人１人のインスタンス
-	ShaderResourceView m_texture_hp;						//体力用の2Ｄデータ(中身)
-	ShaderResourceView m_texture_fram;						//体力用の2Ｄデータ(枠)
+	ShaderResourceView m_texture_hp;
+	ShaderResourceView m_texture_fram;
 	sprite m_Sprite_hp;										//体力用の2Ｄ(中身)
 	sprite m_Sprite_fram;									//体力用の2Ｄ(枠)
-	CharacterController m_collider;					    //キャラクターコントローラー
+	//CharacterController m_collider;					    //キャラクターコントローラー
 	AnimationClip m_animationclip[animnum];					//アニメーションクリップ
 	Animation m_animation;									//アニメーションのインスタンス
 	Enemyleader* m_Leader = nullptr;						//m_Leaderのポインタ
 	Player* m_player = nullptr;								//Playerのポインタ
-	VectorDraw* m_debugVecor = nullptr;						//デバック用のベクトル表示
+	//VectorDraw* m_debugVecor = nullptr;						//デバック用のベクトル表示
 	Path m_path;											//経路探査のインスタンス
 	EnemyState* m_enemystate = nullptr;						//エネミーのステート
 	State m_state = State_Tracking;							//ステートの状態
 	CMatrix m_Rot;											//角度に関する行列
+	CVector3 m_Front = CVector3::Zero();					//エネミーの前方向
+	CQuaternion m_angle = CQuaternion::Identity();			//回転角度
 	CVector3 m_position = { 0.0f,150.0f,-30.0f };			//現在位置
 	CVector3 m_moveVector = CVector3::Zero();				//移動させるベクトル
-	CVector3 m_Front = CVector3::Zero();					//エネミーの前方向
 	CVector3 m_Sprite_Front = CVector3::AxisZ()*-1;	        //テクスチャの前方向
-	CVector3 m_oldposition = CVector3::Zero();				//1フレーム前のポジション（壁擦りなどの判定などなど）
 	CVector3 m_nextpos = CVector3::Zero();					//経路探査で出た次のポジション
-	CQuaternion m_angle = CQuaternion::Identity();			//回転角度
+	const wchar_t* m_Name = nullptr;
 	CQuaternion m_Sprite_angle = CQuaternion::Identity();	//テクスチャの回転角度
-	const float m_kaku = 5.0f;								//1フレームで回転させる最大角度(degree)
+	const float m_kaku = 10.0f;								//1フレームで回転させる最大角度(degree)
 	const float m_margin = CMath::DegToRad(m_kaku);			//1フレームで回転させる最大角度(radian)
 	int m_bolnNo = 0;										//手のボーンの番号
 	float m_HP = 1.0f;										//ＨＰの割合

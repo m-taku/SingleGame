@@ -40,6 +40,26 @@ void Player_Move::Update()
 		CQuaternion rod;
 		rod.SetRotation(CVector3::AxisY(), m_angle);
 		m_player->Setrotation(rod);
+		if (m_amount.Length() >= 0.5f)
+		{
+			m_player->ChangeAnimation(Player::run);
+		}
+		else
+		{
+			m_player->ChangeAnimation(Player::walk);
+		}
+	}
+	else
+	{
+		m_player->ChangeAnimation(Player::idle);
 	}
 	m_player->Setspeed(m_amount.Length());
+
+	if (g_pad[0].IsTrigger(enButtonX)) {
+		m_player->TransitionState(Player::State_Attack);
+	}
+	else if (g_pad[0].IsTrigger(enButtonRB1))
+	{
+		m_player->TransitionState(Player::State_Guard);
+	}
 }

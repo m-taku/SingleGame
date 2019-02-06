@@ -4,7 +4,11 @@
 
 Enemyleader::Enemyleader()
 {
-
+	m_Rot.MakeRotationFromQuaternion(m_angle);
+	m_Front.x = m_Rot.m[2][0];
+	m_Front.y = m_Rot.m[2][1];
+	m_Front.z = m_Rot.m[2][2];
+	m_Front.Normalize();
 }
 Enemyleader::~Enemyleader()
 {
@@ -16,27 +20,34 @@ Enemyleader::~Enemyleader()
 }
 bool Enemyleader::Load()
 {
-	m_model.Init(L"Assets/modelData/ToonRTS_demo_Knight.cmo",SOLDIER);
-	m_path = new Path;
-	for (int i = 0; i < SOLDIER; i++) {
-		auto k= new Enemy;
-		k->SetPosition(m_position);
-		k->SetPlayer(m_player);
-		k->SetLeader(this);
-		k->Load();
-		m_enemy.push_back(k);
-		m_position += m_haiti[i];
+	auto enemy = new Enemy;
+	enemy->SetPosition(m_position);
+	enemy->SetPlayer(m_player);
+	enemy->SetLeader(this);
+	enemy->SetfileName(m_Name);
+	enemy->Load();
+	m_enemy.push_back(enemy);
+	m_position.x += 10.0f;
+	//m_collider.Init(10.0f, 10.0f, position);	
+	m_ninzuu+=10;
+	if (m_ninzuu < SOLDIER)
+	{
+		return false;
 	}
-	//m_collider.Init(10.0f, 10.0f, position);
-	m_animationclip[idle].Load(L"Assets/animData/enemy_idel.tka");
-	m_animationclip[idle].SetLoopFlag(true);
-	m_animationclip[attack].Load(L"Assets/animData/enemy_attack1.tka");
-	m_animationclip[attack].SetLoopFlag(true);
-	m_animationclip[walk].Load(L"Assets/animData/enemy_walk.tka");
-	m_animationclip[walk].SetLoopFlag(true);
-	m_animation.Init(m_model, m_animationclip, animnum);
-	m_animation.Play(idle, 0.2f);
-	return true;
+	else {
+		m_path = new Path;
+		ChangeGroup_state();
+		m_model.Init(m_Name, SOLDIER);
+		m_animationclip[idle].Load(L"Assets/animData/enemy_idel.tka");
+		m_animationclip[idle].SetLoopFlag(true);
+		m_animationclip[attack].Load(L"Assets/animData/enemy_attack1.tka");
+		m_animationclip[attack].SetLoopFlag(true);
+		m_animationclip[walk].Load(L"Assets/animData/enemy_walk.tka");
+		m_animationclip[walk].SetLoopFlag(true);
+		m_animation.Init(m_model, m_animationclip, animnum);
+		m_animation.Play(idle, 0.2f);
+		return true;
+	}
 }
 void Enemyleader::Update()
 {
@@ -49,7 +60,9 @@ void Enemyleader::Update()
 	switch (m_state)
 	{
 	case group_stop:
-		distance = m_player->Get2Dposition() - m_position;
+		distance = m_player->Get2Dposition() - m_position;	
+		m_position += m_speed;
+		//Ç±Ç±Ç≈å¬ï Ç…ïœçX
 		if (distance.Length() < 500.0f)
 		{
 			for (auto enemy: m_enemy) {
@@ -59,16 +72,20 @@ void Enemyleader::Update()
 		}
 		else {
 			for (auto enemy : m_enemy) {
-				m_model.UpdateInstancingData(m_position + m_haiti[i], CQuaternion::Identity(), CVector3::One());
-				enemy->SetPosition(m_position + m_haiti[i++]);
-				enemy->ChangeColliderPosition(m_position + m_haiti[i]);
+				m_model.UpdateInstancingData(enemy->Get2DPosition() + m_speed, CQuaternion::Identity(), CVector3::One());
+				enemy->SetPosition(enemy->Get2DPosition() + m_speed);
+				enemy->SetAngle(m_angle);
+				//enemy->ChangeColliderPosition(m_position + m_haiti[i]);
 				m_state = m_group_state;
 			}
+			g_graphicsEngine->SetShadoCaster(&m_model);
+			m_model.SetShadowReciever(true);
 		}
 		break;
 	case group_move:
 		Move();
 		distance = m_player->Get2Dposition() - m_position;
+
 		if (distance.Length() < 500.0f)
 		{
 			for (auto enemy : m_enemy) {
@@ -78,10 +95,14 @@ void Enemyleader::Update()
 		}
 		else {
 			for (auto enemy : m_enemy) {
-				m_model.UpdateInstancingData(m_position + m_haiti[i], CQuaternion::Identity(), CVector3::One());
-				enemy->SetPosition(m_position + m_haiti[i++]);
-				enemy->ChangeColliderPosition(m_position + m_haiti[i]);
+				m_model.UpdateInstancingData(enemy->Get2DPosition() /*+ m_speed*/, m_angle/* CQuaternion::Identity()*//*enemy->GetAngle()*/, CVector3::One());
+				enemy->SetPosition(enemy->Get2DPosition() + m_speed);
+				enemy->SetAngle(m_angle);
+				//enemy->ChangeColliderPosition(m_position + m_haiti[i]);
+				m_state = m_group_state;
 			}
+			g_graphicsEngine->SetShadoCaster(&m_model);
+			m_model.SetShadowReciever(true);
 		}
 		break;
 	case person:
@@ -133,8 +154,7 @@ void Enemyleader::Update()
 	}
 	m_animation.Play(idle, 0.2f);
 	m_animation.Update(0.1f);
-	g_graphicsEngine->SetShadoCaster(&m_model);
-	m_model.SetShadowReciever(true);
+
 }
 void Enemyleader::Draw()
 {
@@ -157,10 +177,10 @@ void Enemyleader::Draw()
 }
 void Enemyleader::Move()
 {
-	CVector3 speed = CVector3::Zero();
+	m_speed = CVector3::Zero();
 	CVector3 nowpos = m_position;
-	speed = m_nextpos - nowpos;
-	if (speed.Length() <= 50.0f)
+	m_speed = m_nextpos - nowpos;
+	if (m_speed.Length() <= 50.0f)
 	{
 		m_nextpos = m_path->PathPos();
 		if (m_nextpos.x == m_oldposition.x&&m_nextpos.y == m_oldposition.y&&m_nextpos.z == m_oldposition.z)
@@ -170,35 +190,47 @@ void Enemyleader::Move()
 		}
 		m_oldposition = m_nextpos;
 	}
-	speed.y = 0.0;
-	speed.Normalize();
-	m_position += speed * 1.0f / 30.0f *100.0f;
-	//m_Front.y = 0;
-	//m_Front.Normalize();
-	//auto debag = m_Front;
-	//auto Angle = acos(debag.Dot(Vector));
-	//if (Angle >= CMath::DegToRad(1.0f))
-	//{
-	//	SetSpeed(0.0f);
-	//	auto ka5 = CVector3::Zero();
-	//	ka5.Cross(debag, Vector);
-	//	CQuaternion ma3;
-	//	if (ka5.y < 0)
-	//	{
-	//		ka5 = CVector3::AxisY()*-1;
-	//	}
-	//	else
-	//	{
-	//		ka5 = CVector3::AxisY();
-	//	}
-	//	if (Angle <= m_margin)
-	//	{
-	//		ma3.SetRotation(ka5, Angle);
-	//	}
-	//	else
-	//	{
-	//		ma3.SetRotationDeg(ka5, m_kaku);
-	//	}
-	//	m_angle.Multiply(ma3, m_angle);
-	//}
+	float speed = 100.0f;
+	static int m_fream = 0;
+	if (++m_fream > 100) {
+		m_path->Course(nowpos, m_player->Get2Dposition());
+		m_nextpos = m_path->PathPos();
+		m_fream = 0;
+	}	
+	m_speed.y = 0.0;
+	m_speed.Normalize();
+	m_Rot.MakeRotationFromQuaternion(m_angle);
+	m_Front.x = m_Rot.m[2][0];
+	m_Front.y = m_Rot.m[2][1];
+	m_Front.z = m_Rot.m[2][2];
+	m_Front.y = 0;
+	m_Front.Normalize();
+	auto debag = m_Front;
+	auto Angle = acos(debag.Dot(m_speed));
+	if (Angle >= CMath::DegToRad(1.0f))
+	{
+		speed /= 2;
+		auto ka5 = CVector3::Zero();
+		ka5.Cross(debag, m_speed);
+		CQuaternion ma3;
+		if (ka5.y < 0)
+		{
+			ka5 = CVector3::AxisY()*-1;
+		}
+		else
+		{
+			ka5 = CVector3::AxisY();
+		}
+		if (Angle <= m_margin)
+		{
+			ma3.SetRotation(ka5, Angle);
+		}
+		else
+		{
+			ma3.SetRotationDeg(ka5, m_kaku);
+		}
+		m_angle.Multiply(ma3, m_angle);
+	}
+	m_speed = m_speed * speed*1.0f / 30.0f;
+	m_position += m_speed;
 }

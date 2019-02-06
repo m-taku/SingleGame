@@ -105,13 +105,13 @@
     <ClCompile Include="color.cpp" />
     <ClCompile Include="Enemy\EnemyManager.cpp" />
     <ClCompile Include="Enemy\EnemyStategathering.cpp" />
-    <ClCompile Include="Enemy\EnemyLeader\EnemySteatGroupMove.cpp" />
     <ClCompile Include="Enemy\EnemyStateAttack.cpp" />
     <ClCompile Include="Enemy\Enemy.cpp" />
     <ClCompile Include="Enemy\EnemyLeader\Enemyleader.cpp" />
     <ClCompile Include="Enemy\EnemyState.cpp" />
     <ClCompile Include="Enemy\EnemyStateMove.cpp" />
     <ClCompile Include="Enemy\EnemyStateTracking.cpp" />
+    <ClCompile Include="Fade.cpp" />
     <ClCompile Include="font.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Gamecamera.cpp" />
@@ -140,6 +140,7 @@
     <ClCompile Include="graphics\sprite.cpp" />
     <ClCompile Include="graphics\SpriteData.cpp" />
     <ClCompile Include="graphics\UnorderedAccessView.cpp" />
+    <ClCompile Include="g_SRVlist.cpp" />
     <ClCompile Include="HID\Pad.cpp" />
     <ClCompile Include="HitObjict.cpp" />
     <ClCompile Include="HitReceive.cpp" />
@@ -163,6 +164,9 @@
     <ClCompile Include="Player\Player.cpp" />
     <ClCompile Include="Player\Player_State.cpp" />
     <ClCompile Include="Player\Player_Move.cpp" />
+    <ClCompile Include="Player\Player_Guard.cpp" />
+    <ClCompile Include="Player\Player_Die.cpp" />
+    <ClCompile Include="Player\Player_Hit.cpp" />
     <ClCompile Include="PostEffect.cpp" />
     <ClCompile Include="RenderTarget.cpp" />
     <ClCompile Include="ShadowMap.cpp" />
@@ -183,13 +187,13 @@
     <ClInclude Include="color.h" />
     <ClInclude Include="Enemy\EnemyManager.h" />
     <ClInclude Include="Enemy\EnemyStategathering.h" />
-    <ClInclude Include="Enemy\EnemyLeader\EnemySteatGroupMove.h" />
     <ClInclude Include="Enemy\EnemyStateAttack.h" />
     <ClInclude Include="Enemy\Enemy.h" />
     <ClInclude Include="Enemy\EnemyLeader\Enemyleader.h" />
     <ClInclude Include="Enemy\EnemyState.h" />
     <ClInclude Include="Enemy\EnemyStateMove.h" />
     <ClInclude Include="Enemy\EnemyStateTracking.h" />
+    <ClInclude Include="Fade.h" />
     <ClInclude Include="font.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Gamecamera.h" />
@@ -222,6 +226,7 @@
     <ClInclude Include="graphics\SpriteData.h" />
     <ClInclude Include="graphics\UnorderedAccessView.h" />
     <ClInclude Include="Enemy\Enenystate.h" />
+    <ClInclude Include="g_SRVlist.h" />
     <ClInclude Include="HID\Pad.h" />
     <ClInclude Include="HitObjict.h" />
     <ClInclude Include="HitReceive.h" />
@@ -248,6 +253,9 @@
     <ClInclude Include="Player\Player.h" />
     <ClInclude Include="Player\Player_State.h" />
     <ClInclude Include="Player\Player_Move.h" />
+    <ClInclude Include="Player\Player_Guard.h" />
+    <ClInclude Include="Player\Player_Die.h" />
+    <ClInclude Include="Player\Player_Hit.h" />
     <ClInclude Include="PostEffect.h" />
     <ClInclude Include="RenderTarget.h" />
     <ClInclude Include="ShadowMap.h" />

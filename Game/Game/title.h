@@ -1,4 +1,5 @@
 #pragma once
+#include"Fade.h"
 /// <summary>
 /// タイトル表示クラス。
 /// </summary>
@@ -48,6 +49,7 @@ private:
 	sprite m_yajiSprite;									//タイトルの矢印用のインスタンス
 	CVector3 m_pos = { -300.0f,-250.0f,0.0f };
 	mode moudo = test;
+	Fade m_fade;
 	float m_toumei = 0.0f;									//フェイドの度合い
 	float m_faderate = 0.0f;
 };

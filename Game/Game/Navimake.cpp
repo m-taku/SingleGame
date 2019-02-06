@@ -12,7 +12,7 @@ Navimake::Navimake()
 	int No1 = 20;
 	if (mode->Getmode() == 1)
 	{
-		No1 = 3;
+		No1 = 1;
 	}
 	swprintf_s(moveFilePath, L"Assets/modelData/jimennabi%d.cmo", No1);
 	m_model.Init(moveFilePath);
@@ -146,17 +146,17 @@ Navimake::Navimake()
 		}
 	}
 	//////ここからデバック用の中点表示
-	{
-		std::vector<CVector3> centerposition;
-		m_vector.push_back(new VectorDraw(m_seru[0]->centerposition,m_seru.size()));
-		for (int i = 0; i < m_seru.size(); i++)
-		{
-			centerposition.push_back(m_seru[i]->centerposition);
-		}
-		m_vector[m_vector.size() - 1]->Update(centerposition);
-	}
+	//{
+	//	std::vector<CVector3> centerposition;
+	//	m_vector.push_back(new VectorDraw(m_seru[0]->centerposition,m_seru.size()));
+	//	for (int i = 0; i < m_seru.size(); i++)
+	//	{
+	//		centerposition.push_back(m_seru[i]->centerposition);
+	//	}
+	//	m_vector[m_vector.size() - 1]->Update(centerposition);
+	//}
 	//ここからデバック用のリンク表示
-	{
+	/*{
 		std::vector<CVector3> centerposition1;
 		std::vector<CVector3> Vectorlist;
 		std::vector<float> Vectorpore;
@@ -177,7 +177,7 @@ Navimake::Navimake()
 		}
 		m_vector.push_back(new VectorDraw(m_seru[0]->centerposition, centerposition1.size()));
 		m_vector[m_vector.size()-1]->Update(centerposition1.begin(), Vectorlist.begin(), Vectorpore.begin());
-	}
+	}*/
 	//剛体を作成、
 	RigidBodyInfo rbInfo;
 	rbInfo.collider = &m_meshCollider; //剛体に形状(コライダー)を設定する。
@@ -208,13 +208,12 @@ Navimake::~Navimake()
 }
 void Navimake::Draw()
 {
-	static int j = 0;
-	//if (j++ >= 10) {
+	m_model.SetShadowReciever(true);
+
 	m_model.Draw(
 		g_camera3D.GetViewMatrix(),
 		g_camera3D.GetProjectionMatrix()
 	);
-	//}
 	for (int i = 0; i < m_vector.size(); i++) {
 		m_vector[i]->Draw();
 	}

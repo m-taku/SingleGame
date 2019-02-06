@@ -48,7 +48,7 @@ public:
 	/// <returns>
 	/// 削除成功でtrue、失敗でfalse。
 	/// </returns>
-	bool DereteGo(Gameobject* object,int no);
+	bool DereteGo(Gameobject* object);
 	/// <summary>
 	/// ある優先度の中にあるGameobjectのリストの取得。
 	/// エンジン側の処理のため外で呼ばないで！！

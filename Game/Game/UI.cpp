@@ -28,16 +28,6 @@ bool UI::Load()
 }
 void UI::Update()
 {
-	//if (HP > 0.0f) {
-	//	HP -= 0.01f;
-	//}
-	//else {
-	//	HP = 0.0f;
-	//}
-	//if (g_pad[0].IsPress(enButtonY))
-	//{
-	//	m_Damage = 0.0f;
-	//}
 	m_HP_bar_waku.Updete(m_HP_waku_position, CQuaternion::Identity(), CVector3::One(), { 0.0f,1.0f });
 	m_HP_bar.Updete(m_HP_position, CQuaternion::Identity(),{m_HP- m_Damage,1.0f,1.0f}, { 0.0f,1.0f });
 }
@@ -63,7 +53,7 @@ void UI::PostDraw()
 	m_font.Draw(
 		toubatu,		//表示する文字列。
 		{ 500.0f,-300.0f },			//表示する座標。0.0f, 0.0が画面の中心。
-		{ 0.0f,0.0f,0.0f,1.0f },
+		Col,//{ 0.0f,0.0f,0.0f,1.0f },
 		0.0f,
 		3.0f
 	);

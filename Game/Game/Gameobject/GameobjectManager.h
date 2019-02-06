@@ -126,6 +126,6 @@ private:
 	enum { NUM_PRIORITY = 20 };								//優先順位の数。
 	int m_DeleteNo = 0;										//DeleteListの番号
 	std::array<GameobjectList, NUM_PRIORITY>	m_List;		//Gemeobjectのリスト（優先度付き）
-	std::map<Gameobject*, int> m_DeleteList[2];				//deleteの際の保存場所（2つあるのはデストラクタでDeleteGOが呼ばれた時の対策）
+	std::list<Gameobject*> m_DeleteList[2];				//deleteの際の保存場所（2つあるのはデストラクタでDeleteGOが呼ばれた時の対策）
 	std::map<Gameobject*, int> m_newLest;					//newの際の保存場所（）
 };

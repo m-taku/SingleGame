@@ -23,14 +23,16 @@ public:
 		float Max_HP = 100.0f;				//マックスのHP
 		float Attack = 10.0f;				//基本の攻撃力
 		float defense = 10.0f;				//基本の守備力
-		float speed = 500.0f;				//	
+		float speed = 500.0f;				//
 	};
 	/// <summary>
 	/// アニメーション用のenum。
 	/// </summary>
 	enum animation {
 		ded,
-		//idle,		//停止アニメーション
+		idle,		//停止アニメーション
+		run,
+		hit,
 		attack,
 		defens,
 		walk,
@@ -38,8 +40,15 @@ public:
 	};
 	enum State {
 		State_Attack,		//攻撃中
-		State_Move		//集合中
+		State_Move,			//
+		State_Guard,		//
+		State_Hit,
+		State_did
 	};
+	/// <summary>
+	/// Gameobjectから継承したOnDestroy関数
+	/// </summary>
+	void OnDestroy() override;
 	/// <summary>
 	/// Gemeobjectから継承したLoat関数。
 	/// </summary>
@@ -80,9 +89,9 @@ public:
 	/// <param name="Animation">
 	/// 
 	/// </param>
-	void ChangeAnimation(animation Animation)
+	void ChangeAnimation(animation Animation,float taim=0.2f)
 	{
-		m_animation.Play(Animation, 0.1f);
+		m_animation.Play(Animation, taim);
 	}
 	void UpdateFront()
 	{
@@ -102,10 +111,10 @@ public:
 	/// <param name="Animation">
 	/// 
 	/// </param>
-	bool AnimationPlaying()
-	{
-		return m_animation.IsPlaying();
-	}
+	//bool AnimationPlaying()
+	//{
+	//	return m_animation.IsPlaying();
+	//}
 	/// <summary>
 	/// 3D（ｘ、ｙ、ｚ）での現在のポジション。
 	/// </summary>
@@ -163,6 +172,10 @@ public:
 	{
 		m_camera = camera;
 	}
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <returns></returns>
 	Gamecamera* Getcamera()
 	{
 		return m_camera;
@@ -188,7 +201,8 @@ public:
 	void Damage(float damage)
 	{
 		
-		auto wariai = (damage- m_plyerStatus.defense) / m_plyerStatus.Max_HP/*HPの最大値*/;
+		auto wariai = (damage - m_plyerStatus.defense) / m_plyerStatus.Max_HP;
+		/*HPの最大値*/
 
 		//ここで０～1の形に変換
 		m_ui->SetDamage(wariai);
@@ -206,11 +220,22 @@ public:
 	{
 		m_collider.SetPosition(position);
 	}
+	/// <summary>
+	/// 
+	/// </summary>
 	void InitAnimation();
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="rotation"></param>
 	void Setrotation(CQuaternion rotation)
 	{
 		m_rotation = rotation;
 	}
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="m_state"></param>
 	void TransitionState(State m_state);
 private:
 	UI* m_ui = nullptr;
@@ -230,8 +255,9 @@ private:
 	VectorDraw* m_debugVector =nullptr;					//デバック用のベクトル表示
 	PlyerStatus m_plyerStatus;
 	Player_State* m_State = nullptr;
-	bool m_attac=false;
+	bool m_ded=false;
 	float m_speed = 0.0f;
+
 	//CVector3 m_angle = CVector3::Zero();				
 	//wchar_t bonename[50];								//名前
 	//int bonenum = 0;									

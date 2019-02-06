@@ -219,8 +219,8 @@ void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 	static 	Color color;
 	LightBuffer LCb;
 	LCb.angle = { 0.707f,-0.707f,0.0f,1.0f };
-	m_colre = 20.0f / 360.0f;
-	LCb.color = color.HSVtoRGB({ m_colre,1.5f,3.0f });
+	m_colre = 1.0f / 360.0f;
+	LCb.color = color.HSVtoRGB({ m_colre,1.0f,15.0f });
 	LCb.Camerapos = g_camera3D.GetPosition();
 	d3dDeviceContext->UpdateSubresource(m_cb, 0, nullptr, &vsCb, 0, 0);
 	d3dDeviceContext->UpdateSubresource(m_ritocb, 0, nullptr, &LCb, 0, 0);
@@ -233,20 +233,6 @@ void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 	d3dDeviceContext->PSSetSamplers(0, 1, &m_samplerState);
 	//ボーン行列をGPUに転送。
 	m_skeleton.SendBoneMatrixArrayToGPU(); 
-	//m_skinModelData->FindMesh([&](auto& mesh) {
-	//for (auto& mamam : m_modelDx->meshes) {
-	//	for (std::unique_ptr<DirectX::ModelMeshPart>& mesh : mamam->meshParts)
-	//	{
-	//		ModelEffect* effect = reinterpret_cast<ModelEffect*>(mesh->effect.get());
-	//		//頂点1つ1つにインスタンシング用のシェーダーに変
-	//		if (m_numInstance > 1) {
-	//			effect->ChangeShader(Instancing);
-	//		}
-	//		else {
-	//			effect->ChangeShader(Normal);
-	//		}
-	//	}
-	//}
 	FindMesh([&](auto& mesh)
 	{
 		ModelEffect* effect = reinterpret_cast<ModelEffect*>(mesh->effect.get());

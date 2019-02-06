@@ -62,6 +62,7 @@ public:
 	void SetPosition(CVector3 Position)
 	{
 		m_position = Position;
+
 	}
 	/// <summary>
 	/// スキンモデルインスタンスの取得。
@@ -139,41 +140,44 @@ public:
 	{
 		m_hit = Hit;
 	}
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <returns></returns>
 	bool Getlife()
 	{
 		return m_life;
 	}
+	void SetfileName(const wchar_t* name)
+	{
+		m_Name = name;
+	}
 private:
-	static const int SOLDIER = 3;								//リーダーを含む部隊の総数（定数）
-	CVector3 m_haiti[5] = {
-	{ 70.0f,0.0f,0.0f },
-	{-70.0f,0.0f,70.0f},
-	{-70.0f,0.0f,-70.0f},
-	{0.0f,0.0f,70.0f},
-	{0.0f,0.0f,0.0f}
-	};														    //発生位置の調整のための数値			
-	CVector3 m_haiti2[5] = {
-		{ 70.0f,0.0f,0.0f },
-	{ -70.0f,0.0f,70.0f },
-	{ -70.0f,0.0f,-70.0f },
-	{ 70.0f,0.0f,-70.0f },
-	{ 0.0f,0.0f,70.0f }
-	};													        //中心から移動分
+	int SOLDIER = 1;											//リーダーを含む部隊の総数（定数）											        //中心から移動分
 	SkinModel m_model;											//インスタンシング用の描画インスタンス
 	//CharacterController m_collider;							//キャラクターコントローラー
 	AnimationClip m_animationclip[animnum];						//アニメーションクリップ
 	Animation m_animation;										//アニメーションのインスタンス
+	HitObjict* m_hit = nullptr;
 	Path* m_path=nullptr;									    //経路探査用のインスタンス
 	Player* m_player = nullptr;									//プレイヤーのインスタンス
-	std::list<Enemy*> m_enemy;						//エネミーのインスタンス（SOLDIER）
+	std::list<Enemy*> m_enemy;						            //エネミーのインスタンス（SOLDIER）
 	CVector3 m_position = { 0.0f,100.0f,0.0f };				    //架空のリーダーのポジション
 	CVector3 m_nextpos = CVector3::Zero();						//パス移動用の次ポジション
+	CVector3 m_speed = { 0.0f,0.0f,0.0f };						//
 	CVector3 m_oldposition = CVector3::Zero();					//1フレーム前のポジション（壁擦りなどの判定などなど）
 	State m_state = { group_stop };								//グループの今の状態
 	State m_group_state = { group_stop };						//グループでの今の状態
 	int m_remaining = SOLDIER;									//今現在のエネミー総数		
 	int m_ninzuu = 0;											//今現在のグループ状態の人数（集合時に使用）
-	HitObjict* m_hit;
 	bool m_life = true;											//生存フラグ
+	const wchar_t* m_Name = nullptr;							//
+	//回転関係の変数
+	CMatrix m_Rot;												//角度に関する行列
+	CVector3 m_Front = CVector3::Zero();						//エネミーの前方向
+	CQuaternion m_angle = CQuaternion::Identity();				//回転角度
+	const float m_kaku = 10.0f;									//1フレームで回転させる最大角度(degree)
+	const float m_margin = CMath::DegToRad(m_kaku);				//1フレームで回転させる最大角度(radian)
+										
 };
 

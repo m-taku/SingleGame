@@ -48,9 +48,9 @@ public:
 	/// <returns>
 	/// 残りの体力（float）
 	/// </returns>
-	const float& GetHP() const
+	float GetHP() const
 	{
-		return m_HP;
+		return m_HP- m_Damage;
 	}
 private:
 	ShaderResourceView m_Texture_bar_waku;					//HPバーの枠のリソース

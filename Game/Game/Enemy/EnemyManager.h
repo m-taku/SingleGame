@@ -43,10 +43,12 @@ public:
 			std::remove(m_enemy.begin(), m_enemy.end(),k),
 			m_enemy.end());
 	}
+	void SpawnEnemy(CVector3 pos, const wchar_t* fileName);
 private:
 	Player * m_player = nullptr;
 	std::vector<Enemyleader*> m_enemy;
 	Font* m_font = nullptr;											//文字表示のインスタンス
 	int m_No = 0;
+	std::vector<CVector3> m_spawnpos;
 	Timer* m_timer = nullptr;
 };

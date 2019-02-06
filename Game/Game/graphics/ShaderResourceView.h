@@ -1,10 +1,10 @@
 #pragma once
 class StucturedBuffer;
-	/*!
-	*@brief	ShaderResourceView
-	*@details
-	* テクスチャやストラクチャバッファなど、シェーダーで使用するリソースで使用するビュー。
-	*/
+/*!
+*@brief	ShaderResourceView
+*@details
+* テクスチャやストラクチャバッファなど、シェーダーで使用するリソースで使用するビュー。
+*/
 class ShaderResourceView : Noncopyable
 {
 	public:

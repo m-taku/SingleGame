@@ -13,9 +13,15 @@ Player::Player()
 }
 Player::~Player()
 {
-	//delete m_hit;
 	delete m_State;
 	delete m_debugVector;
+}
+void Player::OnDestroy()
+{
+	g_objectManager->DereteGO(m_ui);
+	//delete m_State;
+	//delete m_debugVector;
+	//g_objectManager->DereteGO(m_ui);
 }
 bool Player::Load()
 {
@@ -43,7 +49,6 @@ bool Player::Load()
 }
 void Player::TransitionState(State m_state)
 {
-	//int j = 4;
 	delete m_State;
 	switch (m_state)
 	{
@@ -52,6 +57,16 @@ void Player::TransitionState(State m_state)
 		break;
 	case State_Move:
 		m_State = new Player_Move(this);
+		break;
+	case State_Guard:
+		m_State = new Player_Guard(this);
+		break;
+	case State_Hit:
+		m_State = new Player_Hit(this);
+		break;
+	case State_did:
+		m_State = new Player_Die(this);
+		break;
 	default:
 		break;
 	}
@@ -67,80 +82,28 @@ void Player::InitAnimation()
 	m_animationclip[defens].Load(L"Assets/animData/pla_defens.tka");
 	m_animationclip[defens].SetLoopFlag(true);
 	m_animationclip[walk].Load(L"Assets/animData/pla_walk.tka");
-	m_animationclip[walk].SetLoopFlag(true);
+	m_animationclip[walk].SetLoopFlag(true);	
+	m_animationclip[idle].Load(L"Assets/animData/pla_idle.tka");
+	m_animationclip[idle].SetLoopFlag(true); 
+	m_animationclip[run].Load(L"Assets/animData/pla_run.tka");
+	m_animationclip[run].SetLoopFlag(true);
+	m_animationclip[hit].Load(L"Assets/animData/pla_hit.tka");
+	m_animationclip[hit].SetLoopFlag(false);
 	m_animation.Init(m_model, m_animationclip, animnum);
-	m_animation.Play(walk, 0.2f);
+	m_animation.Play(idle, 0.2f);
 }
 void Player::Update()
 {
 	m_State->Update();
 	m_debugVector->Update({0.0f,0.0f,0.0f});
-	//ワールド行列の更新。	
-	//ガードしたい
-	{
-		if (g_pad[0].IsTrigger(enButtonRB1))
-		{
-			m_animation.Play(defens, 0.2f);
-			auto ka = m_position;
-			ka.y += 100.0f;
-			ka += m_Front * 100.0f;
-			m_debugVector->Update(ka);
-			g_HitObjict->HitTest(ka, HitReceive::enemy);
-			m_attac = true;
-		}
-		else
-		{
-			if (!m_animation.IsPlaying())
-			{
-				m_animation.Play(walk, 0.20f);
-				m_attac = false;
-			}
-			if (m_attac)
-			{
-				auto ka = m_position;
-				ka.y += 100.0f;
-				ka += m_Front * 100.0f;
-				m_debugVector->Update(ka);
-				g_HitObjict->HitTest(ka, HitReceive::enemy);
-			}
-		}
-	}
-	//死んだーーーー
-	{
-		if (g_pad[0].IsTrigger(enButtonRB2))
-		{
-			m_animation.Play(ded, 0.2f);
-			auto ka = m_position;
-			ka.y += 100.0f;
-			ka += m_Front * 100.0f;
-			m_debugVector->Update(ka);
-			g_HitObjict->HitTest(ka, HitReceive::enemy);
-			m_attac = true;
-		}
-		else
-		{
-			if (!m_animation.IsPlaying())
-			{
-				m_animation.Play(walk, 0.20f);
-				m_attac = false;
-			}
-			if (m_attac)
-			{
-				auto ka = m_position;
-				ka.y += 100.0f;
-				ka += m_Front * 100.0f;
-				m_debugVector->Update(ka);
-				g_HitObjict->HitTest(ka, HitReceive::enemy);
-			}
-		}
-	}
-	if (g_pad[0].IsTrigger(enButtonX)) {
-		TransitionState(State_Attack);
-	}
 	UpdateFront();
 	m_movespeed.x = m_Front.x * m_plyerStatus.speed*m_speed;
 	m_movespeed.z = m_Front.z * m_plyerStatus.speed*m_speed;
 	m_movespeed.y -= GRAVITY;
+	if (g_pad[0].IsTrigger(enButtonA))
+	{
+		m_movespeed.y = 5000.0f;
+	}
 	m_position = m_collider.Execute(1.0f / 30.0f, m_movespeed);
 	m_model.UpdateWorldMatrix(m_position, m_rotation, { 1.0f,1.0f,1.0f });
 	g_graphicsEngine->SetShadoCaster(&m_model);
@@ -165,8 +128,19 @@ void Player::Draw()
 }
 void Player::Hit()
 {
+	if (!m_ded) {
+		Damage(20.0f);
+		if (m_ui->GetHP() <= 0.0f)
+		{
+			TransitionState(State_did);
+			m_ded = true;
+		}
+		else
+		{
+			TransitionState(State_Hit);
+		}
+	}
 
-	Damage(20.0f);
 	//ここにダメージの処理
 	//m_position.y += 1000.0f;
 

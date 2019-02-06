@@ -170,7 +170,6 @@
     <ClCompile Include="Enemy\EnemyLeader\Enemyleader.cpp">
       <Filter>Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy\EnemyLeader\EnemySteatGroupMove.cpp" />
     <ClCompile Include="Monn.cpp" />
     <ClCompile Include="title.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -207,6 +206,11 @@
     <ClCompile Include="Player\Player_State.cpp" />
     <ClCompile Include="Player\Player_Attack.cpp" />
     <ClCompile Include="Player\Player_Move.cpp" />
+    <ClCompile Include="Player\Player_Guard.cpp" />
+    <ClCompile Include="Player\Player_Die.cpp" />
+    <ClCompile Include="Player\Player_Hit.cpp" />
+    <ClCompile Include="Fade.cpp" />
+    <ClCompile Include="g_SRVlist.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -342,7 +346,6 @@
     <ClInclude Include="Enemy\EnemyLeader\Enemyleader.h">
       <Filter>Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy\EnemyLeader\EnemySteatGroupMove.h" />
     <ClInclude Include="Monn.h" />
     <ClInclude Include="title.h" />
     <ClInclude Include="Game.h" />
@@ -385,6 +388,11 @@
     <ClInclude Include="Player\Player_Attack.h" />
     <ClInclude Include="Player\PlayerState.h" />
     <ClInclude Include="Player\Player_Move.h" />
+    <ClInclude Include="Player\Player_Guard.h" />
+    <ClInclude Include="Player\Player_Die.h" />
+    <ClInclude Include="Player\Player_Hit.h" />
+    <ClInclude Include="Fade.h" />
+    <ClInclude Include="g_SRVlist.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">

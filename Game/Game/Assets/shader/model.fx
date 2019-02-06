@@ -220,14 +220,14 @@ float4 PSMain( PSInput In ) : SV_Target0
 			float zInShadowMap = g_shadowMap.Sample(Sampler, shadowMapUV);
 			if (zInLVP > zInShadowMap+0.001f) {
 				//‰e‚ª—‚¿‚Ä‚¢‚é‚Ì‚ÅAŒõ‚ğã‚­‚·‚é
-				lig *= 0.3f;
+				lig *= 0.1f;
 			}
 		
 		}
 	}
     float4 finalColor = float4(0.0f, 0.0f, 0.0f, 1.0f);
-	finalColor.xyz = albedoColor.xyz *lig +albedoColor.xyz*0.3;
-	//finalColor.x=shadowMapUV.x;
+	finalColor.xyz = albedoColor.xyz *lig;
+	finalColor.xyz += albedoColor.xyz*0.3;
 
 	return finalColor;
 }
