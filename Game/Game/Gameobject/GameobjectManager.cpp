@@ -26,12 +26,14 @@ void GameobjectManager::Execute()
 	for (auto& list : m_List) {
 		for (auto& objedct : list.GetList())
 		{
-			if (objedct->GetLodefrag()) {
-				objedct->Update();
-			}
-			else {
-				if (objedct->Load())
-					objedct->SetLoadfrag(true);
+			if (objedct->Getislife()) {
+				if (objedct->GetLodefrag()) {
+					objedct->Update();
+				}
+				else {
+					if (objedct->Load())
+						objedct->SetLoadfrag(true);
+				}
 			}
 		}
 	}
@@ -52,6 +54,7 @@ void GameobjectManager::Execute()
 	//デバック用の剛体表示
 	g_graphicsEngine->PostEffectUpdate();
 #ifdef _DEBUG
+//
 	//g_physics.DebubDrawWorld();
 #endif
 
@@ -96,6 +99,7 @@ bool GameobjectManager::DereteGO(Gameobject* pointa)
 		if (objedct == pointa)
 		{
 			m_DeleteList[m_DeleteNo].push_back(pointa);
+			pointa->deleteobjiect();
 			return true;
 		}
 	}
@@ -110,6 +114,7 @@ bool GameobjectManager::DereteGO(char* Name)
 			if (Name == objedct->GetName()) {
 				auto map = list.GetList();
 				m_DeleteList[m_DeleteNo].push_back(map[No]);
+				map[No]->deleteobjiect();
 				return true;
 			}
 		}

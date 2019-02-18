@@ -9,24 +9,29 @@ HitObjict::HitObjict()
 
 HitObjict::~HitObjict()
 {
+	Release();
+}
+void HitObjict::Release()
+{
 	for (auto k : m_objict)
 	{
 		delete k;
 	}
+	m_objict.clear();
 }
-const HitReceive* HitObjict::Create(const CVector3* pos, float radius, std::function<void()>  objict, HitReceive::objict_Name name)
+const HitReceive* HitObjict::Create(const CVector3* pos, float radius, std::function<void(float damage)>  objict, HitReceive::objict_Name name)
 {
 	auto ka = new HitReceive;
 	ka->Create(pos,radius,objict,name);
 	m_objict.push_back(ka);
 	return ka;
 }
-bool HitObjict::HitTest(CVector3 pos, HitReceive::objict_Name name)
+bool HitObjict::HitTest(CVector3 pos,float damage,HitReceive::objict_Name name)
 {
 	for (auto k : m_objict)
 	{
 		if (k->Getobjict_Name() == name) {
-			if (k->HitTest(pos))
+			if (k->HitTest(pos, damage))
 				return true;
 		}
 	}

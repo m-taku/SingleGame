@@ -23,37 +23,45 @@ EnemyStateAttack::~EnemyStateAttack()
 }
 void EnemyStateAttack::Update()
 {
-	m_enemy->ChangeAnimation(Enemy::attack); 
-	FindSwordpos();
-	m_debugVecor->Update(m_handpos,m_Up, 300.0f);
 	auto distance = m_player->Get2Dposition() - m_enemy->Get2DPosition();
 	m_enemy->FindAngle(distance);
-	//m_debugVecor->Draw();
-	auto hitpoint = (m_Swordcenter - m_oldSwordcenter) / 2 + m_Swordcenter;
-	g_HitObjict->HitTest(hitpoint,HitReceive::player);
-	m_oldSwordcenter = m_Swordcenter;
-	//CollisionTest();
-	if (distance.Length() >= 200.0f)
+	if (distance.Length()<=300.0f) {
+		m_enemy->ChangeAnimation(Enemy::attack);
+		FindSwordpos();
+		//m_debugVecor->Draw();
+		auto hitpoint = (m_Swordcenter - m_oldSwordcenter) / 2 + m_Swordcenter;
+		g_HitObjict->HitTest(hitpoint,20.0f, HitReceive::player);
+		m_oldSwordcenter = m_Swordcenter;
+		m_debugVecor->Update(m_handpos);
+		//CollisionTest();
+	}
+	else
+	{
+		m_enemy->ChangeAnimation(Enemy::walk);
+		m_enemy->SetSpeed(100.0f);
+	}
+	if (distance.Length() >= 500.0f)
 	{
 		m_enemy->SetSpeed(500.0f);
 		m_enemy->TransitionState(Enemy::State_Move);
 	}
+	//m_debugVecor->Draw();
 
 }
-struct Attack : public btCollisionWorld::ConvexResultCallback
-{
-	bool hit = false; //次の番号
-
-						 //衝突したときに呼ばれるコールバック関数。
-	virtual	btScalar	addSingleResult(btCollisionWorld::LocalConvexResult& convexResult, bool normalInWorldSpace)
-	{
-		if (convexResult.m_hitCollisionObject->getUserIndex() != enCollisionAttr_Character) {
-			return 0.0f;
-		}
-		hit = true;
-		return 0.0f;
-	}
-};
+//struct Attack : public btCollisionWorld::ConvexResultCallback
+//{
+//	bool hit = false; //次の番号
+//
+//						 //衝突したときに呼ばれるコールバック関数。
+//	virtual	btScalar	addSingleResult(btCollisionWorld::LocalConvexResult& convexResult, bool normalInWorldSpace)
+//	{
+//		if (convexResult.m_hitCollisionObject->getUserIndex() != enCollisionAttr_Character) {
+//			return 0.0f;
+//		}
+//		hit = true;
+//		return 0.0f;
+//	}
+//};
 //void EnemyStateAttack::CollisionTest()
 //{
 //	//移動前の剣の上方向べクトルと

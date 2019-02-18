@@ -19,6 +19,7 @@ void AnimationClip::Load(const wchar_t* filePath)
 {
 	FILE* fp = _wfopen(filePath, L"rb");
 	if (fp == nullptr) {
+
 #ifdef _DEBUG
 		//ファイルが開けなかったときの処理。
 		char message[256];

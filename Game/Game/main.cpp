@@ -54,6 +54,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	g_physics.SetDebugDrawMode(btIDebugDraw::DBG_DrawWireframe);
 	auto tittle = g_objectManager->NewGO<title>(0,"title");
 	int debak = 0;
+
+	float m_time = 0;
 	while (DispatchWindowMessage() == true)
 	{
 		m_timer->TimerRestart();
@@ -72,7 +74,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		m_timeTotal += (float)m_timer->GetSeconds();
 		count++;
 		if (count == 30) {
-			m_fps = 1.0f / (m_timeTotal / count);
+			m_fps = count / m_timeTotal;
 			m_timeTotal = 0.0f;
 			count = 0;
 		}
@@ -84,19 +86,18 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		m_font->Draw(
 			fps,
 			{ w*-0.5f,h*0.5f },
-			{ 0.0f,0.0f,0.0f,1.0f },
+			{ 1.0f,0.0f,0.0f,1.0f },
 			0.0f,															//ＦＰＳ表示、、、まだ（２Ｄからユウセン）
 			2.0f,
 			{ 0.0f, 1.0f }
 		);
-		static float m_time = 0;
-		wchar_t m_fps[256];
+		wchar_t Seconds[256];
 		m_time += m_timer->GetSeconds();
-		swprintf_s(m_fps, L"秒　＝ %.2f", m_time);
+		swprintf_s(Seconds, L"秒　＝ %.2f", m_time);
 		m_font->Draw(
-			m_fps,
+			Seconds,
 			{ w*0.5f,h*0.5f },
-			{ 0.0f,0.0f,0.0f,1.0f },
+			{ 1.0f,0.0f,0.0f,1.0f },
 			0.0f,															//ＦＰＳ表示、、、まだ（２Ｄからユウセン）
 			2.0f,
 			{ 1.0f, 1.0f }

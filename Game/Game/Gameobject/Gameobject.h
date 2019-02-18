@@ -100,10 +100,23 @@ public:
 	{
 		return this;
 	}
-	virtual void Hit() {};
+	/// <summary>
+	/// deleteするときにエンジンで呼ばれる関数
+	/// (エンジン側の処理のため外で呼ばないで！！)
+	/// </summary>
+	void deleteobjiect()
+	{
+		m_islife = false;
+	}
+	bool Getislife()
+	{
+		return m_islife;
+	}
+	//virtual void Hit() {};
 private:
 	std::string m_Name = "NULL";     	//インスタンスの名前
 	int m_priority = 0;					//優先度
 	bool m_Loadfrag = false;			//ロード完了したか
+	bool m_islife = true;
 };
 

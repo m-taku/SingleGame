@@ -130,7 +130,7 @@ void Path::Course(CVector3 sturt, CVector3 end)
 		{
 			Smoothing(&m_coursepasu);
 		}
-		m_pathdata->DebugVector(m_coursepasu);
+		//m_pathdata->DebugVector(m_coursepasu);
 	}
 	for (auto ereas : open) {
 		delete ereas;

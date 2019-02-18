@@ -42,6 +42,8 @@ private:
 	Gamecamera* m_camera = nullptr;					//ゲームカメラのインスタンス
 	Stage* m_stage = nullptr;
 	EnemyManager* m_enemyManager = nullptr;
+	UI* m_ui = nullptr;
+	Score* m_score = nullptr;
 	//HitObjict* m_hitobjict = nullptr;
 };
 

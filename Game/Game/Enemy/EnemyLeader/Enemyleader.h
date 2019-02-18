@@ -2,6 +2,7 @@
 #include"../../Player/Player.h"
 #include "character/CharacterController.h"
 #include"../../Path.h"
+#include"Score.h"
 #include <array> 
 /// <summary>
 /// Enemy1グループの動作クラス。
@@ -40,7 +41,7 @@ public:
 	/// </summary>
 	enum animation 	{
 		idle,		//停止アニメーション
-		attack,
+		attack,		
 		walk,
 		animnum		//アニメーション状態
 	};
@@ -152,8 +153,12 @@ public:
 	{
 		m_Name = name;
 	}
+	void SetScore(Score* score)
+	{
+		m_Score = score;
+	}
 private:
-	int SOLDIER = 1;											//リーダーを含む部隊の総数（定数）											        //中心から移動分
+	int SOLDIER = 3;											//リーダーを含む部隊の総数（定数）											        //中心から移動分
 	SkinModel m_model;											//インスタンシング用の描画インスタンス
 	//CharacterController m_collider;							//キャラクターコントローラー
 	AnimationClip m_animationclip[animnum];						//アニメーションクリップ
@@ -172,6 +177,7 @@ private:
 	int m_ninzuu = 0;											//今現在のグループ状態の人数（集合時に使用）
 	bool m_life = true;											//生存フラグ
 	const wchar_t* m_Name = nullptr;							//
+	Score* m_Score = nullptr;
 	//回転関係の変数
 	CMatrix m_Rot;												//角度に関する行列
 	CVector3 m_Front = CVector3::Zero();						//エネミーの前方向

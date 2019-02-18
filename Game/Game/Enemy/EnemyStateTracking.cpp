@@ -33,10 +33,4 @@ void EnemyStateTracking::Update()
 		//enemy->Setmove(speed);
 		m_enemy->TransitionState(Enemy::State_Move);
 	}
-	if (distance.Length() >= 500.0f)
-	{
-		//speed.y = 800.0f;
-		//enemy->Setmove(speed);
-		m_enemy->TransitionState(Enemy::State_Move);
-	}
 }

@@ -9,12 +9,17 @@ Navimake::Navimake()
 
 	auto mode = g_objectManager->FindGO<title>("title");
 	wchar_t moveFilePath[256];
-	int No1 = 20;
-	if (mode->Getmode() == 1)
+	switch (mode->Getmode())
 	{
-		No1 = 1;
+	case 0:
+		swprintf_s(moveFilePath, L"Assets/modelData/jimennabi_H.cmo");
+		break;
+	case 1:
+		swprintf_s(moveFilePath, L"Assets/modelData/jimennabi%d.cmo", 10);
+		break;
+	default:
+		break;
 	}
-	swprintf_s(moveFilePath, L"Assets/modelData/jimennabi%d.cmo", No1);
 	m_model.Init(moveFilePath);
 	//メッシュコライダーを作成。
 	m_meshCollider.CreateFromSkinModel(m_model, nullptr);
@@ -23,7 +28,6 @@ Navimake::Navimake()
 	for (int i = 0; i < m_meshCollider.Getok(); i++) {
 		auto vertex = m_meshCollider.Getvertex(i);
 		auto index = m_meshCollider.GetIndex(i);
-		
 		for (int i = 0; i < index.size();) {
 			//１つのポリゴン（セル）に分ける
 			SData* data = new SData;
@@ -33,9 +37,12 @@ Navimake::Navimake()
 			auto vector1 = data->position[1] - data->position[0];
 			auto vector2 = data->position[2] - data->position[0];
 			CVector3 k;
+			vector1.Normalize();
+			vector2.Normalize();
 			k.Cross(vector2, vector1);
 			k.Normalize();
-			if (!(k.x <= 0.5&&k.y >= 0.5&&k.z <= 0.5))
+			float j = acos(k.Dot(CVector3::AxisY()));
+			if (CMath::DegToRad(45.0f)<=j)
 			{
 				delete data;
 				continue;
@@ -64,7 +71,7 @@ Navimake::Navimake()
 					}
 				}
 				//ポリゴン（セル）情報を使ってポリゴンを内包するコリジョン生成
-				m_collider->Init(Circle.Length() / 2, 100.0f, data->centerposition);
+				m_collider->Init(Circle.Length() / 2, 10.0f, data->centerposition);
 				g_physics.ContactTest(*m_collider, [&](const btCollisionObject& contactObject)
 				{
 					frag = true;
@@ -146,17 +153,18 @@ Navimake::Navimake()
 		}
 	}
 	//////ここからデバック用の中点表示
-	//{
-	//	std::vector<CVector3> centerposition;
-	//	m_vector.push_back(new VectorDraw(m_seru[0]->centerposition,m_seru.size()));
-	//	for (int i = 0; i < m_seru.size(); i++)
-	//	{
-	//		centerposition.push_back(m_seru[i]->centerposition);
-	//	}
-	//	m_vector[m_vector.size() - 1]->Update(centerposition);
-	//}
+	{
+		std::vector<CVector3> centerposition;
+		m_vector.push_back(new VectorDraw(m_seru[0]->centerposition,m_seru.size()));
+		for (int i = 0; i < m_seru.size(); i++)
+		{
+			centerposition.push_back(m_seru[i]->centerposition);
+		}
+		m_vector[m_vector.size() - 1]->Update(centerposition);
+	}
+
 	//ここからデバック用のリンク表示
-	/*{
+	{
 		std::vector<CVector3> centerposition1;
 		std::vector<CVector3> Vectorlist;
 		std::vector<float> Vectorpore;
@@ -177,7 +185,7 @@ Navimake::Navimake()
 		}
 		m_vector.push_back(new VectorDraw(m_seru[0]->centerposition, centerposition1.size()));
 		m_vector[m_vector.size()-1]->Update(centerposition1.begin(), Vectorlist.begin(), Vectorpore.begin());
-	}*/
+	}
 	//剛体を作成、
 	RigidBodyInfo rbInfo;
 	rbInfo.collider = &m_meshCollider; //剛体に形状(コライダー)を設定する。

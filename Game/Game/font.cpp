@@ -22,15 +22,33 @@ Font::~Font()
 }
 void Font::BeginDraw()
 {
+	D3D11_BLEND_DESC BLEND_DETE;
+	BLEND_DETE.AlphaToCoverageEnable = false;
+	BLEND_DETE.IndependentBlendEnable = false;
+	BLEND_DETE.RenderTarget[0].BlendEnable = 1;
+	BLEND_DETE.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+	BLEND_DETE.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+	BLEND_DETE.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+	BLEND_DETE.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_SRC_ALPHA;
+	BLEND_DETE.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_INV_SRC_ALPHA;
+	BLEND_DETE.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+	BLEND_DETE.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+	ID3D11BlendState* BlendState;
+	ID3D11DeviceContext* d3dDeviceContext = g_graphicsEngine->GetD3DDeviceContext();
+	ID3D11Device* d3dDevice = g_graphicsEngine->GetD3DDevice();
+	d3dDevice->CreateBlendState(&BLEND_DETE, &BlendState);
+	d3dDeviceContext->OMSetBlendState(BlendState, nullptr, 0xFFFFFFFF);
 	m_spriteBatch->Begin(
 		DirectX::SpriteSortMode_Deferred,
-		nullptr,
+		BlendState,
 		nullptr,
 		nullptr,
 		nullptr,
 		nullptr,
 		m_scaleMat
 	);
+
+
 }
 void Font::EndDraw()
 {
@@ -61,9 +79,9 @@ void Font::EndDraw()
 
 		MemoryBarrier();
 	}
-	{
+	//{
 		d3dDeviceContext->RSSetState(g_graphicsEngine->mrasterizerState());
-	}
+	//}
 	{
 		D3D11_DEPTH_STENCIL_DESC desc = {};
 		desc.DepthEnable = true;

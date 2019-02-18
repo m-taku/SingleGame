@@ -36,7 +36,7 @@ public:
 	/// </remarks>
 	void EndDraw();
 	/// <summary>
-	/// 描画。
+	/// 描画10111。
 	/// </summary>
 	/// <param name="text">
 	/// 表示したいテキスト。

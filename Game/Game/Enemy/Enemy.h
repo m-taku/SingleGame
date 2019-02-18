@@ -292,6 +292,16 @@ public:
 		m_animation.Play(Animation,0.1f);
 	}
 	/// <summary>
+	/// アニメーションが再生中かどうか
+	/// </summary>
+	/// <returns>
+	/// trueで再生中
+	/// </returns>
+	bool GetanimationPlaying()
+	{
+		//return m_animation.IsPlaying();
+	}
+	/// <summary>
 	/// キャラクターコントローラーの交代の更新
 	/// </summary>
 	/// <remarks>
@@ -302,9 +312,9 @@ public:
 	/// </param>
 	void ChangeColliderPosition(CVector3 position)
 	{
-		//m_collider.SetPosition(m_position);
+		m_collider.SetPosition(m_position);
 	}
-	void Hit();
+	void Hit(float damage);
 	bool GetLife()
 	{
 		return m_life;
@@ -329,6 +339,10 @@ public:
 	{
 		m_Name = name;
 	}
+	void SetScore(Score* score)
+	{
+		m_Score = score;
+	}
 private:
 	/// <summary>
 	/// デバック用のベクトル表示。
@@ -339,7 +353,7 @@ private:
 	ShaderResourceView m_texture_fram;
 	sprite m_Sprite_hp;										//体力用の2Ｄ(中身)
 	sprite m_Sprite_fram;									//体力用の2Ｄ(枠)
-	//CharacterController m_collider;					    //キャラクターコントローラー
+	CharacterController m_collider;					    //キャラクターコントローラー
 	AnimationClip m_animationclip[animnum];					//アニメーションクリップ
 	Animation m_animation;									//アニメーションのインスタンス
 	Enemyleader* m_Leader = nullptr;						//m_Leaderのポインタ
@@ -356,6 +370,7 @@ private:
 	CVector3 m_Sprite_Front = CVector3::AxisZ()*-1;	        //テクスチャの前方向
 	CVector3 m_nextpos = CVector3::Zero();					//経路探査で出た次のポジション
 	const wchar_t* m_Name = nullptr;
+	Score* m_Score = nullptr;
 	CQuaternion m_Sprite_angle = CQuaternion::Identity();	//テクスチャの回転角度
 	const float m_kaku = 10.0f;								//1フレームで回転させる最大角度(degree)
 	const float m_margin = CMath::DegToRad(m_kaku);			//1フレームで回転させる最大角度(radian)

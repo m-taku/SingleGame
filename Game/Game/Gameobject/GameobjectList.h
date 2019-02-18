@@ -26,15 +26,6 @@ public:
 		m_ObjectList.push_back(object);
 		
 	}
-	//template<class T>
-	//T* NewGo(int No)
-	//{
-	//	T* object = new T;
-	//	object->setpriority(No);
-	//	ObjectList.push_back(object);
-	//	Name.push_back("NULL");
-	//	return object;
-	//}	
 	/// <summary>
 	/// 1つ１つDeleteしたい場合のDelete関数。
 	/// エンジン側の処理のため外で呼ばないで！！

@@ -39,16 +39,6 @@ public:
 		return (float)m_elapsed;
 	}
 	/// <summary>
-	/// ラップスタートからのフレームを返す
-	/// </summary>
-	/// <returns>
-	/// 経過フレーム（float）
-	/// </returns>
-	float Getflame()
-	{
-		return (float)m_fleam;
-	}
-	/// <summary>
 	/// ラップスタートからの分（時間）を返す
 	/// </summary>
 	/// <returns>

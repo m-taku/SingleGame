@@ -210,7 +210,9 @@
     <ClCompile Include="Player\Player_Die.cpp" />
     <ClCompile Include="Player\Player_Hit.cpp" />
     <ClCompile Include="Fade.cpp" />
-    <ClCompile Include="g_SRVlist.cpp" />
+    <ClCompile Include="Item.cpp" />
+    <ClCompile Include="graphics\g_SRVlist.cpp" />
+    <ClCompile Include="Score.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -392,7 +394,9 @@
     <ClInclude Include="Player\Player_Die.h" />
     <ClInclude Include="Player\Player_Hit.h" />
     <ClInclude Include="Fade.h" />
-    <ClInclude Include="g_SRVlist.h" />
+    <ClInclude Include="Item.h" />
+    <ClInclude Include="graphics\g_SRVlist.h" />
+    <ClInclude Include="Score.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
@@ -429,7 +433,6 @@
     <MeshContentTask Include="Assets\modelData\jimennabi1.fbx" />
     <MeshContentTask Include="Assets\modelData\monn1.fbx" />
     <MeshContentTask Include="Assets\modelData\monn2.fbx" />
-    <MeshContentTask Include="Assets\modelData\ToonRTS_demo_Knight.FBX" />
     <MeshContentTask Include="Assets\modelData\test_box1.fbx" />
     <MeshContentTask Include="Assets\modelData\test_box2.fbx" />
     <MeshContentTask Include="Assets\modelData\test_box3.fbx" />
@@ -518,6 +521,14 @@
     <MeshContentTask Include="Assets\modelData\jimennabi5.fbx" />
     <MeshContentTask Include="Assets\modelData\jimennabi20.fbx" />
     <MeshContentTask Include="Assets\modelData\player1fbx.fbx" />
+    <MeshContentTask Include="Assets\modelData\jimennabi10.fbx" />
+    <MeshContentTask Include="Assets\modelData\Axe_2.fbx" />
+    <MeshContentTask Include="Assets\modelData\Dagger4_2.fbx" />
+    <MeshContentTask Include="Assets\modelData\jimennabi_H.fbx" />
+    <MeshContentTask Include="Assets\modelData\waku2.fbx" />
+    <MeshContentTask Include="Assets\modelData\waku1.fbx" />
+    <MeshContentTask Include="Assets\modelData\enemy_nait.FBX" />
+    <MeshContentTask Include="Assets\modelData\enemy_hero.fbx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\level\stage_01.tkl">

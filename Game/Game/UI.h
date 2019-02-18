@@ -1,4 +1,5 @@
 #pragma once
+#include"Score.h"
 /// <summary>
 /// ユーザーインターフェースクラス。
 /// </summary>
@@ -40,7 +41,7 @@ public:
 	/// </param>
 	void SetDamage(float damage)
 	{
-		m_Damage += damage;
+		m_Damage = damage;
 	}
 	/// <summary>
 	/// 残りの体力を取得（0.0ｆ～1.0ｆ）
@@ -52,13 +53,18 @@ public:
 	{
 		return m_HP- m_Damage;
 	}
+	void SetScore(Score* score)
+	{
+		m_Score = score;
+	}
 private:
 	ShaderResourceView m_Texture_bar_waku;					//HPバーの枠のリソース
 	sprite m_HP_bar_waku;									//HPバーの枠の表示用インスタンス
-	CVector3 m_HP_waku_position = {-640.0f,-240.0f,0.0f};	//HPバーの枠の画面上の位置
+	CVector3 m_HP_waku_position = {-660.0f,-240.0f,0.0f};	//HPバーの枠の画面上の位置
 	ShaderResourceView m_Texture_bar;						//HPバーの中身のリソース
 	sprite m_HP_bar;										//HPバーの中身の表示用インスタンス
-	CVector3 m_HP_position = { -637.0f,-242.0f,0.0f };		//HPバーの中身の画面上の位置
+	CVector3 m_HP_position = { -657.0f,-242.0f,0.0f };		//HPバーの中身の画面上の位置
+	Score* m_Score = nullptr;
 	float m_Damage = 0.0f;									//ダメージ量
 	Font m_font;											//文字表示のインスタンス
 	float m_HP=1.0f;										//残りHP			

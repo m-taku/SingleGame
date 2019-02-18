@@ -1,10 +1,9 @@
 #pragma once
 #include"Player/Player.h"
-#include "Enemyleader/Enemyleader.h"
+#include"Enemyleader/Enemyleader.h"
 /// <summary>
 /// エネミーのマネージャークラス
 /// </summary>
-class HitObjict;
 class EnemyManager :public Gameobject
 {
 public:
@@ -37,11 +36,15 @@ public:
 	{
 		m_player = pleyer;
 	}
-	void Leaderdet(Enemyleader* k)
+	//void Leaderdet(Enemyleader* k)
+	//{
+	//	m_enemy.erase(
+	//		std::remove(m_enemy.begin(), m_enemy.end(),k),
+	//		m_enemy.end());
+	//}
+	void SetScore(Score* score)
 	{
-		m_enemy.erase(
-			std::remove(m_enemy.begin(), m_enemy.end(),k),
-			m_enemy.end());
+		m_Score = score;
 	}
 	void SpawnEnemy(CVector3 pos, const wchar_t* fileName);
 private:
@@ -49,6 +52,8 @@ private:
 	std::vector<Enemyleader*> m_enemy;
 	Font* m_font = nullptr;											//文字表示のインスタンス
 	int m_No = 0;
+	int m_Maxsporn = 10;
+	Score* m_Score = nullptr;
 	std::vector<CVector3> m_spawnpos;
 	Timer* m_timer = nullptr;
 };

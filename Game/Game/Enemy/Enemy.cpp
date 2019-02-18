@@ -7,8 +7,6 @@
 
 Enemy::Enemy()
 {
-
-
 	//体力用の2Ｄデータ(中身)				//体力用の2Ｄデータ(枠)
 }
 
@@ -21,11 +19,9 @@ Enemy::~Enemy()
 bool Enemy::Load()
 {
 	//cmoファイルの読み込み。
-	m_model.Init(m_Name);
-	//m_collider.Init(40.0f, 50.0f, m_position);
+	InitAnim();
 	InitTex();
 	Findarm();
-	InitAnim();
 	//m_debugVecor = new VectorDraw(m_position);
 	m_Rot.MakeRotationFromQuaternion(m_angle);
 	m_Front.x = m_Rot.m[2][0];
@@ -35,7 +31,8 @@ bool Enemy::Load()
 	TransitionState(State_Move);
 	m_position.y = 0.0f;
 	m_model.UpdateWorldMatrix(m_position, m_angle, CVector3::One());
-	m_obj = g_HitObjict->Create(&m_position, 300.0f, [&]() {Hit(); }, HitReceive::enemy);
+	m_obj = g_HitObjict->Create(&m_position, 300.0f,[&](float damage){ Hit(damage);
+	}, HitReceive::enemy);
 	m_Leader->CopySkinModel().UpdateInstancingData(m_position, CQuaternion::Identity(), CVector3::One());
 	return true;
 }
@@ -48,30 +45,38 @@ void Enemy::InitTex()
 }
 void Enemy::InitAnim()
 {
-	m_animationclip[idle].Load(L"Assets/animData/enemy_idel.tka");
-	m_animationclip[idle].SetLoopFlag(true);
-	m_animationclip[attack].Load(L"Assets/animData/enemy_attack.tka");
+	wchar_t moveFilePath[256];
+	swprintf_s(moveFilePath, L"Assets/modelData/%s.cmo", m_Name);
+	m_model.Init(moveFilePath);
+	m_collider.Init(30.0f, 60.0f, m_position);
+	swprintf_s(moveFilePath, L"Assets/animData/%s_idle.tka", m_Name);
+	m_animationclip[idle].Load(moveFilePath);
+	m_animationclip[idle].SetLoopFlag(true);	
+	swprintf_s(moveFilePath, L"Assets/animData/%s_attack.tka", m_Name);
+	m_animationclip[attack].Load(moveFilePath);
 	m_animationclip[attack].SetLoopFlag(true);
-	m_animationclip[walk].Load(L"Assets/animData/enemy_walk.tka");
+	swprintf_s(moveFilePath, L"Assets/animData/%s_walk.tka", m_Name);
+	m_animationclip[walk].Load(moveFilePath);
 	m_animationclip[walk].SetLoopFlag(true);
 	m_animation.Init(m_model, m_animationclip, animnum);
 	m_animation.Play(walk, 0.2f);
 }
 void Enemy::Findarm()
 {
-	static int hoge = -1;
-	int num = CopyModel().GetSkeleton().GetNumBones();
-	if (hoge == -1) {
-		for (int i = 0; i < num; i++) {
-			auto bonename = CopyModel().GetSkeleton().GetBone(i)->GetName();
+	int hoge = -1;
+	
+	int num = m_model.GetSkeleton().GetNumBones();
+	for (int i = 0; i < num; i++) {
+		auto bonename = m_model.GetSkeleton().GetBone(i)->GetName();
+		wchar_t moveFilePath[256];
+		swprintf_s(moveFilePath, L"%sHand", m_Name);
+		int result = wcscmp(moveFilePath, bonename);
 
-			int result = wcscmp(L"Bip001 R Hand", bonename);
-			if (result == 0)
-			{
+		if (result == 0)
+		{
 
-				hoge = CopyModel().GetSkeleton().GetBone(i)->GetNo();
-				break;
-			}
+			hoge = CopyModel().GetSkeleton().GetBone(i)->GetNo();
+			break;
 		}
 	}
 	m_bolnNo = hoge;
@@ -97,13 +102,14 @@ void Enemy::TransitionState(State m_state)
 		break;
 	}
 	m_model.UpdateWorldMatrix(m_position, m_angle,CVector3::One());
-	m_animation.Update(1.0f / 30.0f);
+	//m_animation.Update(1.0f / 30.0f);
 }
 void Enemy::Update()
 {
 	if (m_HP <= 0.01f)
 	{
 		m_life = false;
+		m_Score->SetScore();
 		g_HitObjict->Deleteobjict(m_obj);
 		return;
 	}
@@ -116,16 +122,15 @@ void Enemy::Update()
 	m_Front.y = 0.0f;
 	m_Front.Normalize();
 	m_moveVector = m_Front*m_speed;
-	//m_moveVector.y -= 9.8*10.0f;
-	m_position += m_moveVector * 1.0f / 30.0f;
-	//m_position = m_collider.Execute(1.0f / 30.0f, m_moveVector);
+	m_moveVector.y -= 9.8*10.0f;
+	//m_position += m_moveVector * 1.0f / 30.0f;
+	m_position = m_collider.Execute(1.0f / 30.0f, m_moveVector);
 	CVector3 distance = m_player->Get2Dposition() - Get2DPosition();
 	if (distance.Length() >= 1000.0f)
 	{
 		ChangeLeaderState(Enemyleader::gathering);
 		SetLeaderPosition(Get3DPosition());
 	}
-	m_animation.Update(1.0f / 30.0f);
 	m_model.UpdateWorldMatrix(m_position, m_angle, CVector3::One());
 	g_graphicsEngine->SetShadoCaster(&m_model);
 	m_model.SetShadowReciever(true);
@@ -138,6 +143,7 @@ void Enemy::postDraw()
 }
 void Enemy::Draw()
 {
+	m_animation.Update(1.0f / 20.0f);
 	m_model.Draw(
 		g_camera3D.GetViewMatrix(),
 		g_camera3D.GetProjectionMatrix()
@@ -188,7 +194,7 @@ void Enemy::FindAngle(CVector3 Vector)
 	auto Angle = acos(debag.Dot(vector));
 	if (Angle >= CMath::DegToRad(1.0f))
 	{
-		SetSpeed(0.0f);
+		SetSpeed(10.0f);
 		auto ka5 = CVector3::Zero();
 		ka5.Cross(debag, vector);
 		CQuaternion ma3;
@@ -222,7 +228,7 @@ void Enemy::FindAngle(CVector3 Vector)
 		}
 	}
 }
-void Enemy::Hit()
+void Enemy::Hit(float damage)
 {
-	m_HP -= 0.01;
+	m_HP -= damage;
 }

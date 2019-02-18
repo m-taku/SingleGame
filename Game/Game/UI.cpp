@@ -43,19 +43,20 @@ void UI::PostDraw()
 	);
 	m_font.BeginDraw();	//フォントの描画開始。
 	static Color color;
-	static int fream = 0;
+	//static int fream = 0;
 	wchar_t toubatu[256];
-	swprintf_s(toubatu, L"%d討伐！！", fream);//ステージ。
-	if (g_pad[0].IsPress(enButtonY)) {
-		fream++;
-	}
+	swprintf_s(toubatu, L"%d討伐！！",m_Score->Getnum());//ステージ。
+	//if (g_pad[0].IsPress(enButtonY)) {
+	//	fream++;
+	//}
 	auto Col = color.HSVtoRGB();
 	m_font.Draw(
 		toubatu,		//表示する文字列。
-		{ 500.0f,-300.0f },			//表示する座標。0.0f, 0.0が画面の中心。
+		{ FRAME_BUFFER_W / 2.0f,-FRAME_BUFFER_H / 2.0f },			//表示する座標。0.0f, 0.0が画面の中心。
 		Col,//{ 0.0f,0.0f,0.0f,1.0f },
 		0.0f,
-		3.0f
+		3.0f,
+		{1.0f,0.0f}
 	);
 	m_font.EndDraw();		//フォントの描画終了。
 }

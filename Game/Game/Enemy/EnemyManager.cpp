@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "EnemyManager.h"
 #include"level/Level.h"
+#include "Item.h"
 #include "title.h"
 
 
@@ -25,27 +26,27 @@ bool EnemyManager::Load()
 	m_timer->TimerStart();
 	auto mode = g_objectManager->FindGO<title>("title");
 	wchar_t moveFilePath[256];
-	swprintf_s(moveFilePath, L"Assets/level/Enemy_lever0%d.tkl", 5-mode->Getmode());
+	swprintf_s(moveFilePath, L"Assets/level/Enemy_lever0%d.tkl", (int)(mode->Getmode())*4);
 	m_player = g_objectManager->FindGO<Player>("player");
 	Level level;
 	int hoge = 0;
 	level.Init(moveFilePath, [&](LevelObjectData objData)
 	{
-		//とりあえずプレイヤーも
+		////とりあえずプレイヤーも
 		auto No = wcscmp(objData.name, (L"unityChan"));
 		if (No == 0) {
-			m_player->SetPosition(objData.position/*{0.0f,0.0f,0.0f}*//*{ -14203.2344f,403.032990f,-6998.72070f}*/);
+			m_player->SetPosition(/*objData.position*/{ 0.0f,0.0f,0.0f }/*{ -14203.2344f,403.032990f,-6998.72070f}*/);
 			return true;
 		}
-		No = wcscmp(objData.name, (L"Bricks")); 
-		if(No == 0){
+		No = wcscmp(objData.name, (L"Bricks"));
+		if (No == 0) {
 			m_spawnpos.push_back(objData.position);
 			return true;
 		}
 		else
 		{
-			if (++hoge <= 1) {
-				SpawnEnemy(objData.position,L"Assets/modelData/ToonRTS_demo_Knight.cmo");
+			if (hoge <= 1) {
+				SpawnEnemy(objData.position,L"enemy_hero");
 			}
 			return true;
 		}
@@ -57,19 +58,21 @@ void EnemyManager::Update()
 {
 	//ここで湧き処理したい
 	m_timer->TimerStop();
-	if (m_timer->GetAllSeconds()>=1000.0f)
+	if (m_timer->GetAllSeconds()>=10.0f)
 	{
-		if (m_No <m_enemy.size()) {
+		if (m_Maxsporn >=m_enemy.size()) {
 			m_No = (m_No + 1) % 2;
-			SpawnEnemy(m_spawnpos[m_No], L"Assets/modelData/ToonRTS_demo_Knight.cmo");
-			m_timer->TimerStart();
-		}
+			SpawnEnemy(m_spawnpos[m_No], L"enemy_hero");
+		}			
+		m_timer->TimerStart();
 	}
 	for (auto enemy = m_enemy.begin(); enemy != m_enemy.end();)
 	{
 		if (!(*enemy)->Getlife())
 		{
 			g_objectManager->DereteGO(*enemy);
+			auto item = g_objectManager->NewGO<Item>(GameObjectPriority_Default, "Item");
+			item->SetPosition((*enemy)->GetPosition());
 			enemy = m_enemy.erase(enemy);
 		}
 		else
@@ -84,5 +87,6 @@ void EnemyManager::SpawnEnemy(CVector3 pos,const wchar_t* fileName)
 	auto No = m_enemy.size() - 1;
 	m_enemy[No]->SetPosition(pos);
 	m_enemy[No]->SetfileName(fileName);
+	m_enemy[No]->SetScore(m_Score);
 	m_enemy[No]->SetPlayer(m_player);
 }

@@ -140,10 +140,11 @@
     <ClCompile Include="graphics\sprite.cpp" />
     <ClCompile Include="graphics\SpriteData.cpp" />
     <ClCompile Include="graphics\UnorderedAccessView.cpp" />
-    <ClCompile Include="g_SRVlist.cpp" />
+    <ClCompile Include="graphics\g_SRVlist.cpp" />
     <ClCompile Include="HID\Pad.cpp" />
     <ClCompile Include="HitObjict.cpp" />
     <ClCompile Include="HitReceive.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="level\Level.cpp" />
     <ClCompile Include="level\MapChip.cpp" />
     <ClCompile Include="Light.cpp" />
@@ -169,6 +170,7 @@
     <ClCompile Include="Player\Player_Hit.cpp" />
     <ClCompile Include="PostEffect.cpp" />
     <ClCompile Include="RenderTarget.cpp" />
+    <ClCompile Include="Score.cpp" />
     <ClCompile Include="ShadowMap.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -226,10 +228,11 @@
     <ClInclude Include="graphics\SpriteData.h" />
     <ClInclude Include="graphics\UnorderedAccessView.h" />
     <ClInclude Include="Enemy\Enenystate.h" />
-    <ClInclude Include="g_SRVlist.h" />
+    <ClInclude Include="graphics\g_SRVlist.h" />
     <ClInclude Include="HID\Pad.h" />
     <ClInclude Include="HitObjict.h" />
     <ClInclude Include="HitReceive.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="level\Level.h" />
     <ClInclude Include="level\MapChip.h" />
     <ClInclude Include="Light.h" />
@@ -258,6 +261,7 @@
     <ClInclude Include="Player\Player_Hit.h" />
     <ClInclude Include="PostEffect.h" />
     <ClInclude Include="RenderTarget.h" />
+    <ClInclude Include="Score.h" />
     <ClInclude Include="ShadowMap.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="stdafx.h" />
@@ -270,10 +274,13 @@
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\Altar.fbx" />
     <MeshContentTask Include="Assets\modelData\Atlantis Text.fbx" />
+    <MeshContentTask Include="Assets\modelData\Axe_2.fbx" />
     <MeshContentTask Include="Assets\modelData\bill.fbx" />
     <MeshContentTask Include="Assets\modelData\Bricks.fbx" />
     <MeshContentTask Include="Assets\modelData\Bush.fbx" />
+    <MeshContentTask Include="Assets\modelData\Dagger4_2.fbx" />
     <MeshContentTask Include="Assets\modelData\Enemy.fbx" />
+    <MeshContentTask Include="Assets\modelData\enemy_hero.fbx" />
     <MeshContentTask Include="Assets\modelData\Four Exit.fbx" />
     <MeshContentTask Include="Assets\modelData\geito.fbx" />
     <MeshContentTask Include="Assets\modelData\Grey Stone.fbx" />
@@ -283,10 +290,12 @@
     <MeshContentTask Include="Assets\modelData\Island Small.fbx" />
     <MeshContentTask Include="Assets\modelData\jimennabi.fbx" />
     <MeshContentTask Include="Assets\modelData\jimennabi1.fbx" />
+    <MeshContentTask Include="Assets\modelData\jimennabi10.fbx" />
     <MeshContentTask Include="Assets\modelData\jimennabi2.fbx" />
     <MeshContentTask Include="Assets\modelData\jimennabi20.fbx" />
     <MeshContentTask Include="Assets\modelData\jimennabi3.fbx" />
     <MeshContentTask Include="Assets\modelData\jimennabi5.fbx" />
+    <MeshContentTask Include="Assets\modelData\jimennabi_H.fbx" />
     <MeshContentTask Include="Assets\modelData\kaka.fbx" />
     <MeshContentTask Include="Assets\modelData\map00001.fbx" />
     <MeshContentTask Include="Assets\modelData\monn1.fbx" />
@@ -309,7 +318,7 @@
     <MeshContentTask Include="Assets\modelData\test_box2.fbx" />
     <MeshContentTask Include="Assets\modelData\test_box3.fbx" />
     <MeshContentTask Include="Assets\modelData\Three Exit.fbx" />
-    <MeshContentTask Include="Assets\modelData\ToonRTS_demo_Knight.FBX" />
+    <MeshContentTask Include="Assets\modelData\enemy_nait.FBX" />
     <MeshContentTask Include="Assets\modelData\Tower.fbx" />
     <MeshContentTask Include="Assets\modelData\Two Exit Corner.fbx" />
     <MeshContentTask Include="Assets\modelData\Two Exit Straigth.fbx" />
@@ -318,6 +327,8 @@
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)\Assets\modelData\%(Filename).cmo</ContentOutput>
     </MeshContentTask>
     <MeshContentTask Include="Assets\modelData\vectormodel.fbx" />
+    <MeshContentTask Include="Assets\modelData\waku1.fbx" />
+    <MeshContentTask Include="Assets\modelData\waku2.fbx" />
     <MeshContentTask Include="Assets\modelData\wall--.fbx" />
     <MeshContentTask Include="Assets\modelData\wall.fbx" />
     <MeshContentTask Include="Assets\modelData\wallgeit.fbx" />

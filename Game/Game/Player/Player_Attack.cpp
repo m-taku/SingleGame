@@ -9,7 +9,7 @@ Player_Attack::Player_Attack(Player* pla) :Player_State(pla)
 	CVector3 atari = m_player->Get3Dposition();
 	atari.y += 100.0f;
 	atari += m_player->GetFront() * 100.0f;
-	g_HitObjict->HitTest(atari, HitReceive::enemy);
+	//g_HitObjict->HitTest(atari, m_player->GetStatu().Attack, HitReceive::enemy);
 }
 
 
@@ -45,7 +45,6 @@ void Player_Attack::Update()
 		CQuaternion rod;
 		rod.SetRotation(CVector3::AxisY(), m_angle);
 		m_player->Setrotation(rod);
-
 		m_player->Setspeed(0.5f);
 		//m_player->ChangeAnimation(Player::walk);
 	}
@@ -54,11 +53,12 @@ void Player_Attack::Update()
 		m_player->Setspeed(0.0f);
 	}
 	m_player->ChangeAnimation(Player::attack);
-
-	CVector3 atari = m_player->Get3Dposition();
-	atari.y += 100.0f;
-	atari += m_player->GetFront() * 100.0f;
-	g_HitObjict->HitTest(atari, HitReceive::enemy);
+	if (true) {
+		CVector3 atari = m_player->Get3Dposition();
+		atari.y += 100.0f;
+		atari += m_player->GetFront() * 100.0f;
+		g_HitObjict->HitTest(atari, m_player->GetStatu().Attack, HitReceive::enemy);
+	}
 	if (!m_player->GetanimationPlaying()) {
 		m_player->TransitionState(Player::State_Move);
 	}

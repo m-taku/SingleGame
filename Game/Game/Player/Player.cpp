@@ -10,6 +10,9 @@ Player::Player()
 {
 	//m_collider.Init(15.0f, 80.0f, m_position);
 	//m_model.Init(L"Assets/modelData/unityChan.cmo");
+	//m_Attacktimer= new Timer;
+	//m_Defensetimer= new Timer;
+	//m_Speedtimer= new Timer;
 }
 Player::~Player()
 {
@@ -32,16 +35,16 @@ bool Player::Load()
 	m_model.Init(L"Assets/modelData/player1fbx.cmo");
 	m_debugVector = new VectorDraw(m_position);
 	m_rotation.SetRotationDeg(CVector3::AxisY(), 0.0f);
-	m_ui = g_objectManager->NewGO<UI>(GameObjectPriority_Default);
+	m_ui = g_objectManager->FindGO<UI>("UI");// UI > (GameObjectPriority_Default);
 	InitAnimation();
 	UpdateFront();
 	m_model.UpdateWorldMatrix(m_position, m_rotation, {0.1f,0.1f,0.1f});
 	g_HitObjict->Create(
 		&m_position, 
 		100.0f, 
-		[&]() 
+		[&](float damage)
 	{ 
-		Hit();
+		Hit(damage);
 	},
 		HitReceive::player);
 	TransitionState(State_Move);
@@ -97,8 +100,8 @@ void Player::Update()
 	m_State->Update();
 	m_debugVector->Update({0.0f,0.0f,0.0f});
 	UpdateFront();
-	m_movespeed.x = m_Front.x * m_plyerStatus.speed*m_speed;
-	m_movespeed.z = m_Front.z * m_plyerStatus.speed*m_speed;
+	m_movespeed.x = m_Front.x * m_plyerStatus.Speed*m_speed;
+	m_movespeed.z = m_Front.z * m_plyerStatus.Speed*m_speed;
 	m_movespeed.y -= GRAVITY;
 	if (g_pad[0].IsTrigger(enButtonA))
 	{
@@ -126,19 +129,20 @@ void Player::Draw()
 		g_camera3D.GetProjectionMatrix()
 	);
 }
-void Player::Hit()
+void Player::Hit(float damage)
 {
-	if (!m_ded) {
+	if (!m_Hit) {
 		Damage(20.0f);
-		if (m_ui->GetHP() <= 0.0f)
+		if (m_plyerStatus.HP <= 0.0f)
 		{
 			TransitionState(State_did);
-			m_ded = true;
+
 		}
 		else
 		{
 			TransitionState(State_Hit);
-		}
+		}			
+		m_Hit = true;
 	}
 
 	//‚±‚±‚Éƒ_ƒ[ƒW‚Ìˆ—

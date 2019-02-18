@@ -38,9 +38,9 @@ void EnemyStateMove::Update()
 	speed.Normalize();
 	m_enemy->FindAngle(speed);
 	CVector3 distance = m_player->Get2Dposition() - m_enemy->Get2DPosition();
-	if (distance.Length() <= 110.0f)
+	if (distance.Length() <= 150.0f)
 	{
-		m_enemy->SetSpeed(0.0f);
+		m_enemy->SetSpeed(100.0f);
 		m_enemy->TransitionState(Enemy::State_Attack);
 	}
 	//‚«‚ê‚¢‚É‚·‚é‚½‚ß‚É–ñ‚P•b‚ÅXV
