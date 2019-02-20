@@ -83,6 +83,26 @@ public:
 	{
 		return m_isPlaying;
 	}
+	/// <summary>
+	/// イベント区間内かどうか
+	/// </summary>
+	/// <returns>
+	/// trueで区間内
+	/// </returns>
+	bool IsEvent()const
+	{
+		return m_Event;
+	}
+	/// <summary>
+	/// イベントの名前を取得します
+	/// </summary>
+	/// <returns>
+	/// イベント名（NULLだとイベント外）
+	/// </returns>
+	const wchar_t* GetEventName()
+	{
+		return m_eventname;
+	}
 private:
 	
 	/*!
@@ -97,4 +117,6 @@ private:
 	float					m_interpolateTime;			//!<補完時間
 	float					m_interpolateEndTime;		//!<補完終了時間
 	bool					m_isPlaying = false;		//!<再生中？
+	bool					m_Event = false;			//!<アニメーションイベントが
+	const wchar_t*			m_eventname = L"NULL";		//!<イベントの名前
 };

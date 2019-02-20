@@ -9,14 +9,10 @@ Gamecamera::Gamecamera()
 
 Gamecamera::~Gamecamera()
 {
-	delete m_debugVecor;
-	delete m_aebugVecor;
 }
 
 bool Gamecamera::Load()
 {
-	m_debugVecor = new VectorDraw(m_position);
-	m_aebugVecor = new VectorDraw(m_position);
 	m_position = m_player->Get3Dposition(); 
 	m_position.y = 10.0f;
 	m_position.z -= 200.0f;
@@ -26,91 +22,73 @@ bool Gamecamera::Load()
 	g_camera3D.SetPosition(m_position);
 	return true;
 }
-void Gamecamera::ExecuteTracking()
+void Gamecamera::ExecuteTracking(CVector3 front)
 {
-	float kakudo = 0.0f;
-	auto front = m_front;
-	front.y = 0.0f;
-	front.Normalize();
-	kakudo = acos(m_playerFront.Dot(front));
-	if (kakudo > (CMath::DegToRad(20.0f)) && m_player->Getangle().Length() > 0.0f&&kakudo < (CMath::DegToRad(100.0f)))
-	{
-		if (m_nowangle.y <= 0|| m_nowangle.x<=0) {
-			m_axis = CVector3::Zero();
-			m_axis.Cross(m_front, m_playerFront);
-			if (m_axis.y >= 0.0f)
-			{
-				m_nowangle.y = 1.0f;
+	if (m_player->Getspeed() > 0.0f) {
+		float kakudo = 0.0f;
+		auto front2D = m_front;
+		front2D.y = 0.0f;
+		front2D.Normalize();
+		kakudo = acos(m_playerFront.Dot(front2D));
+		if (kakudo > (CMath::DegToRad(20.0f)) && kakudo < (CMath::DegToRad(100.0f)))
+		{
+			if (m_nowangle.x == 0.0f) {
+				m_axis = CVector3::Zero();
+				m_axis.Cross(front2D, m_playerFront);
+				if (m_axis.y >= 0.0f)
+				{
+					m_nowangle.x = 1.0f;
+				}
+				else
+				{
+					m_nowangle.x = -1.0f;
+				}
+				m_maxangle.x += CMath::RadToDeg(kakudo)/10.0f * m_nowangle.x;
 			}
-			else
-			{
-				m_nowangle.y = -1.0f;
-			}
-			m_nowangle.y += kakudo / 1.0 *m_nowangle.y;
-			m_reg.SetRotationDeg(m_playerUp, m_nowangle.y);
-			m_reg.Multiply(m_front);
 		}
 	}
 }
 void Gamecamera::Update()
 {
+	CVector3 front=CVector3::AxisZ();
 	UpdateBasisInPlayerSpace();
-	m_nowangle.y = g_pad->GetRStickXF()*5.0f;
-	m_nowangle.x = g_pad->GetRStickYF()*5.0f;
+	m_nowangle.x = g_pad->GetRStickXF()*5.0f;
+	m_nowangle.y = g_pad->GetRStickYF()*5.0f;
+	m_maxangle.x += m_nowangle.x;
 	m_reg = CQuaternion::Identity();
-	m_reg.SetRotationDeg(m_playerUp, m_nowangle.y);
-	//m_playerFront.Normalize();
-	m_reg.Multiply(m_front);
-	ExecuteTracking();
-	m_front.Normalize();
-	m_reg = CQuaternion::Identity();
-	float kakudo2 = acos(m_front.Dot(CVector3::AxisZ()));
-	m_reg.SetRotation(m_playerUp, kakudo2);
-	m_mRot.MakeRotationFromQuaternion(m_reg);
-	m_right.x = m_mRot.m[0][0];
-	m_right.y = m_mRot.m[0][1];
-	m_right.z = m_mRot.m[0][2];
-	m_right.Normalize(); 
-	m_maxangle += m_nowangle.x;
-	m_reg = CQuaternion::Identity();
-	if (m_maxangle < XMAX)
+	ExecuteTracking(front);
+	if (abs(m_maxangle.x)>=360.0f)
 	{
-		if (m_maxangle > XMIN)
-		{
-			//m_reg.SetRotationDeg(CVector3::AxisX(), m_nowangle.x);
-			//m_front.Normalize();
-			//m_reg.Multiply(m_front);
-			//CVector3 hoge = CVector3::AxisZ();
-			//m_reg.Multiply(hoge);
+		if (m_maxangle.x <= 0.0f) {
+			m_maxangle.x += 360.0f;
 		}
 		else
 		{
-			m_maxangle = XMIN;
+			m_maxangle.x -= 360.0f;
 		}
 	}
-	else
-	{
-		m_maxangle = XMAX;
-	}
-	m_front.Normalize();
+	m_reg.SetRotationDeg(CVector3::AxisY(), m_maxangle.x);
+	m_maxangle.y += m_nowangle.y;
+	m_maxangle.y = min(XMAX, m_maxangle.y);
+	m_maxangle.y = max(XMIN, m_maxangle.y);
+	CQuaternion m_sk = CQuaternion::Identity();
+	m_sk.SetRotationDeg(CVector3::AxisX(), m_maxangle.y);
+	front.Normalize();
+	m_reg.Multiply(m_reg,m_sk);
+	m_reg.Multiply(front);
+	front.Normalize();
+	m_front = front;
 	m_targetpos = m_player->Get3Dposition();
 	m_targetpos.y += 50.0f;
 	m_position = m_player->Get3Dposition();
 	m_position += m_front * -200.0f;
 	m_position.y += 140.0f;
-	//m_reg = CQuaternion::Identity();
 	g_camera3D.SetTarget(m_targetpos);
 	g_camera3D.SetPosition(m_position);
-	//-nan(ind);
-	//g_camera3D.SetUp(m_Up);
-	m_debugVecor->Update(m_targetpos,m_front*100,30.0f);
-	//m_aebugVecor->Update(m_targetpos, hoge * 100, 30.0f);
 	g_camera3D.Update();
 }
 void Gamecamera::Draw()
 {
-	
-	//m_debugVecor->Draw();
 	//m_aebugVecor->Draw();
 }
 void Gamecamera::UpdateBasisInPlayerSpace()
@@ -122,7 +100,6 @@ void Gamecamera::UpdateBasisInPlayerSpace()
 	m_playerUp.x = m_mRot.m[1][0];
 	m_playerUp.y = m_mRot.m[1][1];
 	m_playerUp.z = m_mRot.m[1][2];
-	//m_playerUp.y = 1.0f;
 	m_playerFront.x = m_mRot.m[2][0];
 	m_playerFront.y = m_mRot.m[2][1];
 	m_playerFront.z = m_mRot.m[2][2];

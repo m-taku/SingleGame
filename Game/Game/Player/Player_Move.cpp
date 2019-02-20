@@ -13,19 +13,19 @@ Player_Move::~Player_Move()
 
 void Player_Move::Update()
 {
-	CVector3 m_amount = CVector3::Zero();
-	m_amount.x = g_pad->GetLStickXF();
-	m_amount.z = g_pad->GetLStickYF();
-	m_amount.y = 0.0f;
-	if (m_amount.Length() > 0.0f)
+	CVector3 amount = CVector3::Zero();
+	amount.x = g_pad->GetLStickXF();
+	amount.z = g_pad->GetLStickYF();
+	amount.y = 0.0f;
+	if (amount.Length() > 0.0f)
 	{
-		CVector3 amount = m_amount;
-		amount.Normalize();
+		CVector3 dir = amount;
+		dir.Normalize();
 		CVector3 camer_front = m_player->Getcamera()->GetCameraFront();
 		camer_front.y = 0.0f;
 		camer_front.Normalize();
-		float m_angle = acos(amount.Dot(CVector3::AxisZ()));
-		if (amount.x < 0)
+		float m_angle = acos(dir.Dot(CVector3::AxisZ()));
+		if (dir.x < 0)
 		{
 			m_angle *= -1;
 		}
@@ -40,7 +40,7 @@ void Player_Move::Update()
 		CQuaternion rod;
 		rod.SetRotation(CVector3::AxisY(), m_angle);
 		m_player->Setrotation(rod);
-		if (m_amount.Length() >= 0.5f)
+		if (amount.Length() >= 0.5f)
 		{
 			m_player->ChangeAnimation(Player::run);
 		}
@@ -53,7 +53,7 @@ void Player_Move::Update()
 	{
 		m_player->ChangeAnimation(Player::idle);
 	}
-	m_player->Setspeed(m_amount.Length());
+	m_player->Setspeed(amount.Length());
 
 	if (g_pad[0].IsTrigger(enButtonX)) {
 		m_player->TransitionState(Player::State_Attack);

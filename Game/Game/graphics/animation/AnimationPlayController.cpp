@@ -28,7 +28,6 @@ void AnimationPlayController::StartLoop()
 void AnimationPlayController::Update(float deltaTime, Animation* animation)
 {
 	if(m_animationClip == nullptr){
-		
 		return ;
 	}
 	const auto& topBoneKeyFrameList = m_animationClip->GetTopBoneKeyFrameList();
@@ -56,6 +55,19 @@ void AnimationPlayController::Update(float deltaTime, Animation* animation)
 		}
 		//次へ。
 		m_currentKeyFrameNo++;
+	}
+	//ここからアニメーションイベントの判定処理
+	auto Eventlist = m_animationClip->GetAnimationEventlist();
+	bool furag = true;
+	for (int i = 1; i < Eventlist.size(); i++) {
+		if (topBoneKeyFrameList.at(m_currentKeyFrameNo)->time >= Eventlist.at(i-1)->GetinvokeTime())
+		{
+			m_eventname = Eventlist.at(i-1)->GetEventname();
+			bool fura;
+			fura = m_Event;
+			m_Event = furag;
+			furag = fura;
+		}
 	}
 	//ボーン行列を計算していく。
 	const auto& keyFramePtrListArray = m_animationClip->GetKeyFramePtrListArray();

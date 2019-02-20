@@ -12,7 +12,7 @@ Navimake::Navimake()
 	switch (mode->Getmode())
 	{
 	case 0:
-		swprintf_s(moveFilePath, L"Assets/modelData/jimennabi_H.cmo");
+		swprintf_s(moveFilePath, L"Assets/modelData/AAAAAAAAAAAAAA.cmo");
 		break;
 	case 1:
 		swprintf_s(moveFilePath, L"Assets/modelData/jimennabi%d.cmo", 10);

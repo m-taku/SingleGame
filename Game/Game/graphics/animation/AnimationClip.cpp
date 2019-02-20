@@ -36,19 +36,34 @@ void AnimationClip::Load(const wchar_t* filePath)
 	fread(&header, sizeof(header), 1, fp);
 		
 	if (header.numAnimationEvent > 0) {
+		for (int i = 0; i < header.numAnimationEvent; i++)
+		{
+			AnimationEvent* Event = new AnimationEvent;
+			AnimationEventData eventdata;
+			fread(&eventdata, sizeof(eventdata), 1, fp);
+			static char name[255];
+			static wchar_t nema2[255];
+			fread(&name, eventdata.eventNameLength + 1,1, fp);
+			mbstowcs(nema2, name, 255);
+			Event->SetEventname(nema2);
+			Event->SetinvokeTime(eventdata.invokeTime);
+			m_AnimationEventlist.push_back(Event);
+		}
 		//アニメーションイベントは未対応。
 		//就職作品でチャレンジしてみよう。
-		std::abort();
+		//std::abort();
 	}
-
-
+	else
+	{
+		m_AnimationEventlist.push_back(new AnimationEvent);
+	}
 	//中身コピーするためのメモリをドカッと確保。
 	KeyframeRow* keyframes = new KeyframeRow[header.numKey];
 	//キーフレームをドカッと読み込み。
 	fread(keyframes, sizeof(KeyframeRow), header.numKey, fp);
 	//もうデータのロードはすべて終わったので、ファイルは閉じる。
 	fclose(fp);
-	//tkaファイルのキーフレームのローカル業レは4x3行列なので
+	//tkaファイルのキーフレームのローカル行列は4x3行列なので
 	//ゲームで使用しやすいように、4x4行列に変換していく。
 	for (int i = 0; i < (int)header.numKey; i++) {
 		//ゲームで使用するKeyframeのインスタンスを生成。

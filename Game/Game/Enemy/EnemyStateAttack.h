@@ -43,7 +43,7 @@ private:
 	/// <returns>
 	/// 回転クオータニオン
 	/// </returns>
-	CQuaternion anglecalculation(CVector3 vector1, CVector3 vector2);
+//	CQuaternion anglecalculation(CVector3 vector1, CVector3 vector2);
 	/// <summary>
 	/// 剣の中心と手の位置を検索する
 	/// </summary>
@@ -54,6 +54,7 @@ private:
 	CVector3 m_oldSwordcenter = CVector3::Zero();			//移動前の剣の中心ポジション
 	CVector3 m_Swordcenter = CVector3::Zero();				//移動後の剣の中心ポジション
 	CVector3 m_Up;											//手の上方向ベクトル
+	bool m_Hit = false;										//攻撃を当てたかどうか（当てたら判定を消す）
 	VectorDraw* m_debugVecor = nullptr;						//デバック用のベクトル表示
 }; 
 

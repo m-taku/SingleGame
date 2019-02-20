@@ -299,7 +299,11 @@ public:
 	/// </returns>
 	bool GetanimationPlaying()
 	{
-		//return m_animation.IsPlaying();
+		return m_animation.IsPlaying();
+	}
+	bool GetIsEvent()
+	{
+		return m_animation.IsEvent();
 	}
 	/// <summary>
 	/// キャラクターコントローラーの交代の更新

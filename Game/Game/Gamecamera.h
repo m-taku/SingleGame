@@ -67,9 +67,7 @@ private:
 	/// </remarks>
 	static const int XMAX = 20;
 	static const int XMIN = -20;
-	void ExecuteTracking();
-	VectorDraw* m_debugVecor = nullptr;				//デバック用のベクトル表示
-	VectorDraw* m_aebugVecor = nullptr;				//デバック用のベクトル表示
+	void ExecuteTracking(CVector3 front);
 	CVector3 m_playerFront = CVector3::Zero();		//プレイヤーの前方向
 	CVector3 m_playerUp = CVector3::Zero();			//プレイヤーの上方向
 	CVector3 m_right = CVector3::Zero();		    //右方向
@@ -77,7 +75,7 @@ private:
 	CQuaternion	m_reg = CQuaternion::Identity();	//回転角度
 	CMatrix m_mRot = CMatrix::Identity();			//回転行列
 	CVector2 m_nowangle = CVector2::Zero();			//回転入力量
-	float m_maxangle = 0;							//X軸の現在角度
+	CVector2 m_maxangle = CVector2::Zero();			//最大角度
 	CVector3 m_axis = CVector3::Zero();				//軸
 	CVector3 m_targetpos = CVector3::Zero();		//カメラの目標地点
 	CVector3 m_position = CVector3::Zero();			//カメラの現在地

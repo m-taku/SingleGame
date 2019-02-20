@@ -21,7 +21,7 @@ Player::~Player()
 }
 void Player::OnDestroy()
 {
-	g_objectManager->DereteGO(m_ui);
+	//g_objectManager->DereteGO(m_ui);
 	//delete m_State;
 	//delete m_debugVector;
 	//g_objectManager->DereteGO(m_ui);
@@ -136,13 +136,12 @@ void Player::Hit(float damage)
 		if (m_plyerStatus.HP <= 0.0f)
 		{
 			TransitionState(State_did);
-
+			m_Hit = true;
 		}
 		else
 		{
 			TransitionState(State_Hit);
 		}			
-		m_Hit = true;
 	}
 
 	//‚±‚±‚Éƒ_ƒ[ƒW‚Ìˆ—

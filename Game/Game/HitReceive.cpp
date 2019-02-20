@@ -37,7 +37,7 @@ bool HitReceive::HitTest(CVector3 pos,float damage)
 		//default:
 		//	break;
 		//}
-		//return true;
+		return true;
 	}
 	return false;
 }

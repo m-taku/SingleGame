@@ -54,7 +54,7 @@ void Animation::UpdateLocalPose(float deltaTime)
 	}
 	//AnimationPlayController::UpdateŠÖ”‚ğÀs‚µ‚Ä‚¢‚­B
 	for (int i = 0; i < m_numAnimationPlayController; i++) {
-		int index = GetAnimationControllerIndex(m_startAnimationPlayController, i );
+		int index = GetAnimationControllerIndex(m_startAnimationPlayController, i);
 		m_animationPlayController[index].Update(deltaTime, this);
 	}
 }

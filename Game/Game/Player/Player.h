@@ -140,6 +140,10 @@ public:
 	{
 		m_speed = speed;
 	}
+	float Getspeed()
+	{
+		return m_speed;
+	}
 	/// <summary>
 	/// ‰ñ“]s—ñ‚ğæ“¾B
 	/// </summary>

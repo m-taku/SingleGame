@@ -272,6 +272,8 @@
     <ClInclude Include="VectorDraw.h" />
   </ItemGroup>
   <ItemGroup>
+    <MeshContentTask Include="Assets\modelData\AAAAAAAAAAAAAA.fbx" />
+    <MeshContentTask Include="Assets\modelData\AAAAAAAAAAAAAAA.fbx" />
     <MeshContentTask Include="Assets\modelData\Altar.fbx" />
     <MeshContentTask Include="Assets\modelData\Atlantis Text.fbx" />
     <MeshContentTask Include="Assets\modelData\Axe_2.fbx" />

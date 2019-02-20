@@ -529,6 +529,8 @@
     <MeshContentTask Include="Assets\modelData\waku1.fbx" />
     <MeshContentTask Include="Assets\modelData\enemy_nait.FBX" />
     <MeshContentTask Include="Assets\modelData\enemy_hero.fbx" />
+    <MeshContentTask Include="Assets\modelData\AAAAAAAAAAAAAAA.fbx" />
+    <MeshContentTask Include="Assets\modelData\AAAAAAAAAAAAAA.fbx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\level\stage_01.tkl">

@@ -19,7 +19,9 @@ Enemy::~Enemy()
 bool Enemy::Load()
 {
 	//cmoファイルの読み込み。
-	InitAnim();
+	InitAnim();	
+
+	m_collider.Init(30.0f, 60.0f, m_position);
 	InitTex();
 	Findarm();
 	//m_debugVecor = new VectorDraw(m_position);
@@ -31,7 +33,7 @@ bool Enemy::Load()
 	TransitionState(State_Move);
 	m_position.y = 0.0f;
 	m_model.UpdateWorldMatrix(m_position, m_angle, CVector3::One());
-	m_obj = g_HitObjict->Create(&m_position, 300.0f,[&](float damage){ Hit(damage);
+	m_obj = g_HitObjict->Create(&m_position, 60.0f,[&](float damage){ Hit(damage);
 	}, HitReceive::enemy);
 	m_Leader->CopySkinModel().UpdateInstancingData(m_position, CQuaternion::Identity(), CVector3::One());
 	return true;
@@ -48,13 +50,12 @@ void Enemy::InitAnim()
 	wchar_t moveFilePath[256];
 	swprintf_s(moveFilePath, L"Assets/modelData/%s.cmo", m_Name);
 	m_model.Init(moveFilePath);
-	m_collider.Init(30.0f, 60.0f, m_position);
 	swprintf_s(moveFilePath, L"Assets/animData/%s_idle.tka", m_Name);
 	m_animationclip[idle].Load(moveFilePath);
 	m_animationclip[idle].SetLoopFlag(true);	
 	swprintf_s(moveFilePath, L"Assets/animData/%s_attack.tka", m_Name);
-	m_animationclip[attack].Load(moveFilePath);
-	m_animationclip[attack].SetLoopFlag(true);
+	m_animationclip[attack].Load(L"Assets/animData/test.tka");
+	m_animationclip[attack].SetLoopFlag(false);
 	swprintf_s(moveFilePath, L"Assets/animData/%s_walk.tka", m_Name);
 	m_animationclip[walk].Load(moveFilePath);
 	m_animationclip[walk].SetLoopFlag(true);
@@ -131,6 +132,7 @@ void Enemy::Update()
 		ChangeLeaderState(Enemyleader::gathering);
 		SetLeaderPosition(Get3DPosition());
 	}
+
 	m_model.UpdateWorldMatrix(m_position, m_angle, CVector3::One());
 	g_graphicsEngine->SetShadoCaster(&m_model);
 	m_model.SetShadowReciever(true);

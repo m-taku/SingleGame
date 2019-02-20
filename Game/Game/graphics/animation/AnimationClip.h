@@ -39,11 +39,68 @@ struct KeyframeRow {
 	float time;					//!<時間。
 	CVector3 transform[4];		//!<トランスフォーム。
 };
+/// <summary>
+/// アニメーションイベントクラス
+/// </summary>
+/// <remarks>
+/// キーとキーの間を取るためのデータです
+/// </remarks>
+class AnimationEvent : Noncopyable
+{
+public:
+	AnimationEvent()
+	{
 
+	}
+	~AnimationEvent()
+	{
+
+	}
+	/// <summary>
+	/// イベントの名前のセット
+	/// </summary>
+	/// <param name="name">
+	/// 名前（const wchar_t*）
+	/// </param>
+	void SetEventname(const wchar_t* name)
+	{
+		m_eventname = name;
+	}
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="flag">
+	/// 
+	/// </param>
+	void SetInvokedFlag(bool flag)
+	{
+		m_isInvoked = flag;
+	}
+	void SetinvokeTime(float taim)
+	{
+		m_invokeTime = taim;
+	}	
+	const wchar_t* GetEventname() const
+	{
+		return m_eventname.c_str();
+	}
+	bool GetInvokedFlag()
+	{
+		return m_isInvoked;
+	}
+	float GetinvokeTime()
+	{
+		return m_invokeTime;
+	}
+private:
+	bool m_isInvoked = false;
+	float m_invokeTime = -1.0f;		//フレームの発生位置（秒）
+	std::wstring m_eventname=L"NULL";	//イベントの名前
+};
 /*!
 *@brief	アニメーションクリップ。
 */
-class AnimationClip  {
+class AnimationClip:Noncopyable{
 public:
 	//タイプ量が長ったらしくて、うざいのでstd::vector<KeyFrame*>の別名定義。
 	using keyFramePtrList = std::vector<Keyframe*>;
@@ -88,6 +145,10 @@ public:
 	{
 		return *m_topBoneKeyFramList;
 	}
+	const std::vector<AnimationEvent*>& GetAnimationEventlist()const
+	{
+		return m_AnimationEventlist;
+	}
 private:
 	
 	bool m_isLoop = false;									//!<ループフラグ。
@@ -95,6 +156,7 @@ private:
 	std::vector<keyFramePtrList> m_keyFramePtrListArray;	//ボーンごとのキーフレームのリストを管理するための配列。
 															//例えば、m_keyFramePtrListArray[0]は0番目のボーンのキーフレームのリスト、
 															//m_keyFramePtrListArray[1]は1番目のボーンのキーフレームのリストといった感じ。
+	std::vector<AnimationEvent*> m_AnimationEventlist;
 	keyFramePtrList* m_topBoneKeyFramList = nullptr;
 };
 
