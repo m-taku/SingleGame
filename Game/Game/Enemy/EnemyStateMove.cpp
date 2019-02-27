@@ -7,7 +7,7 @@ EnemyStateMove::EnemyStateMove(Enemy* enamy,Player* player):EnemyState(enamy,pla
 {
 	m_path = m_enemy->CopyPath();
 	m_path->Course(m_enemy->Get2DPosition(), player->Get2Dposition());
-	m_enemy->SetSpeed(300.0f);
+	m_enemy->SetSpeed(1.0f);
 	m_nextpos = m_path->PathPos();
 }
 EnemyStateMove::~EnemyStateMove()
@@ -46,9 +46,8 @@ void EnemyStateMove::Update()
 	CVector3 distance = m_player->Get2Dposition() - m_enemy->Get2DPosition();
 	if (distance.Length() <= 150.0f)
 	{
-		m_enemy->SetSpeed(100.0f);
+		m_enemy->SetSpeed(1.0f/2.0f);
 		m_enemy->TransitionState(Enemy::State_Attack);
 	}
 	//‚«‚ê‚¢‚É‚·‚é‚½‚ß‚É–ñ‚P•b‚ÅXV
-
 }

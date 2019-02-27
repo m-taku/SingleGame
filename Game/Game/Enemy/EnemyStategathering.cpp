@@ -1,9 +1,6 @@
 #include "stdafx.h"
 #include "EnemyStategathering.h"
 #include"Enemy.h"
-
-
-
 EnemyStategathering::EnemyStategathering(Enemy* enamy, Player* player) :EnemyState(enamy, player)
 {
 	m_path = m_enemy->CopyPath();
@@ -45,5 +42,5 @@ void EnemyStategathering::Update()
 	speed.y = 0.0;
 	speed.Normalize();
 	m_enemy->FindAngle(speed);
-	m_enemy->SetSpeed(500.0f);
+	m_enemy->SetSpeed(1.0f);
 }

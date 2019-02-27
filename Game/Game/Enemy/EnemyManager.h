@@ -46,7 +46,7 @@ public:
 	{
 		m_Score = score;
 	}
-	void SpawnEnemy(CVector3 pos, const wchar_t* fileName);
+	void SpawnEnemy(CVector3 pos,Ability* k);
 private:
 	Player * m_player = nullptr;
 	std::vector<Enemyleader*> m_enemy;

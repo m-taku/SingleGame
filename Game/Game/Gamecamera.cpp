@@ -43,7 +43,7 @@ void Gamecamera::ExecuteTracking(CVector3 front)
 				{
 					m_nowangle.x = -1.0f;
 				}
-				m_maxangle.x += CMath::RadToDeg(kakudo)/10.0f * m_nowangle.x;
+				m_maxangle.x += max(-5.0f,min(5.0f, CMath::RadToDeg(kakudo)/10.0f * m_nowangle.x));
 			}
 		}
 	}

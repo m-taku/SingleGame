@@ -62,16 +62,16 @@ void Item::Update()
 			switch (m_item)
 			{
 			case ataac:
-				m_prayer->SetStatu_Attack(m_prayer->p_status.Attack*1.5f);
+				m_prayer->SetStatu_Attack(m_prayer->p_status->m_Attack*1.5f);
 				break;
 			case ataacM2:
-				m_prayer->SetStatu_Attack(m_prayer->p_status.Attack*2.0f);
+				m_prayer->SetStatu_Attack(m_prayer->p_status->m_Attack*2.0f);
 				break;
 			case defense:
-				m_prayer->SetStatu_Defense(m_prayer->p_status.Defense*1.5f);
+				m_prayer->SetStatu_Defense(m_prayer->p_status->m_Defense*1.5f);
 				break;
 			case defenseM2:
-				m_prayer->SetStatu_Defense(m_prayer->p_status.Defense*2.0f);
+				m_prayer->SetStatu_Defense(m_prayer->p_status->m_Defense*2.0f);
 				break;
 			case life:
 				m_prayer->AddStatu_NowHP(50.0f);
@@ -86,7 +86,7 @@ void Item::Update()
 		CQuaternion rod;
 		rod.SetRotationDeg(CVector3::AxisY(),2.0f);
 		m_rotetion.Multiply(rod);
-		m_model.UpdateWorldMatrix(m_pos, m_rotetion, { 5.0,5.0f,5.0f });
+		m_model.UpdateWorldMatrix(m_pos, m_rotetion, { 1.0,1.0f,1.0f });
 	}
 	else
 	{
@@ -97,11 +97,11 @@ void Item::Update()
 			{
 			case ataac:
 			case ataacM2:
-				m_prayer->SetStatu_Attack(m_prayer->p_status.Attack);
+				m_prayer->SetStatu_Attack(m_prayer->p_status->m_Attack);
 				break;
 			case defense:
 			case defenseM2:
-				m_prayer->SetStatu_Defense(m_prayer->p_status.Defense);
+				m_prayer->SetStatu_Defense(m_prayer->p_status->m_Defense);
 				break;
 			default:
 				break;

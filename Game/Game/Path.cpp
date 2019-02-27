@@ -26,11 +26,19 @@ void Path::Course(CVector3 sturt, CVector3 end)
 	std::vector<PasDate*> close;
 	open.push_back(Date);
 	auto p = open[0];
-	if (startNo == endNo) {
-		m_coursepasu.push_back(p->No);
-		delete Date;
-		return;
-	}
+	//m_coursepasu.push_back(startNo);
+	//m_coursepasu.push_back(endNo);
+	//std::reverse(m_coursepasu.begin(), m_coursepasu.end());
+	//if (m_coursepasu.size() > 2)
+	//{
+	//	Smoothing(&m_coursepasu);
+	//}
+	//if (startNo == endNo) {
+	//	m_coursepasu.push_back(p->No);
+	//	delete Date;
+	//	return;
+	//}
+
 	float CurrentCost = 0.0f;
 
 	while (p->No != endNo)

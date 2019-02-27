@@ -47,6 +47,8 @@ private:
 	sprite m_fadeSprite;									//タイトルのフェイド表示用のインスタンス
 	ShaderResourceView m_texture_yaji;							//タイトルの矢印用のリソース
 	sprite m_yajiSprite;									//タイトルの矢印用のインスタンス
+
+	CSoundSource m_bgmA;						//BGM。
 	CVector3 m_pos = { -300.0f,-250.0f,0.0f };
 	mode moudo = test;
 	Fade m_fade;

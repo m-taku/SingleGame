@@ -20,9 +20,9 @@ void Game::OnDestroy()
 {
 	g_objectManager->DereteGO(m_camera);
 	g_objectManager->DereteGO(m_stage);
-	g_objectManager->DereteGO(m_enemyManager);
 	g_objectManager->DereteGO(m_player);
 	g_objectManager->DereteGO(m_ui);
+	g_objectManager->DereteGO(m_enemyManager);
 	g_objectManager->DereteGO(m_score);
 	g_HitObjict->Release();
 }

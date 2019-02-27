@@ -17,6 +17,7 @@ Enemyleader::~Enemyleader()
 	{
 		delete enemy;
 	}
+	delete m_Status;
 	delete m_path;
 }
 bool Enemyleader::Load()
@@ -25,7 +26,7 @@ bool Enemyleader::Load()
 	enemy->SetPosition(m_position);
 	enemy->SetPlayer(m_player);
 	enemy->SetLeader(this);
-	enemy->SetfileName(m_Name);
+	enemy->SetStatus(m_Status);
 	enemy->SetScore(m_Score);
 	enemy->Load();
 	m_enemy.push_back(enemy);
@@ -40,15 +41,15 @@ bool Enemyleader::Load()
 		m_path = new Path;
 		ChangeGroup_state();
 		wchar_t moveFilePath[256];
-		swprintf_s(moveFilePath, L"Assets/modelData/%s.cmo", m_Name);
+		swprintf_s(moveFilePath, L"Assets/modelData/%s.cmo", m_Status->m_CharaName.c_str());
 		m_model.Init(moveFilePath, SOLDIER);
-		swprintf_s(moveFilePath, L"Assets/animData/%s_idle.tka", m_Name);
+		swprintf_s(moveFilePath, L"Assets/animData/%s_idle.tka", m_Status->m_CharaName.c_str());
 		m_animationclip[idle].Load(moveFilePath);
 		m_animationclip[idle].SetLoopFlag(true);
-		swprintf_s(moveFilePath, L"Assets/animData/%s_attack.tka", m_Name);
+		swprintf_s(moveFilePath, L"Assets/animData/%s_attack.tka", m_Status->m_CharaName.c_str());
 		m_animationclip[attack].Load(moveFilePath);
 		m_animationclip[attack].SetLoopFlag(true);
-		swprintf_s(moveFilePath, L"Assets/animData/%s_walk.tka", m_Name);
+		swprintf_s(moveFilePath, L"Assets/animData/%s_walk.tka", m_Status->m_CharaName.c_str());
 		m_animationclip[walk].Load(moveFilePath);
 		m_animationclip[walk].SetLoopFlag(true);
 		m_animation.Init(m_model, m_animationclip, animnum);
@@ -83,7 +84,7 @@ void Enemyleader::Update()
 		else {
 			for (auto enemy : m_enemy) {
 				m_model.UpdateInstancingData(enemy->Get2DPosition() + m_speed, CQuaternion::Identity(), CVector3::One());
-				enemy->SetPosition(enemy->Get2DPosition() + m_speed);
+				enemy->SetPosition(enemy->Get2DPosition() + m_speed );
 				enemy->SetAngle(m_angle);
 				enemy->ChangeColliderPosition(enemy->Get2DPosition());
 				m_state = m_group_state;
@@ -96,7 +97,6 @@ void Enemyleader::Update()
 	case group_move:
 		Move();
 		distance = m_player->Get2Dposition() - m_position;
-
 		if (distance.Length() < 500.0f)
 		{
 			for (auto enemy : m_enemy) {
@@ -118,14 +118,29 @@ void Enemyleader::Update()
 		}
 		break;
 	case person:
-		for (auto enemy : m_enemy) {
-			enemy->Update();
-			if (m_state == gathering)
+		for (auto enemy = m_enemy.begin(); enemy != m_enemy.end();) {
+			(*enemy)->Update();
+			if (!(*enemy)->GetLife())
 			{
-				for (auto enemy : m_enemy) {
-					enemy->TransitionState(Enemy::State_Gathering);
+				m_remaining--;
+				if (m_remaining <= 0)
+				{
+					m_position = (*enemy)->Get3DPosition();
+					m_life = false;
 				}
-				break;
+				delete *enemy;
+				enemy = m_enemy.erase(enemy);
+			}
+			else
+			{
+				if (m_state == gathering)
+				{
+					for (auto enemy : m_enemy) {
+						enemy->TransitionState(Enemy::State_Gathering);
+					}
+					break;
+				}
+				enemy++;
 			}
 		}
 		break;
@@ -138,44 +153,19 @@ void Enemyleader::Update()
 		if (m_ninzuu >= m_remaining)
 		{
 			m_state = m_group_state;
-			//for (int i = 0; i < SOLDIER; i++) {
-			//	m_enemy[i]->TransitionState(Enemy::State_Attack);			//デバックで追加.製品ではいらない初期化。
-			//}
 		}
 	}
 	break;
 	default:
 		break;
 	}
-	m_enemy.begin();
-	for (auto enemy = m_enemy.begin(); enemy != m_enemy.end();) {
-		if (!(*enemy)->GetLife())
-		{
-			m_remaining--;		
-			if (m_remaining <= 0)
-			{
-				m_position = (*enemy)->Get3DPosition();
-
-				m_life = false;
-			}
-			delete *enemy;
-			enemy = m_enemy.erase(enemy);
-
-		}
-		else
-		{
-			enemy++;
-		}
-	}
 
 	//m_animation.Play(idle, 0.2f);
-
 }
 void Enemyleader::Draw()
 {
 
-	m_animation.Update(1.0f/30.0f)
-		;
+	m_animation.Update(1.0f / 30.0f);
 	if (m_state == m_group_state) {
 		m_model.Draw(
 			g_camera3D.GetViewMatrix(),
@@ -194,7 +184,6 @@ void Enemyleader::Draw()
 }
 void Enemyleader::Move()
 {
-	m_speed = CVector3::Zero();
 	CVector3 nowpos = m_position;
 	m_speed = m_nextpos - nowpos;
 	if (m_speed.Length() <= 50.0f)
@@ -207,7 +196,7 @@ void Enemyleader::Move()
 		}
 		m_oldposition = m_nextpos;
 	}
-	float speed = 100.0f;
+	float speed = m_Status->m_Speed;
 	static int m_fream = 0;
 	if (++m_fream > 100) {
 		m_path->Course(nowpos, m_player->Get2Dposition());

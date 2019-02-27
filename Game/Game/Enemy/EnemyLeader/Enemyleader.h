@@ -4,6 +4,7 @@
 #include"../../Path.h"
 #include"Score.h"
 #include <array> 
+#include"Status.h"
 /// <summary>
 /// Enemy1グループの動作クラス。
 /// </summary>
@@ -124,6 +125,26 @@ public:
 	/// グループ状態での移動計算処理。
 	/// </summary>
 	void Move();
+	//void DreteEnemy()
+	//{
+	//	for (auto enemy = m_enemy.begin(); enemy != m_enemy.end();) {
+	//		if (!(*enemy)->GetLife())
+	//		{
+	//			m_remaining--;		
+	//			if (m_remaining <= 0)
+	//			{
+	//				m_position = (*enemy)->Get3DPosition();
+	//				m_life = false;
+	//			}
+	//			delete *enemy;
+	//			enemy = m_enemy.erase(enemy);
+	//		}
+	//		else
+	//		{
+	//			enemy++;
+	//		}
+	//	}
+	//}
 	/// <summary>
 	/// 
 	/// </summary>
@@ -149,9 +170,9 @@ public:
 	{
 		return m_life;
 	}
-	void SetfileName(const wchar_t* name)
+	void SetStatus(Ability* Status)
 	{
-		m_Name = name;
+		m_Status = Status;
 	}
 	void SetScore(Score* score)
 	{
@@ -176,7 +197,7 @@ private:
 	int m_remaining = SOLDIER;									//今現在のエネミー総数		
 	int m_ninzuu = 0;											//今現在のグループ状態の人数（集合時に使用）
 	bool m_life = true;											//生存フラグ
-	const wchar_t* m_Name = nullptr;							//
+	Ability* m_Status = nullptr;
 	Score* m_Score = nullptr;
 	//回転関係の変数
 	CMatrix m_Rot;												//角度に関する行列

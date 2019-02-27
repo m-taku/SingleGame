@@ -161,8 +161,8 @@ PSInput VSMainSkincreate( VSInputNmTxWeights In ,float4x4 worldMat)
 	    skinning += boneMatrix[In.Indices[3]] * (1.0f - w);
 	  	//頂点座標にスキン行列を乗算して、頂点をワールド空間に変換。
 		//mulは乗算命令。
-	   pos = mul(skinning, In.Position);
 	}
+	pos = mul(skinning, In.Position);
 	pos = mul(worldMat, pos);
 	float4x4 normal = 0;
 	normal= mul(worldMat, skinning);

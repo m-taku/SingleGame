@@ -127,7 +127,7 @@ void SkinModel::UpdateInstancingData(
 			//平行移動行列を作成する。
 			transMatrix.MakeTranslation(trans);
 			//回転行列を作成する。
-			rotMatrix = CMatrix::Identity();
+			rotMatrix=CMatrix::Identity();// MakeRotationFromQuaternion(rot);
 			//拡大行列を作成する。
 			scaleMatrix = CMatrix::Identity();
 			//ワールド行列を作成する。

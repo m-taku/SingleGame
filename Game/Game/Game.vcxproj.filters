@@ -213,6 +213,11 @@
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="graphics\g_SRVlist.cpp" />
     <ClCompile Include="Score.cpp" />
+    <ClCompile Include="sound\SoundEngine.cpp" />
+    <ClCompile Include="sound\SoundSource.cpp" />
+    <ClCompile Include="sound\WaveFile.cpp" />
+    <ClCompile Include="sound\WaveFileBank.cpp" />
+    <ClCompile Include="Ability.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -397,6 +402,12 @@
     <ClInclude Include="Item.h" />
     <ClInclude Include="graphics\g_SRVlist.h" />
     <ClInclude Include="Score.h" />
+    <ClInclude Include="sound\SoundEngine.h" />
+    <ClInclude Include="sound\SoundSource.h" />
+    <ClInclude Include="sound\WaveFile.h" />
+    <ClInclude Include="sound\WaveFileBank.h" />
+    <ClInclude Include="Ability.h" />
+    <ClInclude Include="Status.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
@@ -531,6 +542,7 @@
     <MeshContentTask Include="Assets\modelData\enemy_hero.fbx" />
     <MeshContentTask Include="Assets\modelData\AAAAAAAAAAAAAAA.fbx" />
     <MeshContentTask Include="Assets\modelData\AAAAAAAAAAAAAA.fbx" />
+    <MeshContentTask Include="Assets\modelData\enemy_Lance.FBX" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\level\stage_01.tkl">

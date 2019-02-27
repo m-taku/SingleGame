@@ -39,6 +39,8 @@ public:
 	{
 		m_animationClip = clip;
 		m_currentKeyFrameNo = 0;
+		m_Event = false;
+		m_eventname = L"NULL";		
 		m_time = 0.0f;
 		m_isPlaying = true;
 	}

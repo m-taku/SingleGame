@@ -37,6 +37,7 @@ void GameobjectManager::Execute()
 			}
 		}
 	}
+
 	//ここからレンダー系の処理を書く
 	//g_graphicsEngine->GetShadowMap()->UpdateFromLightTarget(
 	//	{ -0.707f,0.707f,0.0f },
@@ -46,7 +47,7 @@ void GameobjectManager::Execute()
 
 	for (auto& list : m_List) {
 		for (auto objedct : list.GetList()) {
-			if (objedct->GetLodefrag()) {
+			if (objedct->GetLodefrag()&& objedct->Getislife()) {
 				objedct->Draw();
 			}
 		}
@@ -60,7 +61,7 @@ void GameobjectManager::Execute()
 
 	for (auto& list : m_List) {
 		for (auto objedct : list.GetList()) {
-			if (objedct->GetLodefrag()) {
+			if (objedct->GetLodefrag() && objedct->Getislife()) {
 				objedct->PostDraw();
 			}
 		}
@@ -75,7 +76,6 @@ void GameobjectManager::DeleteExecution()
 	m_DeleteNo = ++m_DeleteNo % 2;
 	for (auto Deleteobject : m_DeleteList[nowNo]) {
 		int no = Deleteobject->GetPriority();
-		Deleteobject->OnDestroy();
 		if (!m_List[no].DereteGo(Deleteobject))
 		{
 			//クラッシュさせたい
@@ -109,9 +109,8 @@ bool GameobjectManager::DereteGO(char* Name)
 {
 	int No = 0;
 	for (auto& list : m_List) {
-		for (auto objedct : list.GetList()) {
-
-			if (Name == objedct->GetName()) {
+		for (auto objedct : list.GetList()){
+			if (Name == objedct->GetName()){
 				auto map = list.GetList();
 				m_DeleteList[m_DeleteNo].push_back(map[No]);
 				map[No]->deleteobjiect();

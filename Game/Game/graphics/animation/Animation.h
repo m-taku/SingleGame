@@ -97,6 +97,7 @@ private:
 		m_animationPlayController[index].SetInterpolateTime(interpolateTime);
 		m_interpolateTime = 0.0f;
 		m_interpolateTimeEnd = interpolateTime;
+
 	}
 	/*!
 		* @brief	ローカルポーズの更新。

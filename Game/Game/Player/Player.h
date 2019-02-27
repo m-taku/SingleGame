@@ -1,6 +1,7 @@
 #pragma once
 #include "character/CharacterController.h"
 #include"UI.h"
+#include"Status.h"
 class Player_State;
 class Gamecamera;
 class Navimake;
@@ -18,14 +19,7 @@ public:
 	/// デストラクタ。
 	/// </summary>
 	~Player();
-	struct PlyerStatus
-	{
-		float HP = 100.0f;				//現在のHP
-		float Attack = 10.0f;				//基本の攻撃力
-		float Defense = 10.0f;				//基本の守備力
-		float Speed = 500.0f;				//基本のスピード
-	};
-	const PlyerStatus p_status;
+	const Ability* p_status = new PlyerStatus;
 	/// <summary>
 	/// アニメーション用のenum。
 	/// </summary>
@@ -93,6 +87,10 @@ public:
 	void ChangeAnimation(animation Animation,float taim=0.2f)
 	{
 		m_animation.Play(Animation, taim);
+	}
+	bool IsEvent()
+	{
+		return m_animation.IsEvent();
 	}
 	void UpdateFront()
 	{
@@ -188,29 +186,29 @@ public:
 	/// 
 	/// </summary>
 	/// <returns></returns>
-	PlyerStatus GetStatu()
+	const Ability& GetStatu()
 	{
-		return m_plyerStatus;
+		return *m_plyerStatus;
 	}
 	void SetStatu_Speed(float speed)
 	{
-		m_plyerStatus.Speed = max(m_plyerStatus.Speed,speed);
+		m_plyerStatus->m_Speed = max(m_plyerStatus->m_Speed,speed);
 
 	}
 	void SetStatu_Attack(float attack)
 	{
-		m_plyerStatus.Attack = max(m_plyerStatus.Attack, attack);
+		m_plyerStatus->m_Attack = max(m_plyerStatus->m_Attack, attack);
 
 	}
 	void SetStatu_Defense(float defense)
 	{
-		m_plyerStatus.Defense = max(m_plyerStatus.Defense, defense);
+		m_plyerStatus->m_Defense = max(m_plyerStatus->m_Defense, defense);
 
 	}
 	void AddStatu_NowHP(float now_HP)
 	{
-		m_plyerStatus.HP = max(p_status.HP, m_plyerStatus.HP + now_HP);
-		auto wariai = m_plyerStatus.HP / p_status.HP;
+		m_plyerStatus->m_HP = max(p_status->m_HP, m_plyerStatus->m_HP + now_HP);
+		auto wariai = m_plyerStatus->m_HP / p_status->m_HP;
 		m_ui->SetDamage(1.0f - wariai);
 	}
 	/// <summary>
@@ -241,10 +239,10 @@ public:
 	/// </param>
 	void Damage(float damage)
 	{
-		float hidame = damage - m_plyerStatus.Defense;
+		float hidame = damage - m_plyerStatus->m_Defense;
 		if (hidame > 0.0f) {
-			m_plyerStatus.HP -= hidame;
-			auto wariai = m_plyerStatus.HP / p_status.HP;
+			m_plyerStatus->m_HP -= hidame;
+			auto wariai = m_plyerStatus->m_HP / p_status->m_HP;
 			m_ui->SetDamage(1.0f - wariai);
 		}
 	}
@@ -294,14 +292,14 @@ private:
 	CVector3 m_amount = { 0.0f,0.0f,0.0f };				//スティックの移動量
 	float m_angle = 0.0f;								//回転角度（ラジアン）
 	VectorDraw* m_debugVector =nullptr;					//デバック用のベクトル表示
-	PlyerStatus m_plyerStatus;
+	//PlyerStatus m_plyerStatus;
+	Ability* m_plyerStatus = new PlyerStatus;
 	Player_State* m_State = nullptr;
 	bool m_Hit = false;
 	float m_speed = 0.0f;
 	Timer m_Attacktimer;// = nullptr;
 	Timer m_Defensetimer;// = nullptr;
 	Timer m_Speedtimer;// = nullptr;
-	
 	//CVector3 m_angle = CVector3::Zero();				
 	//wchar_t bonename[50];								//名前
 	//int bonenum = 0;									

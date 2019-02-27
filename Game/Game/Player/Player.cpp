@@ -8,16 +8,13 @@
 
 Player::Player()
 {
-	//m_collider.Init(15.0f, 80.0f, m_position);
-	//m_model.Init(L"Assets/modelData/unityChan.cmo");
-	//m_Attacktimer= new Timer;
-	//m_Defensetimer= new Timer;
-	//m_Speedtimer= new Timer;
 }
 Player::~Player()
 {
 	delete m_State;
 	delete m_debugVector;
+	delete m_plyerStatus;
+	delete p_status;
 }
 void Player::OnDestroy()
 {
@@ -100,10 +97,10 @@ void Player::Update()
 	m_State->Update();
 	m_debugVector->Update({0.0f,0.0f,0.0f});
 	UpdateFront();
-	m_movespeed.x = m_Front.x * m_plyerStatus.Speed*m_speed;
-	m_movespeed.z = m_Front.z * m_plyerStatus.Speed*m_speed;
+	m_movespeed.x = m_Front.x * m_plyerStatus->m_Speed*m_speed;
+	m_movespeed.z = m_Front.z * m_plyerStatus->m_Speed*m_speed;
 	m_movespeed.y -= GRAVITY;
-	if (g_pad[0].IsTrigger(enButtonA))
+	if(g_pad[0].IsTrigger(enButtonA))
 	{
 		m_movespeed.y = 5000.0f;
 	}
@@ -111,7 +108,7 @@ void Player::Update()
 	m_model.UpdateWorldMatrix(m_position, m_rotation, { 1.0f,1.0f,1.0f });
 	g_graphicsEngine->SetShadoCaster(&m_model);
 	m_model.SetShadowReciever(true);
-	m_animation.Update(1.0f / 30.0f);
+	m_animation.Update(1.0f / 20.0f);
 	//‚±‚±‚©‚ç‰e‚Ìˆ—
 	auto ritpos = m_position;
 	CVector3 m = { -707.0f,707.0f, 0.0f };
@@ -132,8 +129,8 @@ void Player::Draw()
 void Player::Hit(float damage)
 {
 	if (!m_Hit) {
-		Damage(20.0f);
-		if (m_plyerStatus.HP <= 0.0f)
+		Damage(damage);
+		if (m_plyerStatus->m_HP <= 0.0f)
 		{
 			TransitionState(State_did);
 			m_Hit = true;

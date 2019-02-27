@@ -12,13 +12,18 @@
 #include <map>
 #include <functional>
 #include <algorithm>
+#include <xaudio2.h>
+#include <x3daudio.h>
+#include <xaudio2fx.h>
 #include <array>
-
-#define _CRTDBG_MAP_ALLOC #include <stdlib.h> #include <crtdbg.h>  
+//
+//#define _CRTDBG_MAP_ALLOC #include <stdlib.h> #include <crtdbg.h>  
 #include "btBulletDynamicsCommon.h"
 #include "BulletCollision\CollisionDispatch\btGhostObject.h"
 #include"Noncopyable/Noncopyable.h"
 
+#include "Effekseer.h" 
+#include "EffekseerRendererDX11.h"
 #include"Gameobject/GameobjectManager.h"
 //DirectXTKのインクルードファイル。
 #include "DirectXTK/Inc/Model.h"
@@ -41,13 +46,13 @@
 #include "graphics/animation/AnimationClip.h"
 #include "graphics/sprite.h"
 #include "Gameobject/Gameobject.h"
-#include "VectorDraw.h"
 #include "color.h"
 #include "physics/Physics.h"
 #include "GameObjectPriority.h"
 #include "GameObjectName.h"
 #include"font.h"
 #include"Timer.h"
+#include "VectorDraw.h"
 #include "HitObjict.h"
 extern GameobjectManager* g_objectManager;
 extern HitObjict* g_HitObjict;

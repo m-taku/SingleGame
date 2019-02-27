@@ -3,6 +3,7 @@
 #include"level/Level.h"
 #include "Item.h"
 #include "title.h"
+#include"Status.h"
 
 
 EnemyManager::EnemyManager()
@@ -46,7 +47,7 @@ bool EnemyManager::Load()
 		else
 		{
 			if (hoge <= 1) {
-				SpawnEnemy(objData.position,L"enemy_hero");
+				SpawnEnemy(objData.position,new enemy_Lance);
 			}
 			return true;
 		}
@@ -62,7 +63,7 @@ void EnemyManager::Update()
 	{
 		if (m_Maxsporn >=m_enemy.size()) {
 			m_No = (m_No + 1) % 2;
-			SpawnEnemy(m_spawnpos[m_No], L"enemy_hero");
+			SpawnEnemy(m_spawnpos[m_No], new enemy_hero);
 		}			
 		m_timer->TimerStart();
 	}
@@ -71,8 +72,8 @@ void EnemyManager::Update()
 		if (!(*enemy)->Getlife())
 		{
 			g_objectManager->DereteGO(*enemy);
-			auto item = g_objectManager->NewGO<Item>(GameObjectPriority_Default, "Item");
-			item->SetPosition((*enemy)->GetPosition());
+			//auto item = g_objectManager->NewGO<Item>(GameObjectPriority_Default, "Item");
+			//item->SetPosition((*enemy)->GetPosition());
 			enemy = m_enemy.erase(enemy);
 		}
 		else
@@ -81,12 +82,12 @@ void EnemyManager::Update()
 		}
 	}
 }
-void EnemyManager::SpawnEnemy(CVector3 pos,const wchar_t* fileName)
+void EnemyManager::SpawnEnemy(CVector3 pos,Ability* k)
 { 
 	m_enemy.push_back(g_objectManager->NewGO<Enemyleader>(GameObjectPriority_EnemyLeader, "Enemyleader"));
 	auto No = m_enemy.size() - 1;
 	m_enemy[No]->SetPosition(pos);
-	m_enemy[No]->SetfileName(fileName);
+	m_enemy[No]->SetStatus(k);
 	m_enemy[No]->SetScore(m_Score);
 	m_enemy[No]->SetPlayer(m_player);
 }

@@ -1,8 +1,9 @@
 #pragma once
 #include "character/CharacterController.h"
-#include"../Player/Player.h"
+#include"Player.h"
 #include"../../Path.h"
 #include"EnemyLeader/EnemyLeader.h"
+#include"Status.h"
 class EnemyState;
 class HitObjict;
 class HitReceive;
@@ -86,14 +87,15 @@ public:
 		return m_position;
 	}
 	/// <summary>
-	/// 移動速度の遷移。（初期値は500.0f）
+	/// 移動速度の遷移。（初期値は。m_Statusのm_Speed）
 	/// </summary>
 	/// <param name="speed">
-	/// 変更したい速度。（float）
+	/// 変更したい速度の割合。(float）
 	/// </param>
 	void SetSpeed(const float& speed)
 	{
-		m_speed = speed;
+		auto Speeeeed = m_Status->m_Speed*speed;
+		m_speed = Speeeeed;
 	}
 	/// <summary>
 	/// モデルの回転角度への加算。
@@ -240,6 +242,10 @@ public:
 	{
 		return m_Leader->GetPosition();
 	}
+	void Setdebugpos(CVector3 pos)
+	{
+		m_debugVecor->Update(pos);
+	}
 	/// <summary>
 	/// HPバーの計算+表示。
 	/// </summary>
@@ -319,6 +325,10 @@ public:
 		m_collider.SetPosition(m_position);
 	}
 	void Hit(float damage);
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <returns></returns>
 	bool GetLife()
 	{
 		return m_life;
@@ -338,10 +348,15 @@ public:
 	/// <summary>
 	/// 
 	/// </summary>
-	/// <param name="name"></param>
-	void SetfileName(const wchar_t* name)
+	/// <param name="Status"></param>
+	void SetStatus(Ability* Status)
 	{
-		m_Name = name;
+		m_Status = Status;
+		m_HP = m_Status->m_HP;
+	}
+	const Ability* GetStatus()
+	{
+		return m_Status;
 	}
 	void SetScore(Score* score)
 	{
@@ -362,19 +377,19 @@ private:
 	Animation m_animation;									//アニメーションのインスタンス
 	Enemyleader* m_Leader = nullptr;						//m_Leaderのポインタ
 	Player* m_player = nullptr;								//Playerのポインタ
-	//VectorDraw* m_debugVecor = nullptr;						//デバック用のベクトル表示
+	VectorDraw* m_debugVecor = nullptr;						//デバック用のベクトル表示
 	Path m_path;											//経路探査のインスタンス
 	EnemyState* m_enemystate = nullptr;						//エネミーのステート
 	State m_state = State_Tracking;							//ステートの状態
 	CMatrix m_Rot;											//角度に関する行列
 	CVector3 m_Front = CVector3::Zero();					//エネミーの前方向
-	CQuaternion m_angle = CQuaternion::Identity();			//回転角度
 	CVector3 m_position = { 0.0f,150.0f,-30.0f };			//現在位置
 	CVector3 m_moveVector = CVector3::Zero();				//移動させるベクトル
 	CVector3 m_Sprite_Front = CVector3::AxisZ()*-1;	        //テクスチャの前方向
 	CVector3 m_nextpos = CVector3::Zero();					//経路探査で出た次のポジション
-	const wchar_t* m_Name = nullptr;
+	CQuaternion m_angle = CQuaternion::Identity();			//回転角度
 	Score* m_Score = nullptr;
+	Ability* m_Status = nullptr;
 	CQuaternion m_Sprite_angle = CQuaternion::Identity();	//テクスチャの回転角度
 	const float m_kaku = 10.0f;								//1フレームで回転させる最大角度(degree)
 	const float m_margin = CMath::DegToRad(m_kaku);			//1フレームで回転させる最大角度(radian)

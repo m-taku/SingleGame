@@ -12,21 +12,21 @@ EnemyStateAttack::EnemyStateAttack(Enemy* enamy, Player* player) :EnemyState(ena
 {
 	m_boneNo = m_enemy->GetNo();
 	FindSwordpos();
-	m_debugVecor = new VectorDraw(m_handpos);
+	//m_debugVecor = new VectorDraw(m_handpos);
 	m_oldSwordcenter = m_Swordcenter;
 	m_oldhandpos = m_handpos;
 	m_enemy->ChangeAnimation(Enemy::attack);
 }
 EnemyStateAttack::~EnemyStateAttack()
 {
-	delete m_debugVecor;
+	//delete m_debugVecor;
 }
 void EnemyStateAttack::Update()
 {
 	auto distance = m_player->Get2Dposition() - m_enemy->Get2DPosition();
 	m_enemy->FindAngle(distance);
 	//m_debugVecor->Update(CVector3::Zero());
-	if (distance.Length()<=300.0f) {
+	if (distance.Length() <= 300.0f) {
 		m_enemy->ChangeAnimation(Enemy::attack);
 		FindSwordpos();
 		//m_debugVecor->Draw();
@@ -34,10 +34,9 @@ void EnemyStateAttack::Update()
 		if (!m_Hit) {
 			if (m_enemy->GetIsEvent())
 			{
-				m_Hit = g_HitObjict->HitTest(hitpoint, 20.0f, HitReceive::player);
-
+				m_Hit = g_HitObjict->HitTest(hitpoint, m_enemy->GetStatus()->m_Attack, HitReceive::player);
 			}
-		}		
+		}
 		m_oldSwordcenter = m_Swordcenter;
 		//CollisionTest();
 		if (!m_enemy->GetanimationPlaying()) {
@@ -45,20 +44,22 @@ void EnemyStateAttack::Update()
 			m_enemy->ChangeAnimation(Enemy::attack);
 			m_Hit = false;
 		}
-		m_debugVecor->Update(hitpoint);
+		m_enemy->Setdebugpos(hitpoint);
+		//m_debugVecor->Update(hitpoint);
 	}
 	else
 	{
 		m_enemy->ChangeAnimation(Enemy::walk);
-		m_enemy->SetSpeed(100.0f);
+		m_enemy->SetSpeed(1.0f / 2.0f);
+		m_enemy->Setdebugpos({0.0f,0.0f,0.0f});
 	}
 	if (distance.Length() >= 500.0f)
 	{
-		m_enemy->SetSpeed(500.0f);
+		m_enemy->SetSpeed(1.0f);
 		m_enemy->TransitionState(Enemy::State_Move);
 	}
-	m_debugVecor->Draw();
-
+	//m_debugVecor->Draw();
+	
 }
 //struct Attack : public btCollisionWorld::ConvexResultCallback
 //{

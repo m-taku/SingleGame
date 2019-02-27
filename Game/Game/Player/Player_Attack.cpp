@@ -53,11 +53,11 @@ void Player_Attack::Update()
 		m_player->Setspeed(0.0f);
 	}
 	m_player->ChangeAnimation(Player::attack);
-	if (true) {
+	if (m_player->IsEvent()) {
 		CVector3 atari = m_player->Get3Dposition();
 		atari.y += 50.0f;
 		atari += m_player->GetFront() * 50.0f;
-		g_HitObjict->HitTest(atari, m_player->GetStatu().Attack, HitReceive::enemy);
+		g_HitObjict->HitTest(atari, m_player->GetStatu().m_Attack, HitReceive::enemy);
 	}
 	if (!m_player->GetanimationPlaying()) {
 		m_player->TransitionState(Player::State_Move);

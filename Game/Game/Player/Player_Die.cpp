@@ -5,6 +5,7 @@
 Player_Die::Player_Die(Player* pla) :Player_State(pla)
 {
 	m_player->ChangeAnimation(Player::ded);
+	m_player->Setspeed(0.0f);
 }
 
 Player_Die::~Player_Die()

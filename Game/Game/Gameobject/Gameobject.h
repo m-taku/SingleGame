@@ -106,13 +106,13 @@ public:
 	/// </summary>
 	void deleteobjiect()
 	{
-		m_islife = false;
+		m_islife = false;			
+		OnDestroy();
 	}
 	bool Getislife()
 	{
 		return m_islife;
 	}
-	//virtual void Hit() {};
 private:
 	std::string m_Name = "NULL";     	//インスタンスの名前
 	int m_priority = 0;					//優先度

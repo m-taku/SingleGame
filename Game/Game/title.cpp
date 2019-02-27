@@ -12,6 +12,8 @@ title::~title()
 }
 bool title::Load()
 {
+	m_bgmA.Init(L"Assets/sound/coinGet.wav");
+	m_bgmA.Play(true);
 	m_texture_moji.CreateFromDDSTextureFromFile(L"Resource/sprite/taitoru.dds");
 	m_title_haikei.Init(m_texture_moji.GetBody(), 1280.0f, 720.0f);
 	m_texture_haikei.CreateFromDDSTextureFromFile(L"Resource/sprite/yellow.dds");
