@@ -40,7 +40,7 @@ void Player_Move::Update()
 		CQuaternion rod;
 		rod.SetRotation(CVector3::AxisY(), m_angle);
 		m_player->Setrotation(rod);
-		if (amount.Length() >= 0.5f)
+		if (amount.Length() >= 0.3f)
 		{
 			m_player->ChangeAnimation(Player::run);
 		}

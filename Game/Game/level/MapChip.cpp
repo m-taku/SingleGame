@@ -4,6 +4,7 @@
 
 MapChip::MapChip(const LevelObjectData& objData)
 {
+
 	wchar_t filePath[256];
 	swprintf_s(filePath, L"Assets/modelData/%s.cmo", objData.name);
 	m_model.Init(filePath,1);

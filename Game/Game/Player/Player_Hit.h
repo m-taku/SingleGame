@@ -6,6 +6,6 @@ public:
 	Player_Hit(Player* player);
 	~Player_Hit();
 	void Update();
-
+	
 };
 

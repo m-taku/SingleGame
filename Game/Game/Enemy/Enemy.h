@@ -47,7 +47,9 @@ public:
 		State_Tracking,		//追尾中	
 		State_Move,			//尾行中
 		State_Attack,		//攻撃中
-		State_Gathering		//集合中
+		State_Gathering,	//集合中
+		State_Hit, 
+		State_Dead
 	};
 	/// <summary>
 	/// アニメーション用のenum。
@@ -56,6 +58,8 @@ public:
 		idle,		//停止アニメーション
 		attack, 
 		walk,
+		hit,
+		dead,
 		animnum		//アニメーション状態
 	};
 	/// <summary>
@@ -354,13 +358,30 @@ public:
 		m_Status = Status;
 		m_HP = m_Status->m_HP;
 	}
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <returns></returns>
 	const Ability* GetStatus()
 	{
 		return m_Status;
 	}
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="score"></param>
 	void SetScore(Score* score)
 	{
 		m_Score = score;
+	}
+	/// <summary>
+	/// 
+	/// </summary>
+	void DeleteHitobj();
+	void DeleteEnemy()
+	{
+		m_life = false;
+		m_Score->AddScore();
 	}
 private:
 	/// <summary>

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "EnemyStateAttack.h"
 #include"../../Player/Player.h"
-#include"../HitObjict.h"
+//#include"../HitObjict.h"
 #include "Physics/CollisionAttr.h"
 #include"Enemy.h"
 namespace {
@@ -34,7 +34,7 @@ void EnemyStateAttack::Update()
 		if (!m_Hit) {
 			if (m_enemy->GetIsEvent())
 			{
-				m_Hit = g_HitObjict->HitTest(hitpoint, m_enemy->GetStatus()->m_Attack, HitReceive::player);
+				m_Hit = GetHitObjict().HitTest(hitpoint, m_enemy->GetStatus()->m_Attack, HitReceive::player);
 			}
 		}
 		m_oldSwordcenter = m_Swordcenter;

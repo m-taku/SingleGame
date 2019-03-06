@@ -20,7 +20,6 @@ bool Enemy::Load()
 {
 	//cmoファイルの読み込み。
 	InitAnim();	
-
 	m_collider.Init(30.0f, 60.0f, m_position);
 	InitTex();
 	Findarm();
@@ -34,8 +33,12 @@ bool Enemy::Load()
 	TransitionState(State_Move);
 	m_position.y = 0.0f;
 	m_model.UpdateWorldMatrix(m_position, m_angle, CVector3::One());
-	m_obj = g_HitObjict->Create(&m_position, 60.0f,[&](float damage){ Hit(damage);
-	}, HitReceive::enemy);
+	m_obj = GetHitObjict().Create(&m_position, 1000.0f,
+		[&](float damage)
+	{ 
+		Hit(damage);
+	},
+		HitReceive::enemy);
 	m_Leader->CopySkinModel().UpdateInstancingData(m_position, CQuaternion::Identity(), CVector3::One());
 	return true;
 }
@@ -60,6 +63,12 @@ void Enemy::InitAnim()
 	swprintf_s(moveFilePath, L"Assets/animData/%s_walk.tka", m_Status->m_CharaName.c_str());
 	m_animationclip[walk].Load(moveFilePath);
 	m_animationclip[walk].SetLoopFlag(true);
+	swprintf_s(moveFilePath, L"Assets/animData/%s_hit.tka", m_Status->m_CharaName.c_str());
+	m_animationclip[hit].Load(moveFilePath);
+	m_animationclip[hit].SetLoopFlag(false);
+	swprintf_s(moveFilePath, L"Assets/animData/%s_dead.tka", m_Status->m_CharaName.c_str());
+	m_animationclip[dead].Load(moveFilePath);
+	m_animationclip[dead].SetLoopFlag(false);
 	m_animation.Init(m_model, m_animationclip, animnum);
 	m_animation.Play(walk, 0.2f);
 }
@@ -97,21 +106,20 @@ void Enemy::TransitionState(State m_state)
 	case State_Gathering:
 		m_enemystate = new EnemyStategathering(this, m_player);
 		break;
+	case State_Hit:
+		m_enemystate = new EnemyStateHit(this, m_player);
+		break;
+	case State_Dead:
+		m_enemystate = new EnemyStateDead(this, m_player);
+		break;
 	default:
 		break;
 	}
 	m_model.UpdateWorldMatrix(m_position, m_angle,CVector3::One());
-	//m_animation.Update(1.0f / 30.0f);
+	m_animation.Update(GetTime().GetFrameTime());
 }
 void Enemy::Update()
 {
-	if (m_HP <= 0.01f)
-	{
-		m_life = false;
-		m_Score->SetScore();
-		g_HitObjict->Deleteobjict(m_obj);
-		return;
-	}
 	m_enemystate->Update();
 	//ワールド行列の更新。	
 	m_Rot.MakeRotationFromQuaternion(m_angle);
@@ -120,10 +128,10 @@ void Enemy::Update()
 	m_Front.z = m_Rot.m[2][2];
 	m_Front.y = 0.0f;
 	m_Front.Normalize();
-	m_moveVector = m_Front*m_speed;
-	m_moveVector.y -= 9.8*10.0f;
-	//m_position += m_moveVector * 1.0f / 30.0f;
-	m_position = m_collider.Execute(1.0f / 30.0f, m_moveVector);
+	m_moveVector = m_Front * m_speed;
+	m_moveVector.y -= GRAVITY;
+	//m_position += m_moveVector *GetFrameDeltaTime();
+	m_position = m_collider.Execute(GetTime().GetFrameTime(), m_moveVector);
 	CVector3 distance = m_player->Get2Dposition() - Get2DPosition();
 	if (distance.Length() >= 1000.0f)
 	{
@@ -142,7 +150,8 @@ void Enemy::postDraw()
 }
 void Enemy::Draw()
 {
-	m_animation.Update(1.0f / 20.0f);
+
+	m_animation.Update(GetTime().GetFrameTime());
 	m_model.Draw(
 		g_camera3D.GetViewMatrix(),
 		g_camera3D.GetProjectionMatrix()
@@ -234,5 +243,16 @@ void Enemy::Hit(float damage)
 	if (hidame > 0.0f)
 	{
 		m_HP -= hidame;
+		if (m_HP <= 0.01f)
+		{
+			TransitionState(State_Dead);
+		}
+		else {
+			TransitionState(State_Hit);
+		}
 	}
+}
+void Enemy::DeleteHitobj()
+{
+	GetHitObjict().Deleteobjict(m_obj);
 }

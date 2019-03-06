@@ -157,14 +157,6 @@ public:
 	/// <summary>
 	/// 
 	/// </summary>
-	/// <param name="Hit"></param>
-	void Sethit(HitObjict* Hit)
-	{
-		m_hit = Hit;
-	}
-	/// <summary>
-	/// 
-	/// </summary>
 	/// <returns></returns>
 	bool Getlife()
 	{
@@ -184,7 +176,6 @@ private:
 	//CharacterController m_collider;							//キャラクターコントローラー
 	AnimationClip m_animationclip[animnum];						//アニメーションクリップ
 	Animation m_animation;										//アニメーションのインスタンス
-	HitObjict* m_hit = nullptr;
 	Path* m_path=nullptr;									    //経路探査用のインスタンス
 	Player* m_player = nullptr;									//プレイヤーのインスタンス
 	std::list<Enemy*> m_enemy;						            //エネミーのインスタンス（SOLDIER）

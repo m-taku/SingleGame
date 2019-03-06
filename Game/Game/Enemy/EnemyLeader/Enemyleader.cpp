@@ -66,17 +66,34 @@ void Enemyleader::Update()
 	/*for (int i = 0; i < m_remaining; i++) {
 		m_enemy[i]->Update();
 	}*/
+	for (auto enemy = m_enemy.begin(); enemy != m_enemy.end();) {
+		if (!(*enemy)->GetLife())
+		{
+			m_remaining--;
+			if (m_remaining <= 0)
+			{
+				m_position = (*enemy)->Get3DPosition();
+				m_life = false;
+			}
+			delete *enemy;
+			enemy = m_enemy.erase(enemy);
+		}
+		else
+		{
+			enemy++;
+		}
+	}
 	int i = 0;
 	CVector3 distance = CVector3::Zero();
 	switch (m_state)
 	{
 	case group_stop:
-		distance = m_player->Get2Dposition() - m_position;	
+		distance = m_player->Get2Dposition() - m_position;
 		m_position += m_speed;
 		//Ç±Ç±Ç≈å¬ï Ç…ïœçX
 		if (distance.Length() < 500.0f)
 		{
-			for (auto enemy: m_enemy) {
+			for (auto enemy : m_enemy) {
 				enemy->TransitionState(Enemy::State_Move);
 			}
 			ChangeSteat(person);
@@ -84,7 +101,7 @@ void Enemyleader::Update()
 		else {
 			for (auto enemy : m_enemy) {
 				m_model.UpdateInstancingData(enemy->Get2DPosition() + m_speed, CQuaternion::Identity(), CVector3::One());
-				enemy->SetPosition(enemy->Get2DPosition() + m_speed );
+				enemy->SetPosition(enemy->Get2DPosition() + m_speed);
 				enemy->SetAngle(m_angle);
 				enemy->ChangeColliderPosition(enemy->Get2DPosition());
 				m_state = m_group_state;
@@ -106,7 +123,7 @@ void Enemyleader::Update()
 		}
 		else {
 			for (auto enemy : m_enemy) {
-				m_model.UpdateInstancingData(enemy->Get2DPosition() /*+ m_speed*/, m_angle/* CQuaternion::Identity()*//*enemy->GetAngle()*/,CVector3::One());
+				m_model.UpdateInstancingData(enemy->Get2DPosition() /*+ m_speed*/, m_angle/* CQuaternion::Identity()*//*enemy->GetAngle()*/, CVector3::One());
 				enemy->SetPosition(enemy->Get2DPosition() + m_speed);
 				enemy->SetAngle(m_angle);
 				enemy->ChangeColliderPosition(enemy->Get2DPosition());
@@ -120,28 +137,15 @@ void Enemyleader::Update()
 	case person:
 		for (auto enemy = m_enemy.begin(); enemy != m_enemy.end();) {
 			(*enemy)->Update();
-			if (!(*enemy)->GetLife())
+			if (m_state == gathering)
 			{
-				m_remaining--;
-				if (m_remaining <= 0)
-				{
-					m_position = (*enemy)->Get3DPosition();
-					m_life = false;
+				for (auto enemy : m_enemy) {
+					enemy->TransitionState(Enemy::State_Gathering);
 				}
-				delete *enemy;
-				enemy = m_enemy.erase(enemy);
+				break;
 			}
-			else
-			{
-				if (m_state == gathering)
-				{
-					for (auto enemy : m_enemy) {
-						enemy->TransitionState(Enemy::State_Gathering);
-					}
-					break;
-				}
-				enemy++;
-			}
+			enemy++;
+
 		}
 		break;
 	case gathering:
@@ -165,7 +169,7 @@ void Enemyleader::Update()
 void Enemyleader::Draw()
 {
 
-	m_animation.Update(1.0f / 30.0f);
+	m_animation.Update(GetTime().GetFrameTime());
 	if (m_state == m_group_state) {
 		m_model.Draw(
 			g_camera3D.GetViewMatrix(),
@@ -237,6 +241,6 @@ void Enemyleader::Move()
 		}
 		m_angle.Multiply(ma3, m_angle);
 	}
-	m_speed = m_speed * speed*1.0f / 30.0f;
+	m_speed = m_speed * speed*GetTime().GetFrameTime();
 	m_position += m_speed;
 }

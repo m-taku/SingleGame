@@ -24,7 +24,7 @@ void Game::OnDestroy()
 	g_objectManager->DereteGO(m_ui);
 	g_objectManager->DereteGO(m_enemyManager);
 	g_objectManager->DereteGO(m_score);
-	g_HitObjict->Release();
+	GetHitObjict().Release();
 }
 bool Game::Load()
 {

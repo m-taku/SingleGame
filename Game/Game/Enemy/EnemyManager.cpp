@@ -49,6 +49,7 @@ bool EnemyManager::Load()
 			if (hoge <= 1) {
 				SpawnEnemy(objData.position,new enemy_Lance);
 			}
+
 			return true;
 		}
 	});
@@ -61,6 +62,7 @@ void EnemyManager::Update()
 	m_timer->TimerStop();
 	if (m_timer->GetAllSeconds()>=10.0f)
 	{
+
 		if (m_Maxsporn >=m_enemy.size()) {
 			m_No = (m_No + 1) % 2;
 			SpawnEnemy(m_spawnpos[m_No], new enemy_hero);

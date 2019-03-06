@@ -5,7 +5,7 @@ class Score : public Gameobject
 public:
 	Score();
 	~Score();
-	void SetScore()
+	void AddScore()
 	{
 		m_num++;
 	}

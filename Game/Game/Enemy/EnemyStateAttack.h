@@ -26,10 +26,10 @@ public:
 	/// EnemyStateから継承したアップデート関数。
 	/// </summary>
 	void Update() override;
-	/// <summary>
-	/// 剣に対してプレイヤーが当たったかどうか
-	/// </summary>
-	void CollisionTest();
+	///// <summary>
+	///// 剣に対してプレイヤーが当たったかどうか
+	///// </summary>
+	//void CollisionTest();
 private:
 	/// <summary>
 	/// 剣の当たり判定用の回転角度取得

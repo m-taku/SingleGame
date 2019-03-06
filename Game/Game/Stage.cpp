@@ -28,7 +28,7 @@ bool Stage::Load()
 	switch (mode->Getmode())
 	{
 	case 0:
-		swprintf_s(moveFilePath, L"Assets/level/stage_0%d.tkl", 4);
+		swprintf_s(moveFilePath, L"Assets/level/stage_0%d.tkl", 7);
 		break;
 	case 1:
 		swprintf_s(moveFilePath, L"Assets/level/stage_0%d.tkl", 5);

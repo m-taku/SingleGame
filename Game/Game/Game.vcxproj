@@ -104,6 +104,8 @@
     <ClCompile Include="bloom.cpp" />
     <ClCompile Include="character\CharacterController.cpp" />
     <ClCompile Include="color.cpp" />
+    <ClCompile Include="Enemy\EnemyStateDead.cpp" />
+    <ClCompile Include="Enemy\EnemyStateHit.cpp" />
     <ClCompile Include="Enemy\EnemyManager.cpp" />
     <ClCompile Include="Enemy\EnemyStategathering.cpp" />
     <ClCompile Include="Enemy\EnemyStateAttack.cpp" />
@@ -143,7 +145,6 @@
     <ClCompile Include="graphics\UnorderedAccessView.cpp" />
     <ClCompile Include="graphics\g_SRVlist.cpp" />
     <ClCompile Include="HID\Pad.cpp" />
-    <ClCompile Include="HitObjict.cpp" />
     <ClCompile Include="HitReceive.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="level\Level.cpp" />
@@ -193,6 +194,8 @@
     <ClInclude Include="bloom.h" />
     <ClInclude Include="character\CharacterController.h" />
     <ClInclude Include="color.h" />
+    <ClInclude Include="Enemy\EnemyStateDead.h" />
+    <ClInclude Include="Enemy\EnemyStateHit.h" />
     <ClInclude Include="Enemy\EnemyManager.h" />
     <ClInclude Include="Enemy\EnemyStategathering.h" />
     <ClInclude Include="Enemy\EnemyStateAttack.h" />
@@ -211,6 +214,7 @@
     <ClInclude Include="Gameobject\GameobjectList.h" />
     <ClInclude Include="Gameobject\GameobjectManager.h" />
     <ClInclude Include="Gameover.h" />
+    <ClInclude Include="GameTime.h" />
     <ClInclude Include="GaussianBlur.h" />
     <ClInclude Include="graphics\animation\Animation.h" />
     <ClInclude Include="graphics\animation\AnimationClip.h" />

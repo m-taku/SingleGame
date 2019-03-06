@@ -54,10 +54,11 @@
 #include"Timer.h"
 #include "VectorDraw.h"
 #include "HitObjict.h"
+#include"GameTime.h"
+using namespace time1;
 extern GameobjectManager* g_objectManager;
-extern HitObjict* g_HitObjict;
 extern bool frame(CVector3 position);
-const float GRAVITY = 9.8f * 30;
+const float GRAVITY = 9.8f * 10.0f;
 const float FRAME_BUFFER_W = 1280.0f;				//フレームバッファの幅。
 const float FRAME_BUFFER_H = 720.0f;				//フレームバッファの高さ。
 

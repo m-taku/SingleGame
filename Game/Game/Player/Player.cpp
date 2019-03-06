@@ -36,7 +36,7 @@ bool Player::Load()
 	InitAnimation();
 	UpdateFront();
 	m_model.UpdateWorldMatrix(m_position, m_rotation, {0.1f,0.1f,0.1f});
-	g_HitObjict->Create(
+	GetHitObjict().Create(
 		&m_position, 
 		100.0f, 
 		[&](float damage)
@@ -71,7 +71,7 @@ void Player::TransitionState(State m_state)
 		break;
 	}
 	m_model.UpdateWorldMatrix(m_position, m_rotation, CVector3::One());
-	m_animation.Update(1.0f / 30.0f);
+	m_animation.Update(GetTime().GetFrameTime());
 }
 void Player::InitAnimation()
 {
@@ -102,13 +102,13 @@ void Player::Update()
 	m_movespeed.y -= GRAVITY;
 	if(g_pad[0].IsTrigger(enButtonA))
 	{
-		m_movespeed.y = 5000.0f;
+		m_movespeed.y = 500.0f;
 	}
-	m_position = m_collider.Execute(1.0f / 30.0f, m_movespeed);
+	m_position = m_collider.Execute(GetTime().GetFrameTime(), m_movespeed);
 	m_model.UpdateWorldMatrix(m_position, m_rotation, { 1.0f,1.0f,1.0f });
 	g_graphicsEngine->SetShadoCaster(&m_model);
 	m_model.SetShadowReciever(true);
-	m_animation.Update(1.0f / 20.0f);
+	m_animation.Update(GetTime().GetFrameTime());
 	//‚±‚±‚©‚ç‰e‚Ìˆ—
 	auto ritpos = m_position;
 	CVector3 m = { -707.0f,707.0f, 0.0f };

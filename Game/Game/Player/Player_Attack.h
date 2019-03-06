@@ -6,5 +6,7 @@ public:
 	Player_Attack(Player* player);
 	~Player_Attack();
 	void Update();
+private:
+	bool m_Hit = false;										//UŒ‚‚ğ“–‚Ä‚½‚©‚Ç‚¤‚©i“–‚Ä‚½‚ç”»’è‚ğÁ‚·j
 };
 

@@ -198,7 +198,6 @@
     <ClCompile Include="PostEffect.cpp" />
     <ClCompile Include="GaussianBlur.cpp" />
     <ClCompile Include="HitReceive.cpp" />
-    <ClCompile Include="HitObjict.cpp" />
     <ClCompile Include="Enemy\Enemy.cpp">
       <Filter>Enemy</Filter>
     </ClCompile>
@@ -218,6 +217,8 @@
     <ClCompile Include="sound\WaveFile.cpp" />
     <ClCompile Include="sound\WaveFileBank.cpp" />
     <ClCompile Include="Ability.cpp" />
+    <ClCompile Include="Enemy\EnemyStateHit.cpp" />
+    <ClCompile Include="Enemy\EnemyStateDead.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -408,6 +409,9 @@
     <ClInclude Include="sound\WaveFileBank.h" />
     <ClInclude Include="Ability.h" />
     <ClInclude Include="Status.h" />
+    <ClInclude Include="Enemy\EnemyStateHit.h" />
+    <ClInclude Include="GameTime.h" />
+    <ClInclude Include="Enemy\EnemyStateDead.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
