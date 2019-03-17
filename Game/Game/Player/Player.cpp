@@ -28,12 +28,13 @@ bool Player::Load()
 	const float PLAYER_RADIUS = 40.0f;	//プレイヤーの半径。
 	const float PLAYER_HEIGHT = 80.0f;	//プレイヤーの高さ。
 	//cmoファイルの読み込み。
+	m_model.Init(L"Assets/modelData/player.cmo");
 	m_collider.Init(PLAYER_RADIUS, PLAYER_HEIGHT, m_position);
-	m_model.Init(L"Assets/modelData/player1fbx.cmo");
 	m_debugVector = new VectorDraw(m_position);
 	m_rotation.SetRotationDeg(CVector3::AxisY(), 0.0f);
 	m_ui = g_objectManager->FindGO<UI>("UI");// UI > (GameObjectPriority_Default);
 	InitAnimation();
+	Findarm();
 	UpdateFront();
 	m_model.UpdateWorldMatrix(m_position, m_rotation, {0.1f,0.1f,0.1f});
 	GetHitObjict().Create(
@@ -75,23 +76,24 @@ void Player::TransitionState(State m_state)
 }
 void Player::InitAnimation()
 {
-	m_animationclip[ded].Load(L"Assets/animData/pla_ded.tka");
+	m_animationclip[ded].Load(L"Assets/animData/pla_ded1.tka");
 	m_animationclip[ded].SetLoopFlag(false);
-	m_animationclip[attack].Load(L"Assets/animData/pla_ateec.tka");
+	m_animationclip[attack].Load(L"Assets/animData/pla_ateec1.tka");
 	m_animationclip[attack].SetLoopFlag(false);
-	m_animationclip[defens].Load(L"Assets/animData/pla_defens.tka");
-	m_animationclip[defens].SetLoopFlag(true);
-	m_animationclip[walk].Load(L"Assets/animData/pla_walk.tka");
+	m_animationclip[defens].Load(L"Assets/animData/pla_defens1.tka");
+	m_animationclip[defens].SetLoopFlag(false);
+	m_animationclip[walk].Load(L"Assets/animData/pla_walk1.tka");
 	m_animationclip[walk].SetLoopFlag(true);	
-	m_animationclip[idle].Load(L"Assets/animData/pla_idle.tka");
+	m_animationclip[idle].Load(L"Assets/animData/pla_idle1.tka");
 	m_animationclip[idle].SetLoopFlag(true); 
-	m_animationclip[run].Load(L"Assets/animData/pla_run.tka");
+	m_animationclip[run].Load(L"Assets/animData/pla_run1.tka");
 	m_animationclip[run].SetLoopFlag(true);
-	m_animationclip[hit].Load(L"Assets/animData/pla_hit.tka");
+	m_animationclip[hit].Load(L"Assets/animData/pla_hit1.tka");
 	m_animationclip[hit].SetLoopFlag(false);
 	m_animation.Init(m_model, m_animationclip, animnum);
 	m_animation.Play(idle, 0.2f);
 }
+
 void Player::Update()
 {
 	m_State->Update();
@@ -144,4 +146,22 @@ void Player::Hit(float damage)
 	//ここにダメージの処理
 	//m_position.y += 1000.0f;
 
+
+}
+void Player::Findarm()
+{
+	int hoge = -1;
+	int num = m_model.GetSkeleton().GetNumBones();
+	for (int i = 0; i < num; i++) {
+		auto bonename = m_model.GetSkeleton().GetBone(i)->GetName();
+		wchar_t moveFilePath[256];
+		swprintf_s(moveFilePath, L"Hand");
+		int result = wcscmp(moveFilePath, bonename);
+		if (result == 0)
+		{
+			hoge = m_model.GetSkeleton().GetBone(i)->GetNo();
+			break;
+		}
+	}
+	m_boneNo = hoge;
 }

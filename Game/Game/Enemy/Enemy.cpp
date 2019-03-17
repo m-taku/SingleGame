@@ -31,7 +31,7 @@ bool Enemy::Load()
 	m_Front.z = m_Rot.m[2][2];
 	m_Front.Normalize();
 	TransitionState(State_Move);
-	m_position.y = 0.0f;
+	//m_position.y = 0.0f;
 	m_model.UpdateWorldMatrix(m_position, m_angle, CVector3::One());
 	m_obj = GetHitObjict().Create(&m_position, 1000.0f,
 		[&](float damage)
@@ -83,7 +83,9 @@ void Enemy::Findarm()
 		int result = wcscmp(moveFilePath, bonename);
 		if (result == 0)
 		{
-			hoge = CopyModel().GetSkeleton().GetBone(i)->GetNo();
+
+
+			hoge = m_model.GetSkeleton().GetBone(i)->GetNo();
 			break;
 		}
 	}
@@ -133,7 +135,7 @@ void Enemy::Update()
 	//m_position += m_moveVector *GetFrameDeltaTime();
 	m_position = m_collider.Execute(GetTime().GetFrameTime(), m_moveVector);
 	CVector3 distance = m_player->Get2Dposition() - Get2DPosition();
-	if (distance.Length() >= 1000.0f)
+	if (distance.Length() >= 1500.0f)
 	{
 		ChangeLeaderState(Enemyleader::gathering);
 		SetLeaderPosition(Get3DPosition());

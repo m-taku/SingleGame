@@ -187,8 +187,8 @@ void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 		//インスタンシング用のデータを更新。
 		if (result)
 		{
-			m_Matrix[2] = CMatrix::Identity();
-			for (int i = 0; i < 3; i++)
+			m_Matrix[m_maxInstance-1] = CMatrix::Identity();
+			for (int i = 0; i < m_maxInstance; i++)
 			{
 				m_instancingData[i] = m_Matrix[i];
 			}

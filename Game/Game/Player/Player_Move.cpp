@@ -54,7 +54,6 @@ void Player_Move::Update()
 		m_player->ChangeAnimation(Player::idle);
 	}
 	m_player->Setspeed(amount.Length());
-
 	if (g_pad[0].IsTrigger(enButtonX)) {
 		m_player->TransitionState(Player::State_Attack);
 	}

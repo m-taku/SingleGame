@@ -276,32 +276,37 @@ public:
 	/// </summary>
 	/// <param name="m_state"></param>
 	void TransitionState(State m_state);
-private:
-	UI* m_ui = nullptr;
+	void Findarm();
+	const CMatrix& GetSkeleton()
+	{
+		return m_model.GetSkeleton().GetBone(m_boneNo)->GetWorldMatrix();
+	}
+private:	
 	CharacterController m_collider;						//キャラクターコントローラー
 	SkinModel m_model;									//モデルデータ
 	AnimationClip m_animationclip[animnum];				//アニメーションクリップ
-	Animation m_animation;								//アニメーションのインスタンス
-	CVector3 m_movespeed = CVector3::Zero();			//移動速度
-	CQuaternion m_rotation = CQuaternion::Identity();	//回転クオータニオン
-	CMatrix m_mRot=CMatrix::Identity();					//回転行列
+	Animation m_animation;								//アニメーション
+	UI* m_ui = nullptr;									//アニメーションのインスタンス
 	Gamecamera* m_camera = nullptr;						//カメラのポインタ
+	VectorDraw* m_debugVector =nullptr;					//デバック用のベクトル表示
+	Player_State* m_State = nullptr;					//ステートのインスタンス
+	Ability* m_plyerStatus = new PlyerStatus;			//ステータス
+	CVector3 m_movespeed = CVector3::Zero();			//移動速度
 	CVector3 m_playerUp = CVector3::AxisY();			//上方向
 	CVector3 m_Front = CVector3::Zero();				//前方向
 	CVector3 m_position = { 0.0f,150.0f,-30.0f };		//現在位置
 	CVector3 m_amount = { 0.0f,0.0f,0.0f };				//スティックの移動量
+	CQuaternion m_rotation = CQuaternion::Identity();	//回転クオータニオン
+	CMatrix m_mRot=CMatrix::Identity();					//回転行列
+	int m_boneNo = -1;										//
+	float m_speed = 0.0f;								//移動速度
 	float m_angle = 0.0f;								//回転角度（ラジアン）
-	VectorDraw* m_debugVector =nullptr;					//デバック用のベクトル表示
-	//PlyerStatus m_plyerStatus;
-	Ability* m_plyerStatus = new PlyerStatus;
-	Player_State* m_State = nullptr;
-	bool m_Hit = false;
-	float m_speed = 0.0f;
+	bool m_Hit = false;									//
 	Timer m_Attacktimer;// = nullptr;
 	Timer m_Defensetimer;// = nullptr;
 	Timer m_Speedtimer;// = nullptr;
+	//PlyerStatus m_plyerStatus;
 	//CVector3 m_angle = CVector3::Zero();				
 	//wchar_t bonename[50];								//名前
 	//int bonenum = 0;									
-	//int boneNo = 0;
 };

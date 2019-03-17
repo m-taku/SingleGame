@@ -10,7 +10,7 @@ class HitReceive;
 /// <summary>
 /// Enemy1つ1つの動作クラス。
 /// </summary>
-class Enemy:public Noncopyable
+class Enemy : public Noncopyable
 {
 public:
 	/// <summary>
@@ -91,7 +91,7 @@ public:
 		return m_position;
 	}
 	/// <summary>
-	/// 移動速度の遷移。（初期値は。m_Statusのm_Speed）
+	/// 移動速度の遷移。割合で渡してください（初期値は。m_Statusのm_Speed）
 	/// </summary>
 	/// <param name="speed">
 	/// 変更したい速度の割合。(float）

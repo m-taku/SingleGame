@@ -21,14 +21,14 @@ void Stage::OnDestroy()
 bool Stage::Load()
 {
 	//cmoファイルの読み込み。
-    //m_model.Init(L"Assets/modelData/map00001.cmo");
+   // m_model.Init(L"Assets/modelData/jimennabi10.cmo");
 	//ステージのレベル
 	auto mode=g_objectManager->FindGO<title>("title");
 	wchar_t moveFilePath[256];
 	switch (mode->Getmode())
 	{
 	case 0:
-		swprintf_s(moveFilePath, L"Assets/level/stage_0%d.tkl", 7);
+		swprintf_s(moveFilePath, L"Assets/level/stage_0%d.tkl", 8);
 		break;
 	case 1:
 		swprintf_s(moveFilePath, L"Assets/level/stage_0%d.tkl", 5);
@@ -59,7 +59,7 @@ bool Stage::Load()
 	});
 	//地面のみのセル（ポリゴン）を生成する（地面のモデルはこちらから）
 	m_navimake = g_objectManager->NewGO<Navimake>(0, "Navimake");
-	//Stege.CreateMeshObject(m_model, CVector3::Zero(), CQuaternion::Identity())
+	//Stege.CreateMeshObject(m_model, CVector3::Zero(), CQuaternion::Identity());
 	//Loadfrag = true;
 	return true;
 }

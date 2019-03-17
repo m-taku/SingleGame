@@ -1,20 +1,21 @@
 #include "stdafx.h"
 #include "Player_Attack.h"
 #include"../Gamecamera.h"
-
-
+namespace {
+	//剣のサイズ（aabb用）(縦、横、高さ)
+	const CVector3 SWODSIZE = { 10.0f, 10.0f,80.0f };
+}
 Player_Attack::Player_Attack(Player* pla) :Player_State(pla)
 {
 	m_player->Setspeed(0.0f);
-	CVector3 atari = m_player->Get3Dposition();
-	atari.y += 100.0f;
-	atari += m_player->GetFront() * 100.0f;
-	//g_HitObjict->HitTest(atari, m_player->GetStatu().Attack, HitReceive::enemy);
+	FindSwordpos();
+	m_oldSwordcenter = m_Swordcenter;
+	m_oldhandpos = m_handpos;
+	m_player->ChangeAnimation(Player::attack);
 }
-
-
 Player_Attack::~Player_Attack()
 {
+
 }
 void Player_Attack::Update()
 {
@@ -64,4 +65,18 @@ void Player_Attack::Update()
 	if (!m_player->GetanimationPlaying()) {
 		m_player->TransitionState(Player::State_Move);
 	}
+}
+void Player_Attack::FindSwordpos()
+{
+	CMatrix BoneMatrix;
+	m_handpos.x = BoneMatrix.m[3][0];
+	m_handpos.y = BoneMatrix.m[3][1];
+	m_handpos.z = BoneMatrix.m[3][2];
+	m_Up.x = BoneMatrix.m[2][0];
+	m_Up.y = BoneMatrix.m[2][1];
+	m_Up.z = BoneMatrix.m[2][2];
+	m_Up.Normalize();
+	m_Swordcenter.x = m_handpos.x + m_Up.x*SWODSIZE.z / 2;
+	m_Swordcenter.y = m_handpos.y + m_Up.y*SWODSIZE.z / 2;
+	m_Swordcenter.z = m_handpos.z + m_Up.z*SWODSIZE.z / 2;
 }

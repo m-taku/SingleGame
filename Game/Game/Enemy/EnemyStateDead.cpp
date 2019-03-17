@@ -6,6 +6,7 @@
 EnemyStateDead::EnemyStateDead(Enemy* enamy, Player* player) :EnemyState(enamy, player)
 {
 	m_enemy->ChangeAnimation(Enemy::dead);
+	m_enemy->SetSpeed(0.0f);
 }
 
 

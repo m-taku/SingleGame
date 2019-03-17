@@ -25,7 +25,7 @@ void Path::Course(CVector3 sturt, CVector3 end)
 	std::vector<PasDate*> open;
 	std::vector<PasDate*> close;
 	open.push_back(Date);
-	auto p = open[0];
+	auto NextPas = open[0];
 	//m_coursepasu.push_back(startNo);
 	//m_coursepasu.push_back(endNo);
 	//std::reverse(m_coursepasu.begin(), m_coursepasu.end());
@@ -41,33 +41,33 @@ void Path::Course(CVector3 sturt, CVector3 end)
 
 	float CurrentCost = 0.0f;
 
-	while (p->No != endNo)
+	while (NextPas->No != endNo)
 	{
-		 auto ka5 = m_pathdata->FindLinc(*p, endNo, CurrentCost);
+		 auto LincPas = m_pathdata->FindLinc(*NextPas, endNo, CurrentCost);
 		//auto ka1= ka5.begin();
 		//float costng = FLT_MAX;
 		//int MinNo = 0;
 		open.erase(
-			std::remove(open.begin(), open.end(), p),
+			std::remove(open.begin(), open.end(), NextPas),
 			open.end());
-		close.push_back(p);
+		close.push_back(NextPas);
 		for (int j = 0; j < 3; j++)
 		{
 
-			if (-1 != ka5[j]->No)
+			if (-1 != LincPas[j]->No)
 			{
-				open.push_back(ka5[j]);
+				open.push_back(LincPas[j]);
 				for (int k = 0; k < open.size(); k++) {
-					if (open[k] == ka5[j])
+					if (open[k] == LincPas[j])
 					{
 						break;
 					}
-					if (open[k]->No == ka5[j]->No) {
-						if (open[k]->to_DrstinCost <= ka5[j]->to_DrstinCost)
+					if (open[k]->No == LincPas[j]->No) {
+						if (open[k]->to_DrstinCost <= LincPas[j]->to_DrstinCost)
 						{
-							delete ka5[j];
+							delete LincPas[j];
 							open.erase(
-								std::remove(open.begin(), open.end(), ka5[j]),
+								std::remove(open.begin(), open.end(), LincPas[j]),
 								open.end());
 							break;
 						}
@@ -83,11 +83,11 @@ void Path::Course(CVector3 sturt, CVector3 end)
 					}
 				}
 				for (int k = 0; k < close.size(); k++) {
-					if (close[k]->No == ka5[j]->No) {
-						if (close[k]->to_DrstinCost <= ka5[j]->to_DrstinCost) {
-							delete  ka5[j];
+					if (close[k]->No == LincPas[j]->No) {
+						if (close[k]->to_DrstinCost <= LincPas[j]->to_DrstinCost) {
+							delete  LincPas[j];
 							open.erase(
-								std::remove(open.begin(), open.end(), ka5[j]),
+								std::remove(open.begin(), open.end(), LincPas[j]),
 								open.end());
 							break;
 						}
@@ -103,10 +103,9 @@ void Path::Course(CVector3 sturt, CVector3 end)
 			}
 			else
 			{
-				delete ka5[j];
+				delete LincPas[j];
 			}
 		}
-
 		if (open.size() <= 0)
 		{
 			break;
@@ -116,10 +115,10 @@ void Path::Course(CVector3 sturt, CVector3 end)
 		{
 			if ((i->MoveCost + i->to_DrstinCost) <= costnV2) {
 				costnV2 = i->MoveCost + i->to_DrstinCost;
-				p = i;
+				NextPas = i;
 			}
 		}
-		CurrentCost = p->MoveCost;
+		CurrentCost = NextPas->MoveCost;
 	}
 
 	if (open.size() <= 0)
@@ -128,17 +127,17 @@ void Path::Course(CVector3 sturt, CVector3 end)
 	}
 	else
 	{
-		while (p->No != startNo) {
-			m_coursepasu.push_back(p->No);
-			p = (PasDate*)p->ParentDate;
+		while (NextPas->No != startNo) {
+			m_coursepasu.push_back(NextPas->No);
+			NextPas = (PasDate*)NextPas->ParentDate;
 		}
-		m_coursepasu.push_back(p->No);
+		m_coursepasu.push_back(NextPas->No);
 		std::reverse(m_coursepasu.begin(), m_coursepasu.end());
 		if (m_coursepasu.size() > 2)
 		{
 			Smoothing(&m_coursepasu);
 		}
-		//m_pathdata->DebugVector(m_coursepasu);
+		m_pathdata->DebugVector(m_coursepasu);
 	}
 	for (auto ereas : open) {
 		delete ereas;

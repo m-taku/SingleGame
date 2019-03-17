@@ -8,6 +8,7 @@
 
 EnemyManager::EnemyManager()
 {
+
 	m_timer = new Timer;
 }
 
@@ -33,6 +34,7 @@ bool EnemyManager::Load()
 	int hoge = 0;
 	level.Init(moveFilePath, [&](LevelObjectData objData)
 	{
+
 		////Ç∆ÇËÇ†Ç¶Ç∏ÉvÉåÉCÉÑÅ[Ç‡
 		auto No = wcscmp(objData.name, (L"unityChan"));
 		if (No == 0) {
@@ -47,13 +49,11 @@ bool EnemyManager::Load()
 		else
 		{
 			if (hoge <= 1) {
-				SpawnEnemy(objData.position,new enemy_Lance);
+				SpawnEnemy(objData.position,new enemy_hero);
 			}
-
 			return true;
 		}
 	});
-	m_No = 0;
 	return true;
 }
 void EnemyManager::Update()
@@ -63,10 +63,10 @@ void EnemyManager::Update()
 	if (m_timer->GetAllSeconds()>=10.0f)
 	{
 
-		if (m_Maxsporn >=m_enemy.size()) {
-			m_No = (m_No + 1) % 2;
+		if (m_Maxsporn >= m_enemy.size()) {
+			m_No = m_No % m_spawnpos.size();
 			SpawnEnemy(m_spawnpos[m_No], new enemy_hero);
-		}			
+		}
 		m_timer->TimerStart();
 	}
 	for (auto enemy = m_enemy.begin(); enemy != m_enemy.end();)
@@ -86,10 +86,10 @@ void EnemyManager::Update()
 }
 void EnemyManager::SpawnEnemy(CVector3 pos,Ability* k)
 { 
-	m_enemy.push_back(g_objectManager->NewGO<Enemyleader>(GameObjectPriority_EnemyLeader, "Enemyleader"));
-	auto No = m_enemy.size() - 1;
-	m_enemy[No]->SetPosition(pos);
-	m_enemy[No]->SetStatus(k);
-	m_enemy[No]->SetScore(m_Score);
-	m_enemy[No]->SetPlayer(m_player);
+	auto Spawn_enemy = g_objectManager->NewGO<Enemyleader>(GameObjectPriority_EnemyLeader, "Enemyleader");
+	Spawn_enemy->SetPosition(pos);
+	Spawn_enemy->SetStatus(k);
+	Spawn_enemy->SetScore(m_Score);
+	Spawn_enemy->SetPlayer(m_player);
+	m_enemy.push_back(Spawn_enemy);
 }

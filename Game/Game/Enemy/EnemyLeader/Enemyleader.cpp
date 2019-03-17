@@ -30,7 +30,7 @@ bool Enemyleader::Load()
 	enemy->SetScore(m_Score);
 	enemy->Load();
 	m_enemy.push_back(enemy);
-	m_position.x += 100.0f;
+	m_position.x += 10.0f;
 	//m_collider.Init(10.0f, 10.0f, position);	
 	m_ninzuu++;
 	if (m_ninzuu < SOLDIER)
@@ -46,9 +46,6 @@ bool Enemyleader::Load()
 		swprintf_s(moveFilePath, L"Assets/animData/%s_idle.tka", m_Status->m_CharaName.c_str());
 		m_animationclip[idle].Load(moveFilePath);
 		m_animationclip[idle].SetLoopFlag(true);
-		swprintf_s(moveFilePath, L"Assets/animData/%s_attack.tka", m_Status->m_CharaName.c_str());
-		m_animationclip[attack].Load(moveFilePath);
-		m_animationclip[attack].SetLoopFlag(true);
 		swprintf_s(moveFilePath, L"Assets/animData/%s_walk.tka", m_Status->m_CharaName.c_str());
 		m_animationclip[walk].Load(moveFilePath);
 		m_animationclip[walk].SetLoopFlag(true);
@@ -91,7 +88,7 @@ void Enemyleader::Update()
 		distance = m_player->Get2Dposition() - m_position;
 		m_position += m_speed;
 		//Ç±Ç±Ç≈å¬ï Ç…ïœçX
-		if (distance.Length() < 500.0f)
+		if (distance.Length() < 300.0f)
 		{
 			for (auto enemy : m_enemy) {
 				enemy->TransitionState(Enemy::State_Move);
@@ -108,13 +105,13 @@ void Enemyleader::Update()
 			}
 			g_graphicsEngine->SetShadoCaster(&m_model);
 			m_model.SetShadowReciever(true);
-			//m_animation.Play(idle, 0.2f);
+			m_animation.Play(idle, 0.2f);
 		}
 		break;
 	case group_move:
 		Move();
 		distance = m_player->Get2Dposition() - m_position;
-		if (distance.Length() < 500.0f)
+		if (distance.Length() < 1000.0f)
 		{
 			for (auto enemy : m_enemy) {
 				enemy->TransitionState(Enemy::State_Move);
@@ -123,7 +120,7 @@ void Enemyleader::Update()
 		}
 		else {
 			for (auto enemy : m_enemy) {
-				m_model.UpdateInstancingData(enemy->Get2DPosition() /*+ m_speed*/, m_angle/* CQuaternion::Identity()*//*enemy->GetAngle()*/, CVector3::One());
+				m_model.UpdateInstancingData(enemy->Get2DPosition() , m_angle, CVector3::One());
 				enemy->SetPosition(enemy->Get2DPosition() + m_speed);
 				enemy->SetAngle(m_angle);
 				enemy->ChangeColliderPosition(enemy->Get2DPosition());
@@ -131,7 +128,7 @@ void Enemyleader::Update()
 			}
 			g_graphicsEngine->SetShadoCaster(&m_model);
 			m_model.SetShadowReciever(true);
-			//m_animation.Play(walk, 0.2f);
+			m_animation.Play(walk, 0.2f);
 		}
 		break;
 	case person:
@@ -156,14 +153,15 @@ void Enemyleader::Update()
 		}
 		if (m_ninzuu >= m_remaining)
 		{
-			m_state = m_group_state;
+			m_state = m_group_state;	
+			m_path->Course(m_position, m_player->Get2Dposition());
+			m_nextpos = m_path->PathPos();
 		}
 	}
 	break;
 	default:
 		break;
 	}
-
 	//m_animation.Play(idle, 0.2f);
 }
 void Enemyleader::Draw()
@@ -201,7 +199,6 @@ void Enemyleader::Move()
 		m_oldposition = m_nextpos;
 	}
 	float speed = m_Status->m_Speed;
-	static int m_fream = 0;
 	if (++m_fream > 100) {
 		m_path->Course(nowpos, m_player->Get2Dposition());
 		m_nextpos = m_path->PathPos();
@@ -219,7 +216,7 @@ void Enemyleader::Move()
 	auto Angle = acos(debag.Dot(m_speed));
 	if (Angle >= CMath::DegToRad(1.0f))
 	{
-		speed /= 2;
+		speed /= 2.0f;
 		auto ka5 = CVector3::Zero();
 		ka5.Cross(debag, m_speed);
 		CQuaternion ma3;

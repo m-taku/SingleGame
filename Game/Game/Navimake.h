@@ -97,6 +97,7 @@ public:
 	/// 衝突でtrue、未衝突でfalse
 	/// </returns>
 	bool CollisionTest(int sturtNo, int nextNo);
+	void CreateRigidBody(float radius, float height, const CVector3& position);
 private:
 	CVector3 Searchcenter(const CVector3(&pos)[3]);	//中点を求める関数
 	/// <summary>
@@ -115,7 +116,7 @@ private:
 		float                   cost[3];			//リンク先に行く際のコスト
 	};
 	MeshCollider m_meshCollider;					//メッシュ情報
-	CharacterController *m_collider = nullptr;		//キャラクターコントローラー
+	CapsuleCollider		m_collider;						//コライダー。
 	SkinModel m_model;								//モデルデータ
 	std::vector<SData*> m_seru;						//三角形１つのデータ
 	RigidBody m_rigidBody;			               	//剛体。

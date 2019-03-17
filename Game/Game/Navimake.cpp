@@ -19,7 +19,7 @@ Navimake::Navimake()
 		break;
 	default:
 		break;
-	}
+	}	
 	m_model.Init(moveFilePath);
 	//メッシュコライダーを作成。
 	m_meshCollider.CreateFromSkinModel(m_model, nullptr);
@@ -60,7 +60,6 @@ Navimake::Navimake()
 			m_seru.push_back(data);
 			//ここからContactTestによるパス除外処理
 			{
-				m_collider = new CharacterController;
 				bool frag = false;
 				CVector3 Circle;
 				Circle = data->position[0] - data->centerposition;
@@ -71,8 +70,8 @@ Navimake::Navimake()
 					}
 				}
 				//ポリゴン（セル）情報を使ってポリゴンを内包するコリジョン生成
-				m_collider->Init(Circle.Length() / 2, 10.0f, data->centerposition);
-				g_physics.ContactTest(*m_collider, [&](const btCollisionObject& contactObject)
+				CreateRigidBody(Circle.Length() / 2, 10.0f, data->centerposition);
+				g_physics.ContactTest(m_rigidBody, [&](const btCollisionObject& contactObject)
 				{
 					frag = true;
 				});
@@ -84,7 +83,9 @@ Navimake::Navimake()
 					delete data;
 					No--;
 				}
-				delete m_collider;
+				g_physics.RemoveRigidBody(m_rigidBody);
+				m_collider.Release();
+				//delete m_collider;
 			}
 			//delete data;
 		}
@@ -152,7 +153,7 @@ Navimake::Navimake()
 			}
 		}
 	}
-	//////ここからデバック用の中点表示
+	//ここからデバック用の中点表示
 	{
 		std::vector<CVector3> centerposition;
 		m_vector.push_back(new VectorDraw(m_seru[0]->centerposition,m_seru.size()));
@@ -194,6 +195,7 @@ Navimake::Navimake()
 	rbInfo.rot = CQuaternion::Identity();
 	m_rigidBody.Create(rbInfo);
 	//剛体を物理ワールドに追加する。
+
 	g_physics.AddRigidBody(m_rigidBody);
 	m_model.SetShadowReciever(true);
 	m_model.UpdateWorldMatrix(CVector3::Zero(), CQuaternion::Identity(), CVector3::One());
@@ -217,7 +219,6 @@ Navimake::~Navimake()
 void Navimake::Draw()
 {
 	m_model.SetShadowReciever(true);
-
 	m_model.Draw(
 		g_camera3D.GetViewMatrix(),
 		g_camera3D.GetProjectionMatrix()
@@ -274,13 +275,15 @@ void Navimake::DebugVector(const std::vector<int>& posudate)
 		Vectorlist.push_back(Vector);
 		Vectorpore.push_back(Vector.Length() / 3.0f);
 	}
-	m_vector.push_back(new VectorDraw(m_seru[0]->centerposition, centerposition.size()));
-	if (centerposition.size() != 1) {
-		m_vector[m_vector.size() - 1]->Update(centerposition.begin(), Vectorlist.begin(), Vectorpore.begin());
-	}
-	else
-	{
-		m_vector[m_vector.size() - 1]->Update(centerposition[0], Vectorlist[0], Vectorpore[0]);
+	if (centerposition.size() >= 1) {
+		m_vector.push_back(new VectorDraw(m_seru[0]->centerposition, centerposition.size()));
+		if (centerposition.size() != 1) {
+			m_vector[m_vector.size() - 1]->Update(centerposition.begin(), Vectorlist.begin(), Vectorpore.begin());
+		}
+		else
+		{
+			m_vector[m_vector.size() - 1]->Update(centerposition[0], Vectorlist[0], Vectorpore[0]);
+		}
 	}
 }
 //スムージング用のコールバッククラス
@@ -323,3 +326,19 @@ bool Navimake::CollisionTest(int sturtNo, int nextNo)
 	//衝突したかどうか
 	return callback.NextNo;
 }
+void Navimake::CreateRigidBody(float radius, float height, const CVector3& position) {
+	auto m_position = position;
+	//コリジョン作成。
+	auto m_radius = radius;
+	auto m_height = height;
+	m_collider.Create(radius, height);
+	//剛体を初期化。
+	RigidBodyInfo rbInfo;
+	rbInfo.collider = &m_collider;
+	rbInfo.mass = 0.0f;
+	m_rigidBody.Create(rbInfo);
+	btTransform& trans = m_rigidBody.GetBody()->getWorldTransform();
+	//剛体の位置を更新。
+	trans.setOrigin(btVector3(position.x, position.y, position.z));
+	g_physics.AddRigidBody(m_rigidBody);
+}	

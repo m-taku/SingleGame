@@ -219,6 +219,7 @@
     <ClCompile Include="Ability.cpp" />
     <ClCompile Include="Enemy\EnemyStateHit.cpp" />
     <ClCompile Include="Enemy\EnemyStateDead.cpp" />
+    <ClCompile Include="Boss.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -412,6 +413,7 @@
     <ClInclude Include="Enemy\EnemyStateHit.h" />
     <ClInclude Include="GameTime.h" />
     <ClInclude Include="Enemy\EnemyStateDead.h" />
+    <ClInclude Include="Boss.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
@@ -547,6 +549,12 @@
     <MeshContentTask Include="Assets\modelData\AAAAAAAAAAAAAAA.fbx" />
     <MeshContentTask Include="Assets\modelData\AAAAAAAAAAAAAA.fbx" />
     <MeshContentTask Include="Assets\modelData\enemy_Lance.FBX" />
+    <MeshContentTask Include="Assets\modelData\player.fbx" />
+    <MeshContentTask Include="Assets\modelData\iwa.fbx" />
+    <MeshContentTask Include="Assets\modelData\Pillar.FBX" />
+    <MeshContentTask Include="Assets\modelData\iwa_Wall.FBX" />
+    <MeshContentTask Include="Assets\modelData\object_sword.fbx" />
+    <MeshContentTask Include="Assets\modelData\rock.fbx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\level\stage_01.tkl">

@@ -7,8 +7,8 @@ EnemyStateMove::EnemyStateMove(Enemy* enamy,Player* player):EnemyState(enamy,pla
 {
 	m_path = m_enemy->CopyPath();
 	m_path->Course(m_enemy->Get2DPosition(), player->Get2Dposition());
-	m_enemy->SetSpeed(1.0f);
 	m_nextpos = m_path->PathPos();
+	m_enemy->SetSpeed(1.0f);
 }
 EnemyStateMove::~EnemyStateMove()
 {
@@ -18,9 +18,10 @@ void EnemyStateMove::Update()
 {
 	m_enemy->ChangeAnimation(Enemy::walk);
 	CVector3 speed = CVector3::Zero();
-	CVector3 nowpos = m_enemy->Get3DPosition();
+	CVector3 nowpos = m_enemy->Get2DPosition();
 	speed = m_nextpos - nowpos;
 	if (++m_fream > 30) {
+		//‚«‚ê‚¢‚É‚·‚é‚½‚ß‚É–ñ‚P•b‚ÅXV
 		m_path->Course(m_enemy->Get2DPosition(), m_player->Get2Dposition());
 		m_nextpos = m_path->PathPos();
 		m_nextpos = m_path->PathPos();
@@ -49,5 +50,4 @@ void EnemyStateMove::Update()
 		m_enemy->SetSpeed(1.0f/2.0f);
 		m_enemy->TransitionState(Enemy::State_Attack);
 	}
-	//‚«‚ê‚¢‚É‚·‚é‚½‚ß‚É–ñ‚P•b‚ÅXV
 }

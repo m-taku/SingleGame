@@ -102,6 +102,7 @@
   <ItemGroup>
     <ClCompile Include="Ability.cpp" />
     <ClCompile Include="bloom.cpp" />
+    <ClCompile Include="Boss.cpp" />
     <ClCompile Include="character\CharacterController.cpp" />
     <ClCompile Include="color.cpp" />
     <ClCompile Include="Enemy\EnemyStateDead.cpp" />
@@ -192,6 +193,7 @@
   <ItemGroup>
     <ClInclude Include="Ability.h" />
     <ClInclude Include="bloom.h" />
+    <ClInclude Include="Boss.h" />
     <ClInclude Include="character\CharacterController.h" />
     <ClInclude Include="color.h" />
     <ClInclude Include="Enemy\EnemyStateDead.h" />
@@ -306,6 +308,8 @@
     <MeshContentTask Include="Assets\modelData\Ground Green.fbx" />
     <MeshContentTask Include="Assets\modelData\Island Big.fbx" />
     <MeshContentTask Include="Assets\modelData\Island Small.fbx" />
+    <MeshContentTask Include="Assets\modelData\iwa.fbx" />
+    <MeshContentTask Include="Assets\modelData\iwa_Wall.FBX" />
     <MeshContentTask Include="Assets\modelData\jimennabi.fbx" />
     <MeshContentTask Include="Assets\modelData\jimennabi1.fbx" />
     <MeshContentTask Include="Assets\modelData\jimennabi10.fbx" />
@@ -318,12 +322,16 @@
     <MeshContentTask Include="Assets\modelData\map00001.fbx" />
     <MeshContentTask Include="Assets\modelData\monn1.fbx" />
     <MeshContentTask Include="Assets\modelData\monn2.fbx" />
+    <MeshContentTask Include="Assets\modelData\object_sword.fbx" />
     <MeshContentTask Include="Assets\modelData\One Exit.fbx" />
     <MeshContentTask Include="Assets\modelData\Path Cros.fbx" />
     <MeshContentTask Include="Assets\modelData\Path Grass Pilar.fbx" />
     <MeshContentTask Include="Assets\modelData\Path Grass.fbx" />
+    <MeshContentTask Include="Assets\modelData\Pillar.FBX" />
     <MeshContentTask Include="Assets\modelData\Platform Mixed.fbx" />
+    <MeshContentTask Include="Assets\modelData\player.fbx" />
     <MeshContentTask Include="Assets\modelData\player1fbx.fbx" />
+    <MeshContentTask Include="Assets\modelData\rock.fbx" />
     <MeshContentTask Include="Assets\modelData\Sand.fbx" />
     <MeshContentTask Include="Assets\modelData\stageGround.fbx" />
     <MeshContentTask Include="Assets\modelData\Temple Island Temple.fbx" />

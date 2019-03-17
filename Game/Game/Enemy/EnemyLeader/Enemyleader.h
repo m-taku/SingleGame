@@ -41,8 +41,7 @@ public:
 	/// アニメーション用のenum。
 	/// </summary>
 	enum animation 	{
-		idle,		//停止アニメーション
-		attack,		
+		idle,		//停止アニメーション	
 		walk,
 		animnum		//アニメーション状態
 	};
@@ -194,6 +193,7 @@ private:
 	CMatrix m_Rot;												//角度に関する行列
 	CVector3 m_Front = CVector3::Zero();						//エネミーの前方向
 	CQuaternion m_angle = CQuaternion::Identity();				//回転角度
+	int m_fream = 0;
 	const float m_kaku = 10.0f;									//1フレームで回転させる最大角度(degree)
 	const float m_margin = CMath::DegToRad(m_kaku);				//1フレームで回転させる最大角度(radian)
 										

@@ -55,8 +55,9 @@ void GameobjectManager::Execute()
 	//デバック用の剛体表示
 	g_graphicsEngine->PostEffectUpdate();
 #ifdef _DEBUG
-//
-	//g_physics.DebubDrawWorld();
+
+	
+	g_physics.DebubDrawWorld();
 #endif
 
 	for (auto& list : m_List) {
