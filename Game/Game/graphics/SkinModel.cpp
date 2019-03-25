@@ -216,11 +216,11 @@ void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 	else {
 		vsCb.isShadowReciever = 0;
 	}
-	static 	Color color;
 	LightBuffer LCb;
 	LCb.angle = { 0.707f,-0.707f,0.0f,1.0f };
+	//夕焼けをイメージした色のデータを作る
 	m_colre = 1.0f / 360.0f;
-	LCb.color = color.HSVtoRGB({ m_colre,1.0f,1.0f });
+	LCb.color = Color::HSVtoRGB({ m_colre,1.0f,6.0f });
 	LCb.Camerapos = g_camera3D.GetPosition();
 	d3dDeviceContext->UpdateSubresource(m_cb, 0, nullptr, &vsCb, 0, 0);
 	d3dDeviceContext->UpdateSubresource(m_ritocb, 0, nullptr, &LCb, 0, 0);

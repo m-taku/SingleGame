@@ -1,12 +1,12 @@
 #pragma once
 #include"../../Player/Player.h"
 #include "character/CharacterController.h"
-#include"../../Path.h"
+#include"Path.h"
 #include"Score.h"
 #include <array> 
 #include"Status.h"
 /// <summary>
-/// Enemy1グループの動作クラス。
+/// Enemyの1グループ単位での動作クラス。
 /// </summary>
 class HitObjict;
 class Enemy;
@@ -36,7 +36,10 @@ public:
 	/// Gameobjectから継承した表示用関数。
 	/// </summary>
 	void Draw() override;
-
+	/// <summary>
+	/// Gameobjectから継承したstop関数
+	/// </summary>
+	void Stop() override;
 	/// <summary>
 	/// アニメーション用のenum。
 	/// </summary>
@@ -60,7 +63,7 @@ public:
 	/// <param name="Position">
 	/// セットしたいポジション。(CVector3)
 	/// </param>
-	void SetPosition(CVector3 Position)
+	void SetPosition(const CVector3& Position)
 	{
 		m_position = Position;
 
@@ -105,7 +108,7 @@ public:
 	/// <returns>
 	/// リーダーのポジション。(CVector3)
 	/// </returns>
-	CVector3 GetPosition()
+	const CVector3& GetPosition()
 	{
 		return m_position;
 	}
@@ -118,82 +121,72 @@ public:
 	void RollCall()
 	{
 		m_ninzuu++;
-	
 	}
 	/// <summary>
 	/// グループ状態での移動計算処理。
 	/// </summary>
 	void Move();
-	//void DreteEnemy()
-	//{
-	//	for (auto enemy = m_enemy.begin(); enemy != m_enemy.end();) {
-	//		if (!(*enemy)->GetLife())
-	//		{
-	//			m_remaining--;		
-	//			if (m_remaining <= 0)
-	//			{
-	//				m_position = (*enemy)->Get3DPosition();
-	//				m_life = false;
-	//			}
-	//			delete *enemy;
-	//			enemy = m_enemy.erase(enemy);
-	//		}
-	//		else
-	//		{
-	//			enemy++;
-	//		}
-	//	}
-	//}
 	/// <summary>
-	/// 
+	/// ステートをグループでの移動に変更する
 	/// </summary>
-	void ChangeGroup_state()
+	void ChangeGroup_Move()
 	{
 		m_group_state = group_move;
 		m_path->Course(m_position, m_player->Get2Dposition());
 		m_nextpos = m_path->PathPos();
 	}
 	/// <summary>
-	/// 
+	/// グループ全体が生きているかどうか
 	/// </summary>
-	/// <returns></returns>
-	bool Getlife()
+	/// <returns>
+	/// trueで生存してます
+	/// </returns>
+	const bool Getlife()
 	{
 		return m_life;
 	}
+	/// <summary>
+	/// ステータスのセット
+	/// </summary>
+	/// <param name="Status">
+	/// ステータスクラス（Ability）
+	/// </param>
 	void SetStatus(Ability* Status)
 	{
 		m_Status = Status;
 	}
+	/// <summary>
+	/// スコア集計クラスのセット
+	/// </summary>
+	/// <param name="score">
+	/// スコア集計クラス（Score）
+	/// </param>
 	void SetScore(Score* score)
 	{
 		m_Score = score;
 	}
 private:
-	int SOLDIER = 3;											//リーダーを含む部隊の総数（定数）											        //中心から移動分
 	SkinModel m_model;											//インスタンシング用の描画インスタンス
-	//CharacterController m_collider;							//キャラクターコントローラー
 	AnimationClip m_animationclip[animnum];						//アニメーションクリップ
 	Animation m_animation;										//アニメーションのインスタンス
+	State m_state = { group_stop };								//グループの今の状態
+	State m_group_state = { group_stop };						//グループでの今の状態
+	Ability* m_Status = nullptr;								//ステータスのインスタンス
+	Score* m_Score = nullptr;									//スコア集計クラスのインスタンス
 	Path* m_path=nullptr;									    //経路探査用のインスタンス
 	Player* m_player = nullptr;									//プレイヤーのインスタンス
 	std::list<Enemy*> m_enemy;						            //エネミーのインスタンス（SOLDIER）
 	CVector3 m_position = { 0.0f,100.0f,0.0f };				    //架空のリーダーのポジション
 	CVector3 m_nextpos = CVector3::Zero();						//パス移動用の次ポジション
-	CVector3 m_speed = { 0.0f,0.0f,0.0f };						//
+	CVector3 m_movespeed = { 0.0f,0.0f,0.0f };					//移動速度
 	CVector3 m_oldposition = CVector3::Zero();					//1フレーム前のポジション（壁擦りなどの判定などなど）
-	State m_state = { group_stop };								//グループの今の状態
-	State m_group_state = { group_stop };						//グループでの今の状態
-	int m_remaining = SOLDIER;									//今現在のエネミー総数		
+	CVector3 m_Front = CVector3::Zero();						//エネミーの前方向
+	CMatrix m_Rot;												//角度に関する行列
+	CQuaternion m_angle = CQuaternion::Identity();				//回転角度
+	int m_fream = 0;											//移動処理用のフレーム計算
+	int m_remaining = 5;										//今現在のエネミー総数		
 	int m_ninzuu = 0;											//今現在のグループ状態の人数（集合時に使用）
 	bool m_life = true;											//生存フラグ
-	Ability* m_Status = nullptr;
-	Score* m_Score = nullptr;
-	//回転関係の変数
-	CMatrix m_Rot;												//角度に関する行列
-	CVector3 m_Front = CVector3::Zero();						//エネミーの前方向
-	CQuaternion m_angle = CQuaternion::Identity();				//回転角度
-	int m_fream = 0;
 	const float m_kaku = 10.0f;									//1フレームで回転させる最大角度(degree)
 	const float m_margin = CMath::DegToRad(m_kaku);				//1フレームで回転させる最大角度(radian)
 										

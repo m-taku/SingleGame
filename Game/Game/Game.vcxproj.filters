@@ -161,16 +161,13 @@
       <Filter>graphics</Filter>
     </ClCompile>
     <ClCompile Include="UI.cpp" />
-    <ClCompile Include="Navimake.cpp" />
     <ClCompile Include="Gamecamera.cpp" />
     <ClCompile Include="physics\PhysicsDebugDraw.cpp" />
-    <ClCompile Include="Path.cpp" />
     <ClCompile Include="color.cpp" />
     <ClCompile Include="Player\Player.cpp" />
     <ClCompile Include="Enemy\EnemyLeader\Enemyleader.cpp">
       <Filter>Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Monn.cpp" />
     <ClCompile Include="title.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Enemy\EnemyState.cpp">
@@ -185,18 +182,8 @@
     <ClCompile Include="Enemy\EnemyStateMove.cpp">
       <Filter>Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy\EnemyStateTracking.cpp">
-      <Filter>Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="font.cpp" />
     <ClCompile Include="Enemy\EnemyManager.cpp" />
     <ClCompile Include="Timer.cpp" />
-    <ClCompile Include="RenderTarget.cpp" />
-    <ClCompile Include="ShadowMap.cpp" />
-    <ClCompile Include="Light.cpp" />
-    <ClCompile Include="bloom.cpp" />
-    <ClCompile Include="PostEffect.cpp" />
-    <ClCompile Include="GaussianBlur.cpp" />
     <ClCompile Include="HitReceive.cpp" />
     <ClCompile Include="Enemy\Enemy.cpp">
       <Filter>Enemy</Filter>
@@ -211,15 +198,20 @@
     <ClCompile Include="Fade.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="graphics\g_SRVlist.cpp" />
-    <ClCompile Include="Score.cpp" />
     <ClCompile Include="sound\SoundEngine.cpp" />
     <ClCompile Include="sound\SoundSource.cpp" />
     <ClCompile Include="sound\WaveFile.cpp" />
     <ClCompile Include="sound\WaveFileBank.cpp" />
-    <ClCompile Include="Ability.cpp" />
     <ClCompile Include="Enemy\EnemyStateHit.cpp" />
     <ClCompile Include="Enemy\EnemyStateDead.cpp" />
-    <ClCompile Include="Boss.cpp" />
+    <ClCompile Include="graphics\bloom.cpp" />
+    <ClCompile Include="graphics\GaussianBlur.cpp" />
+    <ClCompile Include="graphics\ShadowMap.cpp" />
+    <ClCompile Include="graphics\RenderTarget.cpp" />
+    <ClCompile Include="graphics\PostEffect.cpp" />
+    <ClCompile Include="graphics\font.cpp" />
+    <ClCompile Include="Route search\Path.cpp" />
+    <ClCompile Include="Route search\Navimake.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -347,15 +339,12 @@
       <Filter>Noncopyable</Filter>
     </ClInclude>
     <ClInclude Include="UI.h" />
-    <ClInclude Include="Navimake.h" />
     <ClInclude Include="physics\PhysicsDebugDraw.h" />
-    <ClInclude Include="Path.h" />
     <ClInclude Include="color.h" />
     <ClInclude Include="Player\Player.h" />
     <ClInclude Include="Enemy\EnemyLeader\Enemyleader.h">
       <Filter>Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Monn.h" />
     <ClInclude Include="title.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Enemy\Enemy.h">
@@ -373,23 +362,12 @@
     <ClInclude Include="Enemy\EnemyStateMove.h">
       <Filter>Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy\EnemyStateTracking.h">
-      <Filter>Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="Enemy\Enenystate.h">
       <Filter>Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="font.h" />
     <ClInclude Include="GameObjectPriority.h" />
-    <ClInclude Include="GameobjectName.h" />
     <ClInclude Include="Enemy\EnemyManager.h" />
     <ClInclude Include="Timer.h" />
-    <ClInclude Include="RenderTarget.h" />
-    <ClInclude Include="ShadowMap.h" />
-    <ClInclude Include="Light.h" />
-    <ClInclude Include="bloom.h" />
-    <ClInclude Include="PostEffect.h" />
-    <ClInclude Include="GaussianBlur.h" />
     <ClInclude Include="HitReceive.h" />
     <ClInclude Include="HitObjict.h" />
     <ClInclude Include="Gameover.h" />
@@ -413,7 +391,14 @@
     <ClInclude Include="Enemy\EnemyStateHit.h" />
     <ClInclude Include="GameTime.h" />
     <ClInclude Include="Enemy\EnemyStateDead.h" />
-    <ClInclude Include="Boss.h" />
+    <ClInclude Include="graphics\bloom.h" />
+    <ClInclude Include="graphics\GaussianBlur.h" />
+    <ClInclude Include="graphics\ShadowMap.h" />
+    <ClInclude Include="graphics\RenderTarget.h" />
+    <ClInclude Include="graphics\PostEffect.h" />
+    <ClInclude Include="graphics\font.h" />
+    <ClInclude Include="Route search\Path.h" />
+    <ClInclude Include="Route search\Navimake.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
@@ -555,6 +540,7 @@
     <MeshContentTask Include="Assets\modelData\iwa_Wall.FBX" />
     <MeshContentTask Include="Assets\modelData\object_sword.fbx" />
     <MeshContentTask Include="Assets\modelData\rock.fbx" />
+    <MeshContentTask Include="Assets\modelData\mking.fbx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\level\stage_01.tkl">

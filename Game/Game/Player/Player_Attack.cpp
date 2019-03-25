@@ -7,68 +7,57 @@ namespace {
 }
 Player_Attack::Player_Attack(Player* pla) :Player_State(pla)
 {
-	m_player->Setspeed(0.0f);
+	m_player->SetSpeed(0.0f);
 	FindSwordpos();
 	m_oldSwordcenter = m_Swordcenter;
 	m_oldhandpos = m_handpos;
 	m_player->ChangeAnimation(Player::attack);
+	//ここからエフェクトの初期化
+	{
+		m_sampleEffect = Effekseer::Effect::Create(g_graphicsEngine->GeteffekseerManager(), (const EFK_CHAR*)L"Assets/efect/soad1.efk");
+		m_playEffectHandle = g_graphicsEngine->GeteffekseerManager()->Play(m_sampleEffect, m_player->Get3Dposition().x, m_player->Get3Dposition().y, m_player->Get3Dposition().z);
+		auto front = m_player->GetFront();
+		float angle = acos(CVector3::AxisZ().Dot(front));
+		auto k = CVector3::AxisZ();
+		k.Cross(front);
+		if (k.y >= 0.0f)
+		{
+			k = CVector3::AxisY();
+		}
+		else
+		{
+			k = CVector3::AxisY()*-1;
+		}
+		g_graphicsEngine->GeteffekseerManager()->SetRotation(m_playEffectHandle, { k.x,k.y,k.z }, angle);
+	}
 }
 Player_Attack::~Player_Attack()
 {
-
+	m_sampleEffect->Release();
+	g_graphicsEngine->GeteffekseerManager()->StopEffect(m_playEffectHandle);
 }
 void Player_Attack::Update()
 {
-	CVector3 m_amount = CVector3::Zero();
-	m_amount.x = g_pad->GetLStickXF();
-	m_amount.z = g_pad->GetLStickYF();
-	m_amount.y = 0.0f;
-	if (m_amount.Length() > 0.0f)
-	{
-		CVector3 amount = m_amount;
-		amount.Normalize();
-		CVector3 camer_front = m_player->Getcamera()->GetCameraFront();
-		camer_front.y = 0.0f;
-		camer_front.Normalize();
-		float m_angle = acos(amount.Dot(CVector3::AxisZ()));
-		if (amount.x < 0)
-		{
-			m_angle *= -1;
-		}
-		float camer_angle = acos(camer_front.Dot(CVector3::AxisZ()));
-		CVector3 camer_jiku;
-		camer_jiku.Cross(camer_front, CVector3::AxisZ());
-		if (camer_jiku.y > 0)
-		{
-			camer_angle *= -1;
-		}
-		m_angle += camer_angle;
-		CQuaternion rod;
-		rod.SetRotation(CVector3::AxisY(), m_angle);
-		m_player->Setrotation(rod);
-		m_player->Setspeed(0.5f);
-		//m_player->ChangeAnimation(Player::walk);
-	}
-	else
-	{
-		m_player->Setspeed(0.0f);
-	}
+	FindSwordpos();
 	m_player->ChangeAnimation(Player::attack);
-	if (!m_Hit) {
-		if (m_player->IsEvent()) {
-			CVector3 atari = m_player->Get3Dposition();
-			atari.y += 50.0f;
-			atari += m_player->GetFront() * 50.0f;
-			m_Hit = GetHitObjict().HitTest(atari, m_player->GetStatu().m_Attack, HitReceive::enemy);
-		}
+	if (m_player->IsEvent()) {
+		//アニメーションイベントの発生中ならば
+		auto attackMove = (m_Swordcenter - m_oldSwordcenter) / 2;
+		auto hitpoint = attackMove + m_Swordcenter;
+		//当たり判定発生
+		GetHitObjict().HitTest(hitpoint, 100.0f, m_player->GetStatu().m_Attack, HitReceive::enemy);
+		m_player->SetDebegvector(hitpoint);
 	}
-	if (!m_player->GetanimationPlaying()) {
+	m_oldSwordcenter = m_Swordcenter;
+	if (!m_player->GetAnimationPlaying()) {
+		//アニメーションが終了したので終了する
 		m_player->TransitionState(Player::State_Move);
 	}
 }
 void Player_Attack::FindSwordpos()
 {
-	CMatrix BoneMatrix;
+	//手のボーンから行列を取得
+	CMatrix BoneMatrix = m_player->GetArmMatrix();
 	m_handpos.x = BoneMatrix.m[3][0];
 	m_handpos.y = BoneMatrix.m[3][1];
 	m_handpos.z = BoneMatrix.m[3][2];

@@ -49,10 +49,16 @@ public:
 	/// <returns>
 	/// 残りの体力（float）
 	/// </returns>
-	float GetHP() const
+	const float GetHP() const
 	{
 		return m_HP- m_Damage;
 	}
+	/// <summary>
+	/// スコア計算クラスのインスタンスセット
+	/// </summary>
+	/// <param name="score">
+	/// セットしたいインスタンス（Score*）
+	/// </param>
 	void SetScore(Score* score)
 	{
 		m_Score = score;
@@ -64,10 +70,10 @@ private:
 	ShaderResourceView m_Texture_bar;						//HPバーの中身のリソース
 	sprite m_HP_bar;										//HPバーの中身の表示用インスタンス
 	CVector3 m_HP_position = { -657.0f,-242.0f,0.0f };		//HPバーの中身の画面上の位置
-	Score* m_Score = nullptr;
+	Score* m_Score = nullptr;								//スコア計算のクラスのインスタンス
+	Timer m_timer;											//タイマークラスのインスタンス
 	float m_Damage = 0.0f;									//ダメージ量
 	Font m_font;											//文字表示のインスタンス
-	float m_HP=1.0f;										//残りHP			
-
+	float m_HP=1.0f;										//残りHP（1で最大）			
 };
 

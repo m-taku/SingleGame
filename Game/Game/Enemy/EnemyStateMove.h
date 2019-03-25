@@ -1,6 +1,6 @@
 #pragma once
 #include"EnemyState.h"
-#include"../../Path.h"
+#include"Path.h"
 /// <summary>
 /// Enemyの移動ステートクラス。
 /// </summary>

@@ -13,31 +13,21 @@ HitReceive::~HitReceive()
 
 void HitReceive::Create(const CVector3* pos, float radius, std::function<void(float damage)>  objict, objict_Name name)
 {
+	//各設定の初期化
 	m_pos = pos;
 	m_radius = radius;
 	m_fuk = objict;
 	m_name = name;
 }
-bool HitReceive::HitTest(CVector3 pos,float damage)
+bool HitReceive::HitTest(CVector3 pos,float Circle,float damage)
 {
-	auto rengs = *m_pos - pos;
-	//円形で判定（aabb等に変更する可能性あり）
-	if (rengs.Length() <= m_radius)
+	auto rengs = *m_pos - pos;		//円形で判定（aabb等に変更する可能性あり）
+	if (rengs.Length() <= m_radius+ Circle)
 	{
-
+		//当たったので登録されている関数を呼ぶ
 		m_fuk(damage);
-		//switch (m_name)
-		//{
-		//case HitReceive::enemy:
-		//	m_objict;
-		//	break;
-		//case HitReceive::player:
-		//	((Player*)m_objict)->Hit();
-		//	break;
-		//default:
-		//	break;
-		//}
 		return true;
 	}
+	//当たってないのでfalse
 	return false;
 }

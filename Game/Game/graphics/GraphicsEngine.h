@@ -3,7 +3,7 @@
  *@brief	グラフィックスエンジン。
  */
 #include"sprite.h"
-#include"../PostEffect.h"
+#include"PostEffect.h"
 #include"ShadowMap.h"
 class GraphicsEngine
 {
@@ -59,10 +59,35 @@ public:
 	{
 		return m_rasterizerState;
 	}
+	Effekseer::Manager* GeteffekseerManager()
+	{
+		return m_effekseerManager;
+	}
 	//ID3D11RasterizerState* terizerState()
 	//{
 	//	return m_rasterizer;
 	//}
+	void EffectUpdate()
+	{
+		//まずはEffeseerの行列型の変数に、カメラ行列とプロジェクション行列をコピー。
+		Effekseer::Matrix44 efCameraMat;
+		g_camera3D.GetViewMatrix().CopyTo(efCameraMat);
+		Effekseer::Matrix44 efProjMat;
+		g_camera3D.GetProjectionMatrix().CopyTo(efProjMat);
+		//カメラ行列とプロジェクション行列を設定。
+		m_effekseerRenderer->SetCameraMatrix(efCameraMat);
+		m_effekseerRenderer->SetProjectionMatrix(efProjMat);
+		//Effekseerを更新。
+		m_effekseerManager->Update();
+		EffectDraw();
+	}
+	void EffectDraw()
+	{
+		//エフェクトは不透明オブジェクトを描画した後で描画する。
+		m_effekseerRenderer->BeginRendering();
+		m_effekseerManager->Draw();
+		m_effekseerRenderer->EndRendering();
+	}
 	void shadoUpdate()
 	{
 		m_shadowmap->RenderToShadowMap();
@@ -81,7 +106,7 @@ public:
 			m_frameBufferRenderTargetView,
 			m_frameBufferDepthStencilView,
 			&m_frameBufferViewports);
-		ka.Draw(
+		mainSRV.Draw(
 			g_camera2D.GetViewMatrix(),
 			g_camera2D.GetProjectionMatrix()
 		);
@@ -123,8 +148,13 @@ private:
 	ID3D11DepthStencilView* m_depthStencilView = NULL;	//デプスステンシルビュー。
 	DirectX::SpriteFont*    m_SpriteFont = NULL;
 	DirectX::SpriteBatch*   m_SpriteBatch = NULL;
+
+
+	Effekseer::Manager*	m_effekseerManager = nullptr;
+	EffekseerRenderer::Renderer*	m_effekseerRenderer = nullptr;
+	
 	ShadowMap* m_shadowmap = NULL;
-	sprite ka;
+	sprite mainSRV;
 	PostEffect* m_posteffec = NULL;
 	RenderTarget mainTarget;	
 	D3D11_VIEWPORT m_frameBufferViewports;			//フレームバッファのビューポート。

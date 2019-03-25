@@ -1,14 +1,14 @@
 #pragma once
 #include "character/CharacterController.h"
 #include"Player.h"
-#include"../../Path.h"
+#include"Path.h"
 #include"EnemyLeader/EnemyLeader.h"
 #include"Status.h"
 class EnemyState;
 class HitObjict;
 class HitReceive;
 /// <summary>
-/// Enemy1つ1つの動作クラス。
+/// Enemy1体1体の動作クラス。
 /// </summary>
 class Enemy : public Noncopyable
 {
@@ -37,29 +37,28 @@ public:
 	/// </summary>
 	void Draw();
 	/// <summary>
-	/// ポストーーーーーーーーーーー
+	/// ポストドロー
 	/// </summary>
 	void postDraw();
 	/// <summary>
 	/// エネミーのステート（状態）のenum。
 	/// </summary>
 	enum State {
-		State_Tracking,		//追尾中	
 		State_Move,			//尾行中
 		State_Attack,		//攻撃中
 		State_Gathering,	//集合中
-		State_Hit, 
-		State_Dead
+		State_Hit,			//攻撃を受けている
+		State_Dead			//
 	};
 	/// <summary>
 	/// アニメーション用のenum。
 	/// </summary>
 	enum animation {
 		idle,		//停止アニメーション
-		attack, 
-		walk,
-		hit,
-		dead,
+		attack,		//攻撃アニメーション
+		walk,		//歩きアニメーション
+		hit,		//ヒットアニメーション
+		dead,		//死亡アニメーション
 		animnum		//アニメーション状態
 	};
 	/// <summary>
@@ -163,9 +162,8 @@ public:
 	/// <returns>
 	/// 3Dでの前方向。(CVector3)
 	/// </returns>
-	CVector3 Get3DFront()const 
+	const CVector3& Get3DFront()const 
 	{
-		//m_Front.Normalize();
 		return m_Front;
 	}
 	/// <summary>
@@ -225,7 +223,7 @@ public:
 	/// <param name="position">
 	/// セットしたいポジション。（CVector3）
 	/// </param>
-	void SetLeaderPosition(CVector3 position)
+	void SetLeaderPosition(const CVector3& position)
 	{
 		m_Leader->SetPosition(position);
 	}
@@ -242,11 +240,17 @@ public:
 	/// <returns>
 	/// 所属しているリーダーのポジション。（CVector3）
 	/// </returns>
-	CVector3 GetLeaderPosition()const
+	const CVector3& GetLeaderPosition()const
 	{
 		return m_Leader->GetPosition();
 	}
-	void Setdebugpos(CVector3 pos)
+	/// <summary>
+	/// デバック用の点表示関数
+	/// </summary>
+	/// <param name="pos">
+	/// 表示したい点
+	/// </param>
+	void SetDebugPos(const CVector3& pos)
 	{
 		m_debugVecor->Update(pos);
 	}
@@ -261,14 +265,14 @@ public:
 	/// <param name="Vector">
 	/// 進行方向を表すベクトル。（CVector3）
 	/// </param>
-	void FindAngle(CVector3 Vector);
+	void FindAngle(const CVector3& Vector);
 	/// <summary>
 	/// ポジションのセット。
 	/// </summary>
 	/// <param name="position">
 	/// セットしたいポジション。（CVector3）
 	/// </param>
-	void SetPosition(CVector3 position)
+	void SetPosition(const CVector3& position)
 	{
 		m_position = position;
 	}
@@ -294,9 +298,11 @@ public:
 		return m_bolnNo;
 	}
 	/// <summary>
-	/// 
+	///　アニメーションの変更
 	/// </summary>
-	/// <param name="Animation"></param>
+	/// <param name="Animation">
+	/// 変更後のアニメーション（Enemy::animation）
+	/// </param>
 	void ChangeAnimation(animation Animation)
 	{
 		m_animation.Play(Animation,0.1f);
@@ -311,6 +317,12 @@ public:
 	{
 		return m_animation.IsPlaying();
 	}
+	/// <summary>
+	/// アニメーションがイベント中かどうか
+	/// </summary>
+	/// <returns>
+	/// trueでイベント中
+	/// </returns>
 	bool GetIsEvent()
 	{
 		return m_animation.IsEvent();
@@ -328,9 +340,15 @@ public:
 	{
 		m_collider.SetPosition(m_position);
 	}
+	/// <summary>
+	/// HitObjictから呼ばれる当たった時の処理
+	/// </summary>
+	/// <param name="damage">
+	/// HitObjictからもらえるデータ
+	/// </param>
 	void Hit(float damage);
 	/// <summary>
-	/// 
+	/// エネミーが生きているかどうか
 	/// </summary>
 	/// <returns></returns>
 	bool GetLife()
@@ -338,21 +356,23 @@ public:
 		return m_life;
 	}
 	/// <summary>
-	/// 
+	/// エネミーの腕の行列を検索
 	/// </summary>
-	void Findarm();
+	void FindArm();
 	/// <summary>
-	/// 
+	/// アニメーションの初期化
 	/// </summary>
 	void InitAnim();
 	/// <summary>
-	/// 
+	/// テクスチャデータの初期化
 	/// </summary>
 	void InitTex();
 	/// <summary>
-	/// 
+	/// ステータスのセット
 	/// </summary>
-	/// <param name="Status"></param>
+	/// <param name="Status">
+	/// ステータス（Ability*）
+	/// </param>
 	void SetStatus(Ability* Status)
 	{
 		m_Status = Status;
@@ -367,17 +387,23 @@ public:
 		return m_Status;
 	}
 	/// <summary>
-	/// 
+	/// スコア集計クラスのセット
 	/// </summary>
-	/// <param name="score"></param>
+	/// <param name="score">
+	/// スコア集計クラス（Score）
+	/// </param>
 	void SetScore(Score* score)
 	{
 		m_Score = score;
 	}
 	/// <summary>
-	/// 
+	/// HitObjictのdelete処理
 	/// </summary>
 	void DeleteHitobj();
+	/// <summary>
+	/// 自身が死亡する処理
+	/// （リーダーが消去するのでフラグのみ）
+	/// </summary>
 	void DeleteEnemy()
 	{
 		m_life = false;
@@ -389,19 +415,23 @@ private:
 	/// </summary>
 	void DrawDebugVector();
 	SkinModel m_model;										//インスタンシング抜きの１人１人のインスタンス
-	ShaderResourceView m_texture_hp;
-	ShaderResourceView m_texture_fram;
+	ShaderResourceView m_texture_hp;						//HPの中のテクスチャデータ
+	ShaderResourceView m_texture_fram;						//HPの枠のテクスチャデータ
+	CSoundSource m_bgmA;									//BGMのインスタンス
+	State m_state = State_Move;							//ステートの状態
 	sprite m_Sprite_hp;										//体力用の2Ｄ(中身)
 	sprite m_Sprite_fram;									//体力用の2Ｄ(枠)
-	CharacterController m_collider;					    //キャラクターコントローラー
+	CharacterController m_collider;							//キャラクターコントローラー
 	AnimationClip m_animationclip[animnum];					//アニメーションクリップ
-	Animation m_animation;									//アニメーションのインスタンス
+	Animation m_animation;									//アニメーションのインスタンス	
+	Score* m_Score = nullptr;								//スコアのインスタンス
+	Ability* m_Status = nullptr;							//ステータスのインスタンス
 	Enemyleader* m_Leader = nullptr;						//m_Leaderのポインタ
 	Player* m_player = nullptr;								//Playerのポインタ
 	VectorDraw* m_debugVecor = nullptr;						//デバック用のベクトル表示
 	Path m_path;											//経路探査のインスタンス
 	EnemyState* m_enemystate = nullptr;						//エネミーのステート
-	State m_state = State_Tracking;							//ステートの状態
+	const HitReceive* m_obj;								//ヒットオブジェクトのインスタンス
 	CMatrix m_Rot;											//角度に関する行列
 	CVector3 m_Front = CVector3::Zero();					//エネミーの前方向
 	CVector3 m_position = { 0.0f,150.0f,-30.0f };			//現在位置
@@ -409,15 +439,12 @@ private:
 	CVector3 m_Sprite_Front = CVector3::AxisZ()*-1;	        //テクスチャの前方向
 	CVector3 m_nextpos = CVector3::Zero();					//経路探査で出た次のポジション
 	CQuaternion m_angle = CQuaternion::Identity();			//回転角度
-	Score* m_Score = nullptr;
-	Ability* m_Status = nullptr;
 	CQuaternion m_Sprite_angle = CQuaternion::Identity();	//テクスチャの回転角度
 	const float m_kaku = 10.0f;								//1フレームで回転させる最大角度(degree)
 	const float m_margin = CMath::DegToRad(m_kaku);			//1フレームで回転させる最大角度(radian)
 	int m_bolnNo = 0;										//手のボーンの番号
 	float m_HP = 1.0f;										//ＨＰの割合
 	float m_speed = 0.0f;             				    	//移動速度
-	bool m_life = true;											//生存フラグ
-	const HitReceive* m_obj;
+	int m_mutekitaim = 0;									//無敵時間									
+	bool m_life = true;										//生存フラグ
 };
-

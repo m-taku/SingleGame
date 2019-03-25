@@ -13,6 +13,9 @@ public:
 	/// プレイヤーのポインタ（Player*）
 	/// </param>
 	EnemyStateHit(Enemy* enemy_point, Player* pla);
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
 	~EnemyStateHit();
 	/// <summary>
 	/// EnemyStateから継承したアップデート関数。

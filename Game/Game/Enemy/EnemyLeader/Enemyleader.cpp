@@ -9,7 +9,6 @@ Enemyleader::Enemyleader()
 	m_Front.y = m_Rot.m[2][1];
 	m_Front.z = m_Rot.m[2][2];
 	m_Front.Normalize();
-
 }
 Enemyleader::~Enemyleader()
 {
@@ -19,6 +18,13 @@ Enemyleader::~Enemyleader()
 	}
 	delete m_Status;
 	delete m_path;
+}
+void Enemyleader::Stop()
+{
+	for (auto enemy : m_enemy) {
+		enemy->ChangeAnimation(Enemy::idle);
+		m_model.UpdateInstancingData(enemy->Get2DPosition(), m_angle, CVector3::One());
+	}
 }
 bool Enemyleader::Load()
 {
@@ -30,19 +36,20 @@ bool Enemyleader::Load()
 	enemy->SetScore(m_Score);
 	enemy->Load();
 	m_enemy.push_back(enemy);
-	m_position.x += 10.0f;
+	m_position.x += 35.0f;
 	//m_collider.Init(10.0f, 10.0f, position);	
 	m_ninzuu++;
-	if (m_ninzuu < SOLDIER)
+	if (m_ninzuu < m_Status->Spawnnum)
 	{
 		return false;
 	}
 	else {
+		m_remaining = m_Status->Spawnnum;
 		m_path = new Path;
-		ChangeGroup_state();
+		ChangeGroup_Move();
 		wchar_t moveFilePath[256];
 		swprintf_s(moveFilePath, L"Assets/modelData/%s.cmo", m_Status->m_CharaName.c_str());
-		m_model.Init(moveFilePath, SOLDIER);
+		m_model.Init(moveFilePath, m_remaining);
 		swprintf_s(moveFilePath, L"Assets/animData/%s_idle.tka", m_Status->m_CharaName.c_str());
 		m_animationclip[idle].Load(moveFilePath);
 		m_animationclip[idle].SetLoopFlag(true);
@@ -52,7 +59,7 @@ bool Enemyleader::Load()
 		m_animation.Init(m_model, m_animationclip, animnum);
 		m_animation.Play(walk, 0.2f);
 		for (auto enemy : m_enemy) {
-			m_model.UpdateInstancingData(enemy->Get2DPosition() + m_speed, CQuaternion::Identity(), CVector3::One());
+			m_model.UpdateInstancingData(enemy->Get2DPosition() + m_movespeed, CQuaternion::Identity(), CVector3::One());
 		}
 		return true;
 	}
@@ -60,9 +67,7 @@ bool Enemyleader::Load()
 void Enemyleader::Update()
 {
 	m_model.BeginUpdateInstancingData();
-	/*for (int i = 0; i < m_remaining; i++) {
-		m_enemy[i]->Update();
-	}*/
+	//ここでエネミーのdelete
 	for (auto enemy = m_enemy.begin(); enemy != m_enemy.end();) {
 		if (!(*enemy)->GetLife())
 		{
@@ -80,13 +85,11 @@ void Enemyleader::Update()
 			enemy++;
 		}
 	}
-	int i = 0;
 	CVector3 distance = CVector3::Zero();
 	switch (m_state)
 	{
 	case group_stop:
 		distance = m_player->Get2Dposition() - m_position;
-		m_position += m_speed;
 		//ここで個別に変更
 		if (distance.Length() < 300.0f)
 		{
@@ -97,8 +100,8 @@ void Enemyleader::Update()
 		}
 		else {
 			for (auto enemy : m_enemy) {
-				m_model.UpdateInstancingData(enemy->Get2DPosition() + m_speed, CQuaternion::Identity(), CVector3::One());
-				enemy->SetPosition(enemy->Get2DPosition() + m_speed);
+				m_model.UpdateInstancingData(enemy->Get2DPosition() + m_movespeed, CQuaternion::Identity(),CVector3::One());
+				enemy->SetPosition(enemy->Get2DPosition() + m_movespeed);
 				enemy->SetAngle(m_angle);
 				enemy->ChangeColliderPosition(enemy->Get2DPosition());
 				m_state = m_group_state;
@@ -111,6 +114,7 @@ void Enemyleader::Update()
 	case group_move:
 		Move();
 		distance = m_player->Get2Dposition() - m_position;
+		//ここで個別に変更
 		if (distance.Length() < 1000.0f)
 		{
 			for (auto enemy : m_enemy) {
@@ -120,8 +124,8 @@ void Enemyleader::Update()
 		}
 		else {
 			for (auto enemy : m_enemy) {
-				m_model.UpdateInstancingData(enemy->Get2DPosition() , m_angle, CVector3::One());
-				enemy->SetPosition(enemy->Get2DPosition() + m_speed);
+				m_model.UpdateInstancingData(enemy->Get2DPosition(), m_angle, CVector3::One());
+				enemy->SetPosition(enemy->Get2DPosition() + m_movespeed);
 				enemy->SetAngle(m_angle);
 				enemy->ChangeColliderPosition(enemy->Get2DPosition());
 				m_state = m_group_state;
@@ -142,7 +146,6 @@ void Enemyleader::Update()
 				break;
 			}
 			enemy++;
-
 		}
 		break;
 	case gathering:
@@ -153,9 +156,7 @@ void Enemyleader::Update()
 		}
 		if (m_ninzuu >= m_remaining)
 		{
-			m_state = m_group_state;	
-			m_path->Course(m_position, m_player->Get2Dposition());
-			m_nextpos = m_path->PathPos();
+			ChangeGroup_Move();
 		}
 	}
 	break;
@@ -166,7 +167,6 @@ void Enemyleader::Update()
 }
 void Enemyleader::Draw()
 {
-
 	m_animation.Update(GetTime().GetFrameTime());
 	if (m_state == m_group_state) {
 		m_model.Draw(
@@ -187,8 +187,8 @@ void Enemyleader::Draw()
 void Enemyleader::Move()
 {
 	CVector3 nowpos = m_position;
-	m_speed = m_nextpos - nowpos;
-	if (m_speed.Length() <= 50.0f)
+	m_movespeed= m_nextpos - nowpos;
+	if (m_movespeed.Length() <= 50.0f)
 	{
 		m_nextpos = m_path->PathPos();
 		if (m_nextpos.x == m_oldposition.x&&m_nextpos.y == m_oldposition.y&&m_nextpos.z == m_oldposition.z)
@@ -204,8 +204,8 @@ void Enemyleader::Move()
 		m_nextpos = m_path->PathPos();
 		m_fream = 0;
 	}	
-	m_speed.y = 0.0;
-	m_speed.Normalize();
+	m_movespeed.y = 0.0;
+	m_movespeed.Normalize();
 	m_Rot.MakeRotationFromQuaternion(m_angle);
 	m_Front.x = m_Rot.m[2][0];
 	m_Front.y = m_Rot.m[2][1];
@@ -213,12 +213,12 @@ void Enemyleader::Move()
 	m_Front.y = 0;
 	m_Front.Normalize();
 	auto debag = m_Front;
-	auto Angle = acos(debag.Dot(m_speed));
+	auto Angle = acos(debag.Dot(m_movespeed));
 	if (Angle >= CMath::DegToRad(1.0f))
 	{
 		speed /= 2.0f;
 		auto ka5 = CVector3::Zero();
-		ka5.Cross(debag, m_speed);
+		ka5.Cross(debag, m_movespeed);
 		CQuaternion ma3;
 		if (ka5.y < 0)
 		{
@@ -238,6 +238,6 @@ void Enemyleader::Move()
 		}
 		m_angle.Multiply(ma3, m_angle);
 	}
-	m_speed = m_speed * speed*GetTime().GetFrameTime();
-	m_position += m_speed;
+	m_movespeed= m_movespeed* speed*GetTime().GetFrameTime();
+	m_position += m_movespeed;
 }

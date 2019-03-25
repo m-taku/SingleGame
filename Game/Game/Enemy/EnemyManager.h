@@ -27,6 +27,10 @@ public:
 	/// </summary>
 	void Update() override;
 	/// <summary>
+	/// Gameobjectから継承したcomeback関数
+	/// </summary>
+	void Comeback() override;
+	/// <summary>
 	/// プレイヤーのインスタンスのセット。
 	/// </summary>
 	/// <param name="player">
@@ -36,12 +40,10 @@ public:
 	{
 		m_player = pleyer;
 	}
-	//void Leaderdet(Enemyleader* k)
-	//{
-	//	m_enemy.erase(
-	//		std::remove(m_enemy.begin(), m_enemy.end(),k),
-	//		m_enemy.end());
-	//}
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="score"></param>
 	void SetScore(Score* score)
 	{
 		m_Score = score;
@@ -52,7 +54,8 @@ private:
 	std::vector<Enemyleader*> m_enemy;
 	Font* m_font = nullptr;											//文字表示のインスタンス
 	int m_No = 0;
-	int m_Maxsporn = 10;
+	int m_count = 0;
+	int m_Maxsporn = 100;
 	Score* m_Score = nullptr;
 	std::vector<CVector3> m_spawnpos;
 	Timer* m_timer = nullptr;

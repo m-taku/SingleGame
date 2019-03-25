@@ -12,6 +12,9 @@ public:	/// <summary>
 		/// プレイヤーのポインタ（Player*）
 		/// </param>
 	EnemyStateDead(Enemy* enemy_point, Player* pla);
+	/// <summary>
+	///デストラクタ
+	/// </summary>
 	~EnemyStateDead();
 	/// <summary>
 	/// EnemyStateから継承したアップデート関数。

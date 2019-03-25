@@ -9,6 +9,7 @@
 #include"title.h"
 #include"Gamecamera.h"
 #include"Stage.h"
+#include"Gameover.h"
 
 Game::Game()
 {
@@ -18,6 +19,7 @@ Game::~Game()
 }
 void Game::OnDestroy()
 {
+	//持っているすべてのインスタンスを削除
 	g_objectManager->DereteGO(m_camera);
 	g_objectManager->DereteGO(m_stage);
 	g_objectManager->DereteGO(m_player);
@@ -28,6 +30,7 @@ void Game::OnDestroy()
 }
 bool Game::Load()
 {
+	//げーむのすべてのインスタンスを発生
 	m_player = g_objectManager->NewGO<Player>(GameObjectPriority_Player,"player");	
 	m_camera = g_objectManager->NewGO<Gamecamera>(GameObjectPriority_Camera);
 	m_ui = g_objectManager->NewGO<UI>(GameObjectPriority_Default,"UI");
@@ -44,7 +47,6 @@ bool Game::Load()
 }
 void Game::Update()
 {
-
 }
 void Game::Draw()
 {

@@ -41,12 +41,9 @@ public:
 	/// </summary>
 	void OnDestroy() override;
 private:
-	//PhysicsStaticObject Stege;
-	//SkinModel m_model;
-
-	Font m_font;						//文字表示のインスタンス
-	Level m_level;						//ステージ表示用のレベルインスタンス					
-	Navimake* m_navimake = nullptr;		//ナビゲーションメッシュ作成処理。
+	CSoundSource m_bgmA;						//BGM用のインスタンス
+	Level m_level;								//ステージ表示用のレベルインスタンス					
+	Navimake* m_navimake = nullptr;				//ナビゲーションメッシュ作成処理。
 
 };
 

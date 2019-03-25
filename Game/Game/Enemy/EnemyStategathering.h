@@ -1,6 +1,6 @@
 #pragma once
 #include"EnemyState.h"
-#include"../../Path.h"
+#include"Path.h"
 /// <summary>
 /// Enemyのグループに集合するときの処理ステートクラス。
 /// </summary>

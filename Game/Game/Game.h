@@ -38,12 +38,11 @@ public:
 	/// </summary>
 	void OnDestroy() override;
 private:
-	Player* m_player=nullptr;					//プレイヤーのインスタンス
+	Player* m_player=nullptr;						//プレイヤーのインスタンス
 	Gamecamera* m_camera = nullptr;					//ゲームカメラのインスタンス
-	Stage* m_stage = nullptr;
-	EnemyManager* m_enemyManager = nullptr;
-	UI* m_ui = nullptr;
-	Score* m_score = nullptr;
-	//HitObjict* m_hitobjict = nullptr;
+	Stage* m_stage = nullptr;						//ステージのインスタンス
+	EnemyManager* m_enemyManager = nullptr;			//エネミーのマネージャークラスのインスタンス
+	UI* m_ui = nullptr;								//ユーザーインターフェースのインスタンス
+	Score* m_score = nullptr;						//スコアのインスタンス
 };
 

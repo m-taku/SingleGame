@@ -1,3 +1,5 @@
 フォントのデータ制作の参考資料
 https://qiita.com/katsusanw/items/c42b737d8d91d903474a
 http://zerogram.info/?p=1012
+カラーのデータ参考サイト
+https://www.petitmonte.com/javascript/rgb_hsv_convert.html

@@ -7,14 +7,26 @@ namespace time1 {
 	class HitObjict 
 	{
 	public:
+		/// <summary>
+		/// コンストラクタ
+		/// </summary>
 		HitObjict()
 		{
 
 		}
+		/// <summary>
+		/// デストラクタ
+		/// </summary>
 		~HitObjict()
 		{
 			Release();
 		}
+		/// <summary>
+		/// Hitオブジェクトのインスタンスのゲット
+		/// </summary>
+		/// <returns>
+		/// Hitオブジェクトのインスタンスの
+		/// </returns>
 		static inline HitObjict& GetHitObjict()
 		{
 			static HitObjict t;
@@ -27,13 +39,13 @@ namespace time1 {
 			m_objict.push_back(ka);
 			return ka;
 		}
-		bool HitTest(CVector3 pos, float damage, HitReceive::objict_Name name)
+		bool HitTest(CVector3 pos,float Circle, float damage, HitReceive::objict_Name name)
 		{
 			bool furag = false;
-			for (auto k : m_objict)
+			for (auto hit : m_objict)
 			{
-				if (k->Getobjict_Name() == name) {
-					if (k->HitTest(pos, damage)) {
+				if (hit->Getobjict_Name() == name) {
+					if (hit->HitTest(pos, Circle, damage)) {
 						furag = true;
 					}
 				}

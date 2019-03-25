@@ -65,9 +65,9 @@ private:
 	/// 最近のゲームの後ろに回り込むカメラの処理。
 	/// ドラクエ11とか色々。
 	/// </remarks>
-	static const int XMAX = 20;
-	static const int XMIN = -20;
-	void ExecuteTracking(CVector3 front);
+	static const int XMAX = 25;						//カメラの上方向のMAX角度
+	static const int XMIN = -30;					//カメラの下方向のMAX角度
+	void ExecuteTracking(CVector3 front);			//プレイヤーの移動に対して自動追尾させる関数
 	CVector3 m_playerFront = CVector3::Zero();		//プレイヤーの前方向
 	CVector3 m_playerUp = CVector3::Zero();			//プレイヤーの上方向
 	CVector3 m_right = CVector3::Zero();		    //右方向

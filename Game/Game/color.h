@@ -5,20 +5,26 @@
 class Color:public Noncopyable
 {
 public:
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
 	Color();
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
 	~Color();
 	/// <summary>
 	/// HSVをRGBに変換する
 	/// </summary>
 	/// <param name="hsv">HSVのカラー情報。</param>
 	/// <returns>HSVをRGBに変換したもの</returns>
-	CVector3 HSVtoRGB(const CVector3& hsv);
+	static CVector3 HSVtoRGB(const CVector3& hsv);
 	/// <summary>
 	/// メンバ変数のHSVの値をRGBに変換して返す。
 	/// </summary>
 	/// <returns>RGBに変換された値</returns>
 	CVector4 HSVtoRGB();
 private:
-	CVector3  m_HSV = { 0.0f,1.0f,0.3f};
+	CVector3  m_HSV = { 0.0f,1.0f,0.3f};		//保存しているカラー情報
 };
 

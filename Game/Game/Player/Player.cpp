@@ -23,6 +23,12 @@ void Player::OnDestroy()
 	//delete m_debugVector;
 	//g_objectManager->DereteGO(m_ui);
 }
+void Player::Stop()
+{
+	ChangeAnimation(idle);
+	m_position = m_collider.Execute(GetTime().GetFrameTime(), m_movespeed);
+	m_model.UpdateWorldMatrix(m_position, m_rotation, { 1.0f,1.0f,1.0f });
+}
 bool Player::Load()
 {
 	const float PLAYER_RADIUS = 40.0f;	//プレイヤーの半径。
@@ -34,12 +40,12 @@ bool Player::Load()
 	m_rotation.SetRotationDeg(CVector3::AxisY(), 0.0f);
 	m_ui = g_objectManager->FindGO<UI>("UI");// UI > (GameObjectPriority_Default);
 	InitAnimation();
-	Findarm();
+	FindArm();
 	UpdateFront();
-	m_model.UpdateWorldMatrix(m_position, m_rotation, {0.1f,0.1f,0.1f});
+	m_model.UpdateWorldMatrix(m_position, m_rotation, {1.0f,1.0f,1.0f});
 	GetHitObjict().Create(
 		&m_position, 
-		100.0f, 
+		150.0f, 
 		[&](float damage)
 	{ 
 		Hit(damage);
@@ -96,9 +102,9 @@ void Player::InitAnimation()
 
 void Player::Update()
 {
-	m_State->Update();
-	m_debugVector->Update({0.0f,0.0f,0.0f});
 	UpdateFront();
+	m_debugVector->Update({0.0f,0.0f,0.0f});
+	m_State->Update();
 	m_movespeed.x = m_Front.x * m_plyerStatus->m_Speed*m_speed;
 	m_movespeed.z = m_Front.z * m_plyerStatus->m_Speed*m_speed;
 	m_movespeed.y -= GRAVITY;
@@ -107,10 +113,8 @@ void Player::Update()
 		m_movespeed.y = 500.0f;
 	}
 	m_position = m_collider.Execute(GetTime().GetFrameTime(), m_movespeed);
-	m_model.UpdateWorldMatrix(m_position, m_rotation, { 1.0f,1.0f,1.0f });
 	g_graphicsEngine->SetShadoCaster(&m_model);
 	m_model.SetShadowReciever(true);
-	m_animation.Update(GetTime().GetFrameTime());
 	//ここから影の処理
 	auto ritpos = m_position;
 	CVector3 m = { -707.0f,707.0f, 0.0f };
@@ -122,6 +126,8 @@ void Player::Update()
 }
 void Player::Draw()
 {
+	m_model.UpdateWorldMatrix(m_position, m_rotation, { 1.0f,1.0f,1.0f });
+	m_animation.Update(GetTime().GetFrameTime());
 	m_debugVector->Draw();
 	m_model.Draw(
 		g_camera3D.GetViewMatrix(), 
@@ -131,6 +137,7 @@ void Player::Draw()
 void Player::Hit(float damage)
 {
 	if (!m_Hit) {
+	//ここにダメージの処理
 		Damage(damage);
 		if (m_plyerStatus->m_HP <= 0.0f)
 		{
@@ -142,13 +149,8 @@ void Player::Hit(float damage)
 			TransitionState(State_Hit);
 		}			
 	}
-
-	//ここにダメージの処理
-	//m_position.y += 1000.0f;
-
-
 }
-void Player::Findarm()
+void Player::FindArm()
 {
 	int hoge = -1;
 	int num = m_model.GetSkeleton().GetNumBones();
@@ -156,6 +158,7 @@ void Player::Findarm()
 		auto bonename = m_model.GetSkeleton().GetBone(i)->GetName();
 		wchar_t moveFilePath[256];
 		swprintf_s(moveFilePath, L"Hand");
+		//腕のボーン番号を名前で取得
 		int result = wcscmp(moveFilePath, bonename);
 		if (result == 0)
 		{

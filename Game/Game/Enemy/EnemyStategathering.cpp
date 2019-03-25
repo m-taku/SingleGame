@@ -22,19 +22,11 @@ void EnemyStategathering::Update()
 	CVector3 speed = CVector3::Zero();
 	if (distance.Length() <= 150.0f)
 	{
-		//m_enemy->ChangeLeaderState(Enemyleader::gathering);
 		m_enemy->SetSpeed(0.0f);
 		m_enemy->RollCall();
 		return;
 	}
 	speed = m_nextpos - nowpos;
-	//if (++m_fream > 30) {
-	//	//‚«‚ê‚¢‚É‚·‚é‚½‚ß‚É–ñ‚P•b‚ÅXV
-	//	m_path->Course(m_enemy->Get2DPosition(), m_player->Get2Dposition());
-	//	m_nextpos = m_path->PathPos();
-	//	m_nextpos = m_path->PathPos();
-	//	m_fream = 0;
-	//}
 	//ƒ|ƒŠƒSƒ“‚ð“à•ï‚·‚é‰~‚É“ü‚Á‚½‚ç
 	if (speed.Length() <= 100.0f)
 	{
@@ -52,35 +44,4 @@ void EnemyStategathering::Update()
 	speed.y = 0.0;
 	speed.Normalize();
 	m_enemy->FindAngle(speed);
-
-	/*CVector3 nowpos = m_enemy->Get3DPosition();
-	nowpos.y = 0.0f;
-	auto leaderpos = m_enemy->GetLeaderPosition();
-	leaderpos.y = 0;
-	CVector3 distance = leaderpos - nowpos;
-	if (distance.Length() <= 150.0f)
-	{
-		m_enemy->ChangeLeaderState(Enemyleader::gathering);
-		m_enemy->SetSpeed(0.0f);
-		m_enemy->RollCall();
-		return;
-	}
-	CVector3 speed = CVector3::Zero();
-	speed = m_nextpos - nowpos;
-	if (speed.Length() <= 50.0f)
-	{
-		m_nextpos = m_path->PathPos();
-		if (m_nextpos.x == m_oldposition.x&&m_nextpos.y == m_oldposition.y&&m_nextpos.z == m_oldposition.z)
-		{
-			m_enemy->ChangeLeaderState(Enemyleader::gathering);
-			m_enemy->SetSpeed(0.0f);
-			m_enemy->RollCall();
-			return;
-		}
-		m_oldposition = m_nextpos;
-	}
-	speed.y = 0.0;
-	speed.Normalize();
-	m_enemy->FindAngle(speed);
-	m_enemy->SetSpeed(1.0f);*/
 }

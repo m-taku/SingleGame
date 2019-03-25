@@ -4,6 +4,7 @@
 
 Fade::Fade()
 {
+	//フェード用のデータを読み込み
 	m_texture_fade.CreateFromDDSTextureFromFile(L"Resource/sprite/White.dds");
 	m_fadeSprite.Init(m_texture_fade.GetBody(), 1280.0f, 720.0f); 
 	m_fadeSprite.SetclearColor(0.0f);
@@ -17,6 +18,7 @@ bool Fade::Update()
 {
 	m_fadeSprite.SetclearColor(m_toumei);
 	m_toumei += m_faderate;
+	//状態の遷移
 	switch (m_fadestate)
 	{
 	case fadein:

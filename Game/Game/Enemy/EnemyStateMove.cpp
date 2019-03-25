@@ -9,6 +9,7 @@ EnemyStateMove::EnemyStateMove(Enemy* enamy,Player* player):EnemyState(enamy,pla
 	m_path->Course(m_enemy->Get2DPosition(), player->Get2Dposition());
 	m_nextpos = m_path->PathPos();
 	m_enemy->SetSpeed(1.0f);
+	m_enemy->ChangeAnimation(Enemy::idle);
 }
 EnemyStateMove::~EnemyStateMove()
 {

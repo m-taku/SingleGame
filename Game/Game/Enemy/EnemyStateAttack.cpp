@@ -11,55 +11,128 @@ namespace {
 EnemyStateAttack::EnemyStateAttack(Enemy* enamy, Player* player) :EnemyState(enamy, player)
 {
 	m_boneNo = m_enemy->GetNo();
-	FindSwordpos();
-	//m_debugVecor = new VectorDraw(m_handpos);
-	m_oldSwordcenter = m_Swordcenter;
-	m_oldhandpos = m_handpos;
-	m_enemy->ChangeAnimation(Enemy::attack);
 }
 EnemyStateAttack::~EnemyStateAttack()
 {
-	//delete m_debugVecor;
 }
 void EnemyStateAttack::Update()
 {
 	auto distance = m_player->Get2Dposition() - m_enemy->Get2DPosition();
-	m_enemy->FindAngle(distance);
-	//m_debugVecor->Update(CVector3::Zero());
-	if (distance.Length() <= 300.0f) {
+	switch (m_steat)
+	{
+	case Wait:
+		if (distance.Length() <= 200.0f) {
+			m_enemy->FindAngle(distance);
+			m_enemy->SetSpeed(0.0f);
+			m_enemy->ChangeAnimation(Enemy::idle);
+			count++;
+			if (distance.Length() <= 100.0f|| count>=30)
+			{
+				distance.y = 0;
+				distance.Normalize();
+				auto front = m_enemy->Get2DFront();
+				if (acos(front.Dot(distance)) <= CMath::DegToRad(10.0f))
+				{
+					m_enemy->ChangeAnimation(Enemy::attack);
+					FindSwordpos();
+					m_oldSwordcenter = m_Swordcenter;
+					m_steat = Attack;
+					count = 0;
+				}
+			}
+		}
+		else
+		{
+
+			m_enemy->FindAngle(distance);
+			m_enemy->ChangeAnimation(Enemy::walk);
+			m_enemy->SetSpeed(1.0f / 2.0f);
+			m_enemy->SetDebugPos({ 0.0f,0.0f,0.0f });
+			m_steat = Chase;
+		}
+		break;
+	case Attack:
+		m_enemy->SetSpeed(0.0f);
 		m_enemy->ChangeAnimation(Enemy::attack);
 		FindSwordpos();
-		//m_debugVecor->Draw();
-		auto hitpoint = (m_Swordcenter - m_oldSwordcenter) / 2 + m_Swordcenter;
-		if (!m_Hit) {
+		if (!m_Hit)
+		{
 			if (m_enemy->GetIsEvent())
 			{
-				m_Hit = GetHitObjict().HitTest(hitpoint, m_enemy->GetStatus()->m_Attack, HitReceive::player);
+				auto attackMove = (m_Swordcenter - m_oldSwordcenter) / 2;
+				auto hitpoint = attackMove + m_Swordcenter;
+				m_Hit = GetHitObjict().HitTest(hitpoint, attackMove.Length(), m_enemy->GetStatus()->m_Attack, HitReceive::player);
+				m_enemy->SetDebugPos(hitpoint);
 			}
 		}
 		m_oldSwordcenter = m_Swordcenter;
-		//CollisionTest();
 		if (!m_enemy->GetanimationPlaying()) {
-			m_enemy->ChangeAnimation(Enemy::walk);
-			m_enemy->ChangeAnimation(Enemy::attack);
 			m_Hit = false;
+			m_steat = Wait;
+			m_enemy->ChangeAnimation(Enemy::idle);
 		}
-		m_enemy->Setdebugpos(hitpoint);
-		//m_debugVecor->Update(hitpoint);
-	}
-	else
-	{
+		break;
+	case Chase:
+		m_enemy->FindAngle(distance);
 		m_enemy->ChangeAnimation(Enemy::walk);
 		m_enemy->SetSpeed(1.0f / 2.0f);
-		m_enemy->Setdebugpos({0.0f,0.0f,0.0f});
-	}
+		m_enemy->SetDebugPos({ 0.0f,0.0f,0.0f });
+		if (150.0f)
+		{
+			m_steat = Wait;
+		}
+		break;
+	default:
+		break;
+	}	
 	if (distance.Length() >= 500.0f)
 	{
 		m_enemy->SetSpeed(1.0f);
 		m_enemy->TransitionState(Enemy::State_Move);
 	}
-	//m_debugVecor->Draw();
-	
+	//if (distance.Length() <= 80.0f) {
+	//	m_enemy->SetSpeed(0.0f);
+	//	m_enemy->ChangeAnimation(Enemy::attack);
+	//	FindSwordpos();
+	//	//m_debugVecor->Draw()
+	//	if (!m_Hit)
+	//	{
+	//		if (m_enemy->GetIsEvent())
+	//		{
+	//			auto attackMove = (m_Swordcenter - m_oldSwordcenter) / 2;
+	//			auto hitpoint = attackMove + m_Swordcenter;
+	//			m_Hit = GetHitObjict().HitTest(hitpoint, attackMove.Length(), m_enemy->GetStatus()->m_Attack, HitReceive::player);
+	//			m_enemy->Setdebugpos(hitpoint);
+	//		}
+	//	}
+	//	m_oldSwordcenter = m_Swordcenter;
+	//	//CollisionTest();
+	//	if (!m_enemy->GetanimationPlaying()) {
+
+	//	}
+	//}
+	////m_debugVecor->Update(CVector3::Zero());
+	//else {
+	//	if (distance.Length() <= 200.0f) {
+	//		m_enemy->FindAngle(distance);
+	//		m_enemy->SetSpeed(0.0f);
+	//		m_enemy->ChangeAnimation(Enemy::idle);
+	//		//m_debugVecor->Update(hitpoint);
+	//	}
+	//	else
+	//	{
+	//		m_enemy->ChangeAnimation(Enemy::walk);
+	//		m_enemy->SetSpeed(1.0f / 2.0f);
+	//		m_enemy->Setdebugpos({ 0.0f,0.0f,0.0f });
+	//	}
+	//}
+	//if (distance.Length() >= 500.0f)
+	//{
+	//	m_enemy->SetSpeed(1.0f);
+	//	m_enemy->TransitionState(Enemy::State_Move);
+	//}
+	////m_debugVecor->Draw();
+	//
 }
 //struct Attack : public btCollisionWorld::ConvexResultCallback
 //{

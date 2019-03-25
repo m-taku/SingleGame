@@ -83,6 +83,17 @@ public:
 	//	return false;
 	//}
 	/// <summary>
+	/// 
+	/// </summary>
+	void AllStoporComeback()
+	{
+		for (auto& list : m_List) {
+			for (auto objedct : list.GetList()) {
+				objedct->isStop();
+			}
+		}
+	}
+	/// <summary>
 	/// 名前によるDelete処理。
 	/// （複数ある場合は最初のみ削除のため注意！！）
 	/// </summary>
@@ -126,6 +137,6 @@ private:
 	enum { NUM_PRIORITY = 20 };								//優先順位の数。
 	int m_DeleteNo = 0;										//DeleteListの番号
 	std::array<GameobjectList, NUM_PRIORITY>	m_List;		//Gemeobjectのリスト（優先度付き）
-	std::list<Gameobject*> m_DeleteList[2];				//deleteの際の保存場所（2つあるのはデストラクタでDeleteGOが呼ばれた時の対策）
+	std::list<Gameobject*> m_DeleteList[2];					//deleteの際の保存場所（2つあるのはデストラクタでDeleteGOが呼ばれた時の対策）
 	std::map<Gameobject*, int> m_newLest;					//newの際の保存場所（）
 };

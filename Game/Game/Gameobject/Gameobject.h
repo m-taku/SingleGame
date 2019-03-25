@@ -37,6 +37,14 @@ public:
 	/// </summary>
 	virtual void OnDestroy() {};
 	/// <summary>
+	/// アップデートを休止しドローコールのみ動かす際の初期化処理
+	/// </summary>
+	virtual void Stop() {};
+	/// <summary>
+	/// アップデートを再開し通常運転に戻る際の初期化処理
+	/// </summary>
+	virtual void Comeback() {};
+	/// <summary>
 	/// オブジェクトの優先度取得。
 	/// </summary>
 	/// <returns>
@@ -96,10 +104,6 @@ public:
 	{
 		m_Name = Name;
 	}
-	const Gameobject* Getobjict()
-	{
-		return this;
-	}
 	/// <summary>
 	/// deleteするときにエンジンで呼ばれる関数
 	/// (エンジン側の処理のため外で呼ばないで！！)
@@ -109,7 +113,40 @@ public:
 		m_islife = false;			
 		OnDestroy();
 	}
-	bool Getislife()
+	/// <summary>
+	/// 関数にストップをかける又は解除する関数
+	/// （呼ぶとストップ状態が反転します）
+	/// </summary>
+	void isStop()
+	{
+		m_stop = !m_stop;
+		if (m_stop)
+		{
+			Comeback();
+		}
+		else
+		{
+			Stop();
+		}
+	}
+	/// <summary>
+	/// 現在のストップの状態
+	/// </summary>
+	/// <returns>
+	/// trueで起動中
+	/// </returns>
+	bool GetStop()
+	{
+		return m_stop;
+	}
+	/// <summary>
+	/// 今の生存状態
+	/// （delete用のためゲーム側では使用を控えてください）
+	/// </summary>
+	/// <returns>
+	/// trueで生存
+	/// </returns>
+	bool GetIslife()
 	{
 		return m_islife;
 	}
@@ -117,6 +154,6 @@ private:
 	std::string m_Name = "NULL";     	//インスタンスの名前
 	int m_priority = 0;					//優先度
 	bool m_Loadfrag = false;			//ロード完了したか
-	bool m_islife = true;
+	bool m_stop = true;					//アップデートをストップさせる
+	bool m_islife = true;				//生存フラグ
 };
-

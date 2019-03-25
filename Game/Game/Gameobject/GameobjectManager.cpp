@@ -26,9 +26,11 @@ void GameobjectManager::Execute()
 	for (auto& list : m_List) {
 		for (auto& objedct : list.GetList())
 		{
-			if (objedct->Getislife()) {
+			if (objedct->GetIslife()) {
 				if (objedct->GetLodefrag()) {
-					objedct->Update();
+					if (objedct->GetStop()) {
+						objedct->Update();
+					}
 				}
 				else {
 					if (objedct->Load())
@@ -38,31 +40,27 @@ void GameobjectManager::Execute()
 		}
 	}
 
-	//ここからレンダー系の処理を書く
-	//g_graphicsEngine->GetShadowMap()->UpdateFromLightTarget(
-	//	{ -0.707f,0.707f,0.0f },
-	//	{ 0.0f, 0.0f, 0.0f }
-	//);
 	g_graphicsEngine->shadoUpdate();
 
 	for (auto& list : m_List) {
 		for (auto objedct : list.GetList()) {
-			if (objedct->GetLodefrag()&& objedct->Getislife()) {
+			if (objedct->GetLodefrag()&& objedct->GetIslife()) {
 				objedct->Draw();
 			}
 		}
 	}
+	g_graphicsEngine->EffectUpdate();
 	//デバック用の剛体表示
 	g_graphicsEngine->PostEffectUpdate();
 #ifdef _DEBUG
 
 	
-	g_physics.DebubDrawWorld();
+	//g_physics.DebubDrawWorld();
 #endif
 
 	for (auto& list : m_List) {
 		for (auto objedct : list.GetList()) {
-			if (objedct->GetLodefrag() && objedct->Getislife()) {
+			if (objedct->GetLodefrag() && objedct->GetIslife()) {
 				objedct->PostDraw();
 			}
 		}

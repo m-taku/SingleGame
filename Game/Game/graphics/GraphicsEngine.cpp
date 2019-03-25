@@ -34,6 +34,7 @@ void GraphicsEngine::EndRender()
 	//バックバッファとフロントバッファを入れ替える。
 	m_pSwapChain->Present(2, 0);
 }
+
 void GraphicsEngine::Release()
 {
 	if (m_rasterizerState != NULL) {
@@ -83,6 +84,16 @@ void GraphicsEngine::Release()
 	{
 		delete m_shadowmap;
 		m_shadowmap = NULL;
+	}
+	if (m_effekseerManager != NULL)
+	{
+		m_effekseerManager->Release();
+		m_shadowmap = NULL;
+	}
+	if (m_effekseerRenderer != NULL)
+	{
+		m_effekseerRenderer->Destroy();
+		m_effekseerRenderer = NULL;
 	}
 }
 void GraphicsEngine::Init(HWND hWnd)
@@ -218,11 +229,35 @@ void GraphicsEngine::Init(HWND hWnd)
 		m_pd3dDeviceContext->OMSetDepthStencilState(depthStencilState,0);
 		MemoryBarrier();
 	}
+	//InitEffekseer()
+	{
+		//レンダラーを初期化。
+		m_effekseerRenderer = EffekseerRendererDX11::Renderer::Create(
+			g_graphicsEngine->GetD3DDevice(),			//D3Dデバイス。
+			g_graphicsEngine->GetD3DDeviceContext(),	//D3Dデバイスコンテキスト。
+			20000										//板ポリの最大数。
+		);
+		//エフェクトマネージャを初期化。
+		m_effekseerManager = Effekseer::Manager::Create(10000);
+
+		// 描画用インスタンスから描画機能を設定
+		m_effekseerManager->SetSpriteRenderer(m_effekseerRenderer->CreateSpriteRenderer());
+		m_effekseerManager->SetRibbonRenderer(m_effekseerRenderer->CreateRibbonRenderer());
+		m_effekseerManager->SetRingRenderer(m_effekseerRenderer->CreateRingRenderer());
+		m_effekseerManager->SetTrackRenderer(m_effekseerRenderer->CreateTrackRenderer());
+		m_effekseerManager->SetModelRenderer(m_effekseerRenderer->CreateModelRenderer());
+
+		// 描画用インスタンスからテクスチャの読込機能を設定
+		// 独自拡張可能、現在はファイルから読み込んでいる。
+		m_effekseerManager->SetTextureLoader(m_effekseerRenderer->CreateTextureLoader());
+		m_effekseerManager->SetModelLoader(m_effekseerRenderer->CreateModelLoader());
+
+	}
 	m_pd3dDeviceContext->RSSetState(m_rasterizerState);
 	m_SpriteBatch = new DirectX::SpriteBatch(m_pd3dDeviceContext);
 	m_SpriteFont = new DirectX::SpriteFont(m_pd3dDevice, L"Assets/font/floay.spritefont");
 	mainTarget.Create(FRAME_BUFFER_W,FRAME_BUFFER_H, DXGI_FORMAT_R16G16B16A16_FLOAT);
-	ka.Init(mainTarget.GetRenderTargetSRV(), 1280.0f, 720.0f);
+	mainSRV.Init(mainTarget.GetRenderTargetSRV(), 1280.0f, 720.0f);
 	m_posteffec = new PostEffect;
 	m_shadowmap = new ShadowMap;
 	m_shadowmap->UpdateFromLightTarget({ 00.0f, 1000.0f, 0.0f },{ 0.0f, 0.0f, 0.0f });

@@ -25,6 +25,7 @@ void PhysicsDebugDraw::BeginDraw()
 }
 void PhysicsDebugDraw::drawLine(const btVector3& from, const btVector3& to, const btVector3& color)
 {
+	//•¨—ƒGƒ“ƒWƒ“‚©‚ç‚à‚ç‚Á‚½î•ñ‚ð
 	int baseIndex = m_numLine * 2;
 	m_vertexBuffer[baseIndex].Set(CVector3(from.x(), from.y(), from.z()));
 	m_vertexBuffer[baseIndex + 1].Set(CVector3(to.x(), to.y(), to.z()));
@@ -37,8 +38,6 @@ void PhysicsDebugDraw::EndDraw()
 	cb.mView = g_camera3D.GetViewMatrix();
 	cb.mProj = g_camera3D.GetProjectionMatrix();
 	CVector4 colr;
-
-
 	colr = { 1.0f,1.0f,1.0f,1.0f };
 	DeviceContext->UpdateSubresource(m_cb2.GetBody(), 0, NULL, &colr, 0, 0);
 	DeviceContext->PSSetConstantBuffers(1, 1, &(m_cb2.GetBody()));

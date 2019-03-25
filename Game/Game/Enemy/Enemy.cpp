@@ -19,10 +19,10 @@ Enemy::~Enemy()
 bool Enemy::Load()
 {
 	//cmoファイルの読み込み。
-	InitAnim();	
+	InitAnim();
 	m_collider.Init(30.0f, 60.0f, m_position);
 	InitTex();
-	Findarm();
+	FindArm();
 	m_debugVecor = new VectorDraw(m_position);
 	m_debugVecor->Update({ 0.0f,0.0f,0.0f });
 	m_Rot.MakeRotationFromQuaternion(m_angle);
@@ -33,9 +33,10 @@ bool Enemy::Load()
 	TransitionState(State_Move);
 	//m_position.y = 0.0f;
 	m_model.UpdateWorldMatrix(m_position, m_angle, CVector3::One());
-	m_obj = GetHitObjict().Create(&m_position, 1000.0f,
-		[&](float damage)
-	{ 
+	m_bgmA.Init(L"Assets/sound/gameag.wav");
+	m_obj = GetHitObjict().Create(&m_position, 100.0f,
+		[&](int damage) 
+	{
 		Hit(damage);
 	},
 		HitReceive::enemy);
@@ -52,6 +53,7 @@ void Enemy::InitTex()
 void Enemy::InitAnim()
 {
 	wchar_t moveFilePath[256];
+	//モデルのロード
 	swprintf_s(moveFilePath, L"Assets/modelData/%s.cmo", m_Status->m_CharaName.c_str());
 	m_model.Init(moveFilePath);
 	swprintf_s(moveFilePath, L"Assets/animData/%s_idle.tka", m_Status->m_CharaName.c_str());
@@ -72,19 +74,18 @@ void Enemy::InitAnim()
 	m_animation.Init(m_model, m_animationclip, animnum);
 	m_animation.Play(walk, 0.2f);
 }
-void Enemy::Findarm()
+void Enemy::FindArm()
 {
 	int hoge = -1;
 	int num = m_model.GetSkeleton().GetNumBones();
 	for (int i = 0; i < num; i++) {
 		auto bonename = m_model.GetSkeleton().GetBone(i)->GetName();
 		wchar_t moveFilePath[256];
+		//モデルから手のボーンを検索
 		swprintf_s(moveFilePath, L"%sHand", m_Status->m_CharaName.c_str());
 		int result = wcscmp(moveFilePath, bonename);
 		if (result == 0)
 		{
-
-
 			hoge = m_model.GetSkeleton().GetBone(i)->GetNo();
 			break;
 		}
@@ -96,9 +97,6 @@ void Enemy::TransitionState(State m_state)
 	delete m_enemystate;
 	switch (m_state)
 	{
-	case State_Tracking:
-		m_enemystate = new EnemyStateTracking(this, m_player);
-		break;
 	case State_Move:
 		m_enemystate = new EnemyStateMove(this, m_player);
 		break;
@@ -132,17 +130,18 @@ void Enemy::Update()
 	m_Front.Normalize();
 	m_moveVector = m_Front * m_speed;
 	m_moveVector.y -= GRAVITY;
-	//m_position += m_moveVector *GetFrameDeltaTime();
 	m_position = m_collider.Execute(GetTime().GetFrameTime(), m_moveVector);
 	CVector3 distance = m_player->Get2Dposition() - Get2DPosition();
 	if (distance.Length() >= 1500.0f)
 	{
+		//プレイヤーとの距離が離れすぎたら集合する
 		ChangeLeaderState(Enemyleader::gathering);
 		SetLeaderPosition(Get3DPosition());
 	}
 	m_model.UpdateWorldMatrix(m_position, m_angle, CVector3::One());
 	g_graphicsEngine->SetShadoCaster(&m_model);
 	m_model.SetShadowReciever(true);
+	m_mutekitaim++;
 	m_Leader->CopySkinModel().UpdateInstancingData(m_position, m_angle, CVector3::One());
 }
 void Enemy::postDraw()
@@ -152,12 +151,13 @@ void Enemy::postDraw()
 }
 void Enemy::Draw()
 {
-
+	m_model.UpdateWorldMatrix(m_position, m_angle, CVector3::One());
 	m_animation.Update(GetTime().GetFrameTime());
 	m_model.Draw(
 		g_camera3D.GetViewMatrix(),
 		g_camera3D.GetProjectionMatrix()
 	);
+
 	m_debugVecor->Draw();
 }
 void Enemy::DrawDebugVector()
@@ -176,13 +176,6 @@ void Enemy::DrawDebugVector()
 	else {
 		m_Sprite_angle.SetRotationDeg(CVector3::AxisY()*-1, kaku);
 	}
-#ifdef _DEBUG
-	//@todo m_Sprite_angleで回した結果を見るためのデバッグコード
-	//CVector3 hoge = CVector3::AxisZ()*-1;
-	//m_Sprite_angle.Multiply(hoge);
-	//m_debugVecor->Update(m_position, hoge, 1.0);
-	//m_debugVecor->Draw();
-#endif
 }
 void Enemy::HP_Draw()
 {
@@ -194,7 +187,7 @@ void Enemy::HP_Draw()
 		g_camera3D.GetProjectionMatrix()
 	);
 }
-void Enemy::FindAngle(CVector3 Vector)
+void Enemy::FindAngle(const CVector3& Vector)
 {
 	m_Front.y = 0;
 	m_Front.Normalize();
@@ -202,11 +195,13 @@ void Enemy::FindAngle(CVector3 Vector)
 	vector.Normalize();
 	auto debag = m_Front;
 	auto Angle = acos(debag.Dot(vector));
+	//目標との角度が１度以上なら回転させる
 	if (Angle >= CMath::DegToRad(1.0f))
 	{
 		SetSpeed(1.0f/10.0f);
 		auto ka5 = CVector3::Zero();
 		ka5.Cross(debag, vector);
+		//外積を使い軸を計算する
 		CQuaternion ma3;
 		if (ka5.y < 0)
 		{
@@ -216,19 +211,21 @@ void Enemy::FindAngle(CVector3 Vector)
 		{
 			ka5 = CVector3::AxisY();
 		}
+		//１フレーム当たりの最大角度と比較する
 		if (Angle <= m_margin)
 		{
+			//きっちり角度を合わせる
 			ma3.SetRotation(ka5, Angle);
 		}
 		else
 		{
+			//最大角度で回転させる
 			ma3.SetRotationDeg(ka5, m_kaku);
 		}
 		m_angle.Multiply(ma3, m_angle);
 	}
 	else
 	{
-
 		if (m_speed <= m_Status->m_Speed)
 		{
 			m_speed += 100.0f;
@@ -242,14 +239,16 @@ void Enemy::FindAngle(CVector3 Vector)
 void Enemy::Hit(float damage)
 {
 	float hidame = damage - m_Status->m_Defense;
-	if (hidame > 0.0f)
+	if (hidame > 0.0f&&m_mutekitaim >=30)
 	{
 		m_HP -= hidame;
+		m_mutekitaim = 0;
 		if (m_HP <= 0.01f)
 		{
 			TransitionState(State_Dead);
 		}
 		else {
+			m_bgmA.Play(false);
 			TransitionState(State_Hit);
 		}
 	}

@@ -108,6 +108,5 @@ private:
 	std::list<CSoundSource*>	m_soundSources;		//!<サウンドソースのリスト。
 	CWaveFileBank m_waveFileBank;					//!<波形データのバンク。
 };
-
 //サウンドエンジンのインスタンス。
 extern CSoundEngine* g_soundEngine ;

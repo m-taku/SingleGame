@@ -1,9 +1,21 @@
 #pragma once
+/// <summary>
+/// フェイドクラス
+/// </summary>
 class Fade :public Noncopyable
 {
 public:
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
 	Fade();
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
 	~Fade();
+	/// <summary>
+	/// フェイドの状態のEnum
+	/// </summary>
 	enum Fade_State
 	{
 		fadein,
@@ -12,6 +24,7 @@ public:
 	};
 	/// <summary>
 	/// Update関数
+	/// 状態変化でtrue
 	/// </summary>
 	bool Update();
 	/// <summary>
@@ -22,33 +35,48 @@ public:
 	/// フェードインに遷移
 	/// </summary>
 	/// <param name="taim">
-	/// フェードのかかり具合（1/taim）
+	/// フェードにかける時間（1/taim）
 	/// </param>
 	void Fadein(float taim=20.0f)
 	{
 		m_faderate = 1 / taim;
 		m_fadestate = fadein;
 	}
+	/// <summary>
+	/// フェードアウトに遷移
+	/// </summary>
+	/// <param name="taim">
+	/// フェードにかける時間（1/taim）
+	/// </param>
 	void Fadeout(float taim = 20.0f)
 	{
 		m_faderate = 1 / taim;
 		m_faderate *= -1;
 		m_fadestate = fadeout;
 	}
+	/// <summary>
+	/// フェードをやめてアイドルに遷移
+	/// </summary>
 	void Fadeidel()
 	{
 		m_faderate = 0.0f;
 		m_fadestate = idel;
 	}
-	Fade_State GetState()
+	/// <summary>
+	/// 現在の状態を取得
+	/// </summary>
+	/// <returns>
+	/// 状態のEnum（Faid::Fade_State）
+	/// </returns>
+	const Fade_State GetState()
 	{
 		return m_fadestate;
 	}
 private:
 	ShaderResourceView m_texture_fade;							//タイトルのフェイド用のリソース
 	sprite m_fadeSprite;										//タイトルのフェイド表示用のインスタンス
-	float m_faderate = 0.0f;
-	float m_toumei = 0.0f;									//フェイドの度合い
-	Fade_State m_fadestate = idel;
+	float m_faderate = 0.0f;									//フェイドをかける時間
+	float m_toumei = 0.0f;										//フェイドの度合い
+	Fade_State m_fadestate = idel;								//現在の状態
 };
 

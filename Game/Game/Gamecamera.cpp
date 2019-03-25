@@ -13,6 +13,7 @@ Gamecamera::~Gamecamera()
 
 bool Gamecamera::Load()
 {
+	//プレイヤーの位置からカメラの位置を決定
 	m_position = m_player->Get3Dposition(); 
 	m_position.y = 10.0f;
 	m_position.z -= 200.0f;
@@ -24,7 +25,7 @@ bool Gamecamera::Load()
 }
 void Gamecamera::ExecuteTracking(CVector3 front)
 {
-	if (m_player->Getspeed() > 0.0f) {
+	if (m_player->GetSpeed() > 0.0f) {
 		float kakudo = 0.0f;
 		auto front2D = m_front;
 		front2D.y = 0.0f;
@@ -52,11 +53,13 @@ void Gamecamera::Update()
 {
 	CVector3 front=CVector3::AxisZ();
 	UpdateBasisInPlayerSpace();
+	//スティックの入力を受け取る
 	m_nowangle.x = g_pad->GetRStickXF()*5.0f;
 	m_nowangle.y = g_pad->GetRStickYF()*5.0f;
 	m_maxangle.x += m_nowangle.x;
 	m_reg = CQuaternion::Identity();
 	ExecuteTracking(front);
+	//回転角度が360を超えたら０度に戻す
 	if (abs(m_maxangle.x)>=360.0f)
 	{
 		if (m_maxangle.x <= 0.0f) {
@@ -68,16 +71,18 @@ void Gamecamera::Update()
 		}
 	}
 	m_reg.SetRotationDeg(CVector3::AxisY(), m_maxangle.x);
+	//縦軸は上限を設定
 	m_maxangle.y += m_nowangle.y;
 	m_maxangle.y = min(XMAX, m_maxangle.y);
 	m_maxangle.y = max(XMIN, m_maxangle.y);
 	CQuaternion m_sk = CQuaternion::Identity();
 	m_sk.SetRotationDeg(CVector3::AxisX(), m_maxangle.y);
 	front.Normalize();
-	m_reg.Multiply(m_reg,m_sk);
+	m_reg.Multiply(m_sk);
 	m_reg.Multiply(front);
 	front.Normalize();
 	m_front = front;
+	//できた角度でカメラの位置を決定
 	m_targetpos = m_player->Get3Dposition();
 	m_targetpos.y += 50.0f;
 	m_position = m_player->Get3Dposition();
@@ -89,7 +94,6 @@ void Gamecamera::Update()
 }
 void Gamecamera::Draw()
 {
-	//m_aebugVecor->Draw();
 }
 void Gamecamera::UpdateBasisInPlayerSpace()
 {

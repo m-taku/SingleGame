@@ -47,11 +47,11 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <LibraryPath>$(ProjectDir)/DirectXTK\Bin\Desktop_2015_Win10\x64\Debug;$(SolutionDir)/x64/Debug;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(ProjectDir);$(ProjectDir)/bulletPhysics/src;$(ProjectDir)/EffekseerRuntime130/src/include;$(ProjectDir)/Enemy;$(ProjectDir)/Player;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);$(ProjectDir)/bulletPhysics/src;$(ProjectDir)/EffekseerRuntime130/src/include;$(ProjectDir)Enemy;$(ProjectDir)Player;$(ProjectDir)graphics;$(ProjectDir)Route search;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)/bulletPhysics/src;$(ProjectDir);$(ProjectDir)/EffekseerRuntime130/src/include;$(ProjectDir)/Enemy;$(ProjectDir)/Player;$(IncludePath)</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)/bulletPhysics/src;$(ProjectDir);$(ProjectDir)/EffekseerRuntime130/src/include;$(ProjectDir)Enemy;$(ProjectDir)Player;$(ProjectDir)graphics;$(ProjectDir)Route search;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)/DirectXTK\Bin\Desktop_2015_Win10\x64\Release;$(SolutionDir)/x64/Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -100,9 +100,7 @@
     </MeshContentTask>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Ability.cpp" />
-    <ClCompile Include="bloom.cpp" />
-    <ClCompile Include="Boss.cpp" />
+    <ClCompile Include="graphics\bloom.cpp" />
     <ClCompile Include="character\CharacterController.cpp" />
     <ClCompile Include="color.cpp" />
     <ClCompile Include="Enemy\EnemyStateDead.cpp" />
@@ -114,16 +112,15 @@
     <ClCompile Include="Enemy\EnemyLeader\Enemyleader.cpp" />
     <ClCompile Include="Enemy\EnemyState.cpp" />
     <ClCompile Include="Enemy\EnemyStateMove.cpp" />
-    <ClCompile Include="Enemy\EnemyStateTracking.cpp" />
     <ClCompile Include="Fade.cpp" />
-    <ClCompile Include="font.cpp" />
+    <ClCompile Include="graphics\font.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Gamecamera.cpp" />
     <ClCompile Include="Gameobject\Gameobject.cpp" />
     <ClCompile Include="Gameobject\GameobjectList.cpp" />
     <ClCompile Include="Gameobject\GameobjectManager.cpp" />
     <ClCompile Include="Gameover.cpp" />
-    <ClCompile Include="GaussianBlur.cpp" />
+    <ClCompile Include="graphics\GaussianBlur.cpp" />
     <ClCompile Include="graphics\animation\Animation.cpp" />
     <ClCompile Include="graphics\animation\AnimationClip.cpp" />
     <ClCompile Include="graphics\animation\AnimationPlayController.cpp" />
@@ -150,14 +147,12 @@
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="level\Level.cpp" />
     <ClCompile Include="level\MapChip.cpp" />
-    <ClCompile Include="Light.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="math\kMath.cpp" />
     <ClCompile Include="math\Matrix.cpp" />
     <ClCompile Include="math\Vector.cpp" />
-    <ClCompile Include="Monn.cpp" />
-    <ClCompile Include="Navimake.cpp" />
-    <ClCompile Include="Path.cpp" />
+    <ClCompile Include="Route search\Navimake.cpp" />
+    <ClCompile Include="Route search\Path.cpp" />
     <ClCompile Include="physics\PhysicsDebugDraw.cpp" />
     <ClCompile Include="physics\CapsuleCollider.cpp" />
     <ClCompile Include="physics\MeshCollider.cpp" />
@@ -171,10 +166,9 @@
     <ClCompile Include="Player\Player_Guard.cpp" />
     <ClCompile Include="Player\Player_Die.cpp" />
     <ClCompile Include="Player\Player_Hit.cpp" />
-    <ClCompile Include="PostEffect.cpp" />
-    <ClCompile Include="RenderTarget.cpp" />
-    <ClCompile Include="Score.cpp" />
-    <ClCompile Include="ShadowMap.cpp" />
+    <ClCompile Include="graphics\PostEffect.cpp" />
+    <ClCompile Include="graphics\RenderTarget.cpp" />
+    <ClCompile Include="graphics\ShadowMap.cpp" />
     <ClCompile Include="sound\SoundEngine.cpp" />
     <ClCompile Include="sound\SoundSource.cpp" />
     <ClCompile Include="sound\WaveFile.cpp" />
@@ -192,8 +186,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ability.h" />
-    <ClInclude Include="bloom.h" />
-    <ClInclude Include="Boss.h" />
+    <ClInclude Include="graphics\bloom.h" />
     <ClInclude Include="character\CharacterController.h" />
     <ClInclude Include="color.h" />
     <ClInclude Include="Enemy\EnemyStateDead.h" />
@@ -205,19 +198,17 @@
     <ClInclude Include="Enemy\EnemyLeader\Enemyleader.h" />
     <ClInclude Include="Enemy\EnemyState.h" />
     <ClInclude Include="Enemy\EnemyStateMove.h" />
-    <ClInclude Include="Enemy\EnemyStateTracking.h" />
     <ClInclude Include="Fade.h" />
-    <ClInclude Include="font.h" />
+    <ClInclude Include="graphics\font.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Gamecamera.h" />
-    <ClInclude Include="GameobjectName.h" />
     <ClInclude Include="GameObjectPriority.h" />
     <ClInclude Include="Gameobject\Gameobject.h" />
     <ClInclude Include="Gameobject\GameobjectList.h" />
     <ClInclude Include="Gameobject\GameobjectManager.h" />
     <ClInclude Include="Gameover.h" />
     <ClInclude Include="GameTime.h" />
-    <ClInclude Include="GaussianBlur.h" />
+    <ClInclude Include="graphics\GaussianBlur.h" />
     <ClInclude Include="graphics\animation\Animation.h" />
     <ClInclude Include="graphics\animation\AnimationClip.h" />
     <ClInclude Include="graphics\animation\AnimationPlayController.h" />
@@ -248,14 +239,12 @@
     <ClInclude Include="Item.h" />
     <ClInclude Include="level\Level.h" />
     <ClInclude Include="level\MapChip.h" />
-    <ClInclude Include="Light.h" />
     <ClInclude Include="math\kMath.h" />
     <ClInclude Include="math\Matrix.h" />
     <ClInclude Include="math\Vector.h" />
-    <ClInclude Include="Monn.h" />
-    <ClInclude Include="Navimake.h" />
+    <ClInclude Include="Route search\Navimake.h" />
     <ClInclude Include="Noncopyable\Noncopyable.h" />
-    <ClInclude Include="Path.h" />
+    <ClInclude Include="Route search\Path.h" />
     <ClInclude Include="physics\PhysicsDebugDraw.h" />
     <ClInclude Include="physics\CapsuleCollider.h" />
     <ClInclude Include="physics\CollisionAttr.h" />
@@ -272,10 +261,10 @@
     <ClInclude Include="Player\Player_Guard.h" />
     <ClInclude Include="Player\Player_Die.h" />
     <ClInclude Include="Player\Player_Hit.h" />
-    <ClInclude Include="PostEffect.h" />
-    <ClInclude Include="RenderTarget.h" />
+    <ClInclude Include="graphics\PostEffect.h" />
+    <ClInclude Include="graphics\RenderTarget.h" />
     <ClInclude Include="Score.h" />
-    <ClInclude Include="ShadowMap.h" />
+    <ClInclude Include="graphics\ShadowMap.h" />
     <ClInclude Include="sound\SoundEngine.h" />
     <ClInclude Include="sound\SoundSource.h" />
     <ClInclude Include="sound\WaveFile.h" />
@@ -320,6 +309,7 @@
     <MeshContentTask Include="Assets\modelData\jimennabi_H.fbx" />
     <MeshContentTask Include="Assets\modelData\kaka.fbx" />
     <MeshContentTask Include="Assets\modelData\map00001.fbx" />
+    <MeshContentTask Include="Assets\modelData\mking.fbx" />
     <MeshContentTask Include="Assets\modelData\monn1.fbx" />
     <MeshContentTask Include="Assets\modelData\monn2.fbx" />
     <MeshContentTask Include="Assets\modelData\object_sword.fbx" />

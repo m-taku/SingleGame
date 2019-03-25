@@ -5,7 +5,8 @@
 
 Player_Guard::Player_Guard(Player* pla) :Player_State(pla)
 {
-	m_player->Setspeed(0.0f);
+	m_player->SetSpeed(0.0f);
+	m_player->ReverseHit();
 }
 
 
@@ -14,6 +15,7 @@ Player_Guard::~Player_Guard()
 }
 void Player_Guard::Update()
 {
+
 	if (g_pad[0].IsPress(enButtonRB1))
 	{
 		m_player->ChangeAnimation(Player::defens);
@@ -21,6 +23,7 @@ void Player_Guard::Update()
 	else
 	{
 		m_player->TransitionState(Player::State_Move);
+		m_player->ReverseHit();
 	}
 }
 

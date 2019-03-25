@@ -21,7 +21,7 @@ void Player_Move::Update()
 	{
 		CVector3 dir = amount;
 		dir.Normalize();
-		CVector3 camer_front = m_player->Getcamera()->GetCameraFront();
+		CVector3 camer_front = m_player->GetCamera()->GetCameraFront();
 		camer_front.y = 0.0f;
 		camer_front.Normalize();
 		float m_angle = acos(dir.Dot(CVector3::AxisZ()));
@@ -53,7 +53,7 @@ void Player_Move::Update()
 	{
 		m_player->ChangeAnimation(Player::idle);
 	}
-	m_player->Setspeed(amount.Length());
+	m_player->SetSpeed(amount.Length());
 	if (g_pad[0].IsTrigger(enButtonX)) {
 		m_player->TransitionState(Player::State_Attack);
 	}
