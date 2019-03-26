@@ -143,7 +143,7 @@
     <ClCompile Include="graphics\UnorderedAccessView.cpp" />
     <ClCompile Include="graphics\g_SRVlist.cpp" />
     <ClCompile Include="HID\Pad.cpp" />
-    <ClCompile Include="HitReceive.cpp" />
+    <ClCompile Include="Hitobject\HitReceive.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="level\Level.cpp" />
     <ClCompile Include="level\MapChip.cpp" />
@@ -234,8 +234,8 @@
     <ClInclude Include="graphics\g_SRVlist.h" />
     <ClInclude Include="Status.h" />
     <ClInclude Include="HID\Pad.h" />
-    <ClInclude Include="HitObjict.h" />
-    <ClInclude Include="HitReceive.h" />
+    <ClInclude Include="Hitobject\HitObjict.h" />
+    <ClInclude Include="Hitobject\HitReceive.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="level\Level.h" />
     <ClInclude Include="level\MapChip.h" />
