@@ -2,7 +2,7 @@
 #include "Enemy.h"
 #include"Enenystate.h"
 #include"Player.h"
-#include"../HitObjict.h"
+#include"HitObjict.h"
 #include "Physics/CollisionAttr.h"
 
 Enemy::Enemy()
@@ -187,7 +187,7 @@ void Enemy::HP_Draw()
 		g_camera3D.GetProjectionMatrix()
 	);
 }
-void Enemy::FindAngle(const CVector3& Vector)
+void Enemy::AddAngle(const CVector3& Vector)
 {
 	m_Front.y = 0;
 	m_Front.Normalize();

@@ -43,5 +43,5 @@ void EnemyStategathering::Update()
 	}
 	speed.y = 0.0;
 	speed.Normalize();
-	m_enemy->FindAngle(speed);
+	m_enemy->AddAngle(speed);
 }

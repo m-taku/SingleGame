@@ -58,18 +58,16 @@ void AnimationPlayController::Update(float deltaTime, Animation* animation)
 	}
 	//ここからアニメーションイベントの判定処理
 	auto Eventlist = m_animationClip->GetAnimationEventlist();
-
+	//アニメーションイベントが２つ以上あれば
 	if (Eventlist.size() > 1) {
-		m_Event = false;	
-		bool furag = true;
+		m_Event = false;
 		for (int i = 0; i < Eventlist.size(); i++) {
+			//今の時間がアニメーションイベントの時間を過ぎていれば
 			if (topBoneKeyFrameList.at(m_currentKeyFrameNo)->time >= Eventlist.at(i)->GetinvokeTime())
 			{
+				//イベント状態を反転させる
 				m_eventname = Eventlist.at(i)->GetEventname();
-				bool fura;
-				fura = m_Event;
-				m_Event = furag;
-				furag = fura;
+				m_Event = !m_Event;
 			}
 		}
 	}

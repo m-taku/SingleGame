@@ -40,9 +40,6 @@
     <Filter Include="Assets\modelData">
       <UniqueIdentifier>{a27dfd5d-af93-4623-b084-aad00b7739c4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Enemy">
-      <UniqueIdentifier>{ad316940-8486-495d-aa3e-69412e4fcc84}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Noncopyable">
       <UniqueIdentifier>{44cb97ec-00d9-4ad2-8696-fe7f644dc407}</UniqueIdentifier>
     </Filter>
@@ -57,6 +54,12 @@
     </Filter>
     <Filter Include="Hitobject">
       <UniqueIdentifier>{235768ab-7cce-48fe-8368-61df773fa3e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EnemySummary">
+      <UniqueIdentifier>{a01fdb36-f49b-4063-b239-64db3110b7f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EnemySummary\Enemy">
+      <UniqueIdentifier>{ad316940-8486-495d-aa3e-69412e4fcc84}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -175,38 +178,29 @@
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="Gamecamera.cpp" />
     <ClCompile Include="color.cpp" />
-    <ClCompile Include="Enemy\EnemyLeader\Enemyleader.cpp">
-      <Filter>Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="title.cpp" />
     <ClCompile Include="Game.cpp" />
-    <ClCompile Include="Enemy\EnemyState.cpp">
-      <Filter>Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="Enemy\EnemyStateAttack.cpp">
-      <Filter>Enemy</Filter>
+      <Filter>EnemySummary\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Enemy\EnemyStategathering.cpp">
-      <Filter>Enemy</Filter>
+      <Filter>EnemySummary\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Enemy\EnemyStateMove.cpp">
-      <Filter>Enemy</Filter>
+      <Filter>EnemySummary\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Enemy\Enemy.cpp">
-      <Filter>Enemy</Filter>
+      <Filter>EnemySummary\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Gameover.cpp" />
     <ClCompile Include="Fade.cpp" />
     <ClCompile Include="Item.cpp" />
-    <ClCompile Include="Enemy\EnemyManager.cpp">
-      <Filter>Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="Enemy\EnemyStateDead.cpp">
-      <Filter>Enemy</Filter>
+      <Filter>EnemySummary\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Enemy\EnemyStateHit.cpp">
-      <Filter>Enemy</Filter>
+      <Filter>EnemySummary\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Player\Player.cpp">
       <Filter>Player</Filter>
@@ -273,6 +267,15 @@
     </ClCompile>
     <ClCompile Include="Hitobject\HitReceive.cpp">
       <Filter>Hitobject</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy\EnemyLeader\Enemyleader.cpp">
+      <Filter>EnemySummary</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy\EnemyManager.cpp">
+      <Filter>EnemySummary</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy\EnemyState.cpp">
+      <Filter>EnemySummary\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -402,28 +405,25 @@
     </ClInclude>
     <ClInclude Include="UI.h" />
     <ClInclude Include="color.h" />
-    <ClInclude Include="Enemy\EnemyLeader\Enemyleader.h">
-      <Filter>Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="title.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Enemy\Enemy.h">
-      <Filter>Enemy</Filter>
+      <Filter>EnemySummary\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Enemy\EnemyState.h">
-      <Filter>Enemy</Filter>
+      <Filter>EnemySummary\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Enemy\EnemyStateAttack.h">
-      <Filter>Enemy</Filter>
+      <Filter>EnemySummary\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Enemy\EnemyStategathering.h">
-      <Filter>Enemy</Filter>
+      <Filter>EnemySummary\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Enemy\EnemyStateMove.h">
-      <Filter>Enemy</Filter>
+      <Filter>EnemySummary\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Enemy\Enenystate.h">
-      <Filter>Enemy</Filter>
+      <Filter>EnemySummary\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="GameObjectPriority.h" />
     <ClInclude Include="Timer.h" />
@@ -434,14 +434,11 @@
     <ClInclude Include="Ability.h" />
     <ClInclude Include="Status.h" />
     <ClInclude Include="GameTime.h" />
-    <ClInclude Include="Enemy\EnemyManager.h">
-      <Filter>Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="Enemy\EnemyStateDead.h">
-      <Filter>Enemy</Filter>
+      <Filter>EnemySummary\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Enemy\EnemyStateHit.h">
-      <Filter>Enemy</Filter>
+      <Filter>EnemySummary\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Player\Player.h">
       <Filter>Player</Filter>
@@ -514,6 +511,12 @@
     </ClInclude>
     <ClInclude Include="Hitobject\HitObjict.h">
       <Filter>Hitobject</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy\EnemyLeader\Enemyleader.h">
+      <Filter>EnemySummary</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy\EnemyManager.h">
+      <Filter>EnemySummary</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

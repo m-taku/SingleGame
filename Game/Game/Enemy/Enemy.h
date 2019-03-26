@@ -112,8 +112,14 @@ public:
 	void AddAngle(CQuaternion angle)
 	{
 		m_angle.Multiply(angle, m_angle);
-
 	}
+	/// <summary>
+	///　モデルを回転角度への加算。
+	/// </summary>
+	/// <param name="Vector">
+	/// 進行方向を表すベクトル。（CVector3）
+	/// </param>
+	void AddAngle(const CVector3& Vector);
 	/// <summary>
 	/// モデルの回転角度を直接指定。
 	/// </summary>	
@@ -258,14 +264,6 @@ public:
 	/// HPバーの計算+表示。
 	/// </summary>
 	void HP_Draw();
-	/// <summary>
-	/// 今のモデルの向きに対して
-	/// 進行方向は、何度角度がついているか。
-	/// </summary>
-	/// <param name="Vector">
-	/// 進行方向を表すベクトル。（CVector3）
-	/// </param>
-	void FindAngle(const CVector3& Vector);
 	/// <summary>
 	/// ポジションのセット。
 	/// </summary>

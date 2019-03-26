@@ -5,6 +5,7 @@
 
 EnemyStateMove::EnemyStateMove(Enemy* enamy,Player* player):EnemyState(enamy,player)
 {
+	//ˆÚ“®‚Ì‰Šú‰»
 	m_path = m_enemy->CopyPath();
 	m_path->Course(m_enemy->Get2DPosition(), player->Get2Dposition());
 	m_nextpos = m_path->PathPos();
@@ -44,7 +45,8 @@ void EnemyStateMove::Update()
 	}
 	speed.y = 0.0;
 	speed.Normalize();
-	m_enemy->FindAngle(speed);
+
+	m_enemy->AddAngle(speed);
 	CVector3 distance = m_player->Get2Dposition() - m_enemy->Get2DPosition();
 	if (distance.Length() <= 150.0f)
 	{

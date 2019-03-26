@@ -16,8 +16,6 @@ struct AnimClipHeader {
 };
 /*!
 *@brief	アニメーションイベント
-*@アニメーションイベントは未対応。
-* やりたかったら自分で実装するように。
 */
 struct AnimationEventData {
 	float	invokeTime;					//!<アニメーションイベントが発生する時間(単位:秒)
@@ -67,47 +65,50 @@ public:
 		m_eventname = name;
 	}
 	/// <summary>
-	/// 
+	/// イベントの発生させる時間のセット
 	/// </summary>
-	/// <param name="flag">
-	/// 
+	/// <param name="taim">
+	/// イベントの発生時間（秒）
 	/// </param>
-	void SetInvokedFlag(bool flag)
-	{
-		m_isInvoked = flag;
-	}
 	void SetinvokeTime(float taim)
 	{
 		m_invokeTime = taim;
 	}	
+	/// <summary>
+	/// 発生しているイベントの名前の取得
+	/// </summary>
+	/// <returns>
+	/// 発生しているイベントの名前（wchar_t*）
+	/// </returns>
 	const wchar_t* GetEventname() const
 	{
 		return m_eventname.c_str();
 	}
-	bool GetInvokedFlag()
-	{
-		return m_isInvoked;
-	}
+	/// <summary>
+	/// イベントの発生させる時間のゲット
+	/// </summary>
+	/// <returns>
+	/// イベントの発生時間（秒）
+	/// </returns>
 	float GetinvokeTime()
 	{
 		return m_invokeTime;
 	}
-private:
-	bool m_isInvoked = false;
-	float m_invokeTime = -1.0f;		//フレームの発生位置（秒）
+private:		
+	float m_invokeTime = -1.0f;			//イベントの発生位置（秒）
 	std::wstring m_eventname=L"NULL";	//イベントの名前
 };
 /*!
 *@brief	アニメーションクリップ。
 */
-class AnimationClip:Noncopyable{
+class AnimationClip :Noncopyable {
 public:
 	//タイプ量が長ったらしくて、うざいのでstd::vector<KeyFrame*>の別名定義。
 	using keyFramePtrList = std::vector<Keyframe*>;
 	/*!
 	* @brief	コンストラクタ
 	*/
-	AnimationClip() 
+	AnimationClip()
 	{
 	}
 	/*!
@@ -150,13 +151,12 @@ public:
 		return m_AnimationEventlist;
 	}
 private:
-	
+
 	bool m_isLoop = false;									//!<ループフラグ。
 	std::vector<Keyframe*> m_keyframes;						//全てのキーフレーム。
 	std::vector<keyFramePtrList> m_keyFramePtrListArray;	//ボーンごとのキーフレームのリストを管理するための配列。
 															//例えば、m_keyFramePtrListArray[0]は0番目のボーンのキーフレームのリスト、
 															//m_keyFramePtrListArray[1]は1番目のボーンのキーフレームのリストといった感じ。
-	std::vector<AnimationEvent*> m_AnimationEventlist;
-	keyFramePtrList* m_topBoneKeyFramList = nullptr;
+	std::vector<AnimationEvent*> m_AnimationEventlist;		//アニメーションイベントの配列
+	keyFramePtrList* m_topBoneKeyFramList = nullptr;		//
 };
-

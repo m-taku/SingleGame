@@ -39,27 +39,33 @@ void AnimationClip::Load(const wchar_t* filePath)
 	//アニメーションクリップのヘッダーをロード。
 	AnimClipHeader header;
 	fread(&header, sizeof(header), 1, fp);
-		
+	
+	//ここからアニメーションイベントの処理
 	if (header.numAnimationEvent > 0) {
 		for (int i = 0; i < header.numAnimationEvent; i++)
 		{
 			AnimationEvent* Event = new AnimationEvent;
 			AnimationEventData eventdata;
+			//ここでファイルからデータを抽出
+			//発生時間と文字の長さのみ
 			fread(&eventdata, sizeof(eventdata), 1, fp);
 			static char name[255];
-			static wchar_t nema2[255];
+			static wchar_t neme2[255];
+			//ここでファイルからデータを抽出
+			//文字自体のデータ
 			fread(&name, eventdata.eventNameLength + 1,1, fp);
-			mbstowcs(nema2, name, 255);
-			Event->SetEventname(nema2);
+			//ここでもらったデータをcharをwchar_tに変換を変える
+			mbstowcs(neme2, name, 255);
+			//できたデータをまとめる
+			Event->SetEventname(neme2);
 			Event->SetinvokeTime(eventdata.invokeTime);
+			//出来上がったデータをリストに積む
 			m_AnimationEventlist.push_back(Event);
 		}
-		//アニメーションイベントは未対応。
-		//就職作品でチャレンジしてみよう。
-		//std::abort();
 	}
 	else
 	{
+		//アニメーションイベントがなければ１つだけ積む
 		m_AnimationEventlist.push_back(new AnimationEvent);
 	}
 	//中身コピーするためのメモリをドカッと確保。
