@@ -89,7 +89,7 @@ void Enemyleader::Update()
 	switch (m_state)
 	{
 	case group_stop:
-		distance = m_player->Get2Dposition() - m_position;
+		distance = m_player->Get2DPosition() - m_position;
 		//‚±‚±‚ÅŒÂ•Ê‚É•ÏX
 		if (distance.Length() < 300.0f)
 		{
@@ -113,7 +113,7 @@ void Enemyleader::Update()
 		break;
 	case group_move:
 		Move();
-		distance = m_player->Get2Dposition() - m_position;
+		distance = m_player->Get2DPosition() - m_position;
 		//‚±‚±‚ÅŒÂ•Ê‚É•ÏX
 		if (distance.Length() < 1000.0f)
 		{
@@ -193,14 +193,14 @@ void Enemyleader::Move()
 		m_nextpos = m_path->PathPos();
 		if (m_nextpos.x == m_oldposition.x&&m_nextpos.y == m_oldposition.y&&m_nextpos.z == m_oldposition.z)
 		{
-			m_path->Course(nowpos, m_player->Get2Dposition());
+			m_path->Course(nowpos, m_player->Get2DPosition());
 			m_nextpos = m_path->PathPos();
 		}
 		m_oldposition = m_nextpos;
 	}
 	float speed = m_Status->m_Speed;
 	if (++m_fream > 100) {
-		m_path->Course(nowpos, m_player->Get2Dposition());
+		m_path->Course(nowpos, m_player->Get2DPosition());
 		m_nextpos = m_path->PathPos();
 		m_fream = 0;
 	}	

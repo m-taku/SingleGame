@@ -22,8 +22,8 @@ void Player_Guard::Update()
 	}
 	else
 	{
-		m_player->TransitionState(Player::State_Move);
 		m_player->ReverseHit();
+		m_player->TransitionState(Player::State_Move);
 	}
 }
 

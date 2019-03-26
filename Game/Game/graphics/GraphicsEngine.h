@@ -33,14 +33,35 @@ public:
 	{
 		return m_pd3dDeviceContext;
 	}
+	/// <summary>
+	/// ゲームでデフォルトのフォントを取得
+	/// </summary>
+	/// <returns>
+	/// フォントデータ（DirectX::SpriteFont*）
+	/// </returns>
 	DirectX::SpriteFont* GetSpriteFont()
 	{
 		return m_SpriteFont;
 	}
+	/// <summary>
+	/// フォント表示に必要なクラスを取得
+	/// </summary>
+	/// <returns>
+	/// フォント表示に必要なクラス（DirectX::SpriteBatch*）
+	/// </returns>
 	DirectX::SpriteBatch* GetSpriteBatch()
 	{
 		return m_SpriteBatch;
 	}
+	/// <summary>
+	/// シャドーキャスターのセット
+	/// </summary>
+	/// <param name="model">
+	/// シャドーキャスターにしたいモデルデータ
+	/// </param>
+	/// <returns>
+	/// 確実にtrue
+	/// </returns>
 	bool SetShadoCaster(SkinModel* model)
 	{
 		m_shadowmap->RegistShadowCaster(model);
@@ -54,19 +75,16 @@ public:
 	 *@brief	描画終了。
 	 */
 	void EndRender();
-	//確認したいため絶対直せ
-	ID3D11RasterizerState* mrasterizerState()
-	{
-		return m_rasterizerState;
-	}
-	Effekseer::Manager* GeteffekseerManager()
+	/// <summary>
+	/// エフェクトのマネージャークラスの取得
+	/// </summary>
+	/// <returns>
+	/// エフェクトのマネージャークラス（Effekseer::Manager*）
+	/// </returns>
+	Effekseer::Manager* GetEffekseerManager()
 	{
 		return m_effekseerManager;
 	}
-	//ID3D11RasterizerState* terizerState()
-	//{
-	//	return m_rasterizer;
-	//}
 	void EffectUpdate()
 	{
 		//まずはEffeseerの行列型の変数に、カメラ行列とプロジェクション行列をコピー。
@@ -88,16 +106,22 @@ public:
 		m_effekseerManager->Draw();
 		m_effekseerRenderer->EndRendering();
 	}
+	/// <summary>
+	/// 影の更新処理
+	/// </summary>
 	void shadoUpdate()
 	{
 		m_shadowmap->RenderToShadowMap();
 		ChangeRenderTarget(
-			mainTarget.GetRenderTargetView(),
-			mainTarget.GetDepthStensilView(),
-			mainTarget.GetViewport());
+			m_mainTarget.GetRenderTargetView(),
+			m_mainTarget.GetDepthStensilView(),
+			m_mainTarget.GetViewport());
 		float clearColor[] = { 0.0f, 0.0f, 0.0f, 1.0f };
-		mainTarget.ClearRenderTarget(clearColor);
+		m_mainTarget.ClearRenderTarget(clearColor);
 	}
+	/// <summary>
+	/// ポストエフェクトの更新処理
+	/// </summary>
 	void PostEffectUpdate()
 	{
 		m_posteffec->Update();
@@ -106,19 +130,53 @@ public:
 			m_frameBufferRenderTargetView,
 			m_frameBufferDepthStencilView,
 			&m_frameBufferViewports);
-		mainSRV.Draw(
+		m_mainSRV.Draw(
 			g_camera2D.GetViewMatrix(),
 			g_camera2D.GetProjectionMatrix()
 		);
 	}
+	/// <summary>
+	/// メインレンダリングターゲットのゲット
+	/// </summary>
+	/// <returns>
+	/// メインレンダリングターゲット（RenderTarget*）
+	/// </returns>
 	RenderTarget* GetMainRenderTarget()
 	{
-		return &mainTarget;
+		return &m_mainTarget;
 	}
+	/// <summary>
+	/// ラスタライザステートのゲット
+	/// </summary>
+	/// <returns>
+	/// ラスタライザステート（ID3D11RasterizerState* ）
+	/// </returns>
+	ID3D11RasterizerState* GetRasterizerState()
+	{
+		return m_rasterizerState;
+	}
+	/// <summary>
+	/// シャドーマップのゲット
+	/// </summary>
+	/// <returns>
+	/// シャドーマップ（ShadowMap*）
+	/// </returns>
 	ShadowMap* GetShadowMap()
 	{
 		return m_shadowmap;
 	}
+	/// <summary>
+	///レンダリングターゲットの変更 
+	/// </summary>
+	/// <param name="m_frameBufferRenderTargetView">
+	/// レンダーターゲットビュー（ID3D11RenderTargetView*）
+	/// </param>
+	/// <param name="m_frameBufferDepthStencilView">
+	/// デプスステンシルビュー（ID3D11DepthStencilView*）
+	/// </param>
+	/// <param name="m_frameBufferViewports">
+	/// ビューポート（D3D11_VIEWPORT*）
+	/// </param>
 	void ChangeRenderTarget(ID3D11RenderTargetView* m_frameBufferRenderTargetView,ID3D11DepthStencilView* m_frameBufferDepthStencilView,D3D11_VIEWPORT* m_frameBufferViewports)
 	{
 		auto d3dDeviceContext = GetD3DDeviceContext();
@@ -131,10 +189,6 @@ public:
 			//ビューポートが指定されていたら、ビューポートも変更する。
 			d3dDeviceContext->RSSetViewports(1,m_frameBufferViewports);
 		}
-		//m_frameBufferRenderTargetView->Release();
-		//m_frameBufferDepthStencilView->Release();
-		//float clearColor[] = { 0.0f, 0.0f, 0.0f, 1.0f };
-		//Target.ClearRenderTarget(clearColor);
 	}
 private:
 	D3D_FEATURE_LEVEL		m_featureLevel;				//Direct3D デバイスのターゲットとなる機能セット。
@@ -143,24 +197,22 @@ private:
 	ID3D11DeviceContext*	m_pd3dDeviceContext = NULL;	//D3D11デバイスコンテキスト。
 	ID3D11RenderTargetView* m_backBuffer = NULL;		//バックバッファ。
 	ID3D11RasterizerState*	m_rasterizerState = NULL;	//ラスタライザステート。
-	ID3D11RasterizerState*  m_rasterizer = NULL;
+	ID3D11RasterizerState*  m_rasterizer = NULL;		//
 	ID3D11Texture2D*		m_depthStencil = NULL;		//デプスステンシル。
 	ID3D11DepthStencilView* m_depthStencilView = NULL;	//デプスステンシルビュー。
-	DirectX::SpriteFont*    m_SpriteFont = NULL;
-	DirectX::SpriteBatch*   m_SpriteBatch = NULL;
+	DirectX::SpriteFont*    m_SpriteFont = NULL;		//ゲームのデフォルトのフォントデータ
+	DirectX::SpriteBatch*   m_SpriteBatch = NULL;		//ゲームのデフォルトのフォント表示用データ
 
-
-	Effekseer::Manager*	m_effekseerManager = nullptr;
-	EffekseerRenderer::Renderer*	m_effekseerRenderer = nullptr;
+	Effekseer::Manager*	m_effekseerManager = nullptr;	//エフェクトマネージャークラス
+	EffekseerRenderer::Renderer*	m_effekseerRenderer = nullptr;  //エフェクトレンダラークラス
 	
-	ShadowMap* m_shadowmap = NULL;
-	sprite mainSRV;
-	PostEffect* m_posteffec = NULL;
-	RenderTarget mainTarget;	
+	ShadowMap* m_shadowmap = NULL;						//シャドーマップ
+	sprite m_mainSRV;										//メインレンダリングターゲットのSRV
+	PostEffect* m_posteffec = NULL;						//ポストエフェクト
+	RenderTarget m_mainTarget;							//メインレンダリングターゲット
 	D3D11_VIEWPORT m_frameBufferViewports;			//フレームバッファのビューポート。
 	ID3D11RenderTargetView* m_frameBufferRenderTargetView = nullptr;	//フレームバッファのレンダリングターゲットビュー。
-	ID3D11DepthStencilView* m_frameBufferDepthStencilView = nullptr;	//フレームバッファのデプスステンシルビュー。
-	ID3D11BlendState* BlendState;  //かかか
+	ID3D11DepthStencilView* m_frameBufferDepthStencilView = nullptr;	//フレームバッファのデプスステンシルビュー。	
 };
 
 extern GraphicsEngine* g_graphicsEngine;			//グラフィックスエンジン

@@ -132,7 +132,7 @@ public:
 	void ChangeGroup_Move()
 	{
 		m_group_state = group_move;
-		m_path->Course(m_position, m_player->Get2Dposition());
+		m_path->Course(m_position, m_player->Get2DPosition());
 		m_nextpos = m_path->PathPos();
 	}
 	/// <summary>

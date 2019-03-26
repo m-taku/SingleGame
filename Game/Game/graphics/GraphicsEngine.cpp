@@ -191,7 +191,8 @@ void GraphicsEngine::Init(HWND hWnd)
 	m_pd3dDeviceContext->RSSetViewports(1, &viewport);
 	{
 		//ƒuƒŒƒ“ƒhÝ’è
-		D3D11_BLEND_DESC BLEND_DETE;
+		D3D11_BLEND_DESC BLEND_DETE; 
+		ID3D11BlendState* BlendState; 
 		BLEND_DETE.AlphaToCoverageEnable = false;
 		BLEND_DETE.IndependentBlendEnable = false;
 		BLEND_DETE.RenderTarget[0].BlendEnable = true;
@@ -256,8 +257,8 @@ void GraphicsEngine::Init(HWND hWnd)
 	m_pd3dDeviceContext->RSSetState(m_rasterizerState);
 	m_SpriteBatch = new DirectX::SpriteBatch(m_pd3dDeviceContext);
 	m_SpriteFont = new DirectX::SpriteFont(m_pd3dDevice, L"Assets/font/floay.spritefont");
-	mainTarget.Create(FRAME_BUFFER_W,FRAME_BUFFER_H, DXGI_FORMAT_R16G16B16A16_FLOAT);
-	mainSRV.Init(mainTarget.GetRenderTargetSRV(), 1280.0f, 720.0f);
+	m_mainTarget.Create(FRAME_BUFFER_W,FRAME_BUFFER_H, DXGI_FORMAT_R16G16B16A16_FLOAT);
+	m_mainSRV.Init(m_mainTarget.GetRenderTargetSRV(), 1280.0f, 720.0f);
 	m_posteffec = new PostEffect;
 	m_shadowmap = new ShadowMap;
 	m_shadowmap->UpdateFromLightTarget({ 00.0f, 1000.0f, 0.0f },{ 0.0f, 0.0f, 0.0f });

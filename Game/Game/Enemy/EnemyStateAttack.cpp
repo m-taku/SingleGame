@@ -17,7 +17,7 @@ EnemyStateAttack::~EnemyStateAttack()
 }
 void EnemyStateAttack::Update()
 {
-	auto distance = m_player->Get2Dposition() - m_enemy->Get2DPosition();
+	auto distance = m_player->Get2DPosition() - m_enemy->Get2DPosition();
 	switch (m_steat)
 	{
 	case Wait:
@@ -85,7 +85,7 @@ void EnemyStateAttack::Update()
 	default:
 		break;
 	}
-	if (distance.Length() >= 500.0f)
+	if (distance.Length() >= 300.0f)
 	{
 		m_enemy->SetSpeed(1.0f);
 		m_enemy->TransitionState(Enemy::State_Move);

@@ -47,9 +47,9 @@ public:
 	/// <returns>
 	/// 経過　分（時間）（float）
 	/// </returns>
-	float GetMinute()
+	int GetMinute()
 	{
-		return m_elapsed / 60.0f;
+		return (int)m_elapsed / 60;
 	}
 	/// <summary>
 	/// スタートからの秒を返す

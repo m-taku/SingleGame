@@ -14,10 +14,10 @@ Gamecamera::~Gamecamera()
 bool Gamecamera::Load()
 {
 	//プレイヤーの位置からカメラの位置を決定
-	m_position = m_player->Get3Dposition(); 
+	m_position = m_player->Get3DPosition(); 
 	m_position.y = 10.0f;
 	m_position.z -= 200.0f;
-	m_targetpos = m_player->Get3Dposition();
+	m_targetpos = m_player->Get3DPosition();
 	m_targetpos.y = 10.0f;
 	g_camera3D.SetTarget(m_targetpos);
 	g_camera3D.SetPosition(m_position);
@@ -83,9 +83,9 @@ void Gamecamera::Update()
 	front.Normalize();
 	m_front = front;
 	//できた角度でカメラの位置を決定
-	m_targetpos = m_player->Get3Dposition();
+	m_targetpos = m_player->Get3DPosition();
 	m_targetpos.y += 50.0f;
-	m_position = m_player->Get3Dposition();
+	m_position = m_player->Get3DPosition();
 	m_position += m_front * -200.0f;
 	m_position.y += 140.0f;
 	g_camera3D.SetTarget(m_targetpos);

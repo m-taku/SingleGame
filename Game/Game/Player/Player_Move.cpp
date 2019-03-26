@@ -17,6 +17,7 @@ void Player_Move::Update()
 	amount.x = g_pad->GetLStickXF();
 	amount.z = g_pad->GetLStickYF();
 	amount.y = 0.0f;
+	//‚±‚±‚©‚çˆÚ“®ˆ—
 	if (amount.Length() > 0.0f)
 	{
 		CVector3 dir = amount;
@@ -39,8 +40,8 @@ void Player_Move::Update()
 		m_angle += camer_angle;
 		CQuaternion rod;
 		rod.SetRotation(CVector3::AxisY(), m_angle);
-		m_player->Setrotation(rod);
-		if (amount.Length() >= 0.3f)
+		m_player->SetRotation(rod);
+		if (amount.Length() >= 0.5f)
 		{
 			m_player->ChangeAnimation(Player::run);
 		}

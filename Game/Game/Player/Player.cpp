@@ -121,13 +121,15 @@ void Player::Update()
 	ritpos.x += m.x;
 	ritpos.y += m.y;
 	g_graphicsEngine->GetShadowMap()->UpdateFromLightTarget(ritpos, m_position);
-
-	//m_debugVector->Update(m_position, m_Front, m_amount.Length()*3.0f);
-}
-void Player::Draw()
-{
 	m_model.UpdateWorldMatrix(m_position, m_rotation, { 1.0f,1.0f,1.0f });
 	m_animation.Update(GetTime().GetFrameTime());
+
+}
+void Player::Draw()
+{	
+	
+	
+	
 	m_debugVector->Draw();
 	m_model.Draw(
 		g_camera3D.GetViewMatrix(), 
@@ -166,5 +168,5 @@ void Player::FindArm()
 			break;
 		}
 	}
-	m_boneNo = hoge;
+	m_armboneNo = hoge;
 }

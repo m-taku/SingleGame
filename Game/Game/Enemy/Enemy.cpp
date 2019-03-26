@@ -20,7 +20,7 @@ bool Enemy::Load()
 {
 	//cmoファイルの読み込み。
 	InitAnim();
-	m_collider.Init(30.0f, 60.0f, m_position);
+	m_collider.Init(20.0f, 60.0f, m_position);
 	InitTex();
 	FindArm();
 	m_debugVecor = new VectorDraw(m_position);
@@ -131,7 +131,7 @@ void Enemy::Update()
 	m_moveVector = m_Front * m_speed;
 	m_moveVector.y -= GRAVITY;
 	m_position = m_collider.Execute(GetTime().GetFrameTime(), m_moveVector);
-	CVector3 distance = m_player->Get2Dposition() - Get2DPosition();
+	CVector3 distance = m_player->Get2DPosition() - Get2DPosition();
 	if (distance.Length() >= 1500.0f)
 	{
 		//プレイヤーとの距離が離れすぎたら集合する

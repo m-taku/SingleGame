@@ -74,10 +74,9 @@ void Font::EndDraw()
 		d3dDeviceContext->OMSetBlendState(BlendState, nullptr, 0xFFFFFFFF);
 
 		MemoryBarrier();
-	}
-	//{
-		d3dDeviceContext->RSSetState(g_graphicsEngine->mrasterizerState());
-	//}
+	}	
+	d3dDeviceContext->RSSetState(g_graphicsEngine->GetRasterizerState());
+	
 	{
 		D3D11_DEPTH_STENCIL_DESC desc = {};
 		desc.DepthEnable = true;

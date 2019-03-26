@@ -144,7 +144,6 @@
     <ClCompile Include="graphics\g_SRVlist.cpp" />
     <ClCompile Include="HID\Pad.cpp" />
     <ClCompile Include="Hitobject\HitReceive.cpp" />
-    <ClCompile Include="Item.cpp" />
     <ClCompile Include="level\Level.cpp" />
     <ClCompile Include="level\MapChip.cpp" />
     <ClCompile Include="main.cpp" />
@@ -236,7 +235,6 @@
     <ClInclude Include="HID\Pad.h" />
     <ClInclude Include="Hitobject\HitObjict.h" />
     <ClInclude Include="Hitobject\HitReceive.h" />
-    <ClInclude Include="Item.h" />
     <ClInclude Include="level\Level.h" />
     <ClInclude Include="level\MapChip.h" />
     <ClInclude Include="math\kMath.h" />

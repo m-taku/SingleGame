@@ -79,7 +79,7 @@ public:
 	/// <returns>
 	/// 2Dでのポジション。（CVector3）
 	/// </returns>
-	CVector3 Get2Dposition() const
+	CVector3 Get2DPosition() const
 	{
 		auto position = m_position;
 		position.y = 0.0f;
@@ -139,7 +139,7 @@ public:
 	/// <returns>
 	/// 3Dでのポジション。（CVector3）
 	/// </returns>
-	const CVector3& Get3Dposition() const
+	const CVector3& Get3DPosition() const
 	{
 		return m_position;
 	}
@@ -272,7 +272,7 @@ public:
 	/// <param name="rotation">
 	/// 変更後の角度（CQuaternion）
 	/// </param>
-	void Setrotation(const CQuaternion& rotation)
+	void SetRotation(const CQuaternion& rotation)
 	{
 		m_rotation = rotation;
 	}
@@ -282,7 +282,7 @@ public:
 	/// <param name="pos">
 	/// 表示したい点（CVector3）
 	/// </param>
-	void SetDebegvector(const CVector3& pos)
+	void SetDebegVector(const CVector3& pos)
 	{
 		m_debugVector->Update(pos);
 	}
@@ -303,7 +303,7 @@ public:
 	/// <returns></returns>
 	const CMatrix& GetArmMatrix()
 	{
-		return m_model.GetSkeleton().GetBone(m_boneNo)->GetWorldMatrix();
+		return m_model.GetSkeleton().GetBone(m_armboneNo)->GetWorldMatrix();
 	}
 	/// <summary>
 	/// 当たり判定を反転させる
@@ -313,28 +313,25 @@ public:
 		m_Hit = !m_Hit;
 	}
 	//ここからアイテムによるステータス変更
-	void SetStatu_Speed(float speed)
-	{
-		m_plyerStatus->m_Speed = max(m_plyerStatus->m_Speed, speed);
-
-	}
-	void SetStatu_Attack(float attack)
-	{
-		m_plyerStatus->m_Attack = max(m_plyerStatus->m_Attack, attack);
-
-	}
-	void SetStatu_Defense(float defense)
-	{
-		m_plyerStatus->m_Defense = max(m_plyerStatus->m_Defense, defense);
-
-	}
-	void AddStatu_NowHP(float now_HP)
-	{
-		m_plyerStatus->m_HP = max(p_status->m_HP, m_plyerStatus->m_HP + now_HP);
-		auto wariai = m_plyerStatus->m_HP / p_status->m_HP;
-		m_ui->SetDamage(1.0f - wariai);
-	}
-
+	//不完全なのでオミット
+	//void SetStatu_Speed(float speed)
+	//{
+	//	m_plyerStatus->m_Speed = max(m_plyerStatus->m_Speed, speed);
+	//}
+	//void SetStatu_Attack(float attack)
+	//{
+	//	m_plyerStatus->m_Attack = max(m_plyerStatus->m_Attack, attack);
+	//}
+	//void SetStatu_Defense(float defense)
+	//{
+	//	m_plyerStatus->m_Defense = max(m_plyerStatus->m_Defense, defense);
+	//}
+	//void AddStatu_NowHP(float now_HP)
+	//{
+	//	m_plyerStatus->m_HP = max(p_status->m_HP, m_plyerStatus->m_HP + now_HP);
+	//	auto wariai = m_plyerStatus->m_HP / p_status->m_HP;
+	//	m_ui->SetDamage(1.0f - wariai);
+	//}
 private:
 	CharacterController m_collider;						//キャラクターコントローラー
 	SkinModel m_model;									//モデルデータ
@@ -352,7 +349,7 @@ private:
 	CVector3 m_amount = { 0.0f,0.0f,0.0f };				//スティックの移動量
 	CQuaternion m_rotation = CQuaternion::Identity();	//回転クオータニオン
 	CMatrix m_mRot = CMatrix::Identity();				//回転行列
-	int m_boneNo = -1;									//手のボーン番号
+	int m_armboneNo = -1;								//手のボーン番号
 	float m_speed = 0.0f;								//移動速度
 	float m_angle = 0.0f;								//回転角度（ラジアン）
 	bool m_Hit = false;									//当てる状態かどうか

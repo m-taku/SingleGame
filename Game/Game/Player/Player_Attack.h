@@ -21,7 +21,7 @@ public:
 	/// <summary>
 	/// 剣の中心を取得
 	/// </summary>
-	void FindSwordpos();
+	void FindSwordPos();
 private:
 	CVector3 m_oldhandpos = CVector3::Zero();				//移動前の手のポジション
 	CVector3 m_handpos = CVector3::Zero();					//移動後の手のポジション

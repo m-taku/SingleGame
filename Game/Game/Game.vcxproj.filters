@@ -195,7 +195,6 @@
     </ClCompile>
     <ClCompile Include="Gameover.cpp" />
     <ClCompile Include="Fade.cpp" />
-    <ClCompile Include="Item.cpp" />
     <ClCompile Include="Enemy\EnemyStateDead.cpp">
       <Filter>EnemySummary\Enemy</Filter>
     </ClCompile>
@@ -429,7 +428,6 @@
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Gameover.h" />
     <ClInclude Include="Fade.h" />
-    <ClInclude Include="Item.h" />
     <ClInclude Include="Score.h" />
     <ClInclude Include="Ability.h" />
     <ClInclude Include="Status.h" />

@@ -8,14 +8,14 @@ namespace {
 Player_Attack::Player_Attack(Player* pla) :Player_State(pla)
 {
 	m_player->SetSpeed(0.0f);
-	FindSwordpos();
+	FindSwordPos();
 	m_oldSwordcenter = m_Swordcenter;
 	m_oldhandpos = m_handpos;
 	m_player->ChangeAnimation(Player::attack);
 	//ここからエフェクトの初期化
 	{
-		m_sampleEffect = Effekseer::Effect::Create(g_graphicsEngine->GeteffekseerManager(), (const EFK_CHAR*)L"Assets/efect/soad1.efk");
-		m_playEffectHandle = g_graphicsEngine->GeteffekseerManager()->Play(m_sampleEffect, m_player->Get3Dposition().x, m_player->Get3Dposition().y, m_player->Get3Dposition().z);
+		m_sampleEffect = Effekseer::Effect::Create(g_graphicsEngine->GetEffekseerManager(), (const EFK_CHAR*)L"Assets/efect/soad1.efk");
+		m_playEffectHandle = g_graphicsEngine->GetEffekseerManager()->Play(m_sampleEffect, m_player->Get3DPosition().x, m_player->Get3DPosition().y, m_player->Get3DPosition().z);
 		auto front = m_player->GetFront();
 		float angle = acos(CVector3::AxisZ().Dot(front));
 		auto k = CVector3::AxisZ();
@@ -28,17 +28,17 @@ Player_Attack::Player_Attack(Player* pla) :Player_State(pla)
 		{
 			k = CVector3::AxisY()*-1;
 		}
-		g_graphicsEngine->GeteffekseerManager()->SetRotation(m_playEffectHandle, { k.x,k.y,k.z }, angle);
+		g_graphicsEngine->GetEffekseerManager()->SetRotation(m_playEffectHandle, { k.x,k.y,k.z }, angle);
 	}
 }
 Player_Attack::~Player_Attack()
 {
 	m_sampleEffect->Release();
-	g_graphicsEngine->GeteffekseerManager()->StopEffect(m_playEffectHandle);
+	g_graphicsEngine->GetEffekseerManager()->StopEffect(m_playEffectHandle);
 }
 void Player_Attack::Update()
 {
-	FindSwordpos();
+	FindSwordPos();
 	m_player->ChangeAnimation(Player::attack);
 	if (m_player->IsEvent()) {
 		//アニメーションイベントの発生中ならば
@@ -46,7 +46,7 @@ void Player_Attack::Update()
 		auto hitpoint = attackMove + m_Swordcenter;
 		//当たり判定発生
 		GetHitObjict().HitTest(hitpoint, 100.0f, m_player->GetStatu().m_Attack, HitReceive::enemy);
-		m_player->SetDebegvector(hitpoint);
+		m_player->SetDebegVector(hitpoint);
 	}
 	m_oldSwordcenter = m_Swordcenter;
 	if (!m_player->GetAnimationPlaying()) {
@@ -54,7 +54,7 @@ void Player_Attack::Update()
 		m_player->TransitionState(Player::State_Move);
 	}
 }
-void Player_Attack::FindSwordpos()
+void Player_Attack::FindSwordPos()
 {
 	//手のボーンから行列を取得
 	CMatrix BoneMatrix = m_player->GetArmMatrix();

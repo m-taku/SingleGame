@@ -7,7 +7,7 @@ EnemyStateMove::EnemyStateMove(Enemy* enamy,Player* player):EnemyState(enamy,pla
 {
 	//移動の初期化
 	m_path = m_enemy->CopyPath();
-	m_path->Course(m_enemy->Get2DPosition(), player->Get2Dposition());
+	m_path->Course(m_enemy->Get2DPosition(), player->Get2DPosition());
 	m_nextpos = m_path->PathPos();
 	m_enemy->SetSpeed(1.0f);
 	m_enemy->ChangeAnimation(Enemy::idle);
@@ -21,10 +21,11 @@ void EnemyStateMove::Update()
 	m_enemy->ChangeAnimation(Enemy::walk);
 	CVector3 speed = CVector3::Zero();
 	CVector3 nowpos = m_enemy->Get2DPosition();
+	//現在位置と目標位置を減算する
 	speed = m_nextpos - nowpos;
 	if (++m_fream > 30) {
 		//きれいにするために約１秒で更新
-		m_path->Course(m_enemy->Get2DPosition(), m_player->Get2Dposition());
+		m_path->Course(m_enemy->Get2DPosition(), m_player->Get2DPosition());
 		m_nextpos = m_path->PathPos();
 		m_nextpos = m_path->PathPos();
 		m_fream = 0;
@@ -37,7 +38,7 @@ void EnemyStateMove::Update()
 		if (m_nextpos.x == m_oldposition.x&&m_nextpos.y == m_oldposition.y&&m_nextpos.z == m_oldposition.z)
 		{
 			//もしも終点ならば探索しなおす
-			m_path->Course(m_enemy->Get2DPosition(), m_player->Get2Dposition());
+			m_path->Course(m_enemy->Get2DPosition(), m_player->Get2DPosition());
 			m_nextpos = m_path->PathPos();
 		}
 		m_oldposition = m_nextpos;
@@ -47,9 +48,10 @@ void EnemyStateMove::Update()
 	speed.Normalize();
 
 	m_enemy->AddAngle(speed);
-	CVector3 distance = m_player->Get2Dposition() - m_enemy->Get2DPosition();
-	if (distance.Length() <= 150.0f)
+	CVector3 distance = m_player->Get2DPosition() - m_enemy->Get2DPosition();
+	if (distance.Length() <= 300.0f)
 	{
+		//目標に近づいたらアタックに遷移する
 		m_enemy->SetSpeed(1.0f/2.0f);
 		m_enemy->TransitionState(Enemy::State_Attack);
 	}
