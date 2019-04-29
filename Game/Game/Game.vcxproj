@@ -144,6 +144,8 @@
     <ClCompile Include="graphics\g_SRVlist.cpp" />
     <ClCompile Include="HID\Pad.cpp" />
     <ClCompile Include="Hitobject\HitReceive.cpp" />
+    <ClCompile Include="Item.cpp" />
+    <ClCompile Include="ItemManager.cpp" />
     <ClCompile Include="level\Level.cpp" />
     <ClCompile Include="level\MapChip.cpp" />
     <ClCompile Include="main.cpp" />
@@ -231,6 +233,9 @@
     <ClInclude Include="graphics\UnorderedAccessView.h" />
     <ClInclude Include="Enemy\Enenystate.h" />
     <ClInclude Include="graphics\g_SRVlist.h" />
+    <ClInclude Include="status_sani.h" />
+    <ClInclude Include="Item.h" />
+    <ClInclude Include="ItemManager.h" />
     <ClInclude Include="Status.h" />
     <ClInclude Include="HID\Pad.h" />
     <ClInclude Include="Hitobject\HitObjict.h" />
@@ -319,6 +324,7 @@
     <MeshContentTask Include="Assets\modelData\Platform Mixed.fbx" />
     <MeshContentTask Include="Assets\modelData\player.fbx" />
     <MeshContentTask Include="Assets\modelData\player1fbx.fbx" />
+    <MeshContentTask Include="Assets\modelData\portion.fbx" />
     <MeshContentTask Include="Assets\modelData\rock.fbx" />
     <MeshContentTask Include="Assets\modelData\Sand.fbx" />
     <MeshContentTask Include="Assets\modelData\stageGround.fbx" />
@@ -354,10 +360,14 @@
     <None Include="Assets\level\stage_01.tkl" />
   </ItemGroup>
   <ItemGroup>
+    <ImageContentTask Include="Assets\texture\attakc_icon.png" />
     <Image Include="Assets\texture\autumn003.jpg" />
     <Image Include="Assets\texture\BRICKBMP.GIF" />
     <Image Include="Assets\texture\Building_texture7.jpg" />
     <Image Include="Assets\texture\damage.png" />
+    <ImageContentTask Include="Assets\texture\defensu_icon.png" />
+    <ImageContentTask Include="Assets\texture\speed_icon.png" />
+    <ImageContentTask Include="Assets\texture\status_waku.png" />
     <ImageContentTask Include="Assets\texture\yaji.png" />
     <ImageContentTask Include="Assets\texture\White.png" />
     <ImageContentTask Include="Assets\texture\taitoru.png" />

@@ -48,7 +48,7 @@ public:
 	/// 発生させたインスタンスのポインタ。
 	/// </returns>
 	template<class T>
-	T* NewGO(int No, const char* name="NULL")
+	T* NewGO(int No, const char* name = "NULL")
 	{
 		T* object = new T;
 		object->SetName(name);

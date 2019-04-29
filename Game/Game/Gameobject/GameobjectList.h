@@ -50,7 +50,10 @@ public:
     const std::vector<Gameobject*>& GetList() const
 	{
 		return m_ObjectList;
-
+	}
+	void Clearlist()
+	{
+		m_ObjectList.clear();
 	}
 	///// <summary>
 	///// ある優先度の中にある名前のリスト取得。

@@ -4,13 +4,6 @@
     <Name>Root</Name>
     <Children>
       <Node>
-        <LocationValues>
-          <Fixed>
-            <Location>
-              <Y>10</Y>
-            </Location>
-          </Fixed>
-        </LocationValues>
         <RotationValues>
           <Fixed>
             <Rotation>
@@ -33,14 +26,14 @@
                 <Min>20</Min>
               </Life>
               <GenerationTime>
-                <Center>0.3</Center>
-                <Max>0.3</Max>
-                <Min>0.3</Min>
+                <Center>0.1</Center>
+                <Max>0.1</Max>
+                <Min>0.1</Min>
               </GenerationTime>
               <GenerationTimeOffset>
-                <Center>30</Center>
-                <Max>30</Max>
-                <Min>30</Min>
+                <Center>1</Center>
+                <Max>1</Max>
+                <Min>1</Min>
               </GenerationTimeOffset>
             </CommonValues>
             <RotationValues>
@@ -95,6 +88,6 @@
   <ToolVersion>1.32</ToolVersion>
   <Version>3</Version>
   <StartFrame>0</StartFrame>
-  <EndFrame>120</EndFrame>
+  <EndFrame>50</EndFrame>
   <IsLoop>True</IsLoop>
 </EffekseerProject>

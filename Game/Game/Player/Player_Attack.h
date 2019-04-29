@@ -3,6 +3,10 @@
 class Player_Attack :public Player_State
 {
 public:
+	enum ibentname{
+		attack,
+		combo
+	};
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
@@ -28,8 +32,8 @@ private:
 	CVector3 m_oldSwordcenter = CVector3::Zero();			//移動前の剣の中心ポジション
 	CVector3 m_Swordcenter = CVector3::Zero();				//移動後の剣の中心ポジション
 	CVector3 m_Up;											//手の上方向ベクトル
-	bool m_Hit = false;										//攻撃を当てたかどうか（当てたら判定を消す）
-	Effekseer::Effect* m_sampleEffect = nullptr;			//エフェクトの実態のポインタ（？）
-	Effekseer::Handle m_playEffectHandle;					//エフェクトのさすハンドル
+	bool m_combo = false;									//コンボの判定
+	//Effekseer::Effect* m_sampleEffect = nullptr;			//エフェクトの実態のポインタ（？）
+	//Effekseer::Handle m_playEffectHandle;					//エフェクトのさすハンドル
 };
 

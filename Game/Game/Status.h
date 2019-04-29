@@ -2,7 +2,6 @@
 /// <summary>
 /// ステータスを決定するクラス群
 /// </summary>
-#include"Enemy/Enemy.h"
 #include "Ability.h"
 /// <summary>
 /// モデルenemy_heroのステータス
@@ -63,7 +62,7 @@ struct enemy_Lance : public Ability
 		SetName(Name);
 		SetSpawnnum(Spawnnum);
 	}
-	float HP = 20.0f;						//基本のHP
+	float HP = 50.0f;						//基本のHP
 	float Attack = 15.0f;					//基本の攻撃力
 	float Defense = 10.0f;					//基本の守備力
 	float Speed = 100.0f;					//基本のスピード

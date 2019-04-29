@@ -18,7 +18,8 @@ bool Gameover::Load()
 	m_texture_font.CreateFromDDSTextureFromFile(L"Resource/sprite/taitoru.dds");
 	m_over_font.Init(m_texture_font.GetBody(), 1280.0f, 720.0f);
 	m_over_font.Updete(m_pos, CQuaternion::Identity(), CVector3::One());
-
+	//すべての関数をストップさせ、Drawのみにする
+	g_objectManager->AllStoporComeback();
 	return true;
 }
 void Gameover::Stop()

@@ -276,6 +276,8 @@
     <ClCompile Include="Enemy\EnemyState.cpp">
       <Filter>EnemySummary\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="Item.cpp" />
+    <ClCompile Include="ItemManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -516,6 +518,9 @@
     <ClInclude Include="Enemy\EnemyManager.h">
       <Filter>EnemySummary</Filter>
     </ClInclude>
+    <ClInclude Include="Item.h" />
+    <ClInclude Include="ItemManager.h" />
+    <ClInclude Include="status_sani.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
@@ -722,6 +727,7 @@
     <MeshContentTask Include="Assets\modelData\wallgeit.fbx">
       <Filter>Assets\modelData</Filter>
     </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\portion.fbx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\level\stage_01.tkl">
@@ -773,5 +779,9 @@
     <ImageContentTask Include="Assets\texture\yellow.png">
       <Filter>Assets\texture</Filter>
     </ImageContentTask>
+    <ImageContentTask Include="Assets\texture\status_waku.png" />
+    <ImageContentTask Include="Assets\texture\defensu_icon.png" />
+    <ImageContentTask Include="Assets\texture\speed_icon.png" />
+    <ImageContentTask Include="Assets\texture\attakc_icon.png" />
   </ItemGroup>
 </Project>

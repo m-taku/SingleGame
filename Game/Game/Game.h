@@ -3,6 +3,7 @@ class Player;
 class Gamecamera;
 class Stage;
 class EnemyManager;
+class ItemManager;
 class HitObjict;
 /// <summary>
 /// ゲームクラス。
@@ -32,7 +33,7 @@ public:
 	/// <summary>
 	/// Gameobjectから継承したDraw関数
 	/// </summary>
-	void Draw() override;
+	void PostDraw() override;
 	/// <summary>
 	/// Gameobjectから継承したOnDestroy関数
 	/// </summary>
@@ -43,6 +44,10 @@ private:
 	Stage* m_stage = nullptr;						//ステージのインスタンス
 	EnemyManager* m_enemyManager = nullptr;			//エネミーのマネージャークラスのインスタンス
 	UI* m_ui = nullptr;								//ユーザーインターフェースのインスタンス
+	ItemManager* m_item = nullptr;
 	Score* m_score = nullptr;						//スコアのインスタンス
+	Font m_font;											//文字表示のインスタンス
+	Timer m_timer;											//タイマークラスのインスタンス
+
 };
 

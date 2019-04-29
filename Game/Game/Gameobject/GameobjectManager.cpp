@@ -18,6 +18,7 @@ void GameobjectManager::Release()
 		for (auto& objedct : List) {
 			delete objedct;
 		}
+		list.Clearlist();
 	}
 }
 void GameobjectManager::Execute()
@@ -49,9 +50,9 @@ void GameobjectManager::Execute()
 			}
 		}
 	}
-	g_graphicsEngine->EffectUpdate();
 	//デバック用の剛体表示
 	g_graphicsEngine->PostEffectUpdate();
+	g_graphicsEngine->EffectUpdate();
 #ifdef _DEBUG
 
 	

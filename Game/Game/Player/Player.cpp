@@ -51,6 +51,10 @@ bool Player::Load()
 		Hit(damage);
 	},
 		HitReceive::player);
+	for (int i= static_cast<int>(attakc1);i<num;i++)
+	{
+		m_bairitu.insert({ static_cast<Status_bairitu>(i) , 1.0f });
+	}
 	TransitionState(State_Move);
 	return true;
 }
@@ -84,7 +88,7 @@ void Player::InitAnimation()
 {
 	m_animationclip[ded].Load(L"Assets/animData/pla_ded1.tka");
 	m_animationclip[ded].SetLoopFlag(false);
-	m_animationclip[attack].Load(L"Assets/animData/pla_ateec1.tka");
+	m_animationclip[attack].Load(L"Assets/animData/pla_ateec.tka");
 	m_animationclip[attack].SetLoopFlag(false);
 	m_animationclip[defens].Load(L"Assets/animData/pla_defens1.tka");
 	m_animationclip[defens].SetLoopFlag(false);
@@ -96,6 +100,12 @@ void Player::InitAnimation()
 	m_animationclip[run].SetLoopFlag(true);
 	m_animationclip[hit].Load(L"Assets/animData/pla_hit1.tka");
 	m_animationclip[hit].SetLoopFlag(false);
+	m_animationclip[combo1].Load(L"Assets/animData/pla_combo1.tka");
+	m_animationclip[combo1].SetLoopFlag(false);
+	m_animationclip[combo2].Load(L"Assets/animData/pla_combo2.tka");
+	m_animationclip[combo2].SetLoopFlag(false);	
+	m_animationclip[combo3].Load(L"Assets/animData/pla_combo3.tka");
+	m_animationclip[combo3].SetLoopFlag(false);
 	m_animation.Init(m_model, m_animationclip, animnum);
 	m_animation.Play(idle, 0.2f);
 }
@@ -104,6 +114,7 @@ void Player::Update()
 {
 	UpdateFront();
 	m_debugVector->Update({0.0f,0.0f,0.0f});
+	m_animation.Update(GetTime().GetFrameTime());
 	m_State->Update();
 	m_movespeed.x = m_Front.x * m_plyerStatus->m_Speed*m_speed;
 	m_movespeed.z = m_Front.z * m_plyerStatus->m_Speed*m_speed;
@@ -119,17 +130,15 @@ void Player::Update()
 	auto ritpos = m_position;
 	CVector3 m = { -707.0f,707.0f, 0.0f };
 	ritpos.x += m.x;
+	ChangeAnimation(m_animtype);
 	ritpos.y += m.y;
 	g_graphicsEngine->GetShadowMap()->UpdateFromLightTarget(ritpos, m_position);
 	m_model.UpdateWorldMatrix(m_position, m_rotation, { 1.0f,1.0f,1.0f });
-	m_animation.Update(GetTime().GetFrameTime());
+	ItemTimeUpdate();
 
 }
 void Player::Draw()
 {	
-	
-	
-	
 	m_debugVector->Draw();
 	m_model.Draw(
 		g_camera3D.GetViewMatrix(), 

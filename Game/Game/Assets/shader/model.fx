@@ -111,8 +111,8 @@ PSInput VSMaincreate(VSInputNmTxVcTangent In, float4x4 worldMat)
 	psInput.WorldPos = pos;	
 	if (isShadowReciever == 1) {
 		//続いて、ライトビュープロジェクション空間に変換。
-		psInput.posInLVP = mul(mLightView, pos);
-		psInput.posInLVP = mul(mLightProj, psInput.posInLVP);
+		psInput.posInLVP = mul(ja.mLightView, pos);
+		psInput.posInLVP = mul(ja.mLightProj, psInput.posInLVP);
 	}
 	pos = mul(mView, pos);
 	pos = mul(mProj, pos);
@@ -171,8 +171,8 @@ PSInput VSMainSkincreate( VSInputNmTxWeights In ,float4x4 worldMat)
 	psInput.WorldPos = pos;
 	if (isShadowReciever == 1) {
 		//続いて、ライトビュープロジェクション空間に変換。
-		psInput.posInLVP = mul(mLightView, pos);
-		psInput.posInLVP = mul(mLightProj, psInput.posInLVP);
+		psInput.posInLVP = mul(ja.mLightView, pos);
+		psInput.posInLVP = mul(ja.mLightProj, psInput.posInLVP);
 	}
 	pos = mul(mView, pos);
 	pos = mul(mProj, pos);

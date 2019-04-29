@@ -48,13 +48,14 @@ public:
 	{
 		m_Score = score;
 	}
-	void SpawnEnemy(CVector3 pos,Ability* k);
+	void SpawnEnemy(CVector3 pos,Ability* k,int count=0);
 private:
 	Player * m_player = nullptr;
 	std::vector<Enemyleader*> m_enemy;
 	Font* m_font = nullptr;											//文字表示のインスタンス
 	int m_No = 0;
 	int m_count = 0;
+	bool m_BossSpoon = false;
 	int m_Maxsporn = 100;
 	Score* m_Score = nullptr;
 	std::vector<CVector3> m_spawnpos;

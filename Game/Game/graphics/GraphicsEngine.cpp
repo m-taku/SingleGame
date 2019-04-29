@@ -35,7 +35,8 @@ void GraphicsEngine::EndRender()
 	m_pSwapChain->Present(2, 0);
 }
 
-void GraphicsEngine::Release()
+void GraphicsEngine
+::Release()
 {
 	if (m_rasterizerState != NULL) {
 		m_rasterizerState->Release();
@@ -87,7 +88,7 @@ void GraphicsEngine::Release()
 	}
 	if (m_effekseerManager != NULL)
 	{
-		m_effekseerManager->Release();
+		m_effekseerManager->Destroy();
 		m_shadowmap = NULL;
 	}
 	if (m_effekseerRenderer != NULL)

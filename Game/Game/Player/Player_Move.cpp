@@ -43,19 +43,20 @@ void Player_Move::Update()
 		m_player->SetRotation(rod);
 		if (amount.Length() >= 0.5f)
 		{
-			m_player->ChangeAnimation(Player::run);
+			m_player->SetAnimType(Player::run);
 		}
 		else
 		{
-			m_player->ChangeAnimation(Player::walk);
+			m_player->SetAnimType(Player::walk);
 		}
 	}
 	else
 	{
-		m_player->ChangeAnimation(Player::idle);
+		m_player->SetAnimType(Player::idle);
 	}
-	m_player->SetSpeed(amount.Length());
+	m_player->SetSpeed(amount.Length()*m_player->GetBairitu(speed1));
 	if (g_pad[0].IsTrigger(enButtonX)) {
+		m_player->SetAnimType(Player::combo1);
 		m_player->TransitionState(Player::State_Attack);
 	}
 	else if (g_pad[0].IsTrigger(enButtonRB1))

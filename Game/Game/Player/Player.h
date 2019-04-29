@@ -2,6 +2,7 @@
 #include "character/CharacterController.h"
 #include"UI.h"
 #include"Status.h"
+#include"status_sani.h"
 class Player_State;
 class Gamecamera;
 class Navimake;
@@ -29,8 +30,11 @@ public:
 		run,		//走りアニメーション
 		hit,		//ヒットアニメーション
 		ded,		//死亡アニメーション
-		attack,		//攻撃アニメーション
 		defens,		//防御アニメーション
+		attack,		//攻撃アニメーション
+		combo1,		//攻撃アニメーション(コンボ1)
+		combo2,		//攻撃アニメーション(コンボ2)
+		combo3,		//攻撃アニメーション(コンボ3)
 		animnum		//アニメーション状態
 	};
 	/// <summary>
@@ -104,9 +108,19 @@ public:
 	/// <returns>
 	/// teueでイベント期間
 	/// </returns>
-	const bool IsEvent()
+	const bool IsEvent(int No=0)
 	{
-		return m_animation.IsEvent();
+		return m_animation.IsEvent(No);
+	}
+	/// <summary>
+	/// アニメーションイベントの取得
+	/// </summary>
+	/// <returns>
+	/// teueでイベント期間
+	/// </returns>
+	const wchar_t* IsEventName()
+	{
+		return m_animation.GetEventName();
 	}
 	/// <summary>
 	/// 前方向の更新（角度変更後に呼んでください）
@@ -242,7 +256,7 @@ public:
 	/// </param>
 	void Damage(float damage)
 	{
-		float hidame = damage - m_plyerStatus->m_Defense;
+		float hidame = damage - m_plyerStatus->m_Defense * GetBairitu(defense1);
 		if (hidame > 0.0f) {
 			m_plyerStatus->m_HP -= hidame;
 			auto wariai = m_plyerStatus->m_HP / p_status->m_HP;
@@ -312,26 +326,59 @@ public:
 	{
 		m_Hit = !m_Hit;
 	}
-	//ここからアイテムによるステータス変更
-	//不完全なのでオミット
-	//void SetStatu_Speed(float speed)
-	//{
-	//	m_plyerStatus->m_Speed = max(m_plyerStatus->m_Speed, speed);
-	//}
-	//void SetStatu_Attack(float attack)
-	//{
-	//	m_plyerStatus->m_Attack = max(m_plyerStatus->m_Attack, attack);
-	//}
-	//void SetStatu_Defense(float defense)
-	//{
-	//	m_plyerStatus->m_Defense = max(m_plyerStatus->m_Defense, defense);
-	//}
-	//void AddStatu_NowHP(float now_HP)
-	//{
-	//	m_plyerStatus->m_HP = max(p_status->m_HP, m_plyerStatus->m_HP + now_HP);
-	//	auto wariai = m_plyerStatus->m_HP / p_status->m_HP;
-	//	m_ui->SetDamage(1.0f - wariai);
-	//}
+	/// <summary>
+	/// アニメーションの種類のセット
+	/// </summary>
+	/// <param name="Type">
+	/// 流したいアニメーション
+	/// </param>
+	void SetAnimType(animation Type)
+	{
+		m_animtype = Type;
+	}
+	/// <summary>
+	/// アニメーションの種類のセット
+	/// </summary>
+	/// <param name="Type">
+	/// 流したいアニメーション
+	/// </param>
+	const animation GetAnimType()
+	{
+		return m_animtype;
+	}
+	void ItemTimeUpdate()
+	{
+		for (int i = 0; i < num; i++) {
+			if (m_taim[i].GetAllSeconds() <= 5.0f)
+			{
+				m_taim[i].TimerStop();
+				m_taim[i].TimerRestart();
+			}
+			else
+			{
+
+				auto type = static_cast<Status_bairitu>(i);
+				m_ui->SetStetus(type, 0.3f);
+				m_bairitu.find(type)->second = 1.0f;
+			}
+		}
+	}
+	void SetBairitu(Status_bairitu status,float baisuu)
+	{
+		m_bairitu.find(status)->second = baisuu;
+		m_ui->SetStetus(status, 1.0f);
+		m_taim[status].TimerStart();
+	}
+	const float GetBairitu(Status_bairitu status)
+	{
+		return m_bairitu.find(status)->second;
+	}
+	void AddStatu_NowHP(float now_HP)
+	{
+		m_plyerStatus->m_HP = min(p_status->m_HP, m_plyerStatus->m_HP + now_HP);
+		auto wariai = m_plyerStatus->m_HP / p_status->m_HP;
+		m_ui->SetDamage(1.0f - wariai);
+	}
 private:
 	CharacterController m_collider;						//キャラクターコントローラー
 	SkinModel m_model;									//モデルデータ
@@ -349,12 +396,11 @@ private:
 	CVector3 m_amount = { 0.0f,0.0f,0.0f };				//スティックの移動量
 	CQuaternion m_rotation = CQuaternion::Identity();	//回転クオータニオン
 	CMatrix m_mRot = CMatrix::Identity();				//回転行列
+	animation m_animtype = idle;
 	int m_armboneNo = -1;								//手のボーン番号
 	float m_speed = 0.0f;								//移動速度
 	float m_angle = 0.0f;								//回転角度（ラジアン）
 	bool m_Hit = false;									//当てる状態かどうか
-	//アイテム用のタイマーインスタンス
-	Timer m_Attacktimer;
-	Timer m_Defensetimer;
-	Timer m_Speedtimer;
+	std::map<Status_bairitu,float> m_bairitu;					//
+	Timer m_taim[num];												//
 };

@@ -52,10 +52,10 @@ public:
 	/// <returns>
 	/// trueで区間内
 	/// </returns>
-	bool IsEvent() const
+	bool IsEvent(int No=0) const
 	{
 		int lastIndex = GetLastAnimationControllerIndex();
-		return m_animationPlayController[lastIndex].IsEvent();
+		return m_animationPlayController[lastIndex].IsEvent(No);
 	}
 	/// <summary>
 	/// イベントの名前を取得します

@@ -42,31 +42,32 @@ void AnimationClip::Load(const wchar_t* filePath)
 	
 	//ここからアニメーションイベントの処理
 	if (header.numAnimationEvent > 0) {
-		for (int i = 0; i < header.numAnimationEvent; i++)
-		{
+		for (int i = 0; i < header.numAnimationEvent; i++) {
+			std::uint32_t eventnum = 0;
+			fread(&eventnum, sizeof(eventnum), 1, fp);
 			AnimationEvent* Event = new AnimationEvent;
-			AnimationEventData eventdata;
-			//ここでファイルからデータを抽出
-			//発生時間と文字の長さのみ
-			fread(&eventdata, sizeof(eventdata), 1, fp);
-			static char name[255];
-			static wchar_t neme2[255];
-			//ここでファイルからデータを抽出
-			//文字自体のデータ
-			fread(&name, eventdata.eventNameLength + 1,1, fp);
-			//ここでもらったデータをcharをwchar_tに変換を変える
-			mbstowcs(neme2, name, 255);
-			//できたデータをまとめる
-			Event->SetEventname(neme2);
-			Event->SetinvokeTime(eventdata.invokeTime);
-			//出来上がったデータをリストに積む
+			for (int j = 0; j <eventnum; j++)
+			{ 
+				AnimationEventDate eventdata;
+				//ここでファイルからデータを抽出
+				//発生時間と文字の長さのみ
+				fread(&eventdata, sizeof(eventdata), 1, fp);
+				static char name[255];
+				static wchar_t neme_t[255];
+				//ここでファイルからデータを抽出
+				//文字自体のデータ
+				fread(&name, eventdata.eventNameLength + 1, 1, fp);
+				//ここでもらったデータをcharをwchar_tに変換を変える
+				mbstowcs(neme_t, name, 255);
+				//できたデータをまとめる
+				auto dete = new EventDate;
+				dete->eventNameLength = neme_t;
+				dete->invokeTime = eventdata.invokeTime;
+				Event->SetEventDete(dete);
+				//出来上がったデータをリストに積む
+			}
 			m_AnimationEventlist.push_back(Event);
 		}
-	}
-	else
-	{
-		//アニメーションイベントがなければ１つだけ積む
-		m_AnimationEventlist.push_back(new AnimationEvent);
 	}
 	//中身コピーするためのメモリをドカッと確保。
 	KeyframeRow* keyframes = new KeyframeRow[header.numKey];

@@ -121,6 +121,7 @@ void Enemyleader::Update()
 				enemy->TransitionState(Enemy::State_Move);
 			}
 			ChangeSteat(person);
+			m_stopcount = 0;
 		}
 		else {
 			for (auto enemy : m_enemy) {
@@ -156,7 +157,8 @@ void Enemyleader::Update()
 		}
 		if (m_ninzuu >= m_remaining)
 		{
-			ChangeGroup_Move();
+			ChangeGroup_Move();		
+			m_state = m_group_state;
 		}
 	}
 	break;
@@ -191,7 +193,7 @@ void Enemyleader::Move()
 	if (m_movespeed.Length() <= 50.0f)
 	{
 		m_nextpos = m_path->PathPos();
-		if (m_nextpos.x == m_oldposition.x&&m_nextpos.y == m_oldposition.y&&m_nextpos.z == m_oldposition.z)
+		if (m_nextpos.x == m_oldposition.x && m_nextpos.y == m_oldposition.y && m_nextpos.z == m_oldposition.z)
 		{
 			m_path->Course(nowpos, m_player->Get2DPosition());
 			m_nextpos = m_path->PathPos();

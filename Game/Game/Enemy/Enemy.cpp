@@ -239,7 +239,7 @@ void Enemy::AddAngle(const CVector3& Vector)
 void Enemy::Hit(float damage)
 {
 	float hidame = damage - m_Status->m_Defense;
-	if (hidame > 0.0f&&m_mutekitaim >=30)
+	if (hidame > 0.0f&&m_mutekitaim >=10)
 	{
 		m_HP -= hidame;
 		m_mutekitaim = 0;

@@ -58,6 +58,7 @@ void EnemyStateAttack::Update()
 		if (!m_Hit)
 		{
 			if (m_enemy->GetIsEvent())
+
 			{
 				auto attackMove = (m_Swordcenter - m_oldSwordcenter) / 2;
 				auto hitpoint = attackMove + m_Swordcenter;

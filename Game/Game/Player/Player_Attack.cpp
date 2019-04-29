@@ -11,47 +11,86 @@ Player_Attack::Player_Attack(Player* pla) :Player_State(pla)
 	FindSwordPos();
 	m_oldSwordcenter = m_Swordcenter;
 	m_oldhandpos = m_handpos;
-	m_player->ChangeAnimation(Player::attack);
-	//ここからエフェクトの初期化
-	{
-		m_sampleEffect = Effekseer::Effect::Create(g_graphicsEngine->GetEffekseerManager(), (const EFK_CHAR*)L"Assets/efect/soad1.efk");
-		m_playEffectHandle = g_graphicsEngine->GetEffekseerManager()->Play(m_sampleEffect, m_player->Get3DPosition().x, m_player->Get3DPosition().y, m_player->Get3DPosition().z);
-		auto front = m_player->GetFront();
-		float angle = acos(CVector3::AxisZ().Dot(front));
-		auto k = CVector3::AxisZ();
-		k.Cross(front);
-		if (k.y >= 0.0f)
-		{
-			k = CVector3::AxisY();
-		}
-		else
-		{
-			k = CVector3::AxisY()*-1;
-		}
-		g_graphicsEngine->GetEffekseerManager()->SetRotation(m_playEffectHandle, { k.x,k.y,k.z }, angle);
-	}
+
+	////ここからエフェクトの初期化
+	// オミット
+	//{
+	//	m_sampleEffect = Effekseer::Effect::Create(g_graphicsEngine->GetEffekseerManager(), (const EFK_CHAR*)L"Assets/efect/soad1.efk");
+	//	m_playEffectHandle = g_graphicsEngine->GetEffekseerManager()->Play(m_sampleEffect,  m_player->Get3DPosition().x, m_player->Get3DPosition().y+50.0f, m_player->Get3DPosition().z);
+	//	auto front = m_player->GetFront();
+	//	float angle = acos(CVector3::AxisZ().Dot(front));
+	//	auto jiku = CVector3::AxisZ();
+	//	jiku.Cross(front);
+	//	if (jiku.y >= 0.0f)
+	//	{
+	//		jiku = CVector3::AxisY();
+	//	}
+	//	else
+	//	{
+	//		jiku = CVector3::AxisY()*-1;
+	//	}
+	//	CQuaternion k = CQuaternion::Identity(), ma;
+	//	switch (m_player->GetAnimType())
+	//	{
+	//	case Player::combo1:
+	//		g_graphicsEngine->GetEffekseerManager()->SetRotation(m_playEffectHandle, { 0.0f,0.0f,1.0f}, CMath::DegToRad(180.0f));
+
+	//		ma.SetRotation(CVector3::AxisZ(), CMath::DegToRad(180.0f));
+	//		break;
+	//	case Player::combo2:
+	//		break;
+	//	case Player::combo3:
+	//		g_graphicsEngine->GetEffekseerManager()->SetRotation(m_playEffectHandle, { 0.0f,0.0f,1.0f }, CMath::DegToRad(90.0f));
+
+	//		ma.SetRotation(CVector3::AxisZ(), CMath::DegToRad(90.0f));
+	//		break;
+	//	default:
+	//		break;
+	//	}
+	//	k.SetRotation(jiku, angle);
+	//	//k.Multiply(ma);
+	//	g_graphicsEngine->GetEffekseerManager()->SetRotation(m_playEffectHandle,k.x,k.y,k.z);
+	//}
 }
 Player_Attack::~Player_Attack()
 {
-	m_sampleEffect->Release();
-	g_graphicsEngine->GetEffekseerManager()->StopEffect(m_playEffectHandle);
+	//m_sampleEffect->Release();
+	//if (g_graphicsEngine->GetEffekseerManager() != NULL) {
+	//	g_graphicsEngine->GetEffekseerManager()->StopEffect(m_playEffectHandle);
+	//}
 }
 void Player_Attack::Update()
 {
 	FindSwordPos();
-	m_player->ChangeAnimation(Player::attack);
-	if (m_player->IsEvent()) {
+	if (m_player->IsEvent(attack)) {
 		//アニメーションイベントの発生中ならば
 		auto attackMove = (m_Swordcenter - m_oldSwordcenter) / 2;
 		auto hitpoint = attackMove + m_Swordcenter;
 		//当たり判定発生
-		GetHitObjict().HitTest(hitpoint, 100.0f, m_player->GetStatu().m_Attack, HitReceive::enemy);
-		m_player->SetDebegVector(hitpoint);
+		GetHitObjict().HitTest(hitpoint, 100.0f, m_player->GetStatu().m_Attack*m_player->GetBairitu(attakc1), HitReceive::enemy);
+
 	}
 	m_oldSwordcenter = m_Swordcenter;
+	if (m_combo != true && m_player->IsEvent(combo)) {
+		auto pos = m_player->Get2DPosition();
+		pos.y += 50.0f;
+		m_player->SetDebegVector(pos);
+		if(g_pad[0].IsTrigger(enButtonX)) {
+			m_combo = true;
+		}
+	}
 	if (!m_player->GetAnimationPlaying()) {
-		//アニメーションが終了したので終了する
-		m_player->TransitionState(Player::State_Move);
+		if (m_combo)
+		{
+			int k = m_player->GetAnimType() + 1;
+			m_player->SetAnimType((Player::animation)k);
+			m_player->TransitionState(Player::State_Attack);
+		}
+		else
+		{
+			//アニメーションが終了したので終了する
+			m_player->TransitionState(Player::State_Move);
+		}
 	}
 }
 void Player_Attack::FindSwordPos()

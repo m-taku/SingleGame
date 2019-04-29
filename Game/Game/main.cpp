@@ -14,7 +14,9 @@
 ///////////////////////////////////////////////////////////////////
 // ウィンドウプログラムのメイン関数。
 ///////////////////////////////////////////////////////////////////
+
 GameobjectManager* g_objectManager;
+
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
 {
 	//ゲームの初期化。
@@ -40,10 +42,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	m_timer = new Timer;
 	m_timer->TimerStart();	
 	float m_fps = 0.0f;
-	GameobjectManager objectManage;
-	g_objectManager = &objectManage;
+	g_objectManager = new GameobjectManager();
 	g_physics.SetDebugDrawMode(btIDebugDraw::DBG_DrawWireframe);
-	auto tittle = g_objectManager->NewGO<title>(0,"title");
+	auto tittle = g_objectManager->NewGO<title>(5,"title");
 	int debak = 0;
 	while (DispatchWindowMessage() == true)
 	{
@@ -100,7 +101,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		g_graphicsEngine->EndRender();
 		m_timer->TimerStop();
 	}
-    delete g_graphicsEngine;
+	//g_graphicsEngine->Release();
+	delete g_objectManager;
+	delete g_graphicsEngine;
 	delete m_font;
 	delete m_timer;
 }

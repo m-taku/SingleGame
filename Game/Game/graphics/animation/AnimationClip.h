@@ -17,7 +17,7 @@ struct AnimClipHeader {
 /*!
 *@brief	アニメーションイベント
 */
-struct AnimationEventData {
+struct AnimationEventDate {
 	float	invokeTime;					//!<アニメーションイベントが発生する時間(単位:秒)
 	std::uint32_t eventNameLength;		//!<イベント名の長さ。
 };
@@ -37,6 +37,10 @@ struct KeyframeRow {
 	float time;					//!<時間。
 	CVector3 transform[4];		//!<トランスフォーム。
 };
+struct EventDate {
+	float	invokeTime;					//!<アニメーションイベントが発生する時間(単位:秒)
+	std::wstring eventNameLength;		//!<イベント名
+};
 /// <summary>
 /// アニメーションイベントクラス
 /// </summary>
@@ -52,37 +56,31 @@ public:
 	}
 	~AnimationEvent()
 	{
-
+		for (auto date : m_date)
+		{
+			delete date;
+		}
+		m_date.clear();
 	}
 	/// <summary>
-	/// イベントの名前のセット
+	/// イベントのデータのセット
 	/// </summary>
-	/// <param name="name">
-	/// 名前（const wchar_t*）
+	/// <param name="date">
+	/// イベントデータ（EventDate*）
 	/// </param>
-	void SetEventname(const wchar_t* name)
+	void SetEventDete(EventDate* date)
 	{
-		m_eventname = name;
+		m_date.push_back(date);
 	}
-	/// <summary>
-	/// イベントの発生させる時間のセット
-	/// </summary>
-	/// <param name="taim">
-	/// イベントの発生時間（秒）
-	/// </param>
-	void SetinvokeTime(float taim)
-	{
-		m_invokeTime = taim;
-	}	
 	/// <summary>
 	/// 発生しているイベントの名前の取得
 	/// </summary>
 	/// <returns>
 	/// 発生しているイベントの名前（wchar_t*）
 	/// </returns>
-	const wchar_t* GetEventname() const
+	const wchar_t* GetEventname(int No) const
 	{
-		return m_eventname.c_str();
+		return m_date[No]->eventNameLength.c_str();
 	}
 	/// <summary>
 	/// イベントの発生させる時間のゲット
@@ -90,13 +88,22 @@ public:
 	/// <returns>
 	/// イベントの発生時間（秒）
 	/// </returns>
-	float GetinvokeTime()
+	const float GetinvokeTime(int No)
 	{
-		return m_invokeTime;
+		return m_date[No]->invokeTime;
+	}
+	/// <summary>
+	/// イベントの総数
+	/// </summary>
+	/// <returns>
+	/// イベントデータの数
+	/// </returns>
+	const int GetDateSize()
+	{
+		return m_date.size();
 	}
 private:		
-	float m_invokeTime = -1.0f;			//イベントの発生位置（秒）
-	std::wstring m_eventname=L"NULL";	//イベントの名前
+	std::vector<EventDate*> m_date;
 };
 /*!
 *@brief	アニメーションクリップ。

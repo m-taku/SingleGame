@@ -2,7 +2,14 @@
 /// <summary>
 /// アイテムクラス
 /// </summary>
-class Item:public Gameobject
+#include"status_sani.h"
+enum item_group {
+	ataac,
+	defense,
+	life,
+	itemnum
+};
+class Item:public Noncopyable
 {
 public:
 	/// <summary>
@@ -16,14 +23,7 @@ public:
 	/// <summary>
 	/// アイテムの種類のenum
 	/// </summary>
-	enum item_group {
-		ataac,
-		ataacM2,
-		defense,
-		defenseM2,
-		life,
-		itemnum
-	};
+
 	/// <summary>
 	/// アイテムの出現位置のセット
 	/// </summary>
@@ -40,15 +40,15 @@ public:
 	/// <returns>
 	/// 成功でtrue、失敗でfalse。
 	/// </returns>
-	bool Load() override;
+	bool Load();
 	/// <summary>
  	/// 毎フレーム呼ばれる関数。
 	/// </summary>
-	void Update() override;
+	bool Update();
 	/// <summary>
 	/// 表示用関数。
 	/// </summary>
-	void Draw() override;
+	void Draw();
 	/// <summary>
 	/// アイテムの種類のセット
 	/// （しないと出ません！！）
@@ -66,5 +66,7 @@ private:
 	CVector3 m_pos = CVector3::Zero();							//現在位置
 	CQuaternion m_rotetion = CQuaternion::Identity();			//現在回転角度
 	item_group m_item= itemnum;									//アイテムの種類
-	bool m_hit = true;											//当たったかどうか
+	bool m_hit = false;											//当たったかどうか
+	Effekseer::Effect* m_sampleEffect = nullptr;			//エフェクトの実態のポインタ（？）
+	Effekseer::Handle m_playEffectHandle;					//エフェクトのさすハンドル
 };

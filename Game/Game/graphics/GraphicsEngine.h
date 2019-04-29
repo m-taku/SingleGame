@@ -96,7 +96,7 @@ public:
 		m_effekseerRenderer->SetCameraMatrix(efCameraMat);
 		m_effekseerRenderer->SetProjectionMatrix(efProjMat);
 		//Effekseerを更新。
-		m_effekseerManager->Update();
+		m_effekseerManager->Update(3.0f);
 		EffectDraw();
 	}
 	void EffectDraw()
@@ -202,15 +202,13 @@ private:
 	ID3D11DepthStencilView* m_depthStencilView = NULL;	//デプスステンシルビュー。
 	DirectX::SpriteFont*    m_SpriteFont = NULL;		//ゲームのデフォルトのフォントデータ
 	DirectX::SpriteBatch*   m_SpriteBatch = NULL;		//ゲームのデフォルトのフォント表示用データ
-
-	Effekseer::Manager*	m_effekseerManager = nullptr;	//エフェクトマネージャークラス
-	EffekseerRenderer::Renderer*	m_effekseerRenderer = nullptr;  //エフェクトレンダラークラス
-	
-	ShadowMap* m_shadowmap = NULL;						//シャドーマップ
-	sprite m_mainSRV;										//メインレンダリングターゲットのSRV
-	PostEffect* m_posteffec = NULL;						//ポストエフェクト
-	RenderTarget m_mainTarget;							//メインレンダリングターゲット
-	D3D11_VIEWPORT m_frameBufferViewports;			//フレームバッファのビューポート。
+	Effekseer::Manager*	m_effekseerManager = nullptr;					//エフェクトマネージャークラス
+	EffekseerRenderer::Renderer*	m_effekseerRenderer = nullptr;		//エフェクトレンダラークラス
+	ShadowMap* m_shadowmap = NULL;										//シャドーマップ
+	sprite m_mainSRV;													//メインレンダリングターゲットのSRV
+	PostEffect* m_posteffec = NULL;										//ポストエフェクト
+	RenderTarget m_mainTarget;											//メインレンダリングターゲット
+	D3D11_VIEWPORT m_frameBufferViewports;								//フレームバッファのビューポート。
 	ID3D11RenderTargetView* m_frameBufferRenderTargetView = nullptr;	//フレームバッファのレンダリングターゲットビュー。
 	ID3D11DepthStencilView* m_frameBufferDepthStencilView = nullptr;	//フレームバッファのデプスステンシルビュー。	
 };

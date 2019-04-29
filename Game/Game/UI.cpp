@@ -5,7 +5,9 @@
 namespace {
 	//HPBarのサイズ
 	const CVector2 Hpbarsize = { 1000.0f, 250.0f };
-	const int GAMETAIM = 2;
+	const CVector2 Statussize = { 100.0f,100.0f };
+	const int GAMETAIM = 3;			//制限時間
+
 }
 
 UI::UI()
@@ -22,12 +24,35 @@ bool UI::Load()
 	//プレイヤーのHP用のデータをロード
 	m_Texture_bar_waku.CreateFromDDSTextureFromFile(L"Resource/sprite/HP_Player_waku.dds");
 	m_HP_bar_waku.Init(m_Texture_bar_waku.GetBody(), Hpbarsize.x, Hpbarsize.y);
-	m_Texture_bar.CreateFromDDSTextureFromFile(L"Resource/sprite/HP_Player.dds");
-	m_HP_bar.Init(m_Texture_bar.GetBody(), Hpbarsize.x, Hpbarsize.y);
 	m_HP_bar_waku.Updete(m_HP_waku_position, CQuaternion::Identity(), CVector3::One(), {0.0f,1.0f});
+	//プレイヤーのHP枠用のデータをロード
+	m_Texture_bar.CreateFromDDSTextureFromFile(L"Resource/sprite/HP_Player.dds");
+	m_HP_bar.Init(
+		m_Texture_bar.GetBody(), 
+		Hpbarsize.x,
+		Hpbarsize.y
+	);
 	m_HP_bar.Updete(m_HP_position, CQuaternion::Identity(), CVector3::One(), { 0.0f,1.0f });
+	m_texture_status_bar.CreateFromDDSTextureFromFile(L"Resource/sprite/status_waku.dds");
+	m_status_bar.Init(m_texture_status_bar.GetBody(), Statussize.x*3, Statussize.y);
+	m_status_bar.Updete(m_status_bar_position, CQuaternion::Identity(), CVector3::One() ,{0.0f,0.5f});
+	//
+	m_texture_status[attakc1].CreateFromDDSTextureFromFile(L"Resource/sprite/attakc_icon.dds");
+	m_status[attakc1].Init(m_texture_status[attakc1].GetBody(), Statussize.x, Statussize.y);
+	m_status[attakc1].Updete(m_status_position[attakc1], CQuaternion::Identity(), CVector3::One());
+	m_status[attakc1].SetclearColor(0.5f);
+	//
+	m_texture_status[defense1].CreateFromDDSTextureFromFile(L"Resource/sprite/defensu_icon.dds");
+	m_status[defense1].Init(m_texture_status[defense1].GetBody(), Statussize.x, Statussize.y);
+	m_status[defense1].Updete(m_status_position[defense1], CQuaternion::Identity(), CVector3::One());
+	m_status[defense1].SetclearColor(0.5f);
+	//
+	m_texture_status[speed1].CreateFromDDSTextureFromFile(L"Resource/sprite/speed_icon.dds");
+	m_status[speed1].Init(m_texture_status[speed1].GetBody(), Statussize.x, Statussize.y);
+	m_status[speed1].Updete(m_status_position[speed1], CQuaternion::Identity(), CVector3::One());
+	m_status[speed1].SetclearColor(0.5f);
 	//制限時間のタイマーのスタート
-	m_timer.TimerStart();
+	//m_timer.TimerStart();
 	return true;
 }
 void UI::Update()
@@ -35,6 +60,11 @@ void UI::Update()
 	//HPの遷移用にテクスチャを更新
 	m_HP_bar_waku.Updete(m_HP_waku_position, CQuaternion::Identity(), CVector3::One(), { 0.0f,1.0f });
 	m_HP_bar.Updete(m_HP_position, CQuaternion::Identity(),{m_HP- m_Damage,1.0f,1.0f}, { 0.0f,1.0f });
+	m_status_bar.Updete(m_status_bar_position, CQuaternion::Identity(), CVector3::One());
+	for (int i = 0; i < num; i++) {
+		m_status[i].Updete(m_status_position[i], CQuaternion::Identity(), CVector3::One());
+	}
+
 }
 void UI::PostDraw()
 {	
@@ -47,6 +77,16 @@ void UI::PostDraw()
 		g_camera2D.GetViewMatrix(),
 		g_camera2D.GetProjectionMatrix()
 	);
+	m_status_bar.Draw(
+		g_camera2D.GetViewMatrix(),
+		g_camera2D.GetProjectionMatrix()
+	);
+	for (int i = 0; i < num; i++) {
+		m_status[i].Draw(
+			g_camera2D.GetViewMatrix(),
+			g_camera2D.GetProjectionMatrix()
+		);
+	}
 	m_font.BeginDraw();	//フォントの描画開始。
 	static Color color;
 	wchar_t toubatu[256];
@@ -60,36 +100,6 @@ void UI::PostDraw()
 		3.0f,
 		{1.0f,0.0f}
 	);
-	//制限時間のタイマーをラップでストップさせる。
-	m_timer.TimerStop();
-	//制限時間以内ならば
-	if (m_timer.GetAllMinute() < GAMETAIM) {
-		//秒の計算をする
-		auto taim = (int)m_timer.GetAllSeconds() % 60;
-		auto col = Color::HSVtoRGB({ 150.0f / 360.0f,10.0f,1.0f });
-
-		swprintf_s(toubatu, L"残り時間%d分%d秒", (GAMETAIM -m_timer.GetAllMinute()), (60- taim));		//表示用にデータを加工
-		m_font.Draw(
-			toubatu,		//表示する文字列。
-			{ -FRAME_BUFFER_W / 2.0f,FRAME_BUFFER_H / 2.0f },			//表示する座標。0.0f, 0.0が画面の中心。
-			{ col.x,col.y,col.z,1.0f },
-			0.0f,
-			3.0f,
-			{ 0.0f,1.0f }
-		);
-	}	
-	else
-	{	//制限時間を超えていたら
-		//ゲームおーばーが発生していなければ
-		if (nullptr == g_objectManager->FindGO<Gameover>("Gameover")) {
-			//ゲームおーばを発生させる
-			g_objectManager->NewGO<Gameover>(GameObjectPriority_Gameover, "Gameover");
-			//すべての関数をストップさせ、Drawのみにする
-			g_objectManager->AllStoporComeback();
-		}
-	}
-	//タイマーを再開させる
-	m_timer.TimerRestart();
 	m_font.EndDraw();		//フォントの描画終了。
 }
 void UI::Draw()

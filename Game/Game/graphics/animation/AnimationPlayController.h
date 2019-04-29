@@ -39,8 +39,8 @@ public:
 	{
 		m_animationClip = clip;
 		m_currentKeyFrameNo = 0;
-		m_Event = false;
-		m_eventname = L"NULL";		
+		m_Event.resize(m_animationClip->GetAnimationEventlist().size());
+		m_eventname.resize(m_animationClip->GetAnimationEventlist().size());
 		m_time = 0.0f;
 		m_isPlaying = true;
 	}
@@ -91,9 +91,15 @@ public:
 	/// <returns>
 	/// trueで区間内
 	/// </returns>
-	bool IsEvent()const
+	bool IsEvent(int No = 0)const
 	{
-		return m_Event;
+		if (No <= m_Event.size()-1)
+		{
+			return m_Event[No];
+		}
+		else {
+			return false;
+		}
 	}
 	/// <summary>
 	/// イベントの名前を取得します
@@ -101,9 +107,9 @@ public:
 	/// <returns>
 	/// イベント名（NULLだとイベント外）
 	/// </returns>
-	const wchar_t* GetEventName()
+	const wchar_t* GetEventName(int No=0)
 	{
-		return m_eventname;
+		return m_eventname[No];
 	}
 private:
 	
@@ -119,6 +125,6 @@ private:
 	float					m_interpolateTime;			//!<補完時間
 	float					m_interpolateEndTime;		//!<補完終了時間
 	bool					m_isPlaying = false;		//!<再生中？
-	bool					m_Event = false;			//!<アニメーションイベントが
-	const wchar_t*			m_eventname = L"NULL";		//!<イベントの名前
+	std::vector<bool>		m_Event;					//!<アニメーションイベントが
+	std::vector<const wchar_t*>	m_eventname;			//!<イベントの名前
 };

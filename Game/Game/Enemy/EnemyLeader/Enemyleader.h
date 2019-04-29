@@ -131,9 +131,34 @@ public:
 	/// </summary>
 	void ChangeGroup_Move()
 	{
-		m_group_state = group_move;
-		m_path->Course(m_position, m_player->Get2DPosition());
-		m_nextpos = m_path->PathPos();
+		if (m_stopcount == 0) {
+			m_group_state = group_move;
+			m_path->Course(m_position, m_player->Get2DPosition());
+			m_nextpos = m_path->PathPos();
+		}
+	}
+	/// <summary>
+	/// ステートをグループでの停止に変更する
+	/// </summary>
+	void ChangeGroup_stop(int count)
+	{
+		if (count != 0) {
+			m_group_state = group_stop;
+			m_stopcount = count;
+		}
+	}
+	/// <summary>
+	/// ステートをグループでの停止に変更する
+	/// </summary>
+	void Stop_count()
+	{
+		m_stopcount--;
+		if(m_stopcount==0)
+		{
+			m_group_state = group_move;
+			m_stopcount = 0;
+		}
+
 	}
 	/// <summary>
 	/// グループ全体が生きているかどうか
@@ -187,6 +212,7 @@ private:
 	int m_remaining = 5;										//今現在のエネミー総数		
 	int m_ninzuu = 0;											//今現在のグループ状態の人数（集合時に使用）
 	bool m_life = true;											//生存フラグ
+	int m_stopcount = 0;
 	const float m_kaku = 10.0f;									//1フレームで回転させる最大角度(degree)
 	const float m_margin = CMath::DegToRad(m_kaku);				//1フレームで回転させる最大角度(radian)
 										

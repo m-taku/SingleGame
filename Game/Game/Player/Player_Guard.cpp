@@ -18,7 +18,7 @@ void Player_Guard::Update()
 
 	if (g_pad[0].IsPress(enButtonRB1))
 	{
-		m_player->ChangeAnimation(Player::defens);
+		m_player->SetAnimType(Player::defens);
 	}
 	else
 	{
