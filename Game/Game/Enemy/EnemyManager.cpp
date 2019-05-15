@@ -51,7 +51,7 @@ bool EnemyManager::Load()
 		{
 			if (0==wcscmp(name, (L"enemy_Lance"))) {
 				SpawnEnemy(objData.position, new enemy_Lance, Lance_count);
-				Lance_count++;
+				Lance_count++;	
 			}
 			else if(0==wcscmp(name, (L"enemy_hero")))
 			{

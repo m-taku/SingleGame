@@ -18,7 +18,7 @@ void Player_Die::Update()
 	if (!m_player->GetAnimationPlaying()&& m_die ==true) {
 		//死亡したのでゲームオーバーになる
 		if (nullptr == g_objectManager->FindGO<Gameover>("Gameover")) {
-			g_objectManager->NewGO<Gameover>(GameObjectPriority_Gameover, "Gameover");
+			g_objectManager->NewGO<Gameover>(GameObjectPriority_Gameover, "Gameover")->Setfra(false);
 		}
 		m_die = false;
 	}

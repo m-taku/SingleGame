@@ -9,7 +9,9 @@
 #include"Gamecamera.h"
 #include"Stage.h"
 #include"ItemManager.h"
-
+namespace {
+	int taimup = 1;
+};
 Game::Game()
 {
 }
@@ -59,14 +61,14 @@ void Game::PostDraw()
 	//制限時間のタイマーをラップでストップさせる。
 	m_timer.TimerStop();
 	//制限時間以内ならば
-	if (m_timer.GetAllMinute() < 3) {
+	if (m_timer.GetAllMinute() < taimup) {
 
 		m_font.BeginDraw();	//フォントの描画開始。
 							//秒の計算をする
 		auto taim = (int)m_timer.GetAllSeconds() % 60;
 		auto col = Color::HSVtoRGB({ 150.0f / 360.0f,10.0f,1.0f });
 
-		swprintf_s(toubatu, L"残り時間%d分%d秒", (2 - m_timer.GetAllMinute()), (60 - taim));		//表示用にデータを加工
+		swprintf_s(toubatu, L"残り時間%d分%d秒", (taimup-1 - m_timer.GetAllMinute()), (60 - taim));		//表示用にデータを加工
 		m_font.Draw(
 			toubatu,		//表示する文字列。
 			{ -FRAME_BUFFER_W / 2.0f,FRAME_BUFFER_H / 2.0f },			//表示する座標。0.0f, 0.0が画面の中心。
@@ -82,7 +84,7 @@ void Game::PostDraw()
 		//ゲームおーばーが発生していなければ
 		if (nullptr == g_objectManager->FindGO<Gameover>("Gameover")) {
 			//ゲームおーばを発生させる
-			g_objectManager->NewGO<Gameover>(GameObjectPriority_Gameover, "Gameover");
+			g_objectManager->NewGO<Gameover>(GameObjectPriority_Gameover, "Gameover")->Setfra(true);
 		}
 	}
 	//タイマーを再開させる

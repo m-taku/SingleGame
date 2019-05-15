@@ -19,10 +19,10 @@ void HitReceive::Create(const CVector3* pos, float radius, std::function<void(fl
 	m_fuk = objict;
 	m_name = name;
 }
-bool HitReceive::HitTest(CVector3 pos,float Circle,float damage)
+bool HitReceive::HitTest(CVector3 pos, float Circle, float damage)
 {
-	auto rengs = *m_pos - pos;		//円形で判定（aabb等に変更する可能性あり）
-	if (rengs.Length() <= m_radius+ Circle)
+	auto rengs = *m_pos - pos;		//球体で判定（aabb等に変更する可能性あり）
+	if (rengs.Length() <= m_radius + Circle)
 	{
 		//当たったので登録されている関数を呼ぶ
 		m_fuk(damage);

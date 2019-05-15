@@ -360,6 +360,8 @@
     <None Include="Assets\level\stage_01.tkl" />
   </ItemGroup>
   <ItemGroup>
+    <ImageContentTask Include="Assets\texture\kuraa.png" />
+    <ImageContentTask Include="Assets\texture\over.png" />
     <ImageContentTask Include="Assets\texture\attakc_icon.png" />
     <Image Include="Assets\texture\autumn003.jpg" />
     <Image Include="Assets\texture\BRICKBMP.GIF" />

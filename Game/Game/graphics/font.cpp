@@ -65,7 +65,7 @@ void Font::BeginDraw()
 	
 	m_spriteBatch->Begin(
 		DirectX::SpriteSortMode_Deferred,
-		nullptr,
+		BlendState,
 		nullptr,
 		nullptr,
 		nullptr,

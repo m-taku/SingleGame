@@ -21,7 +21,7 @@ void EnemyStateDead::Update()
 		if (m_enemy->GetStatus()->Spawnnum <= 1) 
 		{
 			if (nullptr == g_objectManager->FindGO<Gameover>("Gameover")) {
-				g_objectManager->NewGO<Gameover>(GameObjectPriority_Gameover, "Gameover");
+				g_objectManager->NewGO<Gameover>(GameObjectPriority_Gameover, "Gameover")->Setfra(true);
 			}
 		}
 		m_enemy->DeleteEnemy();

@@ -131,11 +131,9 @@ public:
 	/// </summary>
 	void ChangeGroup_Move()
 	{
-		if (m_stopcount == 0) {
-			m_group_state = group_move;
-			m_path->Course(m_position, m_player->Get2DPosition());
-			m_nextpos = m_path->PathPos();
-		}
+		m_group_state = group_move;
+		m_path->Course(m_position, m_player->Get2DPosition());
+		m_nextpos = m_path->PathPos();
 	}
 	/// <summary>
 	/// ステートをグループでの停止に変更する
@@ -194,8 +192,8 @@ private:
 	SkinModel m_model;											//インスタンシング用の描画インスタンス
 	AnimationClip m_animationclip[animnum];						//アニメーションクリップ
 	Animation m_animation;										//アニメーションのインスタンス
-	State m_state = { group_stop };								//グループの今の状態
-	State m_group_state = { group_stop };						//グループでの今の状態
+	State m_state = { group_move };								//グループの今の状態
+	State m_group_state = { group_move };						//グループでの今の状態
 	Ability* m_Status = nullptr;								//ステータスのインスタンス
 	Score* m_Score = nullptr;									//スコア集計クラスのインスタンス
 	Path* m_path=nullptr;									    //経路探査用のインスタンス

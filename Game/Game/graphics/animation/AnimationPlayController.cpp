@@ -58,8 +58,8 @@ void AnimationPlayController::Update(float deltaTime, Animation* animation)
 	}
 	//ここからアニメーションイベントの判定処理
 	auto Eventlist = m_animationClip->GetAnimationEventlist();
-	//アニメーションイベントが２つ以上あれば
-	if (Eventlist.size() >= 1) {
+	//アニメーションイベントが1つ以上あれば
+	if (Eventlist.size() >0) {
 		for (int No = 0; No < Eventlist.size();No++) {
 			m_Event[No]= false;
 			for (int i = 0; i < Eventlist[No]->GetDateSize(); i++) {

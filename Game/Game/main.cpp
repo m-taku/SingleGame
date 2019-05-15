@@ -44,7 +44,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	float m_fps = 0.0f;
 	g_objectManager = new GameobjectManager();
 	g_physics.SetDebugDrawMode(btIDebugDraw::DBG_DrawWireframe);
-	auto tittle = g_objectManager->NewGO<title>(5,"title");
+	auto tittle = g_objectManager->NewGO<title>(GameObjectPriority_ta,"title");
 	int debak = 0;
 	while (DispatchWindowMessage() == true)
 	{

@@ -4,7 +4,7 @@
 /// 簡易な当たり判定
 /// </summary>
 namespace time1 {
-	class HitObjict 
+	class HitObjict
 	{
 	public:
 		/// <summary>
@@ -39,12 +39,32 @@ namespace time1 {
 			m_objict.push_back(ka);
 			return ka;
 		}
-		bool HitTest(CVector3 pos,float Circle, float damage, HitReceive::objict_Name name)
+		/// <summary>
+		/// 当たり判定の発生（球）
+		/// </summary>
+		/// <param name="pos">
+		/// 当たり判定の中心座標
+		/// </param>
+		/// <param name="Circle">
+		/// 当たり判定の球の大きさ
+		/// </param>
+		/// <param name="damage">
+		/// 与えたいダメージの量
+		/// </param>
+		/// <param name="name">
+		/// 当てたい対象
+		/// </param>
+		/// <returns>
+		/// 当たったらtrue
+		/// </returns>
+		bool HitTest(CVector3 pos, float Circle, float damage, HitReceive::objict_Name name)
 		{
 			bool furag = false;
 			for (auto hit : m_objict)
 			{
+				//当てたい物体を検索する
 				if (hit->Getobjict_Name() == name) {
+					//当たり判定を行う。
 					if (hit->HitTest(pos, Circle, damage)) {
 						furag = true;
 					}

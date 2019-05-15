@@ -26,6 +26,10 @@ public:
 	/// 
 	/// </summary>
 	void Stop()override;
+	void Setfra(bool k)
+	{
+		m_fur = k;
+	}
 	/// <summary>
 	/// Gameobjectから継承したDraw関数
 	/// </summary>
@@ -35,6 +39,6 @@ private:
 	sprite m_over_font;											//ゲームおーばの文字のインスタンス
 	CVector3 m_pos = { 0.0f,1000.0f,0.0f };						//ゲームおーばの文字の位置
 	Fade m_fade;												//フェードクラスのインスタンス
-
+	bool m_fur;
 };
 

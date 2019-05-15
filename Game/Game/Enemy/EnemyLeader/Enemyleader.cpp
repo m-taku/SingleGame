@@ -46,7 +46,9 @@ bool Enemyleader::Load()
 	else {
 		m_remaining = m_Status->Spawnnum;
 		m_path = new Path;
-		ChangeGroup_Move();
+		if (m_stopcount <= 0) {
+			ChangeGroup_Move();
+		}
 		wchar_t moveFilePath[256];
 		swprintf_s(moveFilePath, L"Assets/modelData/%s.cmo", m_Status->m_CharaName.c_str());
 		m_model.Init(moveFilePath, m_remaining);
@@ -99,6 +101,7 @@ void Enemyleader::Update()
 			ChangeSteat(person);
 		}
 		else {
+			m_movespeed = CVector3::Zero();
 			for (auto enemy : m_enemy) {
 				m_model.UpdateInstancingData(enemy->Get2DPosition() + m_movespeed, CQuaternion::Identity(),CVector3::One());
 				enemy->SetPosition(enemy->Get2DPosition() + m_movespeed);

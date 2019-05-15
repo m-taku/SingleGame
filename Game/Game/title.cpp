@@ -13,7 +13,7 @@ title::~title()
 bool title::Load()
 {
 	//サウンドのロード
-	m_bgmA.Init(L"Assets/sound/coinGet.wav");
+	m_bgmA.Init(L"Assets/sound/taitor.wav");
 	m_bgmA.Play(true);
 	//タイトルのスプライトのデータをロードする。
 	m_texture_moji.CreateFromDDSTextureFromFile(L"Resource/sprite/taitoru.dds");
@@ -63,6 +63,7 @@ void title::Update()
 		case Fade::fadein:
 			//フェードが完了し見えない状態になっているので
 			//ゲーム読み込みをスタートさせる
+			m_bgmA.Stop();
 			g_objectManager->NewGO<Game>(GameObjectPriority_Game,"Game");
 			//タイトルのスプライトを透明にし見えないようにする。
 			m_title_moji.SetclearColor(0.0f);

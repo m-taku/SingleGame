@@ -753,6 +753,8 @@
     <Image Include="Assets\texture\damage.png">
       <Filter>Assets\texture</Filter>
     </Image>
+    <Image Include="Assets\texture\over.png" />
+    <Image Include="Assets\texture\kuraa.png" />
   </ItemGroup>
   <ItemGroup>
     <ImageContentTask Include="Assets\texture\HP_Player.png">
