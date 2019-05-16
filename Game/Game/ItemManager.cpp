@@ -13,7 +13,7 @@ bool ItemManager::Load()
 {
 	if (nullptr != g_objectManager->FindGO<Player>("player"))
 	{
-		SpawnItem({ 100.0f,100.0f,0.0f });
+		//SpawnItem({ 100.0f,100.0f,0.0f });
 		return true;
 	}
 	return false;

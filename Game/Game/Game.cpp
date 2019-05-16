@@ -10,7 +10,7 @@
 #include"Stage.h"
 #include"ItemManager.h"
 namespace {
-	int taimup = 1;
+	int taimup = 3;
 };
 Game::Game()
 {
