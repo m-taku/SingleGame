@@ -21,6 +21,8 @@ UI::~UI()
 }
 bool UI::Load()
 {
+	m_font.SetFont(new DirectX::SpriteFont(g_graphicsEngine->GetD3DDevice(), L"Assets/font/myfile2.spritefont"));
+	m_font.SetFont(new DirectX::SpriteFont(g_graphicsEngine->GetD3DDevice(), L"Assets/font/myfile5.spritefont"));
 	//プレイヤーのHP用のデータをロード
 	m_Texture_bar_waku.CreateFromDDSTextureFromFile(L"Resource/sprite/HP_Player_waku.dds");
 	m_HP_bar_waku.Init(m_Texture_bar_waku.GetBody(), Hpbarsize.x, Hpbarsize.y);
@@ -88,6 +90,7 @@ void UI::PostDraw()
 		);
 	}
 	m_font.BeginDraw();	//フォントの描画開始。
+	static float kaku = 1.0f;
 	static Color color;
 	wchar_t toubatu[256];
 	swprintf_s(toubatu, L"%d討伐！！",m_Score->GetNum());	//スコアのクラスからデータを抽出し表示する。
@@ -95,11 +98,12 @@ void UI::PostDraw()
 	m_font.Draw(
 		toubatu,		//表示する文字列。
 		{ FRAME_BUFFER_W / 2.0f,-FRAME_BUFFER_H / 2.0f },			//表示する座標。0.0f, 0.0が画面の中心。
-		Col,//{ 0.0f,0.0f,0.0f,1.0f },
+		Col,
 		0.0f,
-		3.0f,
+		kaku,
 		{1.0f,0.0f}
 	);
+	kaku += 0.01f;
 	m_font.EndDraw();		//フォントの描画終了。
 }
 void UI::Draw()

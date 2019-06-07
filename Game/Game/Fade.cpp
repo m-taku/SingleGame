@@ -6,7 +6,7 @@ Fade::Fade()
 {
 	//フェード用のデータを読み込み
 	m_texture_fade.CreateFromDDSTextureFromFile(L"Resource/sprite/White.dds");
-	m_fadeSprite.Init(m_texture_fade.GetBody(), 1280.0f, 720.0f); 
+	m_fadeSprite.Init(m_texture_fade.GetBody(), FRAME_BUFFER_W, FRAME_BUFFER_H);
 	m_fadeSprite.SetclearColor(0.0f);
 }
 

@@ -21,7 +21,9 @@ public:
 	/// </param>
 	void SetFont(DirectX::SpriteFont* font)
 	{
-		delete m_spriteFont;
+		if (m_spriteFont != g_graphicsEngine->GetSpriteFont()) {
+			delete m_spriteFont;
+		}
 		m_spriteFont = font;
 	}
 	/// <summary>

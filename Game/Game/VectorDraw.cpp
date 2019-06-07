@@ -32,10 +32,10 @@ void VectorDraw::Update(CVector3 posotion, CVector3 Vector, float power)
 	//}
 	//else
 	//{
+	//}
 	//	CQuaternion hoge;
 	//	hoge.SetRotationDeg(CVector3::AxisX()*-1, kakuo2);
 	//	Rot.Multiply(hoge);
-	//}
 	m_position = posotion;
 	m_vector.UpdateWorldMatrix(m_position, Rot, { 5.0f,Power*1.0f,1.0f });
 }

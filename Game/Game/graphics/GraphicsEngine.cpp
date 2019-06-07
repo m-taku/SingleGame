@@ -256,10 +256,11 @@ void GraphicsEngine::Init(HWND hWnd)
 
 	}
 	m_pd3dDeviceContext->RSSetState(m_rasterizerState);
+
 	m_SpriteBatch = new DirectX::SpriteBatch(m_pd3dDeviceContext);
 	m_SpriteFont = new DirectX::SpriteFont(m_pd3dDevice, L"Assets/font/floay.spritefont");
 	m_mainTarget.Create(FRAME_BUFFER_W,FRAME_BUFFER_H, DXGI_FORMAT_R16G16B16A16_FLOAT);
-	m_mainSRV.Init(m_mainTarget.GetRenderTargetSRV(), 1280.0f, 720.0f);
+	m_mainSRV.Init(m_mainTarget.GetRenderTargetSRV(), FRAME_BUFFER_W, FRAME_BUFFER_H);
 	m_posteffec = new PostEffect;
 	m_shadowmap = new ShadowMap;
 	m_shadowmap->UpdateFromLightTarget({ 00.0f, 1000.0f, 0.0f },{ 0.0f, 0.0f, 0.0f });

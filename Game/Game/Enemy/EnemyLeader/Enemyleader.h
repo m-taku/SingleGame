@@ -188,6 +188,15 @@ public:
 	{
 		m_Score = score;
 	}
+	void da()
+	{
+		//for (auto enemy : m_enemy) {
+		//	m_model.UpdateInstancingData(enemy->Get2DPosition(), m_angle, CVector3::One());
+		//	enemy->SetPosition(enemy->Get2DPosition() + m_movespeed);
+		//	enemy->SetAngle(m_angle);
+		//	enemy->ChangeColliderPosition(enemy->Get2DPosition());
+		//}
+	}
 private:
 	SkinModel m_model;											//インスタンシング用の描画インスタンス
 	AnimationClip m_animationclip[animnum];						//アニメーションクリップ

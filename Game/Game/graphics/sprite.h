@@ -59,6 +59,32 @@ public:
 										「{0.0f,1.0f}(左上)」
 	*/
 	void Updete(const CVector3& position, const CQuaternion& rot, const CVector3& scale, const CVector2& pivot = {0.5f,0.5f});
+	/*
+	*@brief	    アップデート
+	*@param[in]	position		ポジション
+	*@param[in]	rot				回転
+	*@param[in]	scale			拡大率
+	*@param[in] pivot			ピボット「｛0.5ｆ,0.5ｆ}(中央）」変えたければ書く
+	「{1.0f,0.0f}(右下)」
+	「{0.0f,0.0f}(左下)」
+	「{1.0f,1.0f}(右上)」
+	「{0.0f,1.0f}(左上)」
+	*@param[in] scalepivot		拡大でピボットを変えたければ書く（基本ピボットは１つ）
+	*/
+	void Updete(const CVector3& position, const CMatrix& rot, const CVector3& scale, const CVector2& pivot = { 0.5f,0.5f });
+	/*
+	*@brief	    アップデート(拡大でピボットを変えたい場合のみ呼んでください)
+	*@param[in]	position		ポジション
+	*@param[in]	rot				回転
+	*@param[in]	scale			拡大率
+	*@param[in] scalepivot		拡大でのピボット
+	*@param[in] pivot			ピボット「｛0.5ｆ,0.5ｆ}(中央）」変えたければ書く
+	「{1.0f,0.0f}(右下)」
+	「{0.0f,0.0f}(左下)」
+	「{1.0f,1.0f}(右上)」
+	「{0.0f,1.0f}(左上)」
+	*/
+	void Updete_2pivots(const CVector3& position, const CMatrix& rot, const CVector3& scale, const CVector2& scalepivot = { 0.5f,0.5f }, const CVector2& pivot = { 0.5f,0.5f });
 	/*!
 	*@brief	描画
 	*@param[in]	viewMatrix		ビュー行列。
@@ -80,6 +106,14 @@ public:
 	void SetclearColor(float clear)
 	{
 		m_mulColor.w = clear;
+	}	
+	/*!
+	*@brief	透明度だけいじる121312
+	*@param[in]	clear		　透明度（0.0ｆ～1.0ｆ）
+	*/
+	void setworld(CMatrix pos)
+	{
+		m_world.Mul(m_world,pos);
 	}
 private:
 	ID3D11ShaderResourceView*	    m_textureSRV = nullptr;							//!<テクスチャ。

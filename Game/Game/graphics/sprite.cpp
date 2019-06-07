@@ -76,6 +76,59 @@ void sprite::Updete(const CVector3& position, const CQuaternion& rot, const CVec
 	m_world.Mul(m_world, mRot);
 	m_world.Mul(m_world, mTrans);
 }
+void sprite::Updete(const CVector3& position, const CMatrix& rot, const CVector3& scale, const CVector2& pivot)
+{
+	CVector2 Pivot = pivot;
+	Pivot.x -= 0.5f;
+	Pivot.y -= 0.5f;
+	Pivot.x *= -2.0f;
+	Pivot.y *= -2.0f;
+	CMatrix mPivotTrans;
+
+	mPivotTrans.MakeTranslation(
+		{ Pivot.x * half_size.x, Pivot.y * half_size.y, 0.0f }
+	);
+	CMatrix mTrans, mRot, mScale;
+	mTrans.MakeTranslation(position);
+	mScale.MakeScaling(scale);
+	m_world.Mul(mPivotTrans, mScale);
+	//ma.Mul(mPivotTrans, mScale);
+	m_world.Mul(m_world, rot);
+	m_world.Mul(m_world, mTrans);
+
+}
+void sprite::Updete_2pivots(const CVector3& position, const CMatrix& rot, const CVector3& scale, const CVector2& scalepivot, const CVector2& pivot)
+{
+	CVector2 Pivot = scalepivot;
+	Pivot.x -= 0.5f;
+	Pivot.y -= 0.5f;
+	Pivot.x *= -2.0f;
+	Pivot.y *= -2.0f;
+	CMatrix mPivotTrans;
+
+	mPivotTrans.MakeTranslation(
+		{ Pivot.x * half_size.x, Pivot.y * half_size.y, 0.0f }
+	);
+	CMatrix mTrans, mRot, mScale;
+	mTrans.MakeTranslation(position);
+	mScale.MakeScaling(scale);
+	m_world.Mul(mPivotTrans, mScale);
+	mPivotTrans.MakeTranslation(
+		{ -Pivot.x* half_size.x, -Pivot.y* half_size.y, 0.0f }
+	);
+	m_world.Mul(m_world, mPivotTrans);
+	CVector2 rotPivot = pivot;
+	rotPivot.x -= 0.5f;
+	rotPivot.y -= 0.5f;
+	rotPivot.x *= -2.0f;
+	rotPivot.y *= -2.0f;
+	mPivotTrans.MakeTranslation(
+		{ rotPivot.x * half_size.x, rotPivot.y * half_size.y, 0.0f }
+	);
+	m_world.Mul(m_world, mPivotTrans);
+	m_world.Mul(m_world, rot);
+	m_world.Mul(m_world, mTrans);
+}
 
 void sprite::Draw(const CMatrix& viewMatrix, const CMatrix& projMatrix)
 {

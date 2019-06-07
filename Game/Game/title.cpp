@@ -17,10 +17,10 @@ bool title::Load()
 	m_bgmA.Play(true);
 	//タイトルのスプライトのデータをロードする。
 	m_texture_moji.CreateFromDDSTextureFromFile(L"Resource/sprite/taitoru.dds");
-	m_title_haikei.Init(m_texture_moji.GetBody(), 1280.0f, 720.0f);
+	m_title_haikei.Init(m_texture_moji.GetBody(), FRAME_BUFFER_W, FRAME_BUFFER_H);
 	m_title_haikei.Updete(CVector3::Zero(), CQuaternion::Identity(), CVector3::One());
 	m_texture_haikei.CreateFromDDSTextureFromFile(L"Resource/sprite/yellow.dds");
-	m_title_moji.Init(m_texture_haikei.GetBody(), 1280.0f, 720.0f);
+	m_title_moji.Init(m_texture_haikei.GetBody(), FRAME_BUFFER_W, FRAME_BUFFER_H);
 	m_title_moji.Updete(CVector3::Zero(), CQuaternion::Identity(), CVector3::One());
 	//タイトルの矢印用のデータをロードする。
 	m_texture_yaji.CreateFromDDSTextureFromFile(L"Resource/sprite/yaji.dds");							//タイトルの矢印用のリソース

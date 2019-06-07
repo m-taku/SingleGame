@@ -19,6 +19,7 @@ Font::Font()
 
 Font::~Font()
 {
+	delete m_spriteFont;
 }
 void Font::BeginDraw()
 {

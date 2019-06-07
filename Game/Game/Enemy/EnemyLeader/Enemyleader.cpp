@@ -103,11 +103,10 @@ void Enemyleader::Update()
 		else {
 			m_movespeed = CVector3::Zero();
 			for (auto enemy : m_enemy) {
-				m_model.UpdateInstancingData(enemy->Get2DPosition() + m_movespeed, CQuaternion::Identity(),CVector3::One());
+				m_model.UpdateInstancingData(enemy->Get2DPosition(), CQuaternion::Identity(),CVector3::One());
 				enemy->SetPosition(enemy->Get2DPosition() + m_movespeed);
 				enemy->SetAngle(m_angle);
 				enemy->ChangeColliderPosition(enemy->Get2DPosition());
-				m_state = m_group_state;
 			}
 			g_graphicsEngine->SetShadoCaster(&m_model);
 			m_model.SetShadowReciever(true);
@@ -127,13 +126,7 @@ void Enemyleader::Update()
 			m_stopcount = 0;
 		}
 		else {
-			for (auto enemy : m_enemy) {
-				m_model.UpdateInstancingData(enemy->Get2DPosition(), m_angle, CVector3::One());
-				enemy->SetPosition(enemy->Get2DPosition() + m_movespeed);
-				enemy->SetAngle(m_angle);
-				enemy->ChangeColliderPosition(enemy->Get2DPosition());
-				m_state = m_group_state;
-			}
+
 			g_graphicsEngine->SetShadoCaster(&m_model);
 			m_model.SetShadowReciever(true);
 			m_animation.Play(walk, 0.2f);

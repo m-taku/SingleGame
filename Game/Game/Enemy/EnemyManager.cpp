@@ -40,33 +40,33 @@ bool EnemyManager::Load()
 	int nait_count = 0;
 	level.Init(moveFilePath, [&](LevelObjectData objData)
 	{
-
 		auto name = objData.name;
 		auto No = wcscmp(name, (L"Bricks"));
 		if (No == 0) {
 			m_spawnpos.push_back(objData.position);
-			return true;
 		}
-		else
-		{
-			if (0==wcscmp(name, (L"enemy_Lance"))) {
+		else if (0 == wcscmp(name, (L"enemy_Lance"))) {
+			if (Lance_count <= 0) {
 				SpawnEnemy(objData.position, new enemy_Lance, Lance_count);
-				Lance_count++;	
+				Lance_count++;
 			}
-			else if(0==wcscmp(name, (L"enemy_hero")))
-			{
-				SpawnEnemy(objData.position, new enemy_hero, hero_count);
-				hero_count++;
-			}
-			else if (0==wcscmp(name, (L"enemy_nait")))
-			{
+		}
+		else if (0 == wcscmp(name, (L"enemy_hero")))
+		{
+			//SpawnEnemy(objData.position, new enemy_hero, hero_count);
+			hero_count++;
+		}
+		else if (0 == wcscmp(name, (L"enemy_nait")))
+		{
+			if (nait_count >= 0) {
 				SpawnEnemy(objData.position, new enemy_nait, nait_count);
 				nait_count++;
 			}
-			return true;
 		}
+		return true;
 	});
 	return true;
+	
 }
 void EnemyManager::Update()
 {
@@ -80,9 +80,9 @@ void EnemyManager::Update()
 		if (m_Maxsporn >= m_enemy.size()) {
 
 				m_No = ++m_No % m_spawnpos.size();
-				SpawnEnemy(m_spawnpos[m_No], new enemy_hero);	//スポーン
+				//SpawnEnemy(m_spawnpos[m_No], new enemy_hero);	//スポーン
 		}
-		m_timer->TimerStart();	
+		m_timer->TimerStart();
 		for (auto enemy : m_enemy)
 		{
 			enemy->Stop_count();

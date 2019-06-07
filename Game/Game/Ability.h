@@ -19,6 +19,7 @@ public:
 	{
 
 	}
+	virtual void Individuality() {};
 	float m_HP = 10.0f;					    //Œ»İ‚ÌHP
 	float m_Attack = 10.0f;					//Šî–{‚ÌUŒ‚—Í
 	float m_Defense = 10.0f;				//Šî–{‚Ìç”õ—Í

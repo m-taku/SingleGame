@@ -18,6 +18,15 @@ public:
 		return m_viewMatrix;
 	}
 	/*!
+	* @brief	カメラ行列の回転成分の逆行列を取得。
+	*/
+	CMatrix GetView_rotation_Matrix()
+	{
+		auto m = m_view_rotation_Matrix;
+		m.Inverse(m);
+		return m;
+	}
+	/*!
 	 * @brief	プロジェクション行列を取得。
 	 */
 	CMatrix GetProjectionMatrix()
@@ -100,6 +109,7 @@ public:
 	}
 private:
 	CMatrix	m_viewMatrix = CMatrix::Identity();		//ビュー行列。
+	CMatrix	m_view_rotation_Matrix = CMatrix::Identity();	//ビュー行列の回転成分のみ
 	CMatrix m_projMatrix = CMatrix::Identity();		//プロジェクション行列。
 	CMatrix m_viewProjectionMatrix = CMatrix::Identity();
 	CVector3 m_target = CVector3::Zero();			//注視点。

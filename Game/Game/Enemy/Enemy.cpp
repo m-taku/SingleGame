@@ -47,8 +47,8 @@ void Enemy::InitTex()
 {
 	m_texture_hp.CreateFromDDSTextureFromFile(L"Resource/sprite/HP.dds");
 	m_texture_fram.CreateFromDDSTextureFromFile(L"Resource/sprite/HP_waku.dds");
-	m_Sprite_hp.Init(m_texture_hp.GetBody(), 100.0f, 25.0f);
-	m_Sprite_fram.Init(m_texture_fram.GetBody(), 100.0f, 25.0f);
+	m_Sprite_hp.Init(m_texture_hp.GetBody(), 18.0f, 8.0f);
+	m_Sprite_fram.Init(m_texture_fram.GetBody(), 20.0f, 10.0f);
 }
 void Enemy::InitAnim()
 {
@@ -146,7 +146,7 @@ void Enemy::Update()
 }
 void Enemy::postDraw()
 {
-	DrawDebugVector();
+	//DrawDebugVector();
 	HP_Draw();
 }
 void Enemy::Draw()
@@ -157,7 +157,6 @@ void Enemy::Draw()
 		g_camera3D.GetViewMatrix(),
 		g_camera3D.GetProjectionMatrix()
 	);
-
 	m_debugVecor->Draw();
 }
 void Enemy::DrawDebugVector()
@@ -180,8 +179,13 @@ void Enemy::DrawDebugVector()
 void Enemy::HP_Draw()
 {
 	auto la = m_position;
-	la.y += 150.0f;
-	m_Sprite_hp.Updete(la, m_Sprite_angle, { m_HP/m_Status->m_HP,1.0f ,1.0f });
+	la.y += 100.0f;
+	m_Sprite_hp.Updete(la, g_camera3D.GetView_rotation_Matrix(), { (m_HP / m_Status->m_HP),1.0f ,1.0f }, { 0.5f,0.5f });
+	m_Sprite_fram.Updete(la, g_camera3D.GetView_rotation_Matrix(), { 1.0f,1.0f ,1.0f }, { 0.5f,0.5f });
+	m_Sprite_fram.Draw(
+		g_camera3D.GetViewMatrix(),
+		g_camera3D.GetProjectionMatrix()
+	);
 	m_Sprite_hp.Draw(
 		g_camera3D.GetViewMatrix(),
 		g_camera3D.GetProjectionMatrix()

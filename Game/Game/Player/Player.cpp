@@ -119,7 +119,7 @@ void Player::Update()
 	m_movespeed.x = m_Front.x * m_plyerStatus->m_Speed*m_speed;
 	m_movespeed.z = m_Front.z * m_plyerStatus->m_Speed*m_speed;
 	m_movespeed.y -= GRAVITY;
-	if(g_pad[0].IsTrigger(enButtonA))
+	if(g_pad[0].IsTrigger(enButtonA)&& m_collider.IsOnGround())
 	{
 		m_movespeed.y = 500.0f;
 	}
