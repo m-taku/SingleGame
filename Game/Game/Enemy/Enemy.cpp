@@ -18,7 +18,7 @@ Enemy::~Enemy()
 }
 bool Enemy::Load()
 {
-	//cmoファイルの読み込み。
+	//cmoファイルの読み込み
 	InitAnim();
 	m_collider.Init(20.0f, 60.0f, m_position);
 	InitTex();
@@ -34,7 +34,7 @@ bool Enemy::Load()
 	//m_position.y = 0.0f;
 	m_model.UpdateWorldMatrix(m_position, m_angle, CVector3::One());
 	m_bgmA.Init(L"Assets/sound/gameag.wav");
-	m_obj = GetHitObjict().Create(&m_position, 100.0f,
+	m_obj = GetHitObjict().Create(&m_position, 50.0f,
 		[&](int damage) 
 	{
 		Hit(damage);
@@ -56,6 +56,7 @@ void Enemy::InitAnim()
 	//モデルのロード
 	swprintf_s(moveFilePath, L"Assets/modelData/%s.cmo", m_Status->m_CharaName.c_str());
 	m_model.Init(moveFilePath);
+	//アニメーションのロード
 	swprintf_s(moveFilePath, L"Assets/animData/%s_idle.tka", m_Status->m_CharaName.c_str());
 	m_animationclip[idle].Load(moveFilePath);
 	m_animationclip[idle].SetLoopFlag(true);	
@@ -98,19 +99,19 @@ void Enemy::TransitionState(State m_state)
 	switch (m_state)
 	{
 	case State_Move:
-		m_enemystate = new EnemyStateMove(this, m_player);
+		m_enemystate = new EnemyStateMove(this, &m_player->Get3DPosition());
 		break;
 	case State_Attack:
-		m_enemystate = new EnemyStateAttack(this, m_player);
+		m_enemystate = new EnemyStateAttack(this, &m_player->Get3DPosition());
 		break;
 	case State_Gathering:
-		m_enemystate = new EnemyStategathering(this, m_player);
+		m_enemystate = new EnemyStategathering(this, &m_player->Get3DPosition());
 		break;
 	case State_Hit:
-		m_enemystate = new EnemyStateHit(this, m_player);
+		m_enemystate = new EnemyStateHit(this, &m_player->Get3DPosition());
 		break;
 	case State_Dead:
-		m_enemystate = new EnemyStateDead(this, m_player);
+		m_enemystate = new EnemyStateDead(this, &m_player->Get3DPosition());
 		break;
 	default:
 		break;
@@ -123,12 +124,17 @@ void Enemy::Update()
 	m_enemystate->Update();
 	//ワールド行列の更新。	
 	m_Rot.MakeRotationFromQuaternion(m_angle);
+	m_Right.x = m_Rot.m[0][0];
+	m_Right.y = m_Rot.m[0][1];
+	m_Right.z = m_Rot.m[0][2];
+	//m_Right.y = 0.0f;
 	m_Front.x = m_Rot.m[2][0];
 	m_Front.y = m_Rot.m[2][1];
 	m_Front.z = m_Rot.m[2][2];
-	m_Front.y = 0.0f;
+	//m_Front.y = 0.0f;
 	m_Front.Normalize();
-	m_moveVector = m_Front * m_speed;
+	m_moveVector.x = m_Front.x * m_speed;
+	m_moveVector.z = m_Front.z * m_speed;
 	m_moveVector.y -= GRAVITY;
 	m_position = m_collider.Execute(GetTime().GetFrameTime(), m_moveVector);
 	CVector3 distance = m_player->Get2DPosition() - Get2DPosition();
@@ -151,8 +157,8 @@ void Enemy::postDraw()
 }
 void Enemy::Draw()
 {
-	m_model.UpdateWorldMatrix(m_position, m_angle, CVector3::One());
 	m_animation.Update(GetTime().GetFrameTime());
+	m_model.UpdateWorldMatrix(m_position, m_angle, CVector3::One());
 	m_model.Draw(
 		g_camera3D.GetViewMatrix(),
 		g_camera3D.GetProjectionMatrix()
@@ -180,7 +186,7 @@ void Enemy::HP_Draw()
 {
 	auto la = m_position;
 	la.y += 100.0f;
-	m_Sprite_hp.Updete(la, g_camera3D.GetView_rotation_Matrix(), { (m_HP / m_Status->m_HP),1.0f ,1.0f }, { 0.5f,0.5f });
+	m_Sprite_hp.Updete_2pivots(la, g_camera3D.GetView_rotation_Matrix(), { (m_HP / m_Status->m_HP),1.0f ,1.0f }, { 1.0f,0.5f });
 	m_Sprite_fram.Updete(la, g_camera3D.GetView_rotation_Matrix(), { 1.0f,1.0f ,1.0f }, { 0.5f,0.5f });
 	m_Sprite_fram.Draw(
 		g_camera3D.GetViewMatrix(),
@@ -249,9 +255,12 @@ void Enemy::Hit(float damage)
 		m_mutekitaim = 0;
 		if (m_HP <= 0.01f)
 		{
+			m_moveVector.y = 600.0f;
 			TransitionState(State_Dead);
+			m_mutekitaim = -1000000.0f;
 		}
 		else {
+			m_moveVector.y = 200.0f;
 			m_bgmA.Play(false);
 			TransitionState(State_Hit);
 		}

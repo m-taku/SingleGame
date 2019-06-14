@@ -45,7 +45,7 @@ bool Player::Load()
 	m_model.UpdateWorldMatrix(m_position, m_rotation, {1.0f,1.0f,1.0f});
 	GetHitObjict().Create(
 		&m_position, 
-		150.0f, 
+		PLAYER_RADIUS,
 		[&](float damage)
 	{ 
 		Hit(damage);
@@ -65,6 +65,9 @@ void Player::TransitionState(State m_state)
 	{
 	case State_Attack:
 		m_State = new Player_Attack(this);
+		break;
+	case State_Special:
+		m_State = new Player_Special(this);
 		break;
 	case State_Move:
 		m_State = new Player_Move(this);
@@ -88,7 +91,7 @@ void Player::InitAnimation()
 {
 	m_animationclip[ded].Load(L"Assets/animData/pla_ded1.tka");
 	m_animationclip[ded].SetLoopFlag(false);
-	m_animationclip[attack].Load(L"Assets/animData/pla_ateec.tka");
+	m_animationclip[attack].Load(L"Assets/animData/pla_Speciattack.tka");
 	m_animationclip[attack].SetLoopFlag(false);
 	m_animationclip[defens].Load(L"Assets/animData/pla_defens1.tka");
 	m_animationclip[defens].SetLoopFlag(false);
@@ -119,10 +122,10 @@ void Player::Update()
 	m_movespeed.x = m_Front.x * m_plyerStatus->m_Speed*m_speed;
 	m_movespeed.z = m_Front.z * m_plyerStatus->m_Speed*m_speed;
 	m_movespeed.y -= GRAVITY;
-	if(g_pad[0].IsTrigger(enButtonA)&& m_collider.IsOnGround())
-	{
-		m_movespeed.y = 500.0f;
-	}
+	//if(g_pad[0].IsTrigger(enButtonA)&& m_collider.IsOnGround())
+	//{
+	//	m_movespeed.y = 500.0f;
+	//}
 	m_position = m_collider.Execute(GetTime().GetFrameTime(), m_movespeed);
 	g_graphicsEngine->SetShadoCaster(&m_model);
 	m_model.SetShadowReciever(true);
@@ -130,15 +133,15 @@ void Player::Update()
 	auto ritpos = m_position;
 	CVector3 m = { -707.0f,707.0f, 0.0f };
 	ritpos.x += m.x;
-	ChangeAnimation(m_animtype);
+	//ChangeAnimation(m_animtype);
 	ritpos.y += m.y;
 	g_graphicsEngine->GetShadowMap()->UpdateFromLightTarget(ritpos, m_position);
-	m_model.UpdateWorldMatrix(m_position, m_rotation, { 1.0f,1.0f,1.0f });
 	ItemTimeUpdate();
-
+	ChangeAnimation(m_animtype);
+	m_model.UpdateWorldMatrix(m_position, m_rotation, { 1.0f,1.0f,1.0f });
 }
 void Player::Draw()
-{	
+{
 	m_debugVector->Draw();
 	m_model.Draw(
 		g_camera3D.GetViewMatrix(), 

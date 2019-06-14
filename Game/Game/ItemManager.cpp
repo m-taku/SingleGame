@@ -13,7 +13,6 @@ bool ItemManager::Load()
 {
 	if (nullptr != g_objectManager->FindGO<Player>("player"))
 	{
-		//SpawnItem({ 100.0f,100.0f,0.0f });
 		return true;
 	}
 	return false;
@@ -32,7 +31,7 @@ void ItemManager::OnDestroy()
 }
 void ItemManager::Update()
 {
-	for (auto k=m_item.begin(); k != m_item.end();)
+	for (auto k = m_item.begin(); k != m_item.end();)
 	{
 		if ((*k)->Update())
 		{

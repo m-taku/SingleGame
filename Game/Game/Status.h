@@ -41,10 +41,10 @@ struct enemy_nait : public Ability
 		SetSpawnnum(Spawnnum);
 	}
 	float HP = 30.0f;						//基本のHP
-	float Attack = 50.0f;					//基本の攻撃力
+	float Attack = 30.0f;					//基本の攻撃力
 	float Defense = 19.0f;					//基本の守備力
 	float Speed = 50.0f;					//基本のスピード
-	int Spawnnum = 1;						//初期スポーンの数
+	int Spawnnum = 3;						//初期スポーンの数
 	wchar_t* Name = L"enemy_nait";     		//ステータスを適応するモデルの名前
 };
 /// <summary>

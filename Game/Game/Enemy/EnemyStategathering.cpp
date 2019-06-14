@@ -1,11 +1,11 @@
 #include "stdafx.h"
 #include "EnemyStategathering.h"
 #include"Enemy.h"
-EnemyStategathering::EnemyStategathering(Enemy* enamy, Player* player) :EnemyState(enamy, player)
+EnemyStategathering::EnemyStategathering(Enemy* enamy,const CVector3* pos) :EnemyState(enamy, pos)
 {
 	//Œo˜H’T¸
 	m_path = m_enemy->CopyPath();
-	m_path->Course(m_enemy->GetLeaderPosition(), m_enemy->Get3DPosition());
+	m_path->Course(m_enemy->Get3DPosition(),m_enemy->GetLeaderPosition());
 	m_nextpos = m_path->PathPos();
 }
 
@@ -38,7 +38,7 @@ void EnemyStategathering::Update()
 		if (m_nextpos.x == m_oldposition.x&&m_nextpos.y == m_oldposition.y&&m_nextpos.z == m_oldposition.z)
 		{
 			//‚à‚µ‚àI“_‚È‚ç‚Î’Tõ‚µ‚È‚¨‚·
-			m_path->Course(m_enemy->Get2DPosition(), m_player->Get2DPosition());
+			m_path->Course(m_enemy->Get2DPosition(), m_enemy->GetLeaderPosition());
 			m_nextpos = m_path->PathPos();
 		}
 		m_oldposition = m_nextpos;

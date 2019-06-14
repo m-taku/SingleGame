@@ -33,7 +33,7 @@ private:
 	CVector3 m_Swordcenter = CVector3::Zero();				//移動後の剣の中心ポジション
 	CVector3 m_Up;											//手の上方向ベクトル
 	bool m_combo = false;									//コンボの判定
-	//Effekseer::Effect* m_sampleEffect = nullptr;			//エフェクトの実態のポインタ（？）
-	//Effekseer::Handle m_playEffectHandle;					//エフェクトのさすハンドル
+	Player::animation attackNo = Player::animnum;
+	float combobai = 1.0f;
 };
 

@@ -39,8 +39,6 @@ void sprite::Init(ID3D11ShaderResourceView* texture, float w, float h)
 			{-half_size.x, -half_size.y, 0.0f, 1.0f},{0.0f,1.0f}//ç∂â∫
 		}
 	};
-
-
 	short indices[] = { 0,2,1,0,3,2 };
 	m_date.Create(
 		//D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP,
@@ -64,7 +62,6 @@ void sprite::Updete(const CVector3& position, const CQuaternion& rot, const CVec
 	Pivot.x *= -2.0f;
 	Pivot.y *= -2.0f;
 	CMatrix mPivotTrans;
-
 	mPivotTrans.MakeTranslation(
 		{ Pivot.x * half_size.x, Pivot.y * half_size.y, 0.0f }
 	);

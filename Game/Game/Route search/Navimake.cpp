@@ -221,10 +221,10 @@ void Navimake::Draw()
 {
 	m_model.SetShadowReciever(true);
 	//モデルのDraw
-	//m_model.Draw(
-	//	g_camera3D.GetViewMatrix(),
-	//	g_camera3D.GetProjectionMatrix()
-	//);
+	m_model.Draw(
+		g_camera3D.GetViewMatrix(),
+		g_camera3D.GetProjectionMatrix()
+	);
 	for (int i = 0; i < m_vector.size(); i++) {
 		//デバック用ベクトルがあれば表示
 		m_vector[i]->Draw();

@@ -44,7 +44,6 @@ bool Game::Load()
 	m_player->SetCamera(m_camera);
 	m_ui->SetScore(m_score);
 	m_item = g_objectManager->NewGO<ItemManager>(GameObjectPriority_Default,"item");
-	//m_score->SetUI(m_ui);
 	m_enemyManager->SetPlayer(m_player);
 	m_enemyManager->SetScore(m_score);
 	m_timer.TimerStart();

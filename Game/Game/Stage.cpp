@@ -25,20 +25,21 @@ bool Stage::Load()
 	switch (mode->GetMode())
 	{
 	case title::sturt:
-		//testモード用のデータを読み込み
+		//sturtモード用のデータを読み込み
 		swprintf_s(moveFilePath, L"Assets/level/stage_0%d.tkl", 8);
-		m_bgmA.Init(L"Assets/sound/bgm.wav");
-		m_bgmA.Play(true);
+		//m_bgmA.Init(L"Assets/sound/bgm.wav");
+		//m_bgmA.Play(true);
 		break;
 	case title::test:
-		//sturtモード用のデータを読み込み
+		//testモード用のデータを読み込み
 		swprintf_s(moveFilePath, L"Assets/level/stage_0%d.tkl", 5);
-		m_bgmA.Init(L"Assets/sound/bgm.wav");
-		m_bgmA.Play(true);
+
 		break;
 	default:
 		break;
-	}
+	}		
+	m_bgmA.Init(L"Assets/sound/bgm.wav");
+	m_bgmA.Play(true);
 	//ステージのレベル
 	m_level.Init(moveFilePath, nullptr);
 	//地面のみのセル（ポリゴン）を生成する

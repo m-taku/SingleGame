@@ -3,10 +3,10 @@
 #include"../../Player/Player.h"
 #include"Enemy.h"
 
-EnemyState::EnemyState(Enemy* enemy_point,Player* pla)
+EnemyState::EnemyState(Enemy* enemy_point,const CVector3* pos)
 {
 	m_enemy = enemy_point;
-	m_player = pla;
+	m_targetposition = pos;
 }
 EnemyState::~EnemyState()
 {

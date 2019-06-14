@@ -76,17 +76,23 @@ public:
 private:
 	ShaderResourceView m_Texture_bar_waku;					//HPバーの枠のリソース
 	sprite m_HP_bar_waku;									//HPバーの枠の表示用インスタンス
-	const CVector3 m_HP_waku_position = {-660.0f,-240.0f,0.0f};	//HPバーの枠の画面上の位置
+	const CVector3 m_HP_waku_position = {-660.0f,-230.0f,0.0f};	//HPバーの枠の画面上の位置
 	ShaderResourceView m_Texture_bar;						//HPバーの中身のリソース
 	sprite m_HP_bar;										//HPバーの中身の表示用インスタンス
-	const CVector3 m_HP_position = { -657.0f,-242.0f,0.0f };	//HPバーの中身の画面上の位置
+	const CVector3 m_HP_position = { -657.0f,-232.0f,0.0f };	//HPバーの中身の画面上の位置
 	ShaderResourceView m_texture_status_bar;						//HPバーの中身のリソース
 	sprite m_status_bar;										//HPバーの中身の表示用インスタンス
 	const CVector3 m_status_bar_position = { -620.0f,-220.0f,0.0f };	//HPバーの中身の画面上の位置
+	ShaderResourceView m_Texture_bar_waku_MP;						//MPバーの中身のリソース
+	sprite m_MP_bar_waku;										//MPバーの中身の表示用インスタンス
+	const CVector3 m_MP_waku_position = { -645.0f,-300.0f,0.0f };	//HPバーの枠の画面上の位置
+	ShaderResourceView m_Texture_bar_MP;						//MPバーの中身のリソース
+	sprite m_MP_bar;										//MPバーの中身の表示用インスタンス
+	const CVector3 m_MP_position = { -637.0f,-302.0f,0.0f };	//HPバーの中身の画面上の位置
 	ShaderResourceView m_texture_status[num];					//ステータス遷移表示用テクスチャのリソース
 	sprite m_status[num];										//ステータス遷移表示用テクスチャのインスタンス
 	const CVector3 m_status_position[num] = {
-		{-620.0f,-220.0f,0.0f},
+		{-620.0f,-210.0f,0.0f},
 	{m_status_position[0].x+30.0f,m_status_position[0].y,m_status_position[0].z },
 	{ m_status_position[1].x + 30.0f,m_status_position[1].y,m_status_position[1].z} 
 	};														//ステータス遷移表示用テクスチャの画面上の位置

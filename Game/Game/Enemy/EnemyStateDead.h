@@ -11,7 +11,7 @@ public:	/// <summary>
 		/// <param name="pla">
 		/// プレイヤーのポインタ（Player*）
 		/// </param>
-	EnemyStateDead(Enemy* enemy_point, Player* pla);
+	EnemyStateDead(Enemy* enemy_point, const CVector3* pos);
 	/// <summary>
 	///デストラクタ
 	/// </summary>
@@ -20,5 +20,7 @@ public:	/// <summary>
 	/// EnemyStateから継承したアップデート関数。
 	/// </summary>
 	void Update() override;
+private:
+	float kakudo = 0.0f;
 };
 

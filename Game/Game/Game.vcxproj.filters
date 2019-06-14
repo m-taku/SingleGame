@@ -278,6 +278,16 @@
     </ClCompile>
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="ItemManager.cpp" />
+    <ClCompile Include="Friend\FriendManager.cpp" />
+    <ClCompile Include="Friend\Friendleader.cpp" />
+    <ClCompile Include="Friend\Friend.cpp" />
+    <ClCompile Include="NPC\NPC.cpp" />
+    <ClCompile Include="NPC\NPCState\NPCStateMove.cpp" />
+    <ClCompile Include="NPC\NPCState\NPCStateHit.cpp" />
+    <ClCompile Include="NPC\NPCState\NPCStateDesd.cpp" />
+    <ClCompile Include="NPC\NPCState\NPCStateAttack.cpp" />
+    <ClCompile Include="NPC\NPCState\NPCState.cpp" />
+    <ClCompile Include="Player\Player_Special.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -521,6 +531,17 @@
     <ClInclude Include="Item.h" />
     <ClInclude Include="ItemManager.h" />
     <ClInclude Include="status_sani.h" />
+    <ClInclude Include="Friend\FriendManager.h" />
+    <ClInclude Include="Friend\Friendleader.h" />
+    <ClInclude Include="Friend\Friend.h" />
+    <ClInclude Include="NPC\NPC.h" />
+    <ClInclude Include="NPC\NPCState\NPCStateMove.h" />
+    <ClInclude Include="NPC\NPCState\NPCStateHit.h" />
+    <ClInclude Include="NPC\NPCState\NPCStateDesd.h" />
+    <ClInclude Include="NPC\NPCState\NPCStateAttack.h" />
+    <ClInclude Include="NPC\NPCState\NPCState.h" />
+    <ClInclude Include="NPC\NPCStateFile.h" />
+    <ClInclude Include="Player\Player_Special.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
@@ -753,8 +774,6 @@
     <Image Include="Assets\texture\damage.png">
       <Filter>Assets\texture</Filter>
     </Image>
-    <Image Include="Assets\texture\over.png" />
-    <Image Include="Assets\texture\kuraa.png" />
   </ItemGroup>
   <ItemGroup>
     <ImageContentTask Include="Assets\texture\HP_Player.png">
@@ -785,5 +804,9 @@
     <ImageContentTask Include="Assets\texture\defensu_icon.png" />
     <ImageContentTask Include="Assets\texture\speed_icon.png" />
     <ImageContentTask Include="Assets\texture\attakc_icon.png" />
+    <ImageContentTask Include="Assets\texture\kuraa.png" />
+    <ImageContentTask Include="Assets\texture\over.png" />
+    <ImageContentTask Include="Assets\texture\MP_Player_waku.png" />
+    <ImageContentTask Include="Assets\texture\MP_player.png" />
   </ItemGroup>
 </Project>

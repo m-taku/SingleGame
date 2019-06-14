@@ -10,13 +10,24 @@ Player_Attack::Player_Attack(Player* pla) :Player_State(pla)
 	m_player->SetSpeed(0.0f);
 	FindSwordPos();
 	m_oldSwordcenter = m_Swordcenter;
-	m_oldhandpos = m_handpos;
+	m_oldhandpos = m_handpos; 
+	attackNo = m_player->GetAnimType();
+	switch (attackNo)
+	{
+	case Player::combo1:
+	case Player::combo2:
+		break;
+	case Player::combo3:
+		combobai = 1.2f;
+		break;
+	default:
+		break;
+	}
 
 	////ここからエフェクトの初期化
 	// オミット
 	//{
-	//	m_sampleEffect = Effekseer::Effect::Create(g_graphicsEngine->GetEffekseerManager(), (const EFK_CHAR*)L"Assets/efect/soad1.efk");
-	//	m_playEffectHandle = g_graphicsEngine->GetEffekseerManager()->Play(m_sampleEffect,  m_player->Get3DPosition().x, m_player->Get3DPosition().y+50.0f, m_player->Get3DPosition().z);
+
 	//	auto front = m_player->GetFront();
 	//	float angle = acos(CVector3::AxisZ().Dot(front));
 	//	auto jiku = CVector3::AxisZ();
@@ -34,7 +45,6 @@ Player_Attack::Player_Attack(Player* pla) :Player_State(pla)
 	//	{
 	//	case Player::combo1:
 	//		g_graphicsEngine->GetEffekseerManager()->SetRotation(m_playEffectHandle, { 0.0f,0.0f,1.0f}, CMath::DegToRad(180.0f));
-
 	//		ma.SetRotation(CVector3::AxisZ(), CMath::DegToRad(180.0f));
 	//		break;
 	//	case Player::combo2:
@@ -54,10 +64,7 @@ Player_Attack::Player_Attack(Player* pla) :Player_State(pla)
 }
 Player_Attack::~Player_Attack()
 {
-	//m_sampleEffect->Release();
-	//if (g_graphicsEngine->GetEffekseerManager() != NULL) {
-	//	g_graphicsEngine->GetEffekseerManager()->StopEffect(m_playEffectHandle);
-	//}
+
 }
 void Player_Attack::Update()
 {
@@ -67,10 +74,14 @@ void Player_Attack::Update()
 		auto attackMove = (m_Swordcenter - m_oldSwordcenter) / 2;
 		auto hitpoint = attackMove + m_Swordcenter;
 		//当たり判定発生
-		GetHitObjict().HitTest(hitpoint, 100.0f, m_player->GetStatu().m_Attack*m_player->GetBairitu(attakc1), HitReceive::enemy);
+		auto attack = m_player->GetStatu().m_Attack*m_player->GetBairitu(attakc1)*combobai;
+		//						↑ステータス					↑アイテムなどによる倍率	
+
+		GetHitObjict().HitTest(hitpoint, 100.0f, attack, HitReceive::enemy);
 
 	}
 	m_oldSwordcenter = m_Swordcenter;
+	//コンボの判定
 	if (m_combo != true && m_player->IsEvent(combo)) {
 		auto pos = m_player->Get2DPosition();
 		pos.y += 50.0f;
@@ -82,7 +93,7 @@ void Player_Attack::Update()
 	if (!m_player->GetAnimationPlaying()) {
 		if (m_combo)
 		{
-			int k = m_player->GetAnimType() + 1;
+			int k=attackNo+1;
 			m_player->SetAnimType((Player::animation)k);
 			m_player->TransitionState(Player::State_Attack);
 		}

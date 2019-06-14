@@ -16,7 +16,7 @@ public:
 	/// <param name="pla">
 	/// プレイヤーのポインタ（Player*）
 	/// </param>
-	EnemyStateMove(Enemy* enemy_point, Player* pla);
+	EnemyStateMove(Enemy* enemy_point,const CVector3* pos);
 	/// <summary>
 	/// デストラクタ
 	/// </summary>

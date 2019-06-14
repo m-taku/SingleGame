@@ -42,6 +42,7 @@ public:
 	/// </summary>
 	enum State {
 		State_Attack,		//攻撃中
+		State_Special,		//特殊攻撃中
 		State_Move,			//移動中
 		State_Guard,		//防御中
 		State_Hit,			//ヒット中
@@ -389,6 +390,7 @@ private:
 	VectorDraw* m_debugVector = nullptr;				//デバック用のベクトル表示
 	Player_State* m_State = nullptr;					//ステートのインスタンス
 	Ability* m_plyerStatus = new PlyerStatus;			//ステータス
+	float m_plyerMp = 0.0f;								//無双ポイントステータス
 	CVector3 m_movespeed = CVector3::Zero();			//移動速度
 	CVector3 m_playerUp = CVector3::AxisY();			//上方向
 	CVector3 m_Front = CVector3::Zero();				//前方向
@@ -401,6 +403,6 @@ private:
 	float m_speed = 0.0f;								//移動速度
 	float m_angle = 0.0f;								//回転角度（ラジアン）
 	bool m_Hit = false;									//当てる状態かどうか
-	std::map<Status_bairitu,float> m_bairitu;					//
-	Timer m_taim[num];												//
+	std::map<Status_bairitu,float> m_bairitu;			//
+	Timer m_taim[num];									//
 };

@@ -47,11 +47,11 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <LibraryPath>$(ProjectDir)/DirectXTK\Bin\Desktop_2015_Win10\x64\Debug;$(SolutionDir)/x64/Debug;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(ProjectDir);$(ProjectDir)/bulletPhysics/src;$(ProjectDir)/EffekseerRuntime130/src/include;$(ProjectDir)Enemy;$(ProjectDir)Player;$(ProjectDir)graphics;$(ProjectDir)Route search;$(ProjectDir)Hitobject;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);$(ProjectDir)/bulletPhysics/src;$(ProjectDir)/EffekseerRuntime130/src/include;$(ProjectDir)Enemy;$(ProjectDir)Player;$(ProjectDir)graphics;$(ProjectDir)Route search;$(ProjectDir)Hitobject;$(ProjectDir)NPC;$(ProjectDir)NPC/NPCState;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)/bulletPhysics/src;$(ProjectDir);$(ProjectDir)/EffekseerRuntime130/src/include;$(ProjectDir)Enemy;$(ProjectDir)Player;$(ProjectDir)graphics;$(ProjectDir)Route search;$(ProjectDir)Hitobject;$(IncludePath)</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)/bulletPhysics/src;$(ProjectDir);$(ProjectDir)/EffekseerRuntime130/src/include;$(ProjectDir)Enemy;$(ProjectDir)Player;$(ProjectDir)graphics;$(ProjectDir)Route search;$(ProjectDir)Hitobject;$(ProjectDir)NPC/NPCState;$(ProjectDir)NPC;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)/DirectXTK\Bin\Desktop_2015_Win10\x64\Release;$(SolutionDir)/x64/Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -100,6 +100,9 @@
     </MeshContentTask>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Friend\Friend.cpp" />
+    <ClCompile Include="Friend\Friendleader.cpp" />
+    <ClCompile Include="Friend\FriendManager.cpp" />
     <ClCompile Include="graphics\bloom.cpp" />
     <ClCompile Include="character\CharacterController.cpp" />
     <ClCompile Include="color.cpp" />
@@ -152,6 +155,13 @@
     <ClCompile Include="math\kMath.cpp" />
     <ClCompile Include="math\Matrix.cpp" />
     <ClCompile Include="math\Vector.cpp" />
+    <ClCompile Include="NPC\NPCState\NPCStateHit.cpp" />
+    <ClCompile Include="NPC\NPCState\NPCStateDesd.cpp" />
+    <ClCompile Include="NPC\NPCState\NPCStateAttack.cpp" />
+    <ClCompile Include="NPC\NPCState\NPCStateMove.cpp" />
+    <ClCompile Include="NPC\NPCState\NPCState.cpp" />
+    <ClCompile Include="NPC\NPC.cpp" />
+    <ClCompile Include="Player\Player_Special.cpp" />
     <ClCompile Include="Route search\Navimake.cpp" />
     <ClCompile Include="Route search\Path.cpp" />
     <ClCompile Include="physics\PhysicsDebugDraw.cpp" />
@@ -187,6 +197,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ability.h" />
+    <ClInclude Include="Friend\Friend.h" />
+    <ClInclude Include="Friend\Friendleader.h" />
+    <ClInclude Include="Friend\FriendManager.h" />
     <ClInclude Include="graphics\bloom.h" />
     <ClInclude Include="character\CharacterController.h" />
     <ClInclude Include="color.h" />
@@ -233,6 +246,14 @@
     <ClInclude Include="graphics\UnorderedAccessView.h" />
     <ClInclude Include="Enemy\Enenystate.h" />
     <ClInclude Include="graphics\g_SRVlist.h" />
+    <ClInclude Include="NPC\NPCStateFile.h" />
+    <ClInclude Include="NPC\NPCState\NPCStateHit.h" />
+    <ClInclude Include="NPC\NPCState\NPCStateDesd.h" />
+    <ClInclude Include="NPC\NPCState\NPCStateAttack.h" />
+    <ClInclude Include="NPC\NPCState\NPCStateMove.h" />
+    <ClInclude Include="NPC\NPCState\NPCState.h" />
+    <ClInclude Include="NPC\NPC.h" />
+    <ClInclude Include="Player\Player_Special.h" />
     <ClInclude Include="status_sani.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="ItemManager.h" />
@@ -360,6 +381,8 @@
     <None Include="Assets\level\stage_01.tkl" />
   </ItemGroup>
   <ItemGroup>
+    <ImageContentTask Include="Assets\texture\MP_player.png" />
+    <ImageContentTask Include="Assets\texture\MP_Player_waku.png" />
     <ImageContentTask Include="Assets\texture\kuraa.png" />
     <ImageContentTask Include="Assets\texture\over.png" />
     <ImageContentTask Include="Assets\texture\attakc_icon.png" />

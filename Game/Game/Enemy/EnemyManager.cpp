@@ -5,10 +5,9 @@
 #include"Status.h"
 #include"ItemManager.h"
 
-const int Boss = 30;
+const int BossCount = 30;
 EnemyManager::EnemyManager()
 {
-
 	m_timer = new Timer;
 }
 
@@ -46,10 +45,8 @@ bool EnemyManager::Load()
 			m_spawnpos.push_back(objData.position);
 		}
 		else if (0 == wcscmp(name, (L"enemy_Lance"))) {
-			if (Lance_count <= 0) {
-				SpawnEnemy(objData.position, new enemy_Lance, Lance_count);
-				Lance_count++;
-			}
+			//SpawnEnemy(objData.position, new enemy_Lance, Lance_count);
+			Lance_count++;
 		}
 		else if (0 == wcscmp(name, (L"enemy_hero")))
 		{
@@ -58,10 +55,10 @@ bool EnemyManager::Load()
 		}
 		else if (0 == wcscmp(name, (L"enemy_nait")))
 		{
-			if (nait_count >= 0) {
-				SpawnEnemy(objData.position, new enemy_nait, nait_count);
-				nait_count++;
-			}
+
+			SpawnEnemy(objData.position, new enemy_nait, nait_count);
+			nait_count++;
+
 		}
 		return true;
 	});
@@ -74,11 +71,9 @@ void EnemyManager::Update()
 	m_timer->TimerStop();
 	//十秒経過したら
 	if (m_timer->GetAllSeconds()>=10.0f)
-	{		
-
+	{	
 		//沸きの上限に達していなければ
 		if (m_Maxsporn >= m_enemy.size()) {
-
 				m_No = ++m_No % m_spawnpos.size();
 				//SpawnEnemy(m_spawnpos[m_No], new enemy_hero);	//スポーン
 		}
@@ -92,7 +87,7 @@ void EnemyManager::Update()
 	else {
 		m_timer->TimerRestart();
 	}
-	if(m_BossSpoon==false&&m_Score->GetNum()>= Boss) {
+	if(m_BossSpoon == false && m_Score->GetNum() >= BossCount) {
 		SpawnEnemy(m_spawnpos[m_spawnpos.size() - 1], new mking);	//ボスのスポーン
 		m_BossSpoon = true;
 	}
@@ -104,7 +99,6 @@ void EnemyManager::Update()
 			//死んでいるのでdelete
 			g_objectManager->FindGO<ItemManager>("item")->SpawnItem((*enemy)->GetPosition());
 			g_objectManager->DereteGO(*enemy);
-
 			enemy = m_enemy.erase(enemy);
 		}
 		else

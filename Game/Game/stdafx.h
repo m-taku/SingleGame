@@ -56,7 +56,7 @@
 using namespace time1;
 extern GameobjectManager* g_objectManager;
 const float GRAVITY = 9.8f * 10.0f;
-const float FRAME_BUFFER_W = 1920.0f;				//フレームバッファの幅。
-const float FRAME_BUFFER_H = 1080.0f;				//フレームバッファの高さ。
+const float FRAME_BUFFER_W = 1280.0;				//フレームバッファの幅。
+const float FRAME_BUFFER_H = 720.0f;				//フレームバッファの高さ。
 
 static const int MAX_BONE = 512;	//!<ボーンの最大数。

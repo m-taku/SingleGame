@@ -8,8 +8,8 @@
 /// <summary>
 /// Enemyの1グループ単位での動作クラス。
 /// </summary>
-class HitObjict;
 class Enemy;
+class HitObjict;
 class Enemyleader:public Gameobject
 {
 public:
@@ -187,15 +187,6 @@ public:
 	void SetScore(Score* score)
 	{
 		m_Score = score;
-	}
-	void da()
-	{
-		//for (auto enemy : m_enemy) {
-		//	m_model.UpdateInstancingData(enemy->Get2DPosition(), m_angle, CVector3::One());
-		//	enemy->SetPosition(enemy->Get2DPosition() + m_movespeed);
-		//	enemy->SetAngle(m_angle);
-		//	enemy->ChangeColliderPosition(enemy->Get2DPosition());
-		//}
 	}
 private:
 	SkinModel m_model;											//インスタンシング用の描画インスタンス

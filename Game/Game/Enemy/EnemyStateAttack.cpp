@@ -6,9 +6,9 @@
 #include"Enemy.h"
 namespace {
 	//剣のサイズ（aabb用）(縦、横、高さ)
-	const CVector3 SWODSIZE = { 10.0f, 10.0f,80.0f };
+	const CVector3 SWODSIZE = { 10.0f, 10.0f,60.0f };
 }
-EnemyStateAttack::EnemyStateAttack(Enemy* enamy, Player* player) :EnemyState(enamy, player)
+EnemyStateAttack::EnemyStateAttack(Enemy* enamy, const CVector3* pos) :EnemyState(enamy, pos)
 {
 	m_boneNo = m_enemy->GetNo();
 }
@@ -17,16 +17,16 @@ EnemyStateAttack::~EnemyStateAttack()
 }
 void EnemyStateAttack::Update()
 {
-	auto distance = m_player->Get2DPosition() - m_enemy->Get2DPosition();
+	auto distance = GetTarget2DPosition() - m_enemy->Get2DPosition();
 	switch (m_steat)
 	{
 	case Wait:
-		if (distance.Length() <= 200.0f) {
+		if (distance.Length() <= 100.0f) {
 			m_enemy->AddAngle(distance);
 			m_enemy->SetSpeed(0.0f);
 			m_enemy->ChangeAnimation(Enemy::idle);
 			count++;
-			if (distance.Length() <= 100.0f || count >= 30)
+			if (distance.Length() <= 50.0f || count >= 30)
 			{
 				distance.y = 0;
 				distance.Normalize();
@@ -43,11 +43,10 @@ void EnemyStateAttack::Update()
 		}
 		else
 		{
-
-			m_enemy->AddAngle(distance);
-			m_enemy->ChangeAnimation(Enemy::walk);
-			m_enemy->SetSpeed(1.0f / 2.0f);
-			m_enemy->SetDebugPos({ 0.0f,0.0f,0.0f });
+			//m_enemy->AddAngle(distance);
+			//m_enemy->ChangeAnimation(Enemy::walk);
+			//m_enemy->SetSpeed(1.0f / 2.0f);
+			//m_enemy->SetDebugPos({ 0.0f,0.0f,0.0f });
 			m_steat = Chase;
 		}
 		break;
@@ -58,7 +57,6 @@ void EnemyStateAttack::Update()
 		if (!m_Hit)
 		{
 			if (m_enemy->GetIsEvent())
-
 			{
 				auto attackMove = (m_Swordcenter - m_oldSwordcenter) / 2;
 				auto hitpoint = attackMove + m_Swordcenter;
@@ -77,8 +75,8 @@ void EnemyStateAttack::Update()
 		m_enemy->AddAngle(distance);
 		m_enemy->ChangeAnimation(Enemy::walk);
 		m_enemy->SetSpeed(1.0f / 2.0f);
-		m_enemy->SetDebugPos({ 0.0f,0.0f,0.0f });
-		if (150.0f)
+		//m_enemy->SetDebugPos({ 0.0f,0.0f,0.0f });
+		if (distance.Length() <=200.0f)
 		{
 			m_steat = Wait;
 		}

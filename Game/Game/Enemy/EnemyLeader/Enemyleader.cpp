@@ -126,7 +126,12 @@ void Enemyleader::Update()
 			m_stopcount = 0;
 		}
 		else {
-
+			for (auto enemy : m_enemy) {
+				m_model.UpdateInstancingData(enemy->Get2DPosition(), m_angle, CVector3::One());
+				enemy->SetPosition(enemy->Get2DPosition() + m_movespeed);
+				enemy->SetAngle(m_angle);
+				enemy->ChangeColliderPosition(enemy->Get2DPosition());
+			}
 			g_graphicsEngine->SetShadoCaster(&m_model);
 			m_model.SetShadowReciever(true);
 			m_animation.Play(walk, 0.2f);

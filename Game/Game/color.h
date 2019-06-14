@@ -25,6 +25,6 @@ public:
 	/// <returns>RGBに変換された値</returns>
 	CVector4 HSVtoRGB();
 private:
-	CVector3  m_HSV = { 0.0f,1.0f,0.3f};		//保存しているカラー情報
+	CVector3  m_HSV = { 0.0f,1.0f,1.0f};		//保存しているカラー情報
 };
 

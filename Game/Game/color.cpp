@@ -38,7 +38,7 @@ CVector3 Color::HSVtoRGB(const CVector3& hsv)
 }
 CVector4 Color::HSVtoRGB()
 {
-	m_HSV.x += 30.0f / 360.0f;
+	m_HSV.x += 10.0f / 360.0f;
 	const float h = m_HSV.x-floor(m_HSV.x);
 	const float s = m_HSV.y;
 	const float v = m_HSV.z;

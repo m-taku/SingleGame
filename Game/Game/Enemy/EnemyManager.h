@@ -56,7 +56,7 @@ private:
 	int m_No = 0;
 	int m_count = 0;
 	bool m_BossSpoon = false;
-	int m_Maxsporn = 100;
+	int m_Maxsporn = 10;
 	Score* m_Score = nullptr;
 	std::vector<CVector3> m_spawnpos;
 	Timer* m_timer = nullptr;

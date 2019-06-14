@@ -3,7 +3,6 @@
 #include"Player.h"
 #include"Path.h"
 #include"EnemyLeader/EnemyLeader.h"
-#include"Status.h"
 class EnemyState;
 class HitObjict;
 class HitReceive;
@@ -173,6 +172,35 @@ public:
 		return m_Front;
 	}
 	/// <summary>
+	/// 2D（ｘ、ｙ、ｚ）での現在の前方向。
+	/// </summary>
+	/// <remarks>
+	/// 3D次元で返す関数もあるので適しているか確認。
+	/// </remarks>
+	/// <returns>
+	/// 2Dでの右方向。(CVector3)
+	/// </returns>
+	const CVector3& Get2DRight()const
+	{
+		auto Right = m_Right;
+		Right.y = 0;
+		Right.Normalize();
+		return Right;
+	}
+	/// <summary>
+	/// 3D（ｘ、y,ｚ）での現在の前方向。
+	/// </summary>
+	/// <remarks>
+	/// 2D次元で返す関数もあるので適しているか確認。
+	/// </remarks>
+	/// <returns>
+	/// 3Dでの右方向。
+	/// </returns>
+	const CVector3& Get3DRight()const
+	{
+		return m_Right;
+	}
+	/// <summary>
 	/// Enemyの状態遷移。
 	/// </summary>	
 	/// <remarks>
@@ -339,6 +367,19 @@ public:
 		m_collider.SetPosition(m_position);
 	}
 	/// <summary>
+	/// キャラクターコントローラーの交代の更新
+	/// </summary>
+	/// <remarks>
+	/// 当たり判定は取っていません。動かすだけです。
+	/// </remarks>
+	/// <param name="position">
+	/// 更新後のポジション。（CVector3）
+	/// </param>
+	bool ColliderOnGround()
+	{
+		return m_collider.IsOnGround();
+	}
+	/// <summary>
 	/// HitObjictから呼ばれる当たった時の処理
 	/// </summary>
 	/// <param name="damage">
@@ -432,6 +473,7 @@ private:
 	const HitReceive* m_obj;								//ヒットオブジェクトのインスタンス
 	CMatrix m_Rot;											//角度に関する行列
 	CVector3 m_Front = CVector3::Zero();					//エネミーの前方向
+	CVector3 m_Right = CVector3::Zero();					//エネミーの前方向
 	CVector3 m_position = { 0.0f,150.0f,-30.0f };			//現在位置
 	CVector3 m_moveVector = CVector3::Zero();				//移動させるベクトル
 	CVector3 m_Sprite_Front = CVector3::AxisZ()*-1;	        //テクスチャの前方向
