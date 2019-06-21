@@ -45,6 +45,7 @@ public:
 	enum State {
 		State_Move,			//尾行中
 		State_Attack,		//攻撃中
+		State_Defens,
 		State_Gathering,	//集合中
 		State_Hit,			//攻撃を受けている
 		State_Dead			//
@@ -54,6 +55,7 @@ public:
 	/// </summary>
 	enum animation {
 		idle,		//停止アニメーション
+		defens,
 		attack,		//攻撃アニメーション
 		walk,		//歩きアニメーション
 		hit,		//ヒットアニメーション
@@ -94,10 +96,21 @@ public:
 	/// <param name="speed">
 	/// 変更したい速度の割合。(float）
 	/// </param>
-	void SetSpeed(const float& speed)
+	void SetFrontSpeed(const float& speed)
 	{
 		auto Speeeeed = m_Status->m_Speed*speed;
-		m_speed = Speeeeed;
+		m_frontspeed = Speeeeed;
+	}
+	/// <summary>
+	/// 移動速度の遷移。割合で渡してください（初期値は。m_Statusのm_Speed）
+	/// </summary>
+	/// <param name="speed">
+	/// 変更したい速度の割合。(float）
+	/// </param>
+	void SetRightSpeed(const float& speed)
+	{
+		auto Speeeeed = m_Status->m_Speed*speed;
+		m_Rightspeed = Speeeeed;
 	}
 	/// <summary>
 	/// モデルの回転角度への加算。
@@ -448,6 +461,9 @@ public:
 		m_life = false;
 		m_Score->AddScore();
 	}
+	void AIDecision();
+	void AIDefens(int kakudo);
+	void AI(int& muki,int& kaku);
 private:
 	/// <summary>
 	/// デバック用のベクトル表示。
@@ -484,7 +500,8 @@ private:
 	const float m_margin = CMath::DegToRad(m_kaku);			//1フレームで回転させる最大角度(radian)
 	int m_bolnNo = 0;										//手のボーンの番号
 	float m_HP = 1.0f;										//ＨＰの割合
-	float m_speed = 0.0f;             				    	//移動速度
+	float m_frontspeed = 0.0f;             				    //前方向移動速度
+	float m_Rightspeed = 0.0f;             				    //右方向移動速度
 	int m_mutekitaim = 0;									//無敵時間									
 	bool m_life = true;										//生存フラグ
 };

@@ -21,6 +21,13 @@ public:
 	/// アップデート。
 	/// </summary>
 	virtual void Update() = 0;
+	/// <summary>
+	/// アップデート。
+	/// </summary>
+	virtual void Draw()
+	{
+
+	}
 protected:
 	Player* m_player = nullptr;				//プレイヤーのインスタンス
 };

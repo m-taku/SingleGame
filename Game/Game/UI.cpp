@@ -21,6 +21,7 @@ UI::~UI()
 }
 bool UI::Load()
 {
+	m_bgmA.Init(L"Assets/sound/shakin1.wav");
 	//プレイヤーのHP用のデータをロード
 	m_Texture_bar_waku.CreateFromDDSTextureFromFile(L"Resource/sprite/HP_Player_waku.dds");
 	m_HP_bar_waku.Init(m_Texture_bar_waku.GetBody(), Hpbarsize.x, Hpbarsize.y);
@@ -75,7 +76,7 @@ void UI::Update()
 	//HPの遷移用にテクスチャを更新
 	m_HP_bar_waku.Updete(m_HP_waku_position, CQuaternion::Identity(), CVector3::One(), { 0.0f,1.0f });
 	m_HP_bar.Updete(m_HP_position, CQuaternion::Identity(),{m_HP- m_Damage,1.0f,1.0f}, { 0.0f,1.0f });
-	m_MP_bar.Updete(m_MP_position, CQuaternion::Identity(), { 1.0f,0.9f,1.0f }, { 0.0f,1.0f });
+	m_MP_bar.Updete(m_MP_position, CQuaternion::Identity(), { m_MP,0.9f,1.0f }, { 0.0f,1.0f });
 	m_status_bar.Updete(m_status_bar_position, CQuaternion::Identity(), CVector3::One());
 	for (int i = 0; i < num; i++) {
 		m_status[i].Updete(m_status_position[i], CQuaternion::Identity(), CVector3::One());
@@ -84,8 +85,6 @@ void UI::Update()
 }
 void UI::PostDraw()
 {
-	static Color color;
-	auto Col = color.HSVtoRGB();
 	//プレイヤーのHP用のスプライトをDraw
 	m_HP_bar_waku.Draw(
 		g_camera2D.GetViewMatrix(),
@@ -99,6 +98,20 @@ void UI::PostDraw()
 		g_camera2D.GetViewMatrix(),
 		g_camera2D.GetProjectionMatrix()
 	);
+	CVector4 Col;
+	if (m_MP >= 1.0f) {
+		Col = m_Color_Mp.HSVtoRGB();
+		if (m_bool) {
+			m_bgmA.Play(false);
+			m_bool = false;
+		}
+	}
+	else
+	{
+		m_Color_Mp.SetHSV(230.0f / 360.0f);
+		Col = m_Color_Mp.HSVtoRGB();
+		m_bool = true;
+	}
 	m_MP_bar.SetMulColor(Col);
 	m_MP_bar.Draw(
 		g_camera2D.GetViewMatrix(),
@@ -123,7 +136,7 @@ void UI::PostDraw()
 	m_font.Draw(
 		toubatu,		//表示する文字列。
 		{ FRAME_BUFFER_W / 2.0f,-FRAME_BUFFER_H / 2.0f },			//表示する座標。0.0f, 0.0が画面の中心。
-		Col,
+		{0.0f,0.0f,0.0f,1.0f},
 		0.0f,
 		3.0f,
 		{1.0f,0.0f});

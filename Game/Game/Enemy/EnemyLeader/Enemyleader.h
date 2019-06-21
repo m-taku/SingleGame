@@ -41,6 +41,10 @@ public:
 	/// </summary>
 	void Stop() override;
 	/// <summary>
+	/// Gameobjectから継承したpostDraw関数。
+	/// </summary>
+	void PostDraw() override;
+	/// <summary>
 	/// アニメーション用のenum。
 	/// </summary>
 	enum animation 	{
@@ -131,7 +135,7 @@ public:
 	/// </summary>
 	void ChangeGroup_Move()
 	{
-		m_group_state = group_move;
+		m_state = group_move;
 		m_path->Course(m_position, m_player->Get2DPosition());
 		m_nextpos = m_path->PathPos();
 	}
@@ -141,7 +145,7 @@ public:
 	void ChangeGroup_stop(int count)
 	{
 		if (count != 0) {
-			m_group_state = group_stop;
+			m_state = group_stop;
 			m_stopcount = count;
 		}
 	}
@@ -153,8 +157,7 @@ public:
 		m_stopcount--;
 		if(m_stopcount==0)
 		{
-			m_group_state = group_move;
-			m_stopcount = 0;
+			m_state = group_move;
 		}
 
 	}
@@ -188,6 +191,7 @@ public:
 	{
 		m_Score = score;
 	}
+
 private:
 	SkinModel m_model;											//インスタンシング用の描画インスタンス
 	AnimationClip m_animationclip[animnum];						//アニメーションクリップ

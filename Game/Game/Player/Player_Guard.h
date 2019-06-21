@@ -18,5 +18,8 @@ public:
 	/// アップデート関数
 	/// </summary>
 	void Update();
+private:
+	Effekseer::Effect* m_sampleEffect = nullptr;			//エフェクトの実態のポインタ（？）
+	Effekseer::Handle m_playEffectHandle;					//エフェクトのさすハンドル
 };
 

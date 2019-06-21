@@ -47,7 +47,34 @@ void CSoundSource::Init(wchar_t* filePath)
 	InitCommon();
 	m_isAvailable = true;
 }
+//エフェクト用の読み込みしたい（まだできん）
+void CSoundSource::Init(const EFK_CHAR* filePath)
+{
+	m_isAvailable = false;
+	//m_waveFile = g_soundEngine->GetWaveFileBank().FindWaveFile(0, filePath);
+	if (!m_waveFile) {
+		m_waveFile.reset(new CWaveFile);
+		bool result = true;// m_waveFile->Open(filePath);
+		if (result == false) {
+			//waveファイルの読み込みに失敗。
+			g_soundEngine->GetWaveFileBank().UnregistWaveFile(0, m_waveFile);
+			m_waveFile.reset();
+			return;
+		}
+		m_waveFile->AllocReadBuffer(m_waveFile->GetSize());	//waveファイルのサイズ分の読み込みバッファを確保する。
+		g_soundEngine->GetWaveFileBank().RegistWaveFile(0, m_waveFile);
+		unsigned int dummy;
+		m_waveFile->Read(m_waveFile->GetReadBuffer(), m_waveFile->GetSize(), &dummy);
+		m_waveFile->ResetFile();
 
+	}
+
+	//サウンドボイスソースを作成。
+	m_sourceVoice = g_soundEngine->CreateXAudio2SourceVoice(m_waveFile.get(), false);
+
+	InitCommon();
+	m_isAvailable = true;
+}
 
 void CSoundSource::InitStreaming(wchar_t* filePath, unsigned int ringBufferSize, unsigned int bufferSize)
 {

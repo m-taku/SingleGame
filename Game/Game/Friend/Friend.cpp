@@ -34,9 +34,9 @@ void Friend::TransitionState(State m_state)
 	case State_Attack:
 		m_enemystate = new NPCStateAttack(this, &CVector3::Zero());
 		break;
-	//	//case State_Gathering:
-	//	//	m_enemystate = new EnemyStategathering(this, &m_player->Get3DPosition());
-	//	//	break;
+	//case State_Gathering:
+	//	m_enemystate = new EnemyStategathering(this, &m_player->Get3DPosition());
+	//	break;
 	case State_Hit:
 		m_enemystate = new NPCStateHit(this, &CVector3::Zero());
 		break;

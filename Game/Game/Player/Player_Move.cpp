@@ -59,9 +59,13 @@ void Player_Move::Update()
 		m_player->SetAnimType(Player::combo1);
 		m_player->TransitionState(Player::State_Attack);
 	}
+	else if (g_pad[0].IsTrigger(enButtonY))
+	{
+		m_player->SetAnimType(Player::Strength1);
+		m_player->TransitionState(Player::State_Attack);
+	}
 	else if (g_pad[0].IsTrigger(enButtonB))
 	{
-		m_player->SetAnimType(Player::attack);
 		m_player->TransitionState(Player::State_Special);
 
 	}

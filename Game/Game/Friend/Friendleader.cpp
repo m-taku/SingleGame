@@ -42,12 +42,12 @@ bool Friendleader::Load()
 	m_position.x += 35.0f;
 	//m_collider.Init(10.0f, 10.0f, position);	
 	m_ninzuu++;
-	if (m_ninzuu < m_Status->Spawnnum)
+	if (m_ninzuu < m_Status->m_Spawnnum)
 	{
 		return false;
 	}
 	else {
-		m_remaining = m_Status->Spawnnum;
+		m_remaining = m_Status->m_Spawnnum;
 		m_path = new Path;
 		if (m_stopcount <= 0) {
 			//ChangeGroup_Move();

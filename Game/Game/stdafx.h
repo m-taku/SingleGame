@@ -17,12 +17,15 @@
 #include <xaudio2fx.h>
 #include <array>
 //#define _CRTDBG_MAP_ALLOC #include <stdlib.h> #include <crtdbg.h>  
+#include "sound/SoundEngine.h"
+#include "sound/SoundSource.h"
 #include "btBulletDynamicsCommon.h"
 #include "BulletCollision\CollisionDispatch\btGhostObject.h"
 #include"Noncopyable/Noncopyable.h"
 
 #include "Effekseer.h" 
 #include "EffekseerRendererDX11.h"
+#include "EffekseerSoundXAudio2.h"
 #include"Gameobject/GameobjectManager.h"
 //DirectXTKのインクルードファイル。
 #include "DirectXTK/Inc/Model.h"
@@ -35,6 +38,7 @@
 
 #include "math/Vector.h"
 #include "math/Matrix.h"
+
 #include "graphics/Camera.h"
 #include "graphics/GraphicsEngine.h"
 

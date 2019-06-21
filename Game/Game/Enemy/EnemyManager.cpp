@@ -5,7 +5,7 @@
 #include"Status.h"
 #include"ItemManager.h"
 
-const int BossCount = 30;
+const int BossCount = 3;
 EnemyManager::EnemyManager()
 {
 	m_timer = new Timer;
@@ -34,9 +34,9 @@ bool EnemyManager::Load()
 	swprintf_s(moveFilePath, L"Assets/level/Enemy_lever0%d.tkl", (int)(mode->GetMode())*4);
 	m_player = g_objectManager->FindGO<Player>("player");
 	Level level;
-	int Lance_count = 0;
+	int Lance_count = 1;
 	int hero_count = 0;
-	int nait_count = 0;
+	int nait_count = 2;
 	level.Init(moveFilePath, [&](LevelObjectData objData)
 	{
 		auto name = objData.name;
@@ -46,22 +46,23 @@ bool EnemyManager::Load()
 		}
 		else if (0 == wcscmp(name, (L"enemy_Lance"))) {
 			//SpawnEnemy(objData.position, new enemy_Lance, Lance_count);
-			Lance_count++;
+			Lance_count+=2;
 		}
 		else if (0 == wcscmp(name, (L"enemy_hero")))
 		{
 			//SpawnEnemy(objData.position, new enemy_hero, hero_count);
-			hero_count++;
+			hero_count+=3;
 		}
 		else if (0 == wcscmp(name, (L"enemy_nait")))
 		{
 
-			SpawnEnemy(objData.position, new enemy_nait, nait_count);
+			//SpawnEnemy(objData.position, new enemy_nait, nait_count);
 			nait_count++;
 
 		}
 		return true;
 	});
+	m_Score->AddScore(); m_Score->AddScore(); m_Score->AddScore();
 	return true;
 	
 }
@@ -74,8 +75,10 @@ void EnemyManager::Update()
 	{	
 		//沸きの上限に達していなければ
 		if (m_Maxsporn >= m_enemy.size()) {
+			for (int i = 0; i < 2; i++) {
 				m_No = ++m_No % m_spawnpos.size();
-				//SpawnEnemy(m_spawnpos[m_No], new enemy_hero);	//スポーン
+				SpawnEnemy(m_spawnpos[m_No], new enemy_hero);	//スポーン
+			}
 		}
 		m_timer->TimerStart();
 		for (auto enemy : m_enemy)
@@ -89,6 +92,9 @@ void EnemyManager::Update()
 	}
 	if(m_BossSpoon == false && m_Score->GetNum() >= BossCount) {
 		SpawnEnemy(m_spawnpos[m_spawnpos.size() - 1], new mking);	//ボスのスポーン
+		auto k = m_spawnpos[m_spawnpos.size() - 1];
+		k.x += 100.0f;
+		//SpawnEnemy(k, new enemy_hero);	//ボスのスポーン
 		m_BossSpoon = true;
 	}
 	//ここからエネミーのdelete処理

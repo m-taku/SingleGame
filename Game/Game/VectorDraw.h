@@ -1,5 +1,5 @@
 #pragma once
-#ifdef  _DEBUG
+#ifndef  _DEBUG
 /// <summary>
 /// デバック用のベクトル表示クラス
 /// </summary>
@@ -86,7 +86,7 @@ public:
 	
 	VectorDraw(CVector3 position, int counnt = 1){}
 	~VectorDraw() {}
-	void Update(CVector3 posotion, CVector3& Vector, float power) {}
+	void Update(CVector3 posotion, CVector3 Vector, float power) {}
 	void Update(CVector3 posotion) {}
 	void Update(
 		std::vector<CVector3>::iterator posotion,

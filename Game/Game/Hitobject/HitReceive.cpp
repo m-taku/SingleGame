@@ -17,6 +17,8 @@ void HitReceive::Create(const CVector3* pos, float radius, std::function<void(fl
 	m_pos = pos;
 	m_radius = radius;
 	m_fuk = objict;
+	CVector3 pos1;
+	pos1.Length();
 	m_name = name;
 }
 bool HitReceive::HitTest(CVector3 pos, float Circle, float damage)

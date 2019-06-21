@@ -41,6 +41,13 @@ public:
 	/// </param>
 	void Init(wchar_t* filePath);
 	/// <summary>
+	/// 初期化(オンメモリ再生)
+	/// </summary>
+	/// <param name="filePath">
+	/// ファイルパス。対応しているファイルフォーマット(*.wave)
+	/// </param>
+	void Init(const uint16_t* filePath);
+	/// <summary>
 	/// 初期化(ストリーミング再生)
 	/// </summary>
 	/// <remarks>

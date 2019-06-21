@@ -288,6 +288,8 @@
     <ClCompile Include="NPC\NPCState\NPCStateAttack.cpp" />
     <ClCompile Include="NPC\NPCState\NPCState.cpp" />
     <ClCompile Include="Player\Player_Special.cpp" />
+    <ClCompile Include="Enemy\EnemyStateDefens.cpp" />
+    <ClCompile Include="EffekseerSound\ESoundEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -542,6 +544,9 @@
     <ClInclude Include="NPC\NPCState\NPCState.h" />
     <ClInclude Include="NPC\NPCStateFile.h" />
     <ClInclude Include="Player\Player_Special.h" />
+    <ClInclude Include="Enemy_ActionPriority.h" />
+    <ClInclude Include="Enemy\EnemyStateDefens.h" />
+    <ClInclude Include="EffekseerSound\ESoundEngine.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
@@ -718,9 +723,6 @@
     <MeshContentTask Include="Assets\modelData\player.fbx">
       <Filter>Assets\modelData</Filter>
     </MeshContentTask>
-    <MeshContentTask Include="Assets\modelData\player1fbx.fbx">
-      <Filter>Assets\modelData</Filter>
-    </MeshContentTask>
     <MeshContentTask Include="Assets\modelData\rock.fbx">
       <Filter>Assets\modelData</Filter>
     </MeshContentTask>
@@ -749,6 +751,10 @@
       <Filter>Assets\modelData</Filter>
     </MeshContentTask>
     <MeshContentTask Include="Assets\modelData\portion.fbx" />
+    <MeshContentTask Include="Assets\modelData\player1.fbx">
+      <Filter>Assets\modelData</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\baria.fbx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\level\stage_01.tkl">

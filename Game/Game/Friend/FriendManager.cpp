@@ -13,26 +13,28 @@ FriendManager::FriendManager()
 FriendManager::~FriendManager()
 {
 }
+
 bool FriendManager::Load()
 {
 	//‚±‚±‚Å‚ÍŒo˜H’T¸‚µ‚È‚¢‚ÅII
 	//m_timer->TimerStart();
 	auto mode = g_objectManager->FindGO<title>("title");
 	wchar_t moveFilePath[256];
-	swprintf_s(moveFilePath, L"Assets/level/Friend_lever0%d.tkl", (int)(mode->GetMode()) * 4);
+	swprintf_s(moveFilePath, L"Assets/level/Enemy_lever0%d.tkl", (int)(mode->GetMode()) * 4);
 	//m_player = g_objectManager->FindGO<Player>("player");
 	Level level;
 	level.Init(moveFilePath, [&](LevelObjectData objData)
 	{
-		//auto name = objData.name;
-		//auto No = wcscmp(name, (L"Bricks"));
-		//if (No == 0) {
-		//	m_spawnpos.push_back(objData.position);
-		//}
-		//else if (0 == wcscmp(name, (L"enemy_Lance"))) {
+		auto name = objData.name;
+		auto No = wcscmp(name, (L"Bricks"));
+		if (No == 0) {
+			//m_spawnpos.push_back(objData.position);
+			return true;
+		}
+		else if (0 == wcscmp(name, (L"enemy_Lance"))) {
 		SpawnFriend(objData.position, new enemy_Lance);
 			//Lance_count++;
-		//}
+		}
 		//else if (0 == wcscmp(name, (L"enemy_hero")))
 		//{
 		//	SpawnEnemy(objData.position, new enemy_hero, hero_count);

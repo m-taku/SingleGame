@@ -72,10 +72,10 @@ bool Item::Update()
 			switch (m_item)
 			{
 			case ataac:
-				m_prayer->SetBairitu(attakc1, 100.0f);
+				m_prayer->SetBairitu(attakc1, 1.2f);
 				break;
 			case defense:
-				m_prayer->SetBairitu(defense1, 100.0f);
+				m_prayer->SetBairitu(defense1, 1.2f);
 				break;
 			case life:
 				m_prayer->AddStatu_NowHP(50.0f);

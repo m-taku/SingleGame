@@ -2,8 +2,7 @@
 /// <summary>
 /// タイマークラス
 /// </summary>
-#include "sound/SoundEngine.h"
-#include "sound/SoundSource.h"
+
 class Timer
 {
 public:

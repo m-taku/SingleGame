@@ -7,7 +7,7 @@
 EnemyStateDead::EnemyStateDead(Enemy* enamy, const CVector3* pos) :EnemyState(enamy, pos)
 {
 	m_enemy->ChangeAnimation(Enemy::idle);
-	m_enemy->SetSpeed(-10.0f);
+	m_enemy->SetFrontSpeed(-10.0f);
 }
 
 
@@ -19,10 +19,10 @@ void EnemyStateDead::Update()
 	
 	if (m_enemy->ColliderOnGround())
 	{
-		m_enemy->SetSpeed(0.0f);
+		m_enemy->SetFrontSpeed(0.0f);
 	}
 	else {
-		m_enemy->SetSpeed(-5.0f);
+		m_enemy->SetFrontSpeed(-5.0f);
 	}
 	//if (!m_enemy->GetanimationPlaying()) 
 	//{
@@ -37,7 +37,7 @@ void EnemyStateDead::Update()
 	}
 	else
 	{
-		if (m_enemy->GetStatus()->Spawnnum <= 1)
+		if (m_enemy->GetStatus()->m_Spawnnum <= 1)
 		{
 
 			if (nullptr == g_objectManager->FindGO<Gameover>("Gameover")) {

@@ -4,6 +4,7 @@
 #include"Player.h"
 #include"HitObjict.h"
 #include "Physics/CollisionAttr.h"
+#include <random>
 
 Enemy::Enemy()
 {
@@ -47,8 +48,13 @@ void Enemy::InitTex()
 {
 	m_texture_hp.CreateFromDDSTextureFromFile(L"Resource/sprite/HP.dds");
 	m_texture_fram.CreateFromDDSTextureFromFile(L"Resource/sprite/HP_waku.dds");
-	m_Sprite_hp.Init(m_texture_hp.GetBody(), 18.0f, 8.0f);
-	m_Sprite_fram.Init(m_texture_fram.GetBody(), 20.0f, 10.0f);
+	float bai = 1.0f;
+	if (GetStatus()->m_Spawnnum <=1)
+	{
+		bai *= 10.0f;
+	}
+	m_Sprite_hp.Init(m_texture_hp.GetBody(), 18.0f*bai, 8.0f);
+	m_Sprite_fram.Init(m_texture_fram.GetBody(), 20.0f*bai, 10.0f);
 }
 void Enemy::InitAnim()
 {
@@ -69,9 +75,12 @@ void Enemy::InitAnim()
 	swprintf_s(moveFilePath, L"Assets/animData/%s_hit.tka", m_Status->m_CharaName.c_str());
 	m_animationclip[hit].Load(moveFilePath);
 	m_animationclip[hit].SetLoopFlag(false);
+	swprintf_s(moveFilePath, L"Assets/animData/%s_hit.tka", m_Status->m_CharaName.c_str());
+	m_animationclip[defens].Load(moveFilePath);
+	m_animationclip[defens].SetLoopFlag(false);
 	swprintf_s(moveFilePath, L"Assets/animData/%s_dead.tka", m_Status->m_CharaName.c_str());
 	m_animationclip[dead].Load(moveFilePath);
-	m_animationclip[dead].SetLoopFlag(false);
+	m_animationclip[dead].SetLoopFlag(false); 
 	m_animation.Init(m_model, m_animationclip, animnum);
 	m_animation.Play(walk, 0.2f);
 }
@@ -95,6 +104,7 @@ void Enemy::FindArm()
 }
 void Enemy::TransitionState(State m_state)
 {
+
 	delete m_enemystate;
 	switch (m_state)
 	{
@@ -103,6 +113,9 @@ void Enemy::TransitionState(State m_state)
 		break;
 	case State_Attack:
 		m_enemystate = new EnemyStateAttack(this, &m_player->Get3DPosition());
+		break;
+	case State_Defens:
+		m_enemystate = new EnemyStateDefens(this, &m_player->Get3DPosition());
 		break;
 	case State_Gathering:
 		m_enemystate = new EnemyStategathering(this, &m_player->Get3DPosition());
@@ -133,8 +146,10 @@ void Enemy::Update()
 	m_Front.z = m_Rot.m[2][2];
 	//m_Front.y = 0.0f;
 	m_Front.Normalize();
-	m_moveVector.x = m_Front.x * m_speed;
-	m_moveVector.z = m_Front.z * m_speed;
+	m_moveVector.x = m_Front.x * m_frontspeed;
+	m_moveVector.z = m_Front.z * m_frontspeed;
+	m_moveVector.x += m_Right.x * m_Rightspeed;
+	m_moveVector.z += m_Right.z * m_Rightspeed;
 	m_moveVector.y -= GRAVITY;
 	m_position = m_collider.Execute(GetTime().GetFrameTime(), m_moveVector);
 	CVector3 distance = m_player->Get2DPosition() - Get2DPosition();
@@ -152,7 +167,7 @@ void Enemy::Update()
 }
 void Enemy::postDraw()
 {
-	//DrawDebugVector();
+	DrawDebugVector();
 	HP_Draw();
 }
 void Enemy::Draw()
@@ -185,8 +200,13 @@ void Enemy::DrawDebugVector()
 void Enemy::HP_Draw()
 {
 	auto la = m_position;
-	la.y += 100.0f;
-	m_Sprite_hp.Updete_2pivots(la, g_camera3D.GetView_rotation_Matrix(), { (m_HP / m_Status->m_HP),1.0f ,1.0f }, { 1.0f,0.5f });
+	float bai = 1.0f;
+	if (GetStatus()->m_Spawnnum <= 1)
+	{
+		bai *= 1.5f;
+	}
+	la.y += 100.0f*bai;
+	m_Sprite_hp.Updete_2pivots(la, g_camera3D.GetView_rotation_Matrix(), { max(m_HP / m_Status->m_HP,0.0f),1.0f ,1.0f }, { 1.0f,0.5f });
 	m_Sprite_fram.Updete(la, g_camera3D.GetView_rotation_Matrix(), { 1.0f,1.0f ,1.0f }, { 0.5f,0.5f });
 	m_Sprite_fram.Draw(
 		g_camera3D.GetViewMatrix(),
@@ -208,7 +228,7 @@ void Enemy::AddAngle(const CVector3& Vector)
 	//目標との角度が１度以上なら回転させる
 	if (Angle >= CMath::DegToRad(1.0f))
 	{
-		SetSpeed(1.0f/10.0f);
+		SetFrontSpeed(1.0f/10.0f);
 		auto ka5 = CVector3::Zero();
 		ka5.Cross(debag, vector);
 		//外積を使い軸を計算する
@@ -236,30 +256,32 @@ void Enemy::AddAngle(const CVector3& Vector)
 	}
 	else
 	{
-		if (m_speed <= m_Status->m_Speed)
+		if (m_frontspeed <= m_Status->m_Speed)
 		{
-			m_speed += 100.0f;
+			m_frontspeed += 100.0f;
 		}
 		else 
 		{
-			SetSpeed(1.0f);
+			SetFrontSpeed(1.0f);
 		}
 	}
 }
 void Enemy::Hit(float damage)
 {
 	float hidame = damage - m_Status->m_Defense;
-	if (hidame > 0.0f&&m_mutekitaim >=10)
+	if (hidame > 0.0f&&m_mutekitaim >= 10)
 	{
 		m_HP -= hidame;
 		m_mutekitaim = 0;
 		if (m_HP <= 0.01f)
 		{
 			m_moveVector.y = 600.0f;
+			m_bgmA.Play(false);
 			TransitionState(State_Dead);
 			m_mutekitaim = -1000000.0f;
 		}
 		else {
+			m_player->AddMp(1.0f);
 			m_moveVector.y = 200.0f;
 			m_bgmA.Play(false);
 			TransitionState(State_Hit);
@@ -269,4 +291,49 @@ void Enemy::Hit(float damage)
 void Enemy::DeleteHitobj()
 {
 	GetHitObjict().Deleteobjict(m_obj);
+}
+void Enemy::AIDecision()
+{
+	std::random_device rnd;     // 非決定的な乱数生成器を生成
+	std::mt19937 mt(rnd());     //  メルセンヌ・ツイスタの32ビット版、引数は初期シード値
+	std::uniform_int_distribution<> rand100(0, 99);        // [0, 99] 範囲の一様乱数
+	int wariai = rand100(mt)+1;
+	if (wariai > GetStatus()->m_Enemy_Priority->AttackPriority)
+	{
+		std::uniform_int_distribution<> rand2(0, 30);        // [0, 99] 範囲の一様乱数	
+		TransitionState(Enemy::State_Defens);
+	}
+	else
+	{
+		TransitionState(Enemy::State_Attack);
+
+	}
+}
+void Enemy::AIDefens(int kakudo)
+{
+	auto playerFront = m_player->GetFront();
+	if (CMath::DegToRad(kakudo) >= acos(playerFront.Dot(m_Front)))
+	{
+		TransitionState(Enemy::State_Attack);
+	}
+}
+void Enemy::AI(int& muki,int& kaku)
+{
+	std::random_device rnd;     // 非決定的な乱数生成器を生成
+	std::mt19937 mt(rnd());     //  メルセンヌ・ツイスタの32ビット版、引数は初期シード値
+	std::uniform_int_distribution<> rand2(10, 30);        // [0, 99] 範囲の一様乱数
+	auto playerFront = m_player->GetFront();
+	if (CMath::DegToRad(1.0) <= acos(playerFront.Dot(m_Front))) {
+		CVector3 jiku;
+		jiku.Cross(m_Front, playerFront);
+		if (jiku.y < 0)
+		{
+			muki = 1.0;
+		}
+		else
+		{
+			muki = -1.0;
+		}
+	}
+	kaku = rand2(mt);
 }

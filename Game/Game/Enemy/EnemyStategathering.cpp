@@ -25,7 +25,7 @@ void EnemyStategathering::Update()
 	if (distance.Length() <= 150.0f)
 	{
 		//グループの集合位置についたのでストップする
-		m_enemy->SetSpeed(0.0f);
+		m_enemy->SetFrontSpeed(0.0f);
 		m_enemy->RollCall();
 		return;
 	}

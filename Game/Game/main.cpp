@@ -19,10 +19,11 @@ GameobjectManager* g_objectManager;
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
 {
-	//ゲームの初期化。
-	InitGame(hInstance, hPrevInstance, lpCmdLine, nCmdShow, "Game");
 	CSoundEngine soundEngine;				//サウンドエンジン。
 	soundEngine.Init();
+	//ゲームの初期化。
+	InitGame(hInstance, hPrevInstance, lpCmdLine, nCmdShow, "Game");
+
 #ifdef _DEBUG
 	::_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif
@@ -58,7 +59,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//物理エンジンの更新。
 		g_physics.Update();
 		//音楽データの更新
-		soundEngine.Update();
+		g_soundEngine->Update();
 		g_objectManager->Execute();
 		static int count = 0;
 		static float m_timeTotal = 0;

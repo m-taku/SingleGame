@@ -24,6 +24,10 @@ public:
 	/// </summary>
 	/// <returns>RGB‚É•ÏŠ·‚³‚ê‚½’l</returns>
 	CVector4 HSVtoRGB();
+	void SetHSV(float color)
+	{
+		m_HSV.x = color;
+	}
 private:
 	CVector3  m_HSV = { 0.0f,1.0f,1.0f};		//•Û‘¶‚µ‚Ä‚¢‚éƒJƒ‰[î•ñ
 };

@@ -2,6 +2,7 @@
 #include "EnemyStateMove.h"
 #include"Enemy.h"
 #include"../Stage.h"
+#include <random>
 
 EnemyStateMove::EnemyStateMove(Enemy* enamy, const CVector3* pos):EnemyState(enamy, pos)
 {
@@ -9,7 +10,7 @@ EnemyStateMove::EnemyStateMove(Enemy* enamy, const CVector3* pos):EnemyState(ena
 	m_path = m_enemy->CopyPath();
 	m_path->Course(m_enemy->Get2DPosition(), GetTarget2DPosition());
 	m_nextpos = m_path->PathPos();
-	m_enemy->SetSpeed(1.0f);
+	m_enemy->SetFrontSpeed(1.0f);
 	m_enemy->ChangeAnimation(Enemy::idle);
 }
 EnemyStateMove::~EnemyStateMove()
@@ -51,8 +52,9 @@ void EnemyStateMove::Update()
 	CVector3 distance = GetTarget2DPosition() - m_enemy->Get2DPosition();
 	if (distance.Length() <= 300.0f)
 	{
+		m_enemy->AIDecision();
 		//目標に近づいたらアタックに遷移する
-		m_enemy->SetSpeed(1.0f/2.0f);
-		m_enemy->TransitionState(Enemy::State_Attack);
+		//m_enemy->SetFrontSpeed(1.0f/2.0f);
+		//m_enemy->TransitionState(Enemy::State_Attack);
 	}
 }

@@ -66,7 +66,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>DirectXTK.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;d3d11.lib;d3dcompiler.lib;%(AdditionalDependencies);xinput.lib;BulletCollision_Debug.lib;BulletDynamics_Debug.lib;LinearMath_Debug.lib;XAudio2.lib;Winmm.lib;Effekseer.Debug.lib;EffekseerRendererDX11.Debug.lib</AdditionalDependencies>
+      <AdditionalDependencies>DirectXTK.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;d3d11.lib;d3dcompiler.lib;%(AdditionalDependencies);xinput.lib;BulletCollision_Debug.lib;BulletDynamics_Debug.lib;LinearMath_Debug.lib;XAudio2.lib;Winmm.lib;Effekseer.Debug.lib;EffekseerRendererDX11.Debug.lib;EffekseerSoundXAudio2.Debug.lib</AdditionalDependencies>
+      <RegisterOutput>false</RegisterOutput>
     </Link>
     <ImageContentTask>
       <ContentOutput>$(ProjectDir)\Resource\sprite\%(Filename).dds</ContentOutput>
@@ -100,6 +101,8 @@
     </MeshContentTask>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="EffekseerSound\ESoundEngine.cpp" />
+    <ClCompile Include="Enemy\EnemyStateDefens.cpp" />
     <ClCompile Include="Friend\Friend.cpp" />
     <ClCompile Include="Friend\Friendleader.cpp" />
     <ClCompile Include="Friend\FriendManager.cpp" />
@@ -197,6 +200,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ability.h" />
+    <ClInclude Include="EffekseerSound\ESoundEngine.h" />
+    <ClInclude Include="Enemy\EnemyStateDefens.h" />
+    <ClInclude Include="Enemy_ActionPriority.h" />
     <ClInclude Include="Friend\Friend.h" />
     <ClInclude Include="Friend\Friendleader.h" />
     <ClInclude Include="Friend\FriendManager.h" />
@@ -307,6 +313,7 @@
     <MeshContentTask Include="Assets\modelData\Altar.fbx" />
     <MeshContentTask Include="Assets\modelData\Atlantis Text.fbx" />
     <MeshContentTask Include="Assets\modelData\Axe_2.fbx" />
+    <MeshContentTask Include="Assets\modelData\baria.fbx" />
     <MeshContentTask Include="Assets\modelData\bill.fbx" />
     <MeshContentTask Include="Assets\modelData\Bricks.fbx" />
     <MeshContentTask Include="Assets\modelData\Bush.fbx" />
@@ -344,7 +351,7 @@
     <MeshContentTask Include="Assets\modelData\Pillar.FBX" />
     <MeshContentTask Include="Assets\modelData\Platform Mixed.fbx" />
     <MeshContentTask Include="Assets\modelData\player.fbx" />
-    <MeshContentTask Include="Assets\modelData\player1fbx.fbx" />
+    <MeshContentTask Include="Assets\modelData\player1.fbx" />
     <MeshContentTask Include="Assets\modelData\portion.fbx" />
     <MeshContentTask Include="Assets\modelData\rock.fbx" />
     <MeshContentTask Include="Assets\modelData\Sand.fbx" />

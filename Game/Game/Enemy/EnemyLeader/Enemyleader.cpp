@@ -39,12 +39,12 @@ bool Enemyleader::Load()
 	m_position.x += 35.0f;
 	//m_collider.Init(10.0f, 10.0f, position);	
 	m_ninzuu++;
-	if (m_ninzuu < m_Status->Spawnnum)
+	if (m_ninzuu < m_Status->m_Spawnnum)
 	{
 		return false;
 	}
 	else {
-		m_remaining = m_Status->Spawnnum;
+		m_remaining = m_Status->m_Spawnnum;
 		m_path = new Path;
 		if (m_stopcount <= 0) {
 			ChangeGroup_Move();
@@ -101,10 +101,9 @@ void Enemyleader::Update()
 			ChangeSteat(person);
 		}
 		else {
-			m_movespeed = CVector3::Zero();
 			for (auto enemy : m_enemy) {
 				m_model.UpdateInstancingData(enemy->Get2DPosition(), CQuaternion::Identity(),CVector3::One());
-				enemy->SetPosition(enemy->Get2DPosition() + m_movespeed);
+				enemy->SetPosition(enemy->Get2DPosition());
 				enemy->SetAngle(m_angle);
 				enemy->ChangeColliderPosition(enemy->Get2DPosition());
 			}
@@ -159,7 +158,6 @@ void Enemyleader::Update()
 		if (m_ninzuu >= m_remaining)
 		{
 			ChangeGroup_Move();		
-			m_state = m_group_state;
 		}
 	}
 	break;
@@ -171,7 +169,7 @@ void Enemyleader::Update()
 void Enemyleader::Draw()
 {
 	m_animation.Update(GetTime().GetFrameTime());
-	if (m_state == m_group_state) {
+	if (m_state == group_stop || m_state == group_move) {
 		m_model.Draw(
 			g_camera3D.GetViewMatrix(),
 			g_camera3D.GetProjectionMatrix()
@@ -183,6 +181,9 @@ void Enemyleader::Draw()
 			enemy->Draw();
 		}
 	}
+}
+void Enemyleader::PostDraw()
+{
 	for (auto enemy : m_enemy) {
 		enemy->postDraw();
 	}

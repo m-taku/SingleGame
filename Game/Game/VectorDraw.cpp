@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "VectorDraw.h"
 
-#ifdef _DEBUG
+#ifndef _DEBUG
 VectorDraw::~VectorDraw()
 {
 }

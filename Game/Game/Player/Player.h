@@ -31,7 +31,10 @@ public:
 		hit,		//ヒットアニメーション
 		ded,		//死亡アニメーション
 		defens,		//防御アニメーション
-		attack,		//攻撃アニメーション
+		defens_Hit,
+		SPattack,	//攻撃アニメーション
+		Strength1,	//強攻撃アニメーション
+		Strength2,	//強攻撃アニメーション
 		combo1,		//攻撃アニメーション(コンボ1)
 		combo2,		//攻撃アニメーション(コンボ2)
 		combo3,		//攻撃アニメーション(コンボ3)
@@ -169,6 +172,27 @@ public:
 		m_speed = speed;
 	}
 	/// <summary>
+	/// Mpのゲット
+	/// </summary>
+	/// <returns>
+	/// 
+	/// </returns>
+	float GetMp()
+	{
+		return m_plyerStatus->m_MP;
+	}
+	/// <summary>
+	/// 
+	/// </summary>
+	void AddMp(float Mp)
+	{
+		
+		m_plyerStatus->m_MP = min(p_status->m_MP, m_plyerStatus->m_MP + Mp);
+		auto wariai = m_plyerStatus->m_MP / p_status->m_MP;
+		m_ui->AddMp(wariai);
+		//m_plyerStatus->m_MP += Mp;
+	}
+	/// <summary>
 	/// スピードのゲット
 	/// </summary>
 	/// <returns>
@@ -297,9 +321,19 @@ public:
 	/// <param name="pos">
 	/// 表示したい点（CVector3）
 	/// </param>
-	void SetDebegVector(const CVector3& pos)
+	void SetDebeg(const CVector3& pos)
 	{
 		m_debugVector->Update(pos);
+	}
+	/// <summary>
+	/// デバック用の点表示
+	/// </summary>
+	/// <param name="pos">
+	/// 表示したい点（CVector3）
+	/// </param>
+	void SetDebegVector(const CVector3& pos, const CVector3& vector,float powor=100.0f)
+	{
+		m_debugVector->Update(pos, vector, powor);
 	}
 	/// <summary>
 	/// ステートの遷移
@@ -350,14 +384,13 @@ public:
 	void ItemTimeUpdate()
 	{
 		for (int i = 0; i < num; i++) {
-			if (m_taim[i].GetAllSeconds() <= 5.0f)
+			if (m_taim[i].GetAllSeconds() <= 15.0f)
 			{
 				m_taim[i].TimerStop();
 				m_taim[i].TimerRestart();
 			}
 			else
 			{
-
 				auto type = static_cast<Status_bairitu>(i);
 				m_ui->SetStetus(type, 0.3f);
 				m_bairitu.find(type)->second = 1.0f;
@@ -390,7 +423,6 @@ private:
 	VectorDraw* m_debugVector = nullptr;				//デバック用のベクトル表示
 	Player_State* m_State = nullptr;					//ステートのインスタンス
 	Ability* m_plyerStatus = new PlyerStatus;			//ステータス
-	float m_plyerMp = 0.0f;								//無双ポイントステータス
 	CVector3 m_movespeed = CVector3::Zero();			//移動速度
 	CVector3 m_playerUp = CVector3::AxisY();			//上方向
 	CVector3 m_Front = CVector3::Zero();				//前方向
@@ -399,6 +431,7 @@ private:
 	CQuaternion m_rotation = CQuaternion::Identity();	//回転クオータニオン
 	CMatrix m_mRot = CMatrix::Identity();				//回転行列
 	animation m_animtype = idle;
+	State m_state = State_Attack;
 	int m_armboneNo = -1;								//手のボーン番号
 	float m_speed = 0.0f;								//移動速度
 	float m_angle = 0.0f;								//回転角度（ラジアン）

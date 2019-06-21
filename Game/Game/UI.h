@@ -46,6 +46,16 @@ public:
 		m_Damage = damage;
 	}
 	/// <summary>
+	/// プレイヤーのMpを増やす処理
+	/// </summary>
+	/// <param name="damage">
+	/// MP量（1.0ｆでMax）（float）
+	/// </param>
+	void AddMp(float Mp)
+	{
+		m_MP = Mp;
+	}
+	/// <summary>
 	/// 残りの体力を取得（0.0ｆ～1.0ｆ）
 	/// </summary>
 	/// <returns>
@@ -97,9 +107,12 @@ private:
 	{ m_status_position[1].x + 30.0f,m_status_position[1].y,m_status_position[1].z} 
 	};														//ステータス遷移表示用テクスチャの画面上の位置
 	Score* m_Score = nullptr;								//スコア計算のクラスのインスタンス
+	Color m_Color_Mp;
 	float m_Damage = 0.0f;									//ダメージ量
-
+	CSoundSource m_bgmA;									//BGM用のインスタンス
+	bool m_bool = true;
+	float m_MP = 0.0f;
+	float m_HP=1.0f;										//残りHP（1で最大）	
 	Font m_font;											//文字表示のインスタンス
 	Player* m_player = nullptr;
-	float m_HP=1.0f;										//残りHP（1で最大）	
 };
