@@ -16,11 +16,14 @@ public:
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~Ability()
+	virtual ~Ability()
 	{
 
 	}
-	virtual void Individuality() {};
+	virtual void Individuality(void* point) 
+	{
+	
+	};
 	float m_HP = 10.0f;					    //現在のHP
 	float m_Attack = 10.0f;					//基本の攻撃力
 	float m_MP = 0.0f;						//基本のMP

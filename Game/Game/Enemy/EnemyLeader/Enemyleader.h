@@ -41,6 +41,10 @@ public:
 	/// </summary>
 	void Stop() override;
 	/// <summary>
+	/// Gameobjectから継承したstop関数
+	/// </summary>
+	void StopUpdate() override;
+	/// <summary>
 	/// Gameobjectから継承したpostDraw関数。
 	/// </summary>
 	void PostDraw() override;
@@ -71,6 +75,10 @@ public:
 	{
 		m_position = Position;
 
+	}
+	void SetAngle(const CQuaternion& angle)
+	{
+		m_angle = angle;
 	}
 	/// <summary>
 	/// スキンモデルインスタンスの取得。
@@ -157,7 +165,7 @@ public:
 		m_stopcount--;
 		if(m_stopcount==0)
 		{
-			m_state = group_move;
+			ChangeGroup_Move();
 		}
 
 	}

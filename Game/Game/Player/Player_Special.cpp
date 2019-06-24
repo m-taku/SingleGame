@@ -32,7 +32,7 @@ void Player_Special::Update()
 	{
 	case Player_Special::chrji:
 		if (g_pad[0].IsPress(enButtonB)) {
-			m_player->AddMp(10.0f);
+			m_player->AddMp(1.0f);
 			if (m_player->GetStatu().m_MP >= m_player->p_status->m_MP) {
 				m_player->TransitionState(Player::State_Move);
 			}

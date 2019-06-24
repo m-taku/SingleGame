@@ -1,5 +1,5 @@
 #pragma once
-#ifndef  _DEBUG
+#ifdef  _DEBUG
 /// <summary>
 /// デバック用のベクトル表示クラス
 /// </summary>

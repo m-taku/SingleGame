@@ -46,8 +46,6 @@ private:
 	UI* m_ui = nullptr;								//ユーザーインターフェースのインスタンス
 	ItemManager* m_item = nullptr;
 	Score* m_score = nullptr;						//スコアのインスタンス
-	Font m_font;											//文字表示のインスタンス
-	Timer m_timer;											//タイマークラスのインスタンス
-
+	//bool m_lood=false;
 };
 

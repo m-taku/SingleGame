@@ -41,6 +41,10 @@ public:
 	/// </summary>
 	virtual void Stop() {};
 	/// <summary>
+	/// アップデートを休止しドローコールのみ動かす際の初期化処理
+	/// </summary>
+	virtual void StopUpdate() {};
+	/// <summary>
 	/// アップデートを再開し通常運転に戻る際の初期化処理
 	/// </summary>
 	virtual void Comeback() {};

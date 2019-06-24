@@ -38,6 +38,10 @@ public:
 	/// </summary>
 	void PostDraw() override;
 	/// <summary>
+	/// 
+	/// </summary>
+	void Stop()override;
+	/// <summary>
 	/// Œ»İ‚Ìƒ‚[ƒh‚ğæ“¾
 	/// </summary>
 	/// <returns>

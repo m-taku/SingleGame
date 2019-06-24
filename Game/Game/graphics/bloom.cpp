@@ -193,8 +193,8 @@ void bloom::Draw(PostEffect& postEffect)
 	g_graphicsEngine->ChangeRenderTarget(m_halfluminanceRT.GetRenderTargetView(), m_halfluminanceRT.GetDepthStensilView(), m_halfluminanceRT.GetViewport());
 	for (int i = 0; i < NUM_DOWN_SAMPLE; i++)
 	{
-		auto k=m_gausianBlur[i].GetResultTextureSRV();
-		deviceContext->PSSetShaderResources(i, 1, &k);
+		auto tex = m_gausianBlur[i].GetResultTextureSRV();
+		deviceContext->PSSetShaderResources(i, 1, &tex);
 	}
 	postEffect.DrawFullScreenQuadPrimitive(deviceContext, m_vs, m_psBlur);
 	//最後にぼかした絵を加算合成でメインレンダリングターゲットに合成して終わり。

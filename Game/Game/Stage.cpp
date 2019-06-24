@@ -39,7 +39,9 @@ bool Stage::Load()
 		break;
 	}		
 	m_bgmA.Init(L"Assets/sound/bgm.wav");
-	//m_bgmA.Play(true);
+	m_bgmA.Play(true);
+
+	m_bgmA.SetVolume(0.5f);
 	//ステージのレベル
 	m_level.Init(moveFilePath, nullptr);
 	//地面のみのセル（ポリゴン）を生成する

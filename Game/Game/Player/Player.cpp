@@ -25,12 +25,30 @@ void Player::OnDestroy()
 }
 void Player::Stop()
 {
-	ChangeAnimation(idle);
+	//ChangeAnimation(idle);
+}
+void Player::StopUpdate()
+{
+	//ここから影の処理
+	g_graphicsEngine->SetShadoCaster(&m_model);
+	m_model.SetShadowReciever(true);
+	auto ritpos = m_position;
+	CVector3 m = { -707.0f,707.0f, 0.0f };
+	ritpos.x += m.x;
+	//ChangeAnimation(m_animtype);
+	ritpos.y += m.y;
+	g_graphicsEngine->GetShadowMap()->UpdateFromLightTarget(ritpos, m_position);
+	//ItemTimeUpdate();
+	//ChangeAnimation(m_animtype);
+	//m_model.UpdateWorldMatrix(m_position, m_rotation, { 1.0f,1.0f,1.0f });
+	m_animation.Update(GetTime().GetFrameTime());
 	m_position = m_collider.Execute(GetTime().GetFrameTime(), m_movespeed);
 	m_model.UpdateWorldMatrix(m_position, m_rotation, { 1.0f,1.0f,1.0f });
+
 }
 bool Player::Load()
 {
+	m_se.Init(L"Assets/sound/gameag.wav");
 	const float PLAYER_RADIUS = 40.0f;	//プレイヤーの半径。
 	const float PLAYER_HEIGHT = 80.0f;	//プレイヤーの高さ。
 	//cmoファイルの読み込み。
@@ -106,7 +124,7 @@ void Player::InitAnimation()
 	m_animationclip[run].Load(L"Assets/animData/pla_run1.tka");
 	m_animationclip[run].SetLoopFlag(true);
 	m_animationclip[hit].Load(L"Assets/animData/pla_hit1.tka"); 
-	m_animationclip[hit].SetLoopFlag(false);/*3*/
+	m_animationclip[hit].SetLoopFlag(false);
 	m_animationclip[Strength1].Load(L"Assets/animData/pla_combo_2.tka");
 	m_animationclip[Strength1].SetLoopFlag(false);
 	m_animationclip[combo1].Load(L"Assets/animData/pla_combo1.tka");
@@ -125,7 +143,6 @@ void Player::Update()
 {
 	UpdateFront();
 	m_debugVector->Update({0.0f,0.0f,0.0f});
-	m_animation.Update(GetTime().GetFrameTime());
 	m_State->Update();
 	m_movespeed.x = m_Front.x * m_plyerStatus->m_Speed*m_speed;
 	m_movespeed.z = m_Front.z * m_plyerStatus->m_Speed*m_speed;
@@ -146,6 +163,7 @@ void Player::Update()
 	g_graphicsEngine->GetShadowMap()->UpdateFromLightTarget(ritpos, m_position);
 	ItemTimeUpdate();
 	ChangeAnimation(m_animtype);
+	m_animation.Update(GetTime().GetFrameTime());
 	m_model.UpdateWorldMatrix(m_position, m_rotation, { 1.0f,1.0f,1.0f });
 }
 void Player::Draw()
@@ -176,6 +194,8 @@ void Player::Hit(float damage)
 			}
 			else
 			{
+				m_se.Stop();
+				m_se.Play(false);
 				AddMp(1.0f);
 				TransitionState(State_Hit);
 			}

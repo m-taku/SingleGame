@@ -24,7 +24,7 @@ public:
 	{
 		m_Score = score;
 	}
-	void SpawnFriend(CVector3 pos, Ability* k);
+	void SpawnFriend(CVector3 pos, Ability* ability);
 private:
 	std::vector<Friendleader*> m_Friend;
 	int m_No = 0;

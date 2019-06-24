@@ -10,6 +10,10 @@ title::title()
 title::~title()
 {
 }
+void title::Stop()
+{
+	this->isStop();
+}
 bool title::Load()
 {
 	//サウンドのロード
@@ -70,7 +74,7 @@ void title::Update()
 			m_title_haikei.SetclearColor(0.0f);
 			m_yajiSprite.SetclearColor(0.0f);
 			//フェードを明ける
-			m_fade.Fadeout();
+			m_fade.Fadeout(10);
 			break;
 		case Fade::fadeout:
 			//すべての処理が終了したのでタイトルをDeleteする

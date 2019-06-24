@@ -68,11 +68,11 @@ void FriendManager::Update()
 		}
 	}
 }
-void FriendManager::SpawnFriend(CVector3 pos, Ability* k)
+void FriendManager::SpawnFriend(CVector3 pos, Ability* ability)
 {
 	auto Spawn_Friend = g_objectManager->NewGO<Friendleader>(GameObjectPriority_EnemyLeader, "Friendleader");
 	Spawn_Friend->SetPosition(pos);
-	Spawn_Friend->SetStatus(k);
+	Spawn_Friend->SetStatus(ability);
 	Spawn_Friend->SetScore(m_Score);
 	m_Friend.push_back(Spawn_Friend);
 }

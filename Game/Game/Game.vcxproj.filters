@@ -290,6 +290,8 @@
     <ClCompile Include="Player\Player_Special.cpp" />
     <ClCompile Include="Enemy\EnemyStateDefens.cpp" />
     <ClCompile Include="EffekseerSound\ESoundEngine.cpp" />
+    <ClCompile Include="Status.cpp" />
+    <ClCompile Include="Score.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">

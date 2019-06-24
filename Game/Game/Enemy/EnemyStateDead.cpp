@@ -29,10 +29,10 @@ void EnemyStateDead::Update()
 
 	//}
 	if (kakudo < 90) {
-		CQuaternion k;
+		CQuaternion rod;
 		auto ma = m_enemy->Get2DRight();
-		k.SetRotationDeg(ma, -6.0f);
-		m_enemy->AddAngle(k);
+		rod.SetRotationDeg(ma, -6.0f);
+		m_enemy->AddAngle(rod);
 		kakudo += 6.0f;
 	}
 	else

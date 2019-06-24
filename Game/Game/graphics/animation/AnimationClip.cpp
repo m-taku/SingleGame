@@ -13,9 +13,9 @@ AnimationClip::~AnimationClip()
 	for (auto& keyFrame : m_keyframes) {
 		delete keyFrame;
 	}
-	for (auto k : m_AnimationEventlist)
+	for (auto Event : m_AnimationEventlist)
 	{
-		delete k;
+		delete Event;
 	}
 	m_AnimationEventlist.clear();
 }

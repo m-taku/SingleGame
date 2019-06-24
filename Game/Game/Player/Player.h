@@ -74,6 +74,8 @@ public:
 	/// Gameobjectから継承したStop関数
 	/// </summary>
 	void Stop()override;
+
+	void StopUpdate()override;
 	/// <summary>
 	/// Hit時にHitObjictから呼ばれる関数
 	/// </summary>
@@ -432,6 +434,7 @@ private:
 	CMatrix m_mRot = CMatrix::Identity();				//回転行列
 	animation m_animtype = idle;
 	State m_state = State_Attack;
+	CSoundSource m_se;									//効果音のインスタンス
 	int m_armboneNo = -1;								//手のボーン番号
 	float m_speed = 0.0f;								//移動速度
 	float m_angle = 0.0f;								//回転角度（ラジアン）

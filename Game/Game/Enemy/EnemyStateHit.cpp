@@ -18,6 +18,6 @@ void EnemyStateHit::Update()
 	m_enemy->SetFrontSpeed(speed);
 	speed /= 2.0f;
 	if (!m_enemy->GetanimationPlaying()) {
-		m_enemy->TransitionState(Enemy::State_Move);
+		m_enemy->AIDecision();
 	}
 }

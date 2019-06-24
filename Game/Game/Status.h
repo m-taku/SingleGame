@@ -3,6 +3,8 @@
 /// ステータスを決定するクラス群
 /// </summary>
 #include "Ability.h"
+class Enemy;
+class EnemyManager;
 /// <summary>
 /// モデルenemy_heroのステータス
 /// </summary>
@@ -22,7 +24,6 @@ struct enemy_hero : public Ability
 		ka.DefensePriority = 0.0f;
 		ka.freedomPriority = 0.0f;
 		SetEnemy_Priority(&ka);
-
 	}
 	float HP = 50.0f;						//基本のHP
 	float Attack = 20.0f;					//基本の攻撃力
@@ -38,21 +39,12 @@ struct enemy_hero : public Ability
 /// </summary>
 struct enemy_nait : public Ability
 {
-	enemy_nait()
+	enemy_nait();
+	~enemy_nait()
 	{
-		//基底クラスを初期化する
-		SetHP(HP);
-		SetAttack(Attack);
-		SetDefense(Defense);
-		SetSpeed(Speed);
-		SetName(Name);
-		SetSpawnnum(Spawnnum);
-		ka.AttackPriority = 50.0f;
-		ka.DefensePriority = 50.0f;
-		ka.freedomPriority = 0.0f;
-		SetEnemy_Priority(&ka);
-		SetWeaponSize(Size);
+		delete m_timer;
 	}
+	void Individuality(void* point) override;
 	float HP = 30.0f;						//基本のHP
 	float Attack = 30.0f;					//基本の攻撃力
 	float Defense = 19.0f;					//基本の守備力
@@ -61,6 +53,9 @@ struct enemy_nait : public Ability
 	Enemy_ActionPriority ka;
 	CVector3 Size = { 10.0f, 10.0f,60.0f };
 	wchar_t* Name = L"enemy_nait";     		//ステータスを適応するモデルの名前
+private:
+	EnemyManager * m_enemymanager = nullptr;
+	Timer* m_timer = nullptr;
 };
 /// <summary>
 /// モデルenemy_Lanceのステータス
@@ -76,19 +71,19 @@ struct enemy_Lance : public Ability
 		SetSpeed(Speed);
 		SetName(Name);
 		SetSpawnnum(Spawnnum);
-		ka.AttackPriority = 80.0f;
-		ka.DefensePriority = 20.0f;
+		ka.AttackPriority = 70.0f;
+		ka.DefensePriority = 30.0f;
 		ka.freedomPriority = 0.0f;
 		SetEnemy_Priority(&ka);
 		SetWeaponSize(Size);
 	}
 	float HP = 50.0f;						//基本のHP
 	float Attack = 15.0f;					//基本の攻撃力
-	float Defense = 10.0f;					//基本の守備力
+	float Defense = 7.5f;					//基本の守備力
 	float Speed = 100.0f;					//基本のスピード
 	int Spawnnum = 3;						//初期スポーンの数
 	Enemy_ActionPriority ka;
-	CVector3 Size = { 10.0f, 10.0f,80.0f };
+	CVector3 Size = { 10.0f, 10.0f,100.0f };
 	wchar_t* Name = L"enemy_Lance";     	//ステータスを適応するモデルの名前
 };
 /// <summary>
@@ -111,13 +106,17 @@ struct mking : public Ability
 		SetEnemy_Priority(&ka);
 		SetWeaponSize(Size);
 	}
+	void Individuality(void* point)
+	{
+
+	}
 	float HP = 100.0f;						//基本のHP
 	float Attack = 20.0f;					//基本の攻撃力
 	float Defense = 15.0f;					//基本の守備力
 	float Speed = 100.0f;					//基本のスピード
 	int Spawnnum = 1;						//初期スポーンの数
 	Enemy_ActionPriority ka;
-	CVector3 Size = { 10.0f, 10.0f,80.0f };
+	CVector3 Size = { 10.0f, 10.0f,90.0f };
 	wchar_t* Name = L"mking";     			//ステータスを適応するモデルの名前
 };
 /// <summary>
@@ -140,7 +139,7 @@ struct PlyerStatus : public Ability
 	float MP = 100.0f;						//最大のMP
 	float Attack = 20.0f;					//基本の攻撃力
 	float Defense = 10.0f;					//基本の守備力
-	float Speed = 500.0f;					//基本のスピード
+	float Speed = 400.0f;					//基本のスピード
 	int Spawnnum = 1;						//初期スポーンの数
 	CVector3 Size = { 10.0f,10.0f,80.0f };	//
 	wchar_t* Name = L"Player";     			//ステータスを適応するモデルの名前

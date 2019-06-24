@@ -53,8 +53,8 @@ void Player_Attack::Update()
 	m_oldSwordcenter = m_Swordcenter;
 	//ƒRƒ“ƒ{‚Ì”»’è
 	if ((m_storong != true || m_combo != true) && m_player->IsEvent(combo)) {
-		auto pos = m_player->Get2DPosition();
-		pos.y += 50.0f;
+		//auto pos = m_player->Get2DPosition();
+		//pos.y += 50.0f;
 		//m_player->SetDebeg(pos);
 		if(g_pad[0].IsTrigger(enButtonX)) {
 			m_combo = true;
@@ -67,14 +67,14 @@ void Player_Attack::Update()
 	if (!m_player->GetAnimationPlaying()) {
 		if (m_combo)
 		{
-			int k=attackNo+1;
-			m_player->SetAnimType((Player::animation)k);
+			int AnimType =attackNo+1;
+			m_player->SetAnimType((Player::animation)AnimType);
 			m_player->TransitionState(Player::State_Attack);
 		}
 		else if (m_storong)
 		{
-			int k = attackNo -2;
-			m_player->SetAnimType((Player::animation)k);
+			int AnimType = attackNo -2;
+			m_player->SetAnimType((Player::animation)AnimType);
 			m_player->TransitionState(Player::State_Attack);
 
 		}else

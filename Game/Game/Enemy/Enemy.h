@@ -40,6 +40,10 @@ public:
 	/// </summary>
 	void postDraw();
 	/// <summary>
+	///Stop時に呼ばれる関数
+	/// </summary>
+	void Stop();
+	/// <summary>
 	/// エネミーのステート（状態）のenum。
 	/// </summary>
 	enum State {
@@ -472,7 +476,7 @@ private:
 	SkinModel m_model;										//インスタンシング抜きの１人１人のインスタンス
 	ShaderResourceView m_texture_hp;						//HPの中のテクスチャデータ
 	ShaderResourceView m_texture_fram;						//HPの枠のテクスチャデータ
-	CSoundSource m_bgmA;									//BGMのインスタンス
+	CSoundSource m_se;									//効果音のインスタンス
 	State m_state = State_Move;							//ステートの状態
 	sprite m_Sprite_hp;										//体力用の2Ｄ(中身)
 	sprite m_Sprite_fram;									//体力用の2Ｄ(枠)
@@ -502,6 +506,7 @@ private:
 	float m_HP = 1.0f;										//ＨＰの割合
 	float m_frontspeed = 0.0f;             				    //前方向移動速度
 	float m_Rightspeed = 0.0f;             				    //右方向移動速度
-	int m_mutekitaim = 0;									//無敵時間									
+	int m_mutekitaim = 0;									//無敵時間			
+	bool m_lood = false;
 	bool m_life = true;										//生存フラグ
 };

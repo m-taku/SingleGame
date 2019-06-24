@@ -17,6 +17,13 @@ Enemy::~Enemy()
 	delete m_enemystate;
 	delete m_debugVecor;
 }
+void Enemy::Stop()
+{
+	if (this->m_lood) {
+		m_model.SetShadowReciever(true);
+		ChangeAnimation(Enemy::idle);
+	}
+}
 bool Enemy::Load()
 {
 	//cmoファイルの読み込み
@@ -31,10 +38,10 @@ bool Enemy::Load()
 	m_Front.y = m_Rot.m[2][1];
 	m_Front.z = m_Rot.m[2][2];
 	m_Front.Normalize();
-	TransitionState(State_Move);
+	//TransitionState(State_Move);
 	//m_position.y = 0.0f;
 	m_model.UpdateWorldMatrix(m_position, m_angle, CVector3::One());
-	m_bgmA.Init(L"Assets/sound/gameag.wav");
+	m_se.Init(L"Assets/sound/se_damage.wav");
 	m_obj = GetHitObjict().Create(&m_position, 50.0f,
 		[&](int damage) 
 	{
@@ -42,7 +49,8 @@ bool Enemy::Load()
 	},
 		HitReceive::enemy);
 	m_Leader->CopySkinModel().UpdateInstancingData(m_position, CQuaternion::Identity(), CVector3::One());
-	return true;
+	m_lood = true;
+	return m_lood;
 }
 void Enemy::InitTex()
 {
@@ -203,7 +211,7 @@ void Enemy::HP_Draw()
 	float bai = 1.0f;
 	if (GetStatus()->m_Spawnnum <= 1)
 	{
-		bai *= 1.5f;
+		bai *= 1.6f;
 	}
 	la.y += 100.0f*bai;
 	m_Sprite_hp.Updete_2pivots(la, g_camera3D.GetView_rotation_Matrix(), { max(m_HP / m_Status->m_HP,0.0f),1.0f ,1.0f }, { 1.0f,0.5f });
@@ -276,37 +284,55 @@ void Enemy::Hit(float damage)
 		if (m_HP <= 0.01f)
 		{
 			m_moveVector.y = 600.0f;
-			m_bgmA.Play(false);
+			m_se.Play(false);
 			TransitionState(State_Dead);
 			m_mutekitaim = -1000000.0f;
 		}
 		else {
 			m_player->AddMp(1.0f);
-			m_moveVector.y = 200.0f;
-			m_bgmA.Play(false);
-			TransitionState(State_Hit);
+			m_se.Play(false);
+			if (GetStatus()->m_Spawnnum <= 1)
+			{
+				if (hidame > 5)
+				{
+					m_moveVector.y = 200.0f;
+					TransitionState(State_Hit);
+				}
+			}
+			else {
+				m_moveVector.y = 200.0f;
+				TransitionState(State_Hit);
+			}
 		}
 	}
 }
+
 void Enemy::DeleteHitobj()
 {
 	GetHitObjict().Deleteobjict(m_obj);
 }
 void Enemy::AIDecision()
 {
-	std::random_device rnd;     // 非決定的な乱数生成器を生成
-	std::mt19937 mt(rnd());     //  メルセンヌ・ツイスタの32ビット版、引数は初期シード値
-	std::uniform_int_distribution<> rand100(0, 99);        // [0, 99] 範囲の一様乱数
-	int wariai = rand100(mt)+1;
-	if (wariai > GetStatus()->m_Enemy_Priority->AttackPriority)
+	auto distance = m_player->Get2DPosition() - Get2DPosition();
+	if (distance.Length() >= 300.0f)
 	{
-		std::uniform_int_distribution<> rand2(0, 30);        // [0, 99] 範囲の一様乱数	
-		TransitionState(Enemy::State_Defens);
+		SetFrontSpeed(1.0f);
+		TransitionState(Enemy::State_Move);
 	}
-	else
-	{
-		TransitionState(Enemy::State_Attack);
+	else {
+		std::random_device rnd;     // 非決定的な乱数生成器を生成
+		std::mt19937 mt(rnd());     //  メルセンヌ・ツイスタの32ビット版、引数は初期シード値
+		std::uniform_int_distribution<> rand100(0, 99);        // [0, 99] 範囲の一様乱数
+		int wariai = rand100(mt) + 1;
+		if (wariai > GetStatus()->m_Enemy_Priority->AttackPriority)
+		{
+			TransitionState(Enemy::State_Defens);
+		}
+		else
+		{
+			TransitionState(Enemy::State_Attack);
 
+		}
 	}
 }
 void Enemy::AIDefens(int kakudo)
@@ -328,11 +354,11 @@ void Enemy::AI(int& muki,int& kaku)
 		jiku.Cross(m_Front, playerFront);
 		if (jiku.y < 0)
 		{
-			muki = 1.0;
+			muki = 2.0;
 		}
 		else
 		{
-			muki = -1.0;
+			muki = -2.0;
 		}
 	}
 	kaku = rand2(mt);

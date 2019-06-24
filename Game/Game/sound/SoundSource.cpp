@@ -137,7 +137,6 @@ void CSoundSource::StartStreamingBuffring()
 void CSoundSource::Play(bool isLoop)
 {
 	if (m_isAvailable == false) {
-				
 		return;
 	}
 	if (m_isPlaying) {

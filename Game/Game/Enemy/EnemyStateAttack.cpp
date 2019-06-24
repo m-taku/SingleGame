@@ -57,6 +57,7 @@ void EnemyStateAttack::Update()
 		}
 		break;
 	case Attack:
+
 		m_enemy->SetFrontSpeed(0.0f);
 		m_enemy->ChangeAnimation(Enemy::attack);
 		FindSwordpos();
@@ -69,7 +70,7 @@ void EnemyStateAttack::Update()
 				float bai = 1.0f;
 				if (m_enemy->GetStatus()->m_Spawnnum <= 1)
 				{
-					bai *= 2.0f;
+					bai *= 5.0f;
 				}
 				m_Hit = GetHitObjict().HitTest(hitpoint, attackMove.Length()*bai, m_enemy->GetStatus()->m_Attack, HitReceive::player);
 				m_enemy->SetDebugPos(hitpoint);
@@ -112,7 +113,7 @@ void EnemyStateAttack::FindSwordpos()
 	m_Up.y = BoneMatrix.m[2][1];
 	m_Up.z = BoneMatrix.m[2][2];
 	m_Up.Normalize();
-	m_Swordcenter.x = m_handpos.x + m_Up.x*m_enemy->GetStatus()->m_WeaponSize.z / 2.0f;
-	m_Swordcenter.y = m_handpos.y + m_Up.y*m_enemy->GetStatus()->m_WeaponSize.z/2.0f;
-	m_Swordcenter.z = m_handpos.z + m_Up.z*m_enemy->GetStatus()->m_WeaponSize.z/2.0f;
+	m_Swordcenter.x = m_handpos.x + m_Up.x*m_enemy->GetStatus()->m_WeaponSize.z;
+	m_Swordcenter.y = m_handpos.y + m_Up.y*m_enemy->GetStatus()->m_WeaponSize.z;
+	m_Swordcenter.z = m_handpos.z + m_Up.z*m_enemy->GetStatus()->m_WeaponSize.z;
 }

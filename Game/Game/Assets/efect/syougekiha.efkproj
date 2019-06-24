@@ -894,7 +894,6 @@
               <Type>0</Type>
             </DrawingValues>
             <SoundValues>
-              <Type>1</Type>
               <Sound>
                 <Wave>shakin1.wav</Wave>
               </Sound>
@@ -1443,9 +1442,9 @@
                                 <Min>18</Min>
                               </GenerationTime>
                               <GenerationTimeOffset>
-                                <Center>6</Center>
-                                <Max>6</Max>
-                                <Min>6</Min>
+                                <Center>10</Center>
+                                <Max>10</Max>
+                                <Min>10</Min>
                               </GenerationTimeOffset>
                             </CommonValues>
                             <LocationValues>
@@ -1578,9 +1577,9 @@
                                 <Min>18</Min>
                               </GenerationTime>
                               <GenerationTimeOffset>
-                                <Center>12</Center>
-                                <Max>12</Max>
-                                <Min>12</Min>
+                                <Center>20</Center>
+                                <Max>20</Max>
+                                <Min>20</Min>
                               </GenerationTimeOffset>
                             </CommonValues>
                             <LocationValues>
@@ -1701,6 +1700,7 @@
                             <CommonValues>
                               <MaxGeneration>
                                 <Value>2</Value>
+                                <Infinite>True</Infinite>
                               </MaxGeneration>
                               <Life>
                                 <Center>30</Center>
@@ -1713,9 +1713,9 @@
                                 <Min>18</Min>
                               </GenerationTime>
                               <GenerationTimeOffset>
-                                <Center>18</Center>
-                                <Max>18</Max>
-                                <Min>18</Min>
+                                <Center>30</Center>
+                                <Max>30</Max>
+                                <Min>30</Min>
                               </GenerationTimeOffset>
                             </CommonValues>
                             <LocationValues>

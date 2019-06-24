@@ -22,6 +22,7 @@ UI::~UI()
 bool UI::Load()
 {
 	m_bgmA.Init(L"Assets/sound/shakin1.wav");
+	//m_bgmA.Play(true);
 	//プレイヤーのHP用のデータをロード
 	m_Texture_bar_waku.CreateFromDDSTextureFromFile(L"Resource/sprite/HP_Player_waku.dds");
 	m_HP_bar_waku.Init(m_Texture_bar_waku.GetBody(), Hpbarsize.x, Hpbarsize.y);
@@ -63,10 +64,10 @@ bool UI::Load()
 	m_status[defense1].Updete(m_status_position[defense1], CQuaternion::Identity(), CVector3::One());
 	m_status[defense1].SetclearColor(0.5f);
 	//
-	m_texture_status[speed1].CreateFromDDSTextureFromFile(L"Resource/sprite/speed_icon.dds");
-	m_status[speed1].Init(m_texture_status[speed1].GetBody(), Statussize.x, Statussize.y);
-	m_status[speed1].Updete(m_status_position[speed1], CQuaternion::Identity(), CVector3::One());
-	m_status[speed1].SetclearColor(0.5f);
+	//m_texture_status[speed1].CreateFromDDSTextureFromFile(L"Resource/sprite/speed_icon.dds");
+	//m_status[speed1].Init(m_texture_status[speed1].GetBody(), Statussize.x, Statussize.y);
+	//m_status[speed1].Updete(m_status_position[speed1], CQuaternion::Identity(), CVector3::One());
+	//m_status[speed1].SetclearColor(0.5f);
 	//制限時間のタイマーのスタート
 	//m_timer.TimerStart();
 	return true;
@@ -122,7 +123,7 @@ void UI::PostDraw()
 		g_camera2D.GetProjectionMatrix()
 	);
 
-	for (int i = 0; i < num; i++) {
+	for (int i = 0; i < num-1; i++) {
 		m_status[i].Draw(
 			g_camera2D.GetViewMatrix(),
 			g_camera2D.GetProjectionMatrix()

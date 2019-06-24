@@ -32,10 +32,15 @@ void GameobjectManager::Execute()
 					if (objedct->GetStop()) {
 						objedct->Update();
 					}
+					else
+					{
+						objedct->StopUpdate();
+					}
 				}
 				else {
-					if (objedct->Load())
+					if (objedct->Load()) {
 						objedct->SetLoadfrag(true);
+					}
 				}
 			}
 		}

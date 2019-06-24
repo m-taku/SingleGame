@@ -4,11 +4,7 @@
 
 Enemyleader::Enemyleader()
 {
-	m_Rot.MakeRotationFromQuaternion(m_angle);
-	m_Front.x = m_Rot.m[2][0];
-	m_Front.y = m_Rot.m[2][1];
-	m_Front.z = m_Rot.m[2][2];
-	m_Front.Normalize();
+
 }
 Enemyleader::~Enemyleader()
 {
@@ -21,13 +17,26 @@ Enemyleader::~Enemyleader()
 }
 void Enemyleader::Stop()
 {
+	//m_state = group_stop;
 	for (auto enemy : m_enemy) {
-		enemy->ChangeAnimation(Enemy::idle);
+		enemy->Stop();
 		m_model.UpdateInstancingData(enemy->Get2DPosition(), m_angle, CVector3::One());
 	}
+	g_graphicsEngine->SetShadoCaster(&m_model);
+	m_model.SetShadowReciever(true);
+}
+void Enemyleader::StopUpdate()
+{
+	g_graphicsEngine->SetShadoCaster(&m_model);
+	m_model.SetShadowReciever(true);
 }
 bool Enemyleader::Load()
 {
+	m_Rot.MakeRotationFromQuaternion(m_angle);
+	m_Front.x = m_Rot.m[2][0];
+	m_Front.y = m_Rot.m[2][1];
+	m_Front.z = m_Rot.m[2][2];
+	m_Front.Normalize();
 	auto enemy = new Enemy;
 	enemy->SetPosition(m_position);
 	enemy->SetPlayer(m_player);
@@ -61,7 +70,7 @@ bool Enemyleader::Load()
 		m_animation.Init(m_model, m_animationclip, animnum);
 		m_animation.Play(walk, 0.2f);
 		for (auto enemy : m_enemy) {
-			m_model.UpdateInstancingData(enemy->Get2DPosition() + m_movespeed, CQuaternion::Identity(), CVector3::One());
+			m_model.UpdateInstancingData(enemy->Get2DPosition() + m_movespeed, m_angle, CVector3::One());
 		}
 		return true;
 	}
@@ -102,7 +111,7 @@ void Enemyleader::Update()
 		}
 		else {
 			for (auto enemy : m_enemy) {
-				m_model.UpdateInstancingData(enemy->Get2DPosition(), CQuaternion::Identity(),CVector3::One());
+				m_model.UpdateInstancingData(enemy->Get2DPosition(), m_angle,CVector3::One());
 				enemy->SetPosition(enemy->Get2DPosition());
 				enemy->SetAngle(m_angle);
 				enemy->ChangeColliderPosition(enemy->Get2DPosition());
@@ -116,7 +125,7 @@ void Enemyleader::Update()
 		Move();
 		distance = m_player->Get2DPosition() - m_position;
 		//‚±‚±‚ÅŒÂ•Ê‚É•ÏX
-		if (distance.Length() < 1000.0f)
+		if (distance.Length() < 500.0f)
 		{
 			for (auto enemy : m_enemy) {
 				enemy->TransitionState(Enemy::State_Move);
@@ -164,6 +173,7 @@ void Enemyleader::Update()
 	default:
 		break;
 	}
+	m_Status->Individuality(this);
 	//m_animation.Play(idle, 0.2f);
 }
 void Enemyleader::Draw()
@@ -181,12 +191,13 @@ void Enemyleader::Draw()
 			enemy->Draw();
 		}
 	}
-}
-void Enemyleader::PostDraw()
-{
 	for (auto enemy : m_enemy) {
 		enemy->postDraw();
 	}
+}
+void Enemyleader::PostDraw()
+{
+
 }
 void Enemyleader::Move()
 {
@@ -203,7 +214,7 @@ void Enemyleader::Move()
 		m_oldposition = m_nextpos;
 	}
 	float speed = m_Status->m_Speed;
-	if (++m_fream > 100) {
+	if (++m_fream > 60) {
 		m_path->Course(nowpos, m_player->Get2DPosition());
 		m_nextpos = m_path->PathPos();
 		m_fream = 0;

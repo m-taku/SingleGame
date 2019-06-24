@@ -10,9 +10,11 @@ Item::Item()
 
 Item::~Item()
 {
-	m_sampleEffect->Release();
-	if (g_graphicsEngine->GetEffekseerManager() != NULL) {
-		g_graphicsEngine->GetEffekseerManager()->StopEffect(m_playEffectHandle);
+	if (m_sampleEffect != nullptr) {
+		m_sampleEffect->Release();
+		if (g_graphicsEngine->GetEffekseerManager() != NULL) {
+			g_graphicsEngine->GetEffekseerManager()->StopEffect(m_playEffectHandle);
+		}
 	}
 }
 
@@ -79,7 +81,6 @@ bool Item::Update()
 				break;
 			case life:
 				m_prayer->AddStatu_NowHP(50.0f);
-
 				break;
 			default:
 				break;

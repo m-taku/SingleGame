@@ -47,15 +47,15 @@ void Path::Course(CVector3 sturt, CVector3 end)
 			{
 				//オープンに積む
 				open.push_back(LincPas[j]);
-				for (int k = 0; k < open.size(); k++) {
-					if (open[k] == LincPas[j])
+				for (int i = 0; i < open.size(); i++) {
+					if (open[i] == LincPas[j])
 					{
 						break;
 					}
 					//オープンの中に同じ番号のパス番号があれば
-					if (open[k]->No == LincPas[j]->No) {
+					if (open[i]->No == LincPas[j]->No) {
 						//データを比較するしてコストの低いほうを残す
-						if (open[k]->to_DrstinCost <= LincPas[j]->to_DrstinCost)
+						if (open[i]->to_DrstinCost <= LincPas[j]->to_DrstinCost)
 						{
 							delete LincPas[j];
 							open.erase(
@@ -65,9 +65,9 @@ void Path::Course(CVector3 sturt, CVector3 end)
 						}
 						else
 						{
-							delete open[k];
+							delete open[i];
 							open.erase(
-								std::remove(open.begin(), open.end(), open[k]),
+								std::remove(open.begin(), open.end(), open[i]),
 								open.end());
 							break;
 
@@ -75,9 +75,9 @@ void Path::Course(CVector3 sturt, CVector3 end)
 					}
 				}
 				//クローズにも同じパス番号があるか検索する
-				for (int k = 0; k < close.size(); k++) {
-					if (close[k]->No == LincPas[j]->No) {
-						if (close[k]->to_DrstinCost <= LincPas[j]->to_DrstinCost) {
+				for (int i = 0; i < close.size(); i++) {
+					if (close[i]->No == LincPas[j]->No) {
+						if (close[i]->to_DrstinCost <= LincPas[j]->to_DrstinCost) {
 							delete  LincPas[j];
 							open.erase(
 								std::remove(open.begin(), open.end(), LincPas[j]),
@@ -85,9 +85,9 @@ void Path::Course(CVector3 sturt, CVector3 end)
 							break;
 						}
 						else {
-							delete close[k];
+							delete close[i];
 							close.erase(
-								std::remove(close.begin(), close.end(), close[k]),
+								std::remove(close.begin(), close.end(), close[i]),
 								open.end());
 							break;
 						}

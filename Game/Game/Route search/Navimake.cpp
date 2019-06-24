@@ -36,12 +36,12 @@ Navimake::Navimake()
 			data->position[2] = vertex[index[i++]];
 			auto vector1 = data->position[1] - data->position[0];
 			auto vector2 = data->position[2] - data->position[0];
-			CVector3 k;
+			CVector3 jiku;
 			vector1.Normalize();
 			vector2.Normalize();
-			k.Cross(vector2, vector1);
-			k.Normalize();
-			float j = acos(k.Dot(CVector3::AxisY()));
+			jiku.Cross(vector2, vector1);
+			jiku.Normalize();
+			float j = acos(jiku.Dot(CVector3::AxisY()));
 			if (CMath::DegToRad(45.0f)<=j)
 			{
 				delete data;
