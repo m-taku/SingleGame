@@ -46,7 +46,7 @@ void Player_Move::Update()
 			m_player->SetAnimType(Player::run);
 		}
 		else
-		{
+		{//
 			m_player->SetAnimType(Player::walk);
 		}
 	}
@@ -55,6 +55,7 @@ void Player_Move::Update()
 		m_player->SetAnimType(Player::idle);
 	}
 	m_player->SetSpeed(amount.Length()*m_player->GetBairitu(speed1));
+	//‚±‚±‚©‚çó‘Ô•Ï‰»
 	if (g_pad[0].IsTrigger(enButtonX)) {
 		m_player->SetAnimType(Player::combo1);
 		m_player->TransitionState(Player::State_Attack);

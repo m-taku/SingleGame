@@ -123,20 +123,20 @@ void Gameover::clear()
 		m_font = new Font;
 		m_score = g_objectManager->FindGO<Score>("Score");
 		m_scoa.push_back(new wchar_t[256]);
-		swprintf_s(*m_scoa.begin(), 256, L"討伐数      |　　%4d体", m_count);
+		swprintf_s(*m_scoa.begin(), 256, L"討伐数     |　　%4d体", m_count);
 		m_scorenum = toubatu;
 		count = m_score->GetNum();
 		break;
 	case toubatu:
 		m_count += count * GetTime().GetFrameTime() /2.0f;
 		m_count = min(m_score->GetNum(), m_count);
-		swprintf_s(*ka, 256, L"討伐数      |　　%4d体", (int)m_count);
+		swprintf_s(*ka, 256, L"討伐数      |     %4d体", (int)m_count);
 		if (m_score->GetNum() <= m_count)
 		{
 			m_scoa.push_back(new wchar_t[256]);
 			ka++;
 			m_count = 0;
-			swprintf_s(*ka, 256, L"残り時間    |　　%d分%02d秒", (int)m_count / 60, (int)m_count % 60);
+			swprintf_s(*ka, 256, L"残り時間    |    %d分%02d秒", (int)m_count / 60, (int)m_count % 60);
 			minit = 0;
 			second = 0;
 			m_score->Gettime(minit, second);

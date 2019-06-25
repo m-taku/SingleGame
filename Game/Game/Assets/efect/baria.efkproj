@@ -1527,6 +1527,7 @@
           <ColorTexture>Texture/baroa1.png</ColorTexture>
           <AlphaBlend>2</AlphaBlend>
           <ZWrite>True</ZWrite>
+          <ZTest>False</ZTest>
           <FadeOut>
             <Frame>20</Frame>
           </FadeOut>
@@ -1596,6 +1597,17 @@
                 <Y>1</Y>
               </Location>
             </Inner_Fixed>
+            <OuterColor_Fixed>
+              <R>0</R>
+              <G>128</G>
+              <B>192</B>
+            </OuterColor_Fixed>
+            <CenterColor_Fixed>
+              <A>150</A>
+            </CenterColor_Fixed>
+            <InnerColor_Fixed>
+              <R>0</R>
+            </InnerColor_Fixed>
           </Ring>
           <Model>
             <Model>Texture/ball2.efkmodel</Model>

@@ -46,6 +46,7 @@ public:
 	}
 	/// <summary>
 	/// Gameobject‚©‚çŒp³‚µ‚½DrawŠÖ”
+	/// 
 	/// </summary>
 	void PostDraw() override;
 private:

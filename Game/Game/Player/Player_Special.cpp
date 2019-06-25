@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Player_Special.h"
 
-
+//ˆÃ“]‰‰o
 Player_Special::Player_Special(Player* pla) :Player_State(pla)
 {
 	m_player->SetSpeed(0.0f);
