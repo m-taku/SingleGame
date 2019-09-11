@@ -29,6 +29,7 @@ void PhysicsDebugDraw::drawLine(const btVector3& from, const btVector3& to, cons
 	int baseIndex = m_numLine * 2;
 	m_vertexBuffer[baseIndex].Set(CVector3(from.x(), from.y(), from.z()));
 	m_vertexBuffer[baseIndex + 1].Set(CVector3(to.x(), to.y(), to.z()));
+
 	m_numLine++;
 }
 void PhysicsDebugDraw::EndDraw()
